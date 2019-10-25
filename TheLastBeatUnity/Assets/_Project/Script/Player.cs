@@ -20,6 +20,8 @@ public class Player : MonoBehaviour
     Rewired.Player player;
     List<PositionModifier> allModifiers = new List<PositionModifier>();
 
+    Vector3 previousPos;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,9 +32,14 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        previousPos = transform.position;
         Vector3 vec = new Vector3(player.GetAxis("MoveX"), 0, player.GetAxis("MoveY"));
         vec *= Time.deltaTime * speed;
-        transform.Translate(vec);
+        transform.Translate(vec, Space.World);
+        transform.forward = transform.position - previousPos;
+
+        //Horrible ! just for proto
+        Camera.main.transform.Translate(transform.position - previousPos, Space.World);
 
         if (player.GetButtonDown("Dash"))
         {

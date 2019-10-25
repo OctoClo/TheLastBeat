@@ -39,8 +39,7 @@ public class Dash : PositionModifier
         actualTime += elapsed;
         float ratioSample = Mathf.Clamp(Mathf.Abs(actualTime - beginTime) / duration, 0, 1);
         float value = curve.Evaluate(ratioSample);
-        Debug.Log(ratioSample + " / " + value);
-        input.Translate(input.forward * strength * elapsed * value);
+        input.Translate(input.forward * strength * elapsed * value, Space.World);
         if (ratioSample == 1)
         {
             isActive = false;
