@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 25862999}
   - component: {fileID: 25862998}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Beater
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -149,12 +149,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76741f76a58b15c4ebf6b4591efca074, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBetweenBeats: 1
-  durationBeat: 0.2
   newAnchorMin: {x: 0.425, y: 0.075}
   newAnchorMax: {x: 0.575, y: 0.225}
   img: {fileID: 939565677}
   txt: {fileID: 1068955347}
+  startingFrequency: 0
+  minimalFrequency: 0
+  maximalFrequency: 0
+  referenceMultiply: 0
 --- !u!4 &25862999
 Transform:
   m_ObjectHideFlags: 0
@@ -224,7 +226,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 55
 --- !u!114 &37536694
 MonoBehaviour:
   m_ObjectHideFlags: 0

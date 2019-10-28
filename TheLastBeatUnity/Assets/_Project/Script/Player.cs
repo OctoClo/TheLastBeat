@@ -17,6 +17,12 @@ public class Player : Inputable
     [SerializeField]
     AnimationCurve ac;
 
+    [SerializeField]
+    Health health;
+
+    [SerializeField]
+    float durationDashBeat;
+
     Vector3 previousPos;
     IEnumerator currentAction;
 
@@ -29,10 +35,13 @@ public class Player : Inputable
         Vector3 vec = new Vector3(player.GetAxis("MoveX"), 0, player.GetAxis("MoveY"));
         vec *= Time.deltaTime * speed;
         transform.Translate(vec, Space.World);
-        transform.forward = transform.position - previousPos;
+
+        if (transform.transform.position != previousPos)
+            transform.forward = transform.position - previousPos;
 
         if (player.GetButtonDown("Dash") && currentAction == null)
         {
+            health.NewAction(1.5f);
             currentAction = Dash(durationDash);
             StartCoroutine(currentAction);
         }
