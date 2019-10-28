@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
 
-public class Player : MonoBehaviour
+public class Player : Inputable
 {
     [SerializeField]
     float speed;
@@ -17,20 +17,13 @@ public class Player : MonoBehaviour
     [SerializeField]
     AnimationCurve ac;
 
-    Rewired.Player player;
-    List<PositionModifier> allModifiers = new List<PositionModifier>();
-
     Vector3 previousPos;
+    IEnumerator currentAction;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        player = ReInput.players.GetPlayer(0);
-        allModifiers.Add(new Dash(durationDash, strength, ac));
-    }
+    //If you are doing something (dash , attack animation , etc...) temporary block input
+    public override bool BlockInput => currentAction != null;
 
-    // Update is called once per frame
-    void Update()
+    public override void ProcessInput(Rewired.Player player)
     {
         previousPos = transform.position;
         Vector3 vec = new Vector3(player.GetAxis("MoveX"), 0, player.GetAxis("MoveY"));
@@ -38,21 +31,30 @@ public class Player : MonoBehaviour
         transform.Translate(vec, Space.World);
         transform.forward = transform.position - previousPos;
 
+        if (player.GetButtonDown("Dash") && currentAction == null)
+        {
+            currentAction = Dash(durationDash);
+            StartCoroutine(currentAction);
+        }
+    }
+
+    IEnumerator Dash(float duration)
+    {
+        Debug.Assert(duration > 0);
+        float normalizedTime = 0;
+        while (normalizedTime < 1)
+        {
+            normalizedTime += Time.deltaTime / duration;
+            previousPos = transform.position;
+            transform.Translate(transform.forward * Time.deltaTime * ac.Evaluate(normalizedTime) * strength, Space.World);
+            yield return null;
+        }
+        currentAction = null;
+    }
+
+    void Update()
+    {
         //Horrible ! just for proto
         Camera.main.transform.Translate(transform.position - previousPos, Space.World);
-
-        if (player.GetButtonDown("Dash"))
-        {
-            Debug.Log("Dash");
-            allModifiers[0].StartModifier();
-        }
-
-        foreach(PositionModifier pm in allModifiers)
-        {
-            if (pm.IsActive)
-            {
-                pm.ApplyDelta(transform, Time.deltaTime);
-            }
-        }
     }
 }

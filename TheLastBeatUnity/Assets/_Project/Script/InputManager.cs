@@ -1,0 +1,24 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Rewired;
+
+public class InputManager : MonoBehaviour
+{
+    [SerializeField]
+    Inputable inputable;
+
+    [SerializeField]
+    Rewired.Player player;
+
+    private void Start()
+    {
+        player = ReInput.players.GetPlayer(0);
+    }
+
+    private void Update()
+    {
+        if (!inputable.BlockInput)
+            inputable.ProcessInput(player);
+    }
+}
