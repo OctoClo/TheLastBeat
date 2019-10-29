@@ -19,12 +19,10 @@ public class Player : Inputable
     AnimationCurve dashAnimationCurve;
 
     IEnumerator currentAction;
-    Camera cam;
 
     private void Start()
     {
         previousPos = transform.position;
-        cam = Camera.main;
     }
 
     //If you are doing something (dash , attack animation , etc...) temporary block input
@@ -60,11 +58,6 @@ public class Player : Inputable
             yield return null;
         }
         currentAction = null;
-    }
-
-    void Update()
-    {
-        cam.transform.Translate(transform.position - previousPos, Space.World);
     }
 
     private void OnTriggerStay(Collider other)
