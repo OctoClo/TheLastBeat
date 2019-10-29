@@ -93,16 +93,17 @@ public class Health : MonoBehaviour
         anchorMin = img.GetComponent<RectTransform>().anchorMin;
         anchorMax = img.GetComponent<RectTransform>().anchorMax;
         beatsPerMinutes = startingFrequency;
+        txt.text = numberBeat.ToString();
     }
 
     private void Update()
     {
-        accumulator += Time.deltaTime;
-        if(accumulator > TimeBetweenBeats)
-        {
-            accumulator = 0;
-            Beat();
-        }
+        //accumulator += Time.deltaTime;
+        //if(accumulator > TimeBetweenBeats)
+        //{
+        //    accumulator = 0;
+        //    Beat();
+        //}
 
         //Heart Beat too high ! staying too long will trigger tachy mode
         if (maximalFrequency < beatsPerMinutes)
@@ -121,7 +122,7 @@ public class Health : MonoBehaviour
         }
     }
 
-    void Beat()
+    public void Beat()
     {
         Sequence seqMin = DOTween.Sequence();
         Sequence seqMax = DOTween.Sequence();
@@ -232,6 +233,6 @@ public class Health : MonoBehaviour
 
     void DisplayWindow(int id)
     {
-        GUI.Label(new Rect(10, 20, 100, 20),beatsPerMinutes.ToString());
+        GUI.Label(new Rect(70, 20, 50, 20),Mathf.Round(beatsPerMinutes).ToString());
     }
 }
