@@ -1,37 +1,77 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class Enemy : MonoBehaviour
 {
+    [Header("Movement")]
     [SerializeField]
     float speed;
-
-    [SerializeField]
-    Transform player;
-
     Rigidbody rb;
 
-    int lives = 3;
+    [Header("Life")]
+    [Range(1, 5)]
+    [SerializeField]
+    int maxLives;
+    int lives;
+    [SerializeField]
+    float knockbackStrength;
+    [SerializeField]
+    float knockbackDuration;
+    float knockbackTimer;
+    Material material;
+
+    [Header("References")]
+    [SerializeField] [Required]
+    Transform player;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+
+        lives = maxLives;
+        knockbackTimer = 0;
+        material = GetComponent<MeshRenderer>().material;
     }
 
-    void Update()
+    private void Update()
     {
         transform.LookAt(player);
-        if ((transform.position - player.position).sqrMagnitude > 10)
-            transform.position += transform.forward * Time.deltaTime * speed;
+        knockbackTimer -= Time.deltaTime;
+
+        if (knockbackTimer <= 0)
+            material.color = Color.red;
+    }
+
+    void FixedUpdate()
+    {
+        if (knockbackTimer <= 0)
+        {
+            Vector3 movement = (player.position - transform.position);
+
+            if (movement.sqrMagnitude > 10)
+            {
+                movement.Normalize();
+                rb.velocity = movement * speed;
+            }
+        }
     }
 
     public void GetAttacked()
     {
-        Debug.Log("Getting attacked");
-        transform.position -= transform.forward * 2;
-        lives--;
-        if (lives == 0)
-            Destroy(gameObject, 1);
+        if (knockbackTimer <= 0)
+        {
+            lives--;
+            if (lives == 0)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            material.color = Color.blue;
+            knockbackTimer = knockbackDuration;
+            rb.velocity = -transform.forward * knockbackStrength;
+        }
     }
 }
