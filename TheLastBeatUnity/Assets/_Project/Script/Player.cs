@@ -36,7 +36,7 @@ public class Player : Inputable
         vec *= Time.deltaTime * speed;
         transform.Translate(vec, Space.World);
 
-        if (transform.transform.position != previousPos)
+        if(transform.position != previousPos)
             transform.forward = transform.position - previousPos;
 
         if (player.GetButtonDown("Dash") && currentAction == null)

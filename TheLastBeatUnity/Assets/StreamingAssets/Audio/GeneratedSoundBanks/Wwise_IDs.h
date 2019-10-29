@@ -11,6 +11,37 @@
 
 namespace AK
 {
+    namespace EVENTS
+    {
+        static const AkUniqueID DASHFX = 416687607U;
+        static const AkUniqueID MUSIC = 3991942870U;
+    } // namespace EVENTS
+
+    namespace SWITCHES
+    {
+        namespace MUSICSWITCH
+        {
+            static const AkUniqueID GROUP = 1445037870U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID MUSIC = 3991942870U;
+            } // namespace SWITCH
+        } // namespace MUSICSWITCH
+
+    } // namespace SWITCHES
+
+    namespace GAME_PARAMETERS
+    {
+        static const AkUniqueID MUSICCRUSHER = 3946755902U;
+    } // namespace GAME_PARAMETERS
+
+    namespace BANKS
+    {
+        static const AkUniqueID INIT = 1355168291U;
+        static const AkUniqueID THELASTBANK = 177400472U;
+    } // namespace BANKS
+
     namespace BUSSES
     {
         static const AkUniqueID MASTER_AUDIO_BUS = 3803692087U;
