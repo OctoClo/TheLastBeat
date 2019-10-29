@@ -10,7 +10,7 @@ public class MusicCallBack : MonoBehaviour
     public string myWeapon;
 
     [SerializeField]
-    Health health;
+    BeatManager bm;
 
     void Start()
     {
@@ -19,22 +19,23 @@ public class MusicCallBack : MonoBehaviour
 
    void SyncReference(object in_cookie, AkCallbackType in_type, object in_info)
     {
-        switch(in_type)
+        AkMusicSyncCallbackInfo musicInfo = in_info as AkMusicSyncCallbackInfo;
+        switch (in_type)
         {
             case AkCallbackType.AK_MusicSyncUserCue:
-                AkMusicSyncCallbackInfo musicUserCue = in_info as AkMusicSyncCallbackInfo;
-                if (musicUserCue.userCueName == myWeapon)
-                {
-                    Debug.Log(myWeapon);
-                }
                 break;
 
             case AkCallbackType.AK_MusicSyncBeat:
-                AkMusicSyncCallbackInfo musicBeatDuration = in_info as AkMusicSyncCallbackInfo;
-                beatDuration = musicBeatDuration.segmentInfo_fBeatDuration;
+                //beatDuration = musicBeatDuration.segmentInfo_fBeatDuration;
+                //bm.BeatDelayed(beatDuration);
                 break;
 
             case AkCallbackType.AK_MusicSyncGrid:
+                break;
+
+            case AkCallbackType.AK_MusicSyncBar:
+                float barDuration = musicInfo.segmentInfo_fBarDuration;
+                bm.BeatDelayed(barDuration);
                 break;
 
             default:
