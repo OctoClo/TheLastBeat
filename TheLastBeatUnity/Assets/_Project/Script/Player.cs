@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
+using Sirenix.OdinInspector;
 
 public class Player : Inputable
 {
@@ -12,16 +13,20 @@ public class Player : Inputable
 
     [Header("Dash")]
     [SerializeField]
+    [Tooltip("The longer it is , the longer it take to change frequency")]
+    float dashImpactBeatDelay;
+    [SerializeField]
     float dashDuration;
     [SerializeField]
     float dashStrength;
     [SerializeField]
+    [Tooltip("The evolution of heart beat , must always end at 1")]
     AnimationCurve dashAnimationCurve;
 
-    [SerializeField]
+    [Header("References")]
+    [SerializeField] [Required]
     Health health;
-    [SerializeField]
-    float durationDashBeat;
+    
     IEnumerator currentAction;
 
     private void Start()
@@ -45,7 +50,7 @@ public class Player : Inputable
 
         if (player.GetButtonDown("Dash") && currentAction == null)
         {
-            health.NewAction(1.5f);
+            health.NewAction(1.5f, dashImpactBeatDelay);
             currentAction = Dash(dashDuration);
             StartCoroutine(currentAction);
         }
