@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 using Sirenix.OdinInspector;
+using DG.Tweening;
 
 public class Health : MonoBehaviour
 {
-    float TimeBetweenBeats => (1 / beatsPerMinutes) * 60;
-    int numberBeat = 200;
-
+    #region properties
     Vector2 anchorMin;
     Vector2 anchorMax;
+
+    [SerializeField]
+    bool debugMode;
 
     [TabGroup("Visual")]
     [SerializeField]
@@ -29,9 +30,7 @@ public class Health : MonoBehaviour
     [SerializeField]
     Text txt;
 
-    [TabGroup("Visual")]
-    [SerializeField]
-    Text debugTxt;
+    Rect windowRect = new Rect(20, 20, 120, 50);
 
     [TabGroup("Gameplay")]
     [SerializeField]
@@ -53,15 +52,32 @@ public class Health : MonoBehaviour
     [SerializeField]
     MultiReference referenceMultiply;
 
+    [TabGroup("Gameplay")]
+    [SerializeField]
+    [ValidateInput("Positive", "This value must be > 0")]
+    float freezeTime;
+
+    public bool Positive(float value)
+    {
+        return value > 0;
+    }
+
+    //Time stamp of the last action
+    float lastTimeAction;
     float beatsPerMinutes;
     float accumulator = 0;
 
-    float currentMultiplier = 1;
-
     [TabGroup("Gameplay")]
     [SerializeField]
-    float freezeTime;
-    float lastTimeAction;
+    [ValidateInput("Positive", "This value must be > 0")]
+    float timeBeforeTachy;
+    float currentTimeBeforeTachy;
+    bool inTachycardie = false;
+
+    float TimeBetweenBeats => (1 / beatsPerMinutes) * 60;
+    int numberBeat = 200;
+    float currentMultiplier = 1;
+
 
     IEnumerator healthCoroutine;
 
@@ -70,15 +86,13 @@ public class Health : MonoBehaviour
         OriginalValue,
         CurrentValue
     }
+    #endregion
 
     public void Start()
     {
         anchorMin = img.GetComponent<RectTransform>().anchorMin;
         anchorMax = img.GetComponent<RectTransform>().anchorMax;
         beatsPerMinutes = startingFrequency;
-
-        //Just for proto
-        DOTween.Init();
     }
 
     private void Update()
@@ -90,10 +104,21 @@ public class Health : MonoBehaviour
             Beat();
         }
 
-        if (debugTxt)
-            debugTxt.text = Mathf.Round(beatsPerMinutes).ToString();
+        //Heart Beat too high ! staying too long will trigger tachy mode
+        if (maximalFrequency < beatsPerMinutes)
+        {
+            currentTimeBeforeTachy -= Time.deltaTime;
+        }
+        else
+        {
+            currentTimeBeforeTachy = timeBeforeTachy;
+        }
 
-        img.color = (beatsPerMinutes > maximalFrequency ? Color.red : Color.white);
+        //countdown just reached 0 , enter tachy mode
+        if (currentTimeBeforeTachy < 0 && ! inTachycardie)
+        {
+            SetTachycardie(true);
+        }
     }
 
     void Beat()
@@ -116,37 +141,31 @@ public class Health : MonoBehaviour
         txt.text = numberBeat.ToString();
     }
 
-
-
-    public void MultiplyBeat(float value)
-    {
-        beatsPerMinutes = value * (referenceMultiply == MultiReference.OriginalValue ? startingFrequency : beatsPerMinutes);
-        CheckNewBeats();
-    }
-
-    void CheckNewBeats()
-    {
-        beatsPerMinutes = Mathf.Max(minimalFrequency, beatsPerMinutes);
-    }
-
     public void Hit(float damage, float duration , bool multiply = true)
     {
-        float newValue;
-        if (multiply)
-            newValue = beatsPerMinutes * damage;
-        else
-            newValue = beatsPerMinutes + damage;
-
-        SetHealth(beatsPerMinutes, newValue, duration);
+        StartHealthTransition(beatsPerMinutes, CalculateNewValue(damage, false), duration);
     }
 
+    public float CalculateNewValue(float value, bool multipy = true)
+    {
+        float output;
+        if (multipy)
+            output = (referenceMultiply == MultiReference.OriginalValue ? startingFrequency : beatsPerMinutes) * value;
+        else
+            output = beatsPerMinutes + value;
+
+        output = Mathf.Max(minimalFrequency, output);
+        return output;
+    }
+
+    //Add an action to the current combo
     public void NewAction(float multiplier)
     {
         if (multiplier > currentMultiplier)
         {
             currentMultiplier = multiplier;
             lastTimeAction = Time.timeSinceLevelLoad;
-            SetHealth(beatsPerMinutes, startingFrequency * multiplier, 3);
+            StartHealthTransition(beatsPerMinutes, CalculateNewValue(multiplier), 3);
         }
         else if ((int)multiplier == (int)currentMultiplier)
         {
@@ -156,11 +175,12 @@ public class Health : MonoBehaviour
         {
             beatsPerMinutes = startingFrequency * multiplier;
 
-            //Freeze time over , can be less
+            //Freeze time over , heartBeat can down
             if (Time.timeSinceLevelLoad - lastTimeAction > freezeTime)
             {
                 lastTimeAction = Time.timeSinceLevelLoad;
-                SetHealth(beatsPerMinutes, startingFrequency * multiplier, 3);
+                currentMultiplier = multiplier;
+                StartHealthTransition(beatsPerMinutes, CalculateNewValue(multiplier), 3);
             }
         }
     }
@@ -172,19 +192,46 @@ public class Health : MonoBehaviour
         {
             normalizedTime += Time.deltaTime / duration;
             beatsPerMinutes = Mathf.Lerp(from, to, hitCurve.Evaluate(normalizedTime));
-            CheckNewBeats();
             yield return null;
         }
         healthCoroutine = null;
     }
 
-    public void SetHealth(float from , float to, float duration)
+    void StartHealthTransition(float from , float to, float duration)
     {
+        //Only one health animation at the same time
         if (healthCoroutine != null)
         {
             StopCoroutine(healthCoroutine);
         }
         healthCoroutine = SetHealthCoroutine(from, to, duration);
         StartCoroutine(healthCoroutine);
+    }
+
+    //What to do when you enter / leave tachycardie ?
+    public void SetTachycardie(bool value)
+    {
+        inTachycardie = value;
+        if (value)
+        {
+            img.color = Color.red;
+        }
+        else
+        {
+            img.color = Color.white;
+        }
+    }
+
+    public void OnGUI()
+    {
+        if (debugMode)
+        {
+            windowRect = GUI.Window(0, windowRect, DisplayWindow, "Debug");
+        }
+    }
+
+    void DisplayWindow(int id)
+    {
+        GUI.Label(new Rect(10, 20, 100, 20),beatsPerMinutes.ToString());
     }
 }

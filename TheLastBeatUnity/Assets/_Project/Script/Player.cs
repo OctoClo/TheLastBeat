@@ -60,10 +60,4 @@ public class Player : Inputable
         }
         currentAction = null;
     }
-
-    void Update()
-    {
-        //Horrible ! just for proto
-        Camera.main.transform.Translate(transform.position - previousPos, Space.World);
-    }
 }
