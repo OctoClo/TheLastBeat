@@ -15,12 +15,14 @@ public class Player : Inputable
     float durationDash;
 
     [SerializeField]
+    [Tooltip("The evolution of heart beat , must always end at 1")]
     AnimationCurve ac;
 
     [SerializeField]
     Health health;
 
     [SerializeField]
+    [Tooltip("The longer it is , the longer it take to change frequency")]
     float durationDashBeat;
 
     Vector3 previousPos;
@@ -41,7 +43,7 @@ public class Player : Inputable
 
         if (player.GetButtonDown("Dash") && currentAction == null)
         {
-            health.NewAction(1.5f);
+            health.NewAction(1.5f, durationDashBeat);
             currentAction = Dash(durationDash);
             StartCoroutine(currentAction);
         }

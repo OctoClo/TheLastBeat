@@ -170,7 +170,7 @@ public class Health : MonoBehaviour
     }
 
     //Add an action to the current combo
-    public void NewAction(float multiplier)
+    public void NewAction(float multiplier, float duration)
     {
         if (multiplier > currentMultiplier)
         {
@@ -191,7 +191,7 @@ public class Health : MonoBehaviour
             {
                 lastTimeAction = Time.timeSinceLevelLoad;
                 currentMultiplier = multiplier;
-                StartHealthTransition(beatsPerMinutes, CalculateNewValue(multiplier), 3);
+                StartHealthTransition(beatsPerMinutes, CalculateNewValue(multiplier), duration);
             }
         }
     }
@@ -210,6 +210,7 @@ public class Health : MonoBehaviour
 
     void StartHealthTransition(float from , float to, float duration)
     {
+        Debug.Assert(duration > 0);
         //Only one health animation at the same time
         if (healthCoroutine != null)
         {
