@@ -26,8 +26,8 @@ public class MusicCallBack : MonoBehaviour
                 break;
 
             case AkCallbackType.AK_MusicSyncBeat:
-                //beatDuration = musicBeatDuration.segmentInfo_fBeatDuration;
-                //bm.BeatDelayed(beatDuration);
+                beatDuration = musicInfo.segmentInfo_fBeatDuration;
+                bm.BeatDelayed(beatDuration, BeatManager.TypeBeat.BEAT);
                 break;
 
             case AkCallbackType.AK_MusicSyncGrid:
@@ -35,7 +35,7 @@ public class MusicCallBack : MonoBehaviour
 
             case AkCallbackType.AK_MusicSyncBar:
                 float barDuration = musicInfo.segmentInfo_fBarDuration;
-                bm.BeatDelayed(barDuration);
+                bm.BeatDelayed(barDuration, BeatManager.TypeBeat.BAR);
                 break;
 
             default:

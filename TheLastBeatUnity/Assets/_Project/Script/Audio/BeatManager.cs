@@ -5,11 +5,20 @@ using UnityEngine;
 public class BeatManager : MonoBehaviour
 {
     [SerializeField]
-    List<Beatable> allBeatables;
+    List<Beatable> Beats;
 
-    public void BeatDelayed(float timeBetweenBeat)
+    [SerializeField]
+    List<Beatable> Bar;
+
+    public enum TypeBeat
     {
-        foreach (Beatable beat in allBeatables)
+        BEAT,
+        BAR
+    }
+
+    public void BeatDelayed(float timeBetweenBeat, TypeBeat tb)
+    {
+        foreach (Beatable beat in (tb == TypeBeat.BAR ? Bar : Beats))
         {
             beat.BeatDelayed(timeBetweenBeat);
         }
