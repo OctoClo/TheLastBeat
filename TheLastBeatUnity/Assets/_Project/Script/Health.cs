@@ -57,6 +57,8 @@ public class Health : MonoBehaviour
     [ValidateInput("Positive", "This value must be > 0")]
     float freezeTime;
 
+    public float DurationSequence => Mathf.Min(0.1f, TimeBetweenBeats / 2);
+
     public bool Positive(float value)
     {
         return value > 0;
@@ -93,17 +95,17 @@ public class Health : MonoBehaviour
         anchorMin = img.GetComponent<RectTransform>().anchorMin;
         anchorMax = img.GetComponent<RectTransform>().anchorMax;
         beatsPerMinutes = startingFrequency;
-        txt.text = numberBeat.ToString();
+        Beat();
     }
 
     private void Update()
     {
-        //accumulator += Time.deltaTime;
-        //if(accumulator > TimeBetweenBeats)
-        //{
-        //    accumulator = 0;
-        //    Beat();
-        //}
+        accumulator += Time.deltaTime;
+        if (accumulator > TimeBetweenBeats)
+        {
+            accumulator = 0;
+            Beat();
+        }
 
         //Heart Beat too high ! staying too long will trigger tachy mode
         if (maximalFrequency < beatsPerMinutes)
@@ -127,19 +129,27 @@ public class Health : MonoBehaviour
         Sequence seqMin = DOTween.Sequence();
         Sequence seqMax = DOTween.Sequence();
 
-        //Avoid to have long animation at low beat rate
-        float durationSequence = Mathf.Min(0.1f, TimeBetweenBeats / 2);
-
-        seqMin.Append(img.GetComponent<RectTransform>().DOAnchorMin(newAnchorMin, durationSequence));
-        seqMin.Append(img.GetComponent<RectTransform>().DOAnchorMin(anchorMin, durationSequence));
+        seqMin.Append(img.GetComponent<RectTransform>().DOAnchorMin(newAnchorMin, DurationSequence));
+        seqMin.Append(img.GetComponent<RectTransform>().DOAnchorMin(anchorMin, DurationSequence));
         seqMin.Play();
 
-        seqMax.Append(img.GetComponent<RectTransform>().DOAnchorMax(newAnchorMax, durationSequence));
-        seqMax.Append(img.GetComponent<RectTransform>().DOAnchorMax(anchorMax, durationSequence));
+        seqMax.Append(img.GetComponent<RectTransform>().DOAnchorMax(newAnchorMax, DurationSequence));
+        seqMax.Append(img.GetComponent<RectTransform>().DOAnchorMax(anchorMax, DurationSequence));
         seqMax.Play();
 
         numberBeat--;
         txt.text = numberBeat.ToString();
+    }
+
+    public void DelayedBeat(float timeBetweenBeat)
+    {
+        StartCoroutine(BeatLater(timeBetweenBeat));
+    }
+
+    IEnumerator BeatLater(float timeBeat)
+    {
+        yield return new WaitForSeconds(timeBeat - (DurationSequence / 2));
+        Beat();
     }
 
     public void Hit(float damage, float duration , bool multiply = true)

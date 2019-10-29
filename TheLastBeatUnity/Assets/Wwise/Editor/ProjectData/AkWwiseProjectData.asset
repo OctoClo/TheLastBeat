@@ -31,22 +31,64 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 00607f23f4bb1c4ba4ba719fd5871f3f
     GuidInternal: 
-    m_lastTime: -8586297625736623173
-    List: []
+    m_lastTime: -8586292662789842697
+    List:
+    - name: TheLastBank
+      guid: ba44c042ce392242af9fd5c1beb6de48
+      id: 177400472
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: TheLastBank
+        ObjectType: 7
+      Path: Default Work Unit\TheLastBank
   EventWwu:
   - PhysicalPath: Events\Default Work Unit.wwu
     ParentPhysicalPath: 
     guid: 8758d50e9a0ca842a9ceccd260c5af42
     GuidInternal: 
-    m_lastTime: -8586297625736712924
-    List: []
+    m_lastTime: -8586292662790012244
+    List:
+    - name: DashFX
+      guid: 085c5b252ae25a40a1d306bcd171b283
+      id: 416687607
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: DashFX
+        ObjectType: 3
+      Path: Default Work Unit\DashFX
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Music
+      guid: 7c0c99b2cf37254792bd1ed7910ef398
+      id: 3991942870
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Music
+        ObjectType: 3
+      Path: Default Work Unit\Music
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
   RtpcWwu:
   - PhysicalPath: Game Parameters\Default Work Unit.wwu
     ParentPhysicalPath: 
     guid: f33de71626d113469ad3450a44be09c2
     GuidInternal: 
-    m_lastTime: -8586297625736702958
-    List: []
+    m_lastTime: -8586292662790002277
+    List:
+    - name: MusicCrusher
+      guid: 5d683a5f3806e94c9fe29471a79b243a
+      id: 3946755902
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: MusicCrusher
+        ObjectType: 13
+      Path: Default Work Unit\MusicCrusher
   StateWwu:
   - PhysicalPath: States\Default Work Unit.wwu
     ParentPhysicalPath: 
@@ -59,8 +101,27 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: c97f274d2e04f9479151d59a4293b701
     GuidInternal: 
-    m_lastTime: -8586297625736613196
-    List: []
+    m_lastTime: -8586292662789812778
+    List:
+    - name: MusicSwitch
+      guid: 779e025aba862d488df5b6f78ed6124a
+      id: 1445037870
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: MusicSwitch
+        ObjectType: 11
+      Path: Default Work Unit\MusicSwitch
+      values:
+      - name: Music
+        guid: 004ee6fbf971e148b42deabcf58e7dcb
+        id: 3991942870
+        PathAndIcons:
+        - ElementName: Music
+          ObjectType: 10
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
   TriggerWwu:
   - PhysicalPath: Triggers\Default Work Unit.wwu
     ParentPhysicalPath: 
@@ -70,5 +131,7 @@ MonoBehaviour:
     List: []
   ExpandedItems:
   - /TheLastBeatAudio
+  - /TheLastBeatAudio/Events
+  - /TheLastBeatAudio/Events/Default Work Unit
   autoPopulateEnabled: 1
   CurrentPluginConfig: 

@@ -242,6 +242,7 @@ GameObject:
   m_Component:
   - component: {fileID: 215504112}
   - component: {fileID: 215504111}
+  - component: {fileID: 215504113}
   m_Layer: 0
   m_Name: WwiseGlobal
   m_TagString: Untagged
@@ -290,6 +291,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &215504113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 215504110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d24404e493807244194afa5813470423, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerList: ae8d9d44
+  useOtherObject: 0
+  data:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: c3235a4771fc0c042bb0ed4cda4015c9,
+      type: 2}
+  decodeBank: 0
+  loadAsynchronous: 0
+  saveDecodedBank: 0
+  unloadTriggerList: 958ca0ea
+  bankNameInternal: 
+  valueGuidInternal: 
 --- !u!1 &256950427
 GameObject:
   m_ObjectHideFlags: 0
@@ -470,6 +496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76741f76a58b15c4ebf6b4591efca074, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debugMode: 1
   newAnchorMin: {x: 0.425, y: 0.075}
   newAnchorMax: {x: 0.575, y: 0.225}
   img: {fileID: 293885296}
@@ -1032,6 +1059,56 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1201950876}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &848782455
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 848782457}
+  - component: {fileID: 848782456}
+  m_Layer: 0
+  m_Name: BeatTracker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &848782456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848782455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71178c9c5d778ba46be24584222c8c7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 44d1168cebdeea041a5d9b0ccb938146,
+      type: 2}
+  myWeapon: 
+  health: {fileID: 330685844}
+--- !u!4 &848782457
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848782455}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1201950875
 GameObject:
