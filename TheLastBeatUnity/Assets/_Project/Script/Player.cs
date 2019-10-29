@@ -29,7 +29,9 @@ public class Player : Inputable
         Vector3 vec = new Vector3(player.GetAxis("MoveX"), 0, player.GetAxis("MoveY"));
         vec *= Time.deltaTime * speed;
         transform.Translate(vec, Space.World);
-        transform.forward = transform.position - previousPos;
+
+        if(transform.position != previousPos)
+            transform.forward = transform.position - previousPos;
 
         if (player.GetButtonDown("Dash") && currentAction == null)
         {
