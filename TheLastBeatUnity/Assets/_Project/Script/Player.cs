@@ -5,26 +5,29 @@ using Rewired;
 
 public class Player : Inputable
 {
+    [Header("Movement")]
     [SerializeField]
     float speed;
+    Vector3 previousPos;
 
+    [Header("Dash")]
     [SerializeField]
-    float strength;
-
+    float dashDuration;
     [SerializeField]
-    float durationDash;
-
+    float dashStrength;
     [SerializeField]
-    AnimationCurve ac;
+    AnimationCurve dashAnimationCurve;
 
     [SerializeField]
     Health health;
-
     [SerializeField]
     float durationDashBeat;
-
-    Vector3 previousPos;
     IEnumerator currentAction;
+
+    private void Start()
+    {
+        previousPos = transform.position;
+    }
 
     //If you are doing something (dash , attack animation , etc...) temporary block input
     public override bool BlockInput => currentAction != null;
@@ -32,10 +35,11 @@ public class Player : Inputable
     public override void ProcessInput(Rewired.Player player)
     {
         previousPos = transform.position;
-        Vector3 vec = new Vector3(player.GetAxis("MoveX"), 0, player.GetAxis("MoveY"));
-        vec *= Time.deltaTime * speed;
-        transform.Translate(vec, Space.World);
 
+        Vector3 movement = new Vector3(player.GetAxis("MoveX"), 0, player.GetAxis("MoveY"));
+        movement *= Time.deltaTime * speed;
+        transform.Translate(movement, Space.World);
+        
         if(transform.position != previousPos)
             transform.forward = transform.position - previousPos;
 
@@ -55,9 +59,18 @@ public class Player : Inputable
         {
             normalizedTime += Time.deltaTime / duration;
             previousPos = transform.position;
-            transform.Translate(transform.forward * Time.deltaTime * ac.Evaluate(normalizedTime) * strength, Space.World);
+            transform.Translate(transform.forward * Time.deltaTime * dashAnimationCurve.Evaluate(normalizedTime) * dashStrength, Space.World);
             yield return null;
         }
         currentAction = null;
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (ReInput.players.GetPlayer(0).GetButtonDown("Attack"))
+        {
+            if (other.CompareTag("Enemy"))
+                other.GetComponent<Enemy>().GetAttacked();
+        }
     }
 }
