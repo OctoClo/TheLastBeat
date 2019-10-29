@@ -20,6 +20,11 @@ public class Player : Inputable
     Vector3 previousPos;
     IEnumerator currentAction;
 
+    private void Start()
+    {
+        previousPos = transform.position;
+    }
+
     //If you are doing something (dash , attack animation , etc...) temporary block input
     public override bool BlockInput => currentAction != null;
 
@@ -29,7 +34,7 @@ public class Player : Inputable
         Vector3 vec = new Vector3(player.GetAxis("MoveX"), 0, player.GetAxis("MoveY"));
         vec *= Time.deltaTime * speed;
         transform.Translate(vec, Space.World);
-        transform.forward = transform.position - previousPos;
+        //transform.forward = transform.position - previousPos;
 
         if (player.GetButtonDown("Dash") && currentAction == null)
         {
@@ -56,5 +61,14 @@ public class Player : Inputable
     {
         //Horrible ! just for proto
         Camera.main.transform.Translate(transform.position - previousPos, Space.World);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (other.CompareTag("Enemy"))
+                other.GetComponent<Enemy>().GetAttacked();
+        }
     }
 }
