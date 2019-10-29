@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Sirenix.OdinInspector;
 using DG.Tweening;
+using TMPro;
 
 public class Health : MonoBehaviour
 {
@@ -28,7 +29,7 @@ public class Health : MonoBehaviour
 
     [TabGroup("Visual")]
     [SerializeField]
-    Text txt;
+    TextMeshProUGUI txt;
 
     Rect windowRect = new Rect(20, 20, 120, 50);
 

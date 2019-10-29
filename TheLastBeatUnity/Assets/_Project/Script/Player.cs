@@ -46,7 +46,7 @@ public class Player : Inputable
         if (player.GetButtonDown("Dash") && currentAction == null)
         {
             health.NewAction(1.5f);
-            currentAction = Dash(durationDash);
+            currentAction = Dash(dashDuration);
             StartCoroutine(currentAction);
         }
     }

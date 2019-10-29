@@ -17,7 +17,7 @@ public class MusicCallBack : MonoBehaviour
         musicEvent.Post(gameObject, (uint)AkCallbackType.AK_MusicSyncAll, SyncReference, this);
     }
 
-   void SyncReference(object in_cookie, AkCallbackType in_type, object in_info)
+    void SyncReference(object in_cookie, AkCallbackType in_type, object in_info)
     {
         AkMusicSyncCallbackInfo musicInfo = in_info as AkMusicSyncCallbackInfo;
         switch (in_type)

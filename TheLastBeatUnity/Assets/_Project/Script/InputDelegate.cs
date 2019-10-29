@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
 
-public class InputManager : MonoBehaviour
+public class InputDelegate : MonoBehaviour
 {
     [SerializeField]
     Inputable inputable;
