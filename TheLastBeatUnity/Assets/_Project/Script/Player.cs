@@ -39,14 +39,14 @@ public class Player : Inputable
 
     public override void ProcessInput(Rewired.Player player)
     {
-        /*previousPos = transform.position;
+        previousPos = transform.position;
 
         Vector3 movement = new Vector3(player.GetAxis("MoveX"), 0, player.GetAxis("MoveY"));
         movement *= Time.deltaTime * speed;
         transform.Translate(movement, Space.World);
         
         if(transform.position != previousPos)
-            transform.forward = transform.position - previousPos;*/
+            transform.forward = transform.position - previousPos;
 
         if (player.GetButtonDown("Dash") && currentAction == null)
         {
