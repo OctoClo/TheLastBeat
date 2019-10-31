@@ -28,10 +28,12 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		Vector3 m_CapsuleCenter;
 		CapsuleCollider m_Capsule;
 		bool m_Crouching;
+		bool blockInput;
 
 
 		void Start()
 		{
+            blockInput = false;
 			m_Animator = GetComponent<Animator>();
 			m_Rigidbody = GetComponent<Rigidbody>();
 			m_Capsule = GetComponent<CapsuleCollider>();
@@ -42,37 +44,53 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			m_OrigGroundCheckDistance = m_GroundCheckDistance;
 		}
 
+        private void OnEnable()
+        {
+            EventManager.Instance.AddListener<PauseEvent>(OnPauseEvent);
+        }
+
+        private void OnDisable()
+        {
+            EventManager.Instance.RemoveListener<PauseEvent>(OnPauseEvent);
+        }
+
+        private void OnPauseEvent(PauseEvent e)
+        {
+            blockInput = e.pause;
+        }
 
 		public void Move(Vector3 move, bool crouch, bool jump)
 		{
-
-			// convert the world relative moveInput vector into a local-relative
-			// turn amount and forward amount required to head in the desired
-			// direction.
-			if (move.magnitude > 1f) move.Normalize();
-			move = transform.InverseTransformDirection(move);
-			CheckGroundStatus();
-			move = Vector3.ProjectOnPlane(move, m_GroundNormal);
-			m_TurnAmount = Mathf.Atan2(move.x, move.z);
-			m_ForwardAmount = move.z;
-
-			ApplyExtraTurnRotation();
-
-			// control and velocity handling is different when grounded and airborne:
-			if (m_IsGrounded)
+			if (!blockInput)
 			{
-				HandleGroundedMovement(crouch, jump);
-			}
-			else
-			{
-				HandleAirborneMovement();
-			}
+                // convert the world relative moveInput vector into a local-relative
+                // turn amount and forward amount required to head in the desired
+                // direction.
+                if (move.magnitude > 1f) move.Normalize();
+                move = transform.InverseTransformDirection(move);
+                CheckGroundStatus();
+                move = Vector3.ProjectOnPlane(move, m_GroundNormal);
+                m_TurnAmount = Mathf.Atan2(move.x, move.z);
+                m_ForwardAmount = move.z;
 
-			ScaleCapsuleForCrouching(crouch);
-			PreventStandingInLowHeadroom();
+                ApplyExtraTurnRotation();
 
-			// send input and other state parameters to the animator
-			UpdateAnimator(move);
+                // control and velocity handling is different when grounded and airborne:
+                if (m_IsGrounded)
+                {
+                    HandleGroundedMovement(crouch, jump);
+                }
+                else
+                {
+                    HandleAirborneMovement();
+                }
+
+                ScaleCapsuleForCrouching(crouch);
+                PreventStandingInLowHeadroom();
+
+                // send input and other state parameters to the animator
+                UpdateAnimator(move);
+			}
 		}
 
 

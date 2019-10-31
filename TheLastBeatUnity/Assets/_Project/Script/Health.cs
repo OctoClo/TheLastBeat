@@ -9,80 +9,62 @@ using TMPro;
 public class Health : MonoBehaviour
 {
     #region properties
-    Vector2 anchorMin;
-    Vector2 anchorMax;
-
     [SerializeField]
     bool debugMode;
+    Rect debugWindowRect = new Rect(20, 20, 120, 50);
 
-    [TabGroup("Visual")]
-    [SerializeField]
+    [TabGroup("Visual")] [SerializeField]
+    Image healthBackground;
+    RectTransform healthBackgroundRect;
+    [TabGroup("Visual")] [SerializeField]
+    TextMeshProUGUI healthText;
+
+    [TabGroup("Visual")] [SerializeField] [Range(1, 5)]
+    int healthBackgroundNewScale;
+    float healthBackgroundCurrentScale; 
+    [TabGroup("Visual")] [SerializeField]
     Vector2 newAnchorMin;
-
-    [TabGroup("Visual")]
-    [SerializeField]
+    Vector2 anchorMin;
+    [TabGroup("Visual")] [SerializeField]
     Vector2 newAnchorMax;
+    Vector2 anchorMax;
 
-    [TabGroup("Visual")]
-    [SerializeField]
-    Image img;
-
-    [TabGroup("Visual")]
-    [SerializeField]
-    TextMeshProUGUI txt;
-
-    Rect windowRect = new Rect(20, 20, 120, 50);
-
-    [TabGroup("Gameplay")]
-    [SerializeField]
+    [TabGroup("Gameplay")] [SerializeField]
     int startingFrequency;
-
-    [TabGroup("Gameplay")]
-    [SerializeField]
+    [TabGroup("Gameplay")] [SerializeField]
     int minimalFrequency;
-
-    [TabGroup("Gameplay")]
-    [SerializeField]
+    [TabGroup("Gameplay")] [SerializeField]
     int maximalFrequency;
 
-    [TabGroup("Gameplay")]
-    [SerializeField]
+    [TabGroup("Gameplay")] [SerializeField]
     AnimationCurve hitCurve;
 
-    [TabGroup("Gameplay")]
-    [SerializeField]
+    [TabGroup("Gameplay")] [SerializeField]
     MultiReference referenceMultiply;
 
-    [TabGroup("Gameplay")]
-    [SerializeField]
-    [ValidateInput("Positive", "This value must be > 0")]
+    [TabGroup("Gameplay")] [SerializeField] [ValidateInput("Positive", "This value must be > 0")]
     float freezeTime;
 
-    public float DurationSequence => Mathf.Min(0.1f, TimeBetweenBeats / 2);
+    [TabGroup("Gameplay")] [SerializeField] [ValidateInput("Positive", "This value must be > 0")]
+    float timeBeforeTachy;
+    float currentTimeBeforeTachy;
+    bool inTachycardie = false;
+
+    //Time stamp of the last action
+    float lastTimeAction;
+    float beatsPerMinutes;
+    float TimeBetweenBeats => (1 / beatsPerMinutes) * 60;
+    float DurationSequence => Mathf.Min(0.1f, TimeBetweenBeats / 2);
+    int numberBeat = 200;
+    float currentMultiplier = 1;
+    float accumulator = 0;
+
+    IEnumerator healthCoroutine;
 
     public bool Positive(float value)
     {
         return value > 0;
     }
-
-    //Time stamp of the last action
-    float lastTimeAction;
-    float beatsPerMinutes;
-    float accumulator = 0;
-
-    [TabGroup("Gameplay")]
-    [SerializeField]
-    [ValidateInput("Positive", "This value must be > 0")]
-    float timeBeforeTachy;
-    float currentTimeBeforeTachy;
-    bool inTachycardie = false;
-
-    float TimeBetweenBeats => (1 / beatsPerMinutes) * 60;
-    int numberBeat = 200;
-    float currentMultiplier = 1;
-
-
-    IEnumerator healthCoroutine;
 
     public enum MultiReference
     {
@@ -93,8 +75,10 @@ public class Health : MonoBehaviour
 
     public void Start()
     {
-        anchorMin = img.GetComponent<RectTransform>().anchorMin;
-        anchorMax = img.GetComponent<RectTransform>().anchorMax;
+        healthBackgroundRect = healthBackground.GetComponent<RectTransform>();
+        anchorMin = healthBackgroundRect.anchorMin;
+        anchorMax = healthBackgroundRect.anchorMax;
+        healthBackgroundCurrentScale = healthBackgroundRect.localScale.x;
         beatsPerMinutes = startingFrequency;
         Beat();
     }
@@ -130,16 +114,20 @@ public class Health : MonoBehaviour
         Sequence seqMin = DOTween.Sequence();
         Sequence seqMax = DOTween.Sequence();
 
-        seqMin.Append(img.GetComponent<RectTransform>().DOAnchorMin(newAnchorMin, DurationSequence));
-        seqMin.Append(img.GetComponent<RectTransform>().DOAnchorMin(anchorMin, DurationSequence));
+        //seqMin.Append(healthBackgroundRect.DOAnchorMin(newAnchorMin, DurationSequence));
+        //seqMin.Append(healthBackgroundRect.DOAnchorMin(anchorMin, DurationSequence));
+        seqMin.Append(healthBackgroundRect.DOScale(healthBackgroundNewScale, DurationSequence));
+        seqMin.Append(healthBackgroundRect.DOScale(healthBackgroundCurrentScale, DurationSequence));
         seqMin.Play();
 
-        seqMax.Append(img.GetComponent<RectTransform>().DOAnchorMax(newAnchorMax, DurationSequence));
-        seqMax.Append(img.GetComponent<RectTransform>().DOAnchorMax(anchorMax, DurationSequence));
+        //seqMax.Append(healthBackgroundRect.DOAnchorMax(newAnchorMax, DurationSequence));
+        //seqMax.Append(healthBackgroundRect.DOAnchorMax(anchorMax, DurationSequence));
+        seqMax.Append(healthBackgroundRect.DOScale(healthBackgroundNewScale, DurationSequence));
+        seqMax.Append(healthBackgroundRect.DOScale(healthBackgroundCurrentScale, DurationSequence));
         seqMax.Play();
 
         numberBeat--;
-        txt.text = numberBeat.ToString();
+        healthText.text = numberBeat.ToString();
     }
 
     public void DelayedBeat(float timeBetweenBeat)
@@ -227,11 +215,11 @@ public class Health : MonoBehaviour
         inTachycardie = value;
         if (value)
         {
-            img.color = Color.red;
+            healthBackground.color = Color.red;
         }
         else
         {
-            img.color = Color.white;
+            healthBackground.color = Color.white;
         }
     }
 
@@ -239,7 +227,7 @@ public class Health : MonoBehaviour
     {
         if (debugMode)
         {
-            windowRect = GUI.Window(0, windowRect, DisplayWindow, "Debug");
+            debugWindowRect = GUI.Window(0, debugWindowRect, DisplayWindow, "Debug");
         }
     }
 

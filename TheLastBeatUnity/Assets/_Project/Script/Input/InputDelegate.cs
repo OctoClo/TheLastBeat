@@ -8,7 +8,6 @@ public class InputDelegate : MonoBehaviour
     [SerializeField]
     Inputable inputable;
 
-    [SerializeField]
     Rewired.Player player;
 
     private void Start()
