@@ -35,7 +35,7 @@ public class Player : Inputable
     }
 
     //If you are doing something (dash , attack animation , etc...) temporary block input
-    public override bool BlockInput => currentAction != null;
+    public override bool BlockInput => (blockInput || currentAction != null);
 
     public override void ProcessInput(Rewired.Player player)
     {
@@ -72,7 +72,7 @@ public class Player : Inputable
 
     private void OnTriggerStay(Collider other)
     {
-        if (ReInput.players.GetPlayer(0).GetButtonDown("Attack"))
+        if (ReInput.players.GetPlayer(0).GetButtonDown("Attack") && !BlockInput)
         {
             if (other.CompareTag("Enemy"))
                 other.GetComponent<Enemy>().GetAttacked();
