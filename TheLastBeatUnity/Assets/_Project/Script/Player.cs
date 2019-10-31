@@ -35,18 +35,18 @@ public class Player : Inputable
     }
 
     //If you are doing something (dash , attack animation , etc...) temporary block input
-    public override bool BlockInput => currentAction != null;
+    public override bool BlockInput => (blockInput || currentAction != null);
 
     public override void ProcessInput(Rewired.Player player)
     {
-        /*previousPos = transform.position;
+        previousPos = transform.position;
 
         Vector3 movement = new Vector3(player.GetAxis("MoveX"), 0, player.GetAxis("MoveY"));
         movement *= Time.deltaTime * speed;
         transform.Translate(movement, Space.World);
         
         if(transform.position != previousPos)
-            transform.forward = transform.position - previousPos;*/
+            transform.forward = transform.position - previousPos;
 
         if (player.GetButtonDown("Dash") && currentAction == null)
         {
@@ -72,7 +72,7 @@ public class Player : Inputable
 
     private void OnTriggerStay(Collider other)
     {
-        if (ReInput.players.GetPlayer(0).GetButtonDown("Attack"))
+        if (ReInput.players.GetPlayer(0).GetButtonDown("Attack") && !BlockInput)
         {
             if (other.CompareTag("Enemy"))
                 other.GetComponent<Enemy>().GetAttacked();

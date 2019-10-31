@@ -9,10 +9,33 @@ public abstract class Beatable : MonoBehaviour
     protected float sequenceDuration;
     public float SequenceDuration => sequenceDuration;
 
+    bool pause;
+    Coroutine beatCoroutine;
+
     public abstract void Beat();
+
     public void BeatDelayed(float timeBetweenBeat)
     {
-        StartCoroutine(CoroutineBeat(timeBetweenBeat));
+        if (!pause)
+            beatCoroutine = StartCoroutine(CoroutineBeat(timeBetweenBeat));
+    }
+
+    private void OnEnable()
+    {
+        EventManager.Instance.AddListener<PauseEvent>(OnPauseEvent);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.Instance.RemoveListener<PauseEvent>(OnPauseEvent);
+    }
+
+    private void OnPauseEvent(PauseEvent e)
+    {
+        pause = e.pause;
+
+        if (pause)
+            StopCoroutine(beatCoroutine);
     }
 
     IEnumerator CoroutineBeat(float delayBeat)
