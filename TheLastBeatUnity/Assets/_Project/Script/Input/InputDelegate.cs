@@ -18,6 +18,8 @@ public class InputDelegate : MonoBehaviour
     private void Update()
     {
         if (!inputable.BlockInput)
+        {
             inputable.ProcessInput(player);
+        }
     }
 }

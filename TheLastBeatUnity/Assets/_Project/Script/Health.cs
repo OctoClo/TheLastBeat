@@ -22,12 +22,6 @@ public class Health : MonoBehaviour
     [TabGroup("Visual")] [SerializeField] [Range(1, 5)]
     int healthBackgroundNewScale;
     float healthBackgroundCurrentScale; 
-    [TabGroup("Visual")] [SerializeField]
-    Vector2 newAnchorMin;
-    Vector2 anchorMin;
-    [TabGroup("Visual")] [SerializeField]
-    Vector2 newAnchorMax;
-    Vector2 anchorMax;
 
     [TabGroup("Gameplay")] [SerializeField]
     int startingFrequency;
@@ -58,6 +52,7 @@ public class Health : MonoBehaviour
     int numberBeat = 200;
     float currentMultiplier = 1;
     float accumulator = 0;
+    bool pause;
 
     IEnumerator healthCoroutine;
 
@@ -73,11 +68,20 @@ public class Health : MonoBehaviour
     }
     #endregion
 
+    private void OnEnable()
+    {
+        EventManager.Instance.AddListener<PauseEvent>(OnPauseEvent);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.Instance.RemoveListener<PauseEvent>(OnPauseEvent);
+    }
+
     public void Start()
     {
+        pause = false;
         healthBackgroundRect = healthBackground.GetComponent<RectTransform>();
-        anchorMin = healthBackgroundRect.anchorMin;
-        anchorMax = healthBackgroundRect.anchorMax;
         healthBackgroundCurrentScale = healthBackgroundRect.localScale.x;
         beatsPerMinutes = startingFrequency;
         Beat();
@@ -85,11 +89,14 @@ public class Health : MonoBehaviour
 
     private void Update()
     {
-        accumulator += Time.deltaTime;
-        if (accumulator > TimeBetweenBeats)
+        if (!pause)
         {
-            accumulator = 0;
-            Beat();
+            accumulator += Time.deltaTime;
+            if (accumulator > TimeBetweenBeats)
+            {
+                accumulator = 0;
+                Beat();
+            }
         }
 
         //Heart Beat too high ! staying too long will trigger tachy mode
@@ -109,36 +116,26 @@ public class Health : MonoBehaviour
         }
     }
 
+    private void OnPauseEvent(PauseEvent e)
+    {
+        pause = e.pause;
+    }
+
     public void Beat()
     {
         Sequence seqMin = DOTween.Sequence();
         Sequence seqMax = DOTween.Sequence();
 
-        //seqMin.Append(healthBackgroundRect.DOAnchorMin(newAnchorMin, DurationSequence));
-        //seqMin.Append(healthBackgroundRect.DOAnchorMin(anchorMin, DurationSequence));
         seqMin.Append(healthBackgroundRect.DOScale(healthBackgroundNewScale, DurationSequence));
         seqMin.Append(healthBackgroundRect.DOScale(healthBackgroundCurrentScale, DurationSequence));
         seqMin.Play();
 
-        //seqMax.Append(healthBackgroundRect.DOAnchorMax(newAnchorMax, DurationSequence));
-        //seqMax.Append(healthBackgroundRect.DOAnchorMax(anchorMax, DurationSequence));
         seqMax.Append(healthBackgroundRect.DOScale(healthBackgroundNewScale, DurationSequence));
         seqMax.Append(healthBackgroundRect.DOScale(healthBackgroundCurrentScale, DurationSequence));
         seqMax.Play();
 
         numberBeat--;
         healthText.text = numberBeat.ToString();
-    }
-
-    public void DelayedBeat(float timeBetweenBeat)
-    {
-        StartCoroutine(BeatLater(timeBetweenBeat));
-    }
-
-    IEnumerator BeatLater(float timeBeat)
-    {
-        yield return new WaitForSeconds(timeBeat - (DurationSequence / 2));
-        Beat();
     }
 
     public void Hit(float damage, float duration , bool multiply = true)
