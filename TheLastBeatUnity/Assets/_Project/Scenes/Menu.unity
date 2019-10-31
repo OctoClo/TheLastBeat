@@ -3115,7 +3115,7 @@ MonoBehaviour:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
-        StartDelay: 0
+        StartDelay: 0.2
         Duration: 0.2
     AutoStartLoopAnimation: 1
     LoadSelectedPresetAtRuntime: 0
@@ -3910,7 +3910,7 @@ MonoBehaviour:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
-        StartDelay: 0
+        StartDelay: 0.2
         Duration: 0.2
     AutoStartLoopAnimation: 1
     LoadSelectedPresetAtRuntime: 0
@@ -5632,7 +5632,7 @@ MonoBehaviour:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
-        StartDelay: 0
+        StartDelay: 0.2
         Duration: 0.2
     AutoStartLoopAnimation: 1
     LoadSelectedPresetAtRuntime: 0
@@ -6327,7 +6327,7 @@ MonoBehaviour:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
-        StartDelay: 0
+        StartDelay: 0.2
         Duration: 0.2
     AutoStartLoopAnimation: 1
     LoadSelectedPresetAtRuntime: 0
@@ -7143,7 +7143,7 @@ PrefabInstance:
     - target: {fileID: 6054510930039113843, guid: 6285c7bfd0785f74888dcd04deae4a56,
         type: 3}
       propertyPath: m_Name
-      value: Button - Quit
+      value: Button - Back
       objectReference: {fileID: 0}
     - target: {fileID: 6012017565852593454, guid: 6285c7bfd0785f74888dcd04deae4a56,
         type: 3}
@@ -7253,7 +7253,12 @@ PrefabInstance:
     - target: {fileID: 8182467675695910298, guid: 6285c7bfd0785f74888dcd04deae4a56,
         type: 3}
       propertyPath: ButtonName
-      value: Quit
+      value: Back
+      objectReference: {fileID: 0}
+    - target: {fileID: 8182467675695910298, guid: 6285c7bfd0785f74888dcd04deae4a56,
+        type: 3}
+      propertyPath: ButtonCategory
+      value: General
       objectReference: {fileID: 0}
     - target: {fileID: 3474236874240631068, guid: 6285c7bfd0785f74888dcd04deae4a56,
         type: 3}
