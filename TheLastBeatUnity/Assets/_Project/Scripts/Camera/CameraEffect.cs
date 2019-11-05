@@ -59,6 +59,15 @@ public class CameraEffect : MonoBehaviour
         Distance
     };
 
+    enum ValueType
+    {
+        Relative,
+        Absolute
+    }
+
+    [TabGroup("Zoom")] [SerializeField]
+    ValueType valueType;
+
     [TabGroup("Zoom")] [SerializeField]
     ZoomType modifierType;
 
@@ -98,7 +107,7 @@ public class CameraEffect : MonoBehaviour
         if (modifierType == ZoomType.FOV)
         {
             float originValue = GetComponent<CinemachineVirtualCamera>().m_Lens.FieldOfView;
-            float targetValue = originValue * modifier;
+            float targetValue = valueType == ValueType.Relative ? originValue * modifier : originValue + modifier;
             while (normalizedTime < 1)
             {
                 normalizedTime += Time.deltaTime / duration;
@@ -116,7 +125,7 @@ public class CameraEffect : MonoBehaviour
         else
         {
             float originValue = transposer.m_CameraDistance;
-            float targetValue = originValue * modifier;
+            float targetValue = valueType == ValueType.Relative ? originValue * modifier : originValue + modifier;
             while (normalizedTime < 1)
             {
                 normalizedTime += Time.deltaTime / duration;
