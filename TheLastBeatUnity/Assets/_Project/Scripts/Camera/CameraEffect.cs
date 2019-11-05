@@ -7,10 +7,29 @@ using Cinemachine;
 [RequireComponent(typeof(Cinemachine.CinemachineVirtualCamera))]
 public class CameraEffect : MonoBehaviour
 {
+    CinemachineVirtualCamera virtualCam;
+    bool toggle = false;
+    Transform temp;
+
     private void Start()
     {
-        perlin = GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-        transposer = GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineFramingTransposer>();
+        virtualCam = GetComponent<CinemachineVirtualCamera>();
+        temp = virtualCam.m_Follow;
+        perlin = virtualCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        transposer = virtualCam.GetCinemachineComponent<CinemachineFramingTransposer>();
+        StartCoroutine(TranslateTest());
+    }
+
+    IEnumerator TranslateTest()
+    {
+        temp = virtualCam.m_Follow;
+
+        while(true)
+        {
+            transform.Translate(Vector3.up * Time.deltaTime, Space.Self);
+            transform.Rotate(Vector3.right * Time.deltaTime, Space.Self);
+            yield return null;
+        }
     }
 
     #region ScreenShake
@@ -140,6 +159,5 @@ public class CameraEffect : MonoBehaviour
             }
         }
     }
-
     #endregion
 }
