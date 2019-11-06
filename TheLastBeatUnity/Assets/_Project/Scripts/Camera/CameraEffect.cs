@@ -14,6 +14,11 @@ public class CameraEffect : MonoBehaviour
 
     private void Start()
     {
+        LoadRefs();
+    }
+
+    void LoadRefs()
+    {
         virtualCam = GetComponent<CinemachineVirtualCamera>();
         temp = virtualCam.m_Follow;
         perlin = virtualCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
@@ -35,6 +40,7 @@ public class CameraEffect : MonoBehaviour
     [TabGroup("ScreenShake")][InfoBox("Ne fonctionne que si le mode solo de la camera est activé", InfoMessageType.None)][Button(ButtonSizes.Medium)]
     public void Test()
     {
+        LoadRefs();
         StartScreenShake();
     }
 
@@ -156,7 +162,7 @@ public class CameraEffect : MonoBehaviour
 
     float angle;
 
-    [TabGroup("CameraAngle")] [Button(ButtonSizes.Medium)] 
+    [TabGroup("CameraAngle")] [Button(ButtonSizes.Medium,Name = "Set camera pitch (degrees)")] 
     public void Set()
     {
         virtualCam = GetComponent<CinemachineVirtualCamera>();
@@ -170,7 +176,7 @@ public class CameraEffect : MonoBehaviour
     }
 
     [TabGroup("CameraAngle")]
-    [Button(ButtonSizes.Medium)]
+    [Button(ButtonSizes.Medium, Name = "Reset")]
     public void Res()
     {
         virtualCam = GetComponent<CinemachineVirtualCamera>();
