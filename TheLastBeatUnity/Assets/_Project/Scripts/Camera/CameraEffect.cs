@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using Cinemachine;
 
 [RequireComponent(typeof(Cinemachine.CinemachineVirtualCamera))]
@@ -17,19 +18,6 @@ public class CameraEffect : MonoBehaviour
         temp = virtualCam.m_Follow;
         perlin = virtualCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         transposer = virtualCam.GetCinemachineComponent<CinemachineFramingTransposer>();
-        StartCoroutine(TranslateTest());
-    }
-
-    IEnumerator TranslateTest()
-    {
-        temp = virtualCam.m_Follow;
-
-        while(true)
-        {
-            transform.Translate(Vector3.up * Time.deltaTime, Space.Self);
-            transform.Rotate(Vector3.right * Time.deltaTime, Space.Self);
-            yield return null;
-        }
     }
 
     #region ScreenShake
@@ -158,6 +146,45 @@ public class CameraEffect : MonoBehaviour
                 transposer.m_CameraDistance = originValue;
             }
         }
+    }
+    #endregion
+
+    #region CameraAngle
+
+    [TabGroup("CameraAngle")][SerializeField]
+    float pitchValue;
+
+    float angle;
+
+    [TabGroup("CameraAngle")] [Button(ButtonSizes.Medium)] 
+    public void Set()
+    {
+        virtualCam = GetComponent<CinemachineVirtualCamera>();
+        Transform target = virtualCam.Follow;
+        transposer = virtualCam.GetCinemachineComponent<CinemachineFramingTransposer>();
+        Vector3 previousPosition = transform.position;
+        Vector3 tempPosition = target.position - (Vector3.forward * transposer.m_CameraDistance);
+        Vector3 finalPosition = RotatePointAroundPivot(tempPosition, virtualCam.Follow.position, Vector3.right * pitchValue);
+        transform.position = finalPosition;
+        transform.LookAt(target);
+    }
+
+    [TabGroup("CameraAngle")]
+    [Button(ButtonSizes.Medium)]
+    public void Res()
+    {
+        virtualCam = GetComponent<CinemachineVirtualCamera>();
+        Transform target = virtualCam.Follow;
+        transposer = virtualCam.GetCinemachineComponent<CinemachineFramingTransposer>();
+        Vector3 previousPosition = transform.position;
+        Vector3 tempPosition = target.position - (Vector3.forward * transposer.m_CameraDistance);
+        transform.position = tempPosition;
+        transform.LookAt(target);
+    }
+
+    public Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, Vector3 angles)
+    {
+        return Quaternion.Euler(angles) * (point - pivot) + pivot;
     }
     #endregion
 }
