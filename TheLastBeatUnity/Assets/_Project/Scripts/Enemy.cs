@@ -74,4 +74,12 @@ public class Enemy : MonoBehaviour
             rb.velocity = -transform.forward * knockbackStrength;
         }
     }
+
+    public void SetSelected(bool selected)
+    {
+        if (selected)
+            material.color = Color.green;
+        else
+            material.color = Color.red;
+    }
 }

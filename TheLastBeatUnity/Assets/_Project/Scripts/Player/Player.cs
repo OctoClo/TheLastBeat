@@ -6,6 +6,9 @@ using Sirenix.OdinInspector;
 
 public class Player : Inputable
 {
+    [SerializeField]
+    float speedMagnitude;
+
     [Header("Movement")]
     [SerializeField]
     float speed;
@@ -26,6 +29,8 @@ public class Player : Inputable
     [Header("References")]
     [SerializeField] [Required]
     Health health;
+    [SerializeField] [Required]
+    FocusZone focusZone;
     
     IEnumerator currentAction;
 
@@ -44,9 +49,10 @@ public class Player : Inputable
         Vector3 movement = new Vector3(player.GetAxis("MoveX"), 0, player.GetAxis("MoveY"));
         movement *= Time.deltaTime * speed;
         transform.Translate(movement, Space.World);
-        
-        if(transform.position != previousPos)
-            transform.forward = transform.position - previousPos;
+
+        speedMagnitude = movement.sqrMagnitude;
+        if (speedMagnitude > 0.001f)
+            transform.forward = movement;
 
         if (player.GetButtonDown("Dash") && currentAction == null)
         {
@@ -72,10 +78,6 @@ public class Player : Inputable
 
     private void OnTriggerStay(Collider other)
     {
-        if (ReInput.players.GetPlayer(0).GetButtonDown("Attack") && !BlockInput)
-        {
-            if (other.CompareTag("Enemy"))
-                other.GetComponent<Enemy>().GetAttacked();
-        }
+        //if (ReInput.players.GetPlayer(0).GetButtonDown("Attack") && !BlockInput)
     }
 }
