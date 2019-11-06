@@ -47,12 +47,21 @@ public class Player : Inputable
         previousPos = transform.position;
 
         Vector3 movement = new Vector3(player.GetAxis("MoveX"), 0, player.GetAxis("MoveY"));
+
+        // Rotation
+        Enemy currentTarget = focusZone.GetCurrentTarget();
+        if (currentTarget)
+            transform.forward = new Vector3(currentTarget.transform.position.x, transform.position.y, currentTarget.transform.position.z) - transform.position;
+        else if (movement != Vector3.zero)
+        {
+            Vector3 direction = movement;
+            direction.Normalize();
+            transform.forward = direction;
+        }
+
+        // Translation
         movement *= Time.deltaTime * speed;
         transform.Translate(movement, Space.World);
-
-        speedMagnitude = movement.sqrMagnitude;
-        if (speedMagnitude > 0.001f)
-            transform.forward = movement;
 
         if (player.GetButtonDown("Dash") && currentAction == null)
         {

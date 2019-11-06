@@ -6,9 +6,6 @@ public class FocusZone : MonoBehaviour
 {
     [SerializeField]
     Transform arrow;
-    [SerializeField]
-    float angleBetweenArrowAndTarget;
-    float angleBetweenArrowAndTargetPrevious;
 
     Vector3 targetPoint;
     Quaternion targetRotation;
@@ -21,13 +18,15 @@ public class FocusZone : MonoBehaviour
 
     }
 
+    public Enemy GetCurrentTarget()
+    {
+        return target;
+    }
+
     private void Update()
     {
         if (target)
         {
-            /*angleBetweenArrowAndTarget = Vector3.SignedAngle(transform.parent.forward, -target.transform.forward, Vector3.up);
-            arrow.Rotate(0, 0, angleBetweenArrowAndTargetPrevious - angleBetweenArrowAndTarget);
-            angleBetweenArrowAndTargetPrevious = angleBetweenArrowAndTarget;*/
             targetPoint = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z) - transform.position;
             targetRotation = Quaternion.LookRotation(targetPoint, Vector3.up);
             transform.rotation = targetRotation;
@@ -44,7 +43,6 @@ public class FocusZone : MonoBehaviour
                 target = enemy;
                 target.SetSelected(true);
                 arrow.gameObject.SetActive(true);
-                angleBetweenArrowAndTargetPrevious = Vector3.SignedAngle(transform.parent.forward, -target.transform.forward, Vector3.up);
             }
         }
     }
