@@ -84,9 +84,4 @@ public class Player : Inputable
         }
         currentAction = null;
     }
-
-    private void OnTriggerStay(Collider other)
-    {
-        //if (ReInput.players.GetPlayer(0).GetButtonDown("Attack") && !BlockInput)
-    }
 }

@@ -443,7 +443,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrow: {fileID: 1756793947}
-  target: {fileID: 0}
+  potentialTargets: []
 --- !u!135 &28646125
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -6913,7 +6913,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &648574105
 Transform:
   m_ObjectHideFlags: 0
@@ -6941,7 +6941,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd6a10ab5b49c2c479ba838f3051437d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 0
   maxLives: 3
   knockbackStrength: 7
   knockbackDuration: 1
@@ -11205,7 +11205,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1127413897
 Transform:
   m_ObjectHideFlags: 0
@@ -11233,7 +11233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd6a10ab5b49c2c479ba838f3051437d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 0
   maxLives: 3
   knockbackStrength: 7
   knockbackDuration: 1
