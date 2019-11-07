@@ -15,6 +15,10 @@ namespace AK
     {
         static const AkUniqueID DASHFX = 416687607U;
         static const AkUniqueID MUSIC = 3991942870U;
+        static const AkUniqueID PLAY_AMBDESERT = 3681445093U;
+        static const AkUniqueID PLAY_WILDLIFEDESERT_1 = 92132223U;
+        static const AkUniqueID PLAY_WILDLIFEDESERT_2 = 92132220U;
+        static const AkUniqueID STOP_AMB = 435770000U;
     } // namespace EVENTS
 
     namespace SWITCHES
