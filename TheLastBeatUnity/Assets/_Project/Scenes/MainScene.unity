@@ -3138,7 +3138,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 299680483}
   m_LocalRotation: {x: 0.1736482, y: -0, z: -0, w: 0.9848078}
-  m_LocalPosition: {x: -16.4, y: 9.8242235, z: -31.316607}
+  m_LocalPosition: {x: -15.6, y: 12.205835, z: -35.500507}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 445497652}
@@ -3164,7 +3164,7 @@ MonoBehaviour:
   m_Priority: 10
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 400721800}
+  m_Follow: {fileID: 535625811}
   m_Lens:
     FieldOfView: 22
     OrthographicSize: 10
@@ -4402,9 +4402,9 @@ MonoBehaviour:
   m_ZDamping: 1
   m_ScreenX: 0.5
   m_ScreenY: 0.5
-  m_CameraDistance: 33.87
-  m_DeadZoneWidth: 0
-  m_DeadZoneHeight: 0
+  m_CameraDistance: 38.289658
+  m_DeadZoneWidth: 0.066
+  m_DeadZoneHeight: 0.077
   m_DeadZoneDepth: 0
   m_UnlimitedSoftZone: 0
   m_SoftZoneWidth: 0.8
@@ -5906,7 +5906,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &535625811
 Transform:
   m_ObjectHideFlags: 0
@@ -7743,6 +7743,10 @@ PrefabInstance:
     - target: {fileID: 149790, guid: 7737647c22c1fc64a88d5cd030c352ce, type: 3}
       propertyPath: m_Name
       value: ThirdPersonController
+      objectReference: {fileID: 0}
+    - target: {fileID: 149790, guid: 7737647c22c1fc64a88d5cd030c352ce, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 408730, guid: 7737647c22c1fc64a88d5cd030c352ce, type: 3}
       propertyPath: m_LocalPosition.x
@@ -15018,7 +15022,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1557770552}
   m_LocalRotation: {x: 0.1736482, y: -0, z: -0, w: 0.9848078}
-  m_LocalPosition: {x: -16.4, y: 9.8242235, z: -31.316607}
+  m_LocalPosition: {x: -15.6, y: 12.205835, z: -35.500507}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1313864257}
@@ -15427,7 +15431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca18e2f2aa8e5c74cb937cab69dcfefb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputable: {fileID: 400721806}
+  inputable: {fileID: 535625812}
 --- !u!1 &1612188977
 GameObject:
   m_ObjectHideFlags: 0
