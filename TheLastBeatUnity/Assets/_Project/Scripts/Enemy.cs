@@ -20,6 +20,7 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     float knockbackDuration;
     float knockbackTimer;
+    bool hasResetMaterial;
     Material material;
 
     [Header("References")]
@@ -38,10 +39,14 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         transform.LookAt(player);
+        
         knockbackTimer -= Time.deltaTime;
 
-        if (knockbackTimer <= 0)
+        if (knockbackTimer <= 0 && !hasResetMaterial)
+        {
             material.color = Color.red;
+            hasResetMaterial = true;
+        }
     }
 
     void FixedUpdate()
@@ -71,6 +76,7 @@ public class Enemy : MonoBehaviour
 
             material.color = Color.blue;
             knockbackTimer = knockbackDuration;
+            hasResetMaterial = false;
             rb.velocity = -transform.forward * knockbackStrength;
         }
     }

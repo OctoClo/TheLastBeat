@@ -29,10 +29,6 @@ public class FocusZone : MonoBehaviour
     {
         if (currentTarget)
         {
-            targetLookVector = new Vector3(currentTarget.transform.position.x, transform.position.y, currentTarget.transform.position.z) - transform.position;
-            targetRotation = Quaternion.LookRotation(targetLookVector, Vector3.up);
-            transform.rotation = targetRotation;
-
             if (ReInput.players.GetPlayer(0).GetButtonDown("NextTarget"))
                 SelectNextTarget();
             else if (ReInput.players.GetPlayer(0).GetButtonDown("PreviousTarget"))
@@ -44,7 +40,16 @@ public class FocusZone : MonoBehaviour
     {
         if (potentialTargets.Count > 1)
         {
+            Enemy previousTarget = currentTarget;
+
             currentTarget = potentialTargets[(potentialTargets.IndexOf(currentTarget) + 1) % potentialTargets.Count];
+            
+            // Update target selected state
+            if (currentTarget != previousTarget)
+            {
+                previousTarget.SetSelected(false);
+                currentTarget.SetSelected(true);
+            }
         }
     }
 
@@ -52,10 +57,20 @@ public class FocusZone : MonoBehaviour
     {
         if (potentialTargets.Count > 1)
         {
+            Enemy previousTarget = currentTarget;
+
+            // Process who is the previous target
             int previousIndex = potentialTargets.IndexOf(currentTarget) - 1;
             if (previousIndex < 0)
                 previousIndex = potentialTargets.Count - 1;
             currentTarget = potentialTargets[previousIndex];
+
+            // Update target selected state
+            if (currentTarget != previousTarget)
+            {
+                previousTarget.SetSelected(false);
+                currentTarget.SetSelected(true);
+            }
         }
     }
 
@@ -64,14 +79,17 @@ public class FocusZone : MonoBehaviour
         Enemy enemy = other.GetComponent<Enemy>();
         if (enemy && !potentialTargets.Contains(enemy))
         {
+            // Add new enemy to potential targets and sort the list based on x position
             potentialTargets.Add(enemy);
             potentialTargets.Sort((enemy1, enemy2) => enemy1.transform.position.x.CompareTo(enemy2.transform.position.x));
 
+            // If no current target, this enemy becomes the target
             if (!currentTarget)
             {
                 currentTarget = enemy;
                 currentTarget.SetSelected(true);
                 arrow.gameObject.SetActive(true);
+                
             }
         }
     }
@@ -81,13 +99,23 @@ public class FocusZone : MonoBehaviour
         Enemy enemy = other.GetComponent<Enemy>();
         if (enemy && potentialTargets.Contains(enemy))
         {
+            // Remove this enemy from potential targets
             potentialTargets.Remove(enemy);
 
+            // If this enemy was the current target, unselect it
             if (currentTarget && GameObject.ReferenceEquals(other.gameObject, currentTarget.gameObject))
             {
-                arrow.gameObject.SetActive(false);
                 currentTarget.SetSelected(false);
                 currentTarget = null;
+
+                // If there are other potential targets, select the next one
+                if (potentialTargets.Count > 0)
+                {
+                    currentTarget = potentialTargets[0];
+                    currentTarget.SetSelected(true);
+                }
+                else
+                    arrow.gameObject.SetActive(false);
             }
         }
     }
