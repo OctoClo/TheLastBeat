@@ -23,6 +23,8 @@ public class Player : Inputable
     [SerializeField] [Tooltip("The evolution of heart beat , must always end at 1")]
     AnimationCurve dashAnimationCurve;
     bool dashing;
+    [SerializeField]
+    float slowMotionDuration;
 
     [Header("References")]
     [SerializeField] [Required]
@@ -77,6 +79,7 @@ public class Player : Inputable
     void Dash()
     {
         dashing = true;
+        AkSoundEngine.PostEvent("DashFX", gameObject);
         health.NewAction(1.5f, dashImpactBeatDelay);
         TimeManager.Instance.SlowEnemies();
         gameObject.layer = LayerMask.NameToLayer("Player Dashing");
@@ -90,12 +93,21 @@ public class Player : Inputable
 
         seq.AppendCallback(() =>
         {
+            dashing = false;
             TimeManager.Instance.ResetEnemies();
             currentTarget.GetAttacked();
-            dashing = false;
             gameObject.layer = LayerMask.NameToLayer("Default");
+
+            Time.timeScale = 0.1f;
+            StartCoroutine(WaitDuringSlowMotion());
         });
         
         seq.Play();
+    }
+
+    IEnumerator WaitDuringSlowMotion()
+    {
+        yield return new WaitForSecondsRealtime(slowMotionDuration);
+        Time.timeScale = 1;
     }
 }

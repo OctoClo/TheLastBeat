@@ -481,6 +481,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  slowMotionDuration: 0.4
   health: {fileID: 233836562}
   focusZone: {fileID: 875147196}
 --- !u!54 &20222177
@@ -7187,10 +7188,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd6a10ab5b49c2c479ba838f3051437d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
+  speed: 5
   maxLives: 3
-  knockbackStrength: 7
-  knockbackDuration: 1
   player: {fileID: 20222175}
 --- !u!54 &648574107
 Rigidbody:
@@ -11502,10 +11501,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd6a10ab5b49c2c479ba838f3051437d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
+  speed: 5
   maxLives: 3
-  knockbackStrength: 7
-  knockbackDuration: 1
   player: {fileID: 20222175}
 --- !u!54 &1127413899
 Rigidbody:
@@ -17538,10 +17535,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd6a10ab5b49c2c479ba838f3051437d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
+  speed: 5
   maxLives: 3
-  knockbackStrength: 7
-  knockbackDuration: 1
   player: {fileID: 20222175}
 --- !u!54 &1826743498
 Rigidbody:
