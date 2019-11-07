@@ -47,8 +47,8 @@ public class FocusZone : MonoBehaviour
             // Update target selected state
             if (currentTarget != previousTarget)
             {
-                previousTarget.SetSelected(false);
-                currentTarget.SetSelected(true);
+                previousTarget.SetSelected(false, this);
+                currentTarget.SetSelected(true, this);
             }
         }
     }
@@ -68,8 +68,8 @@ public class FocusZone : MonoBehaviour
             // Update target selected state
             if (currentTarget != previousTarget)
             {
-                previousTarget.SetSelected(false);
-                currentTarget.SetSelected(true);
+                previousTarget.SetSelected(false, this);
+                currentTarget.SetSelected(true, this);
             }
         }
     }
@@ -87,7 +87,7 @@ public class FocusZone : MonoBehaviour
             if (!currentTarget)
             {
                 currentTarget = enemy;
-                currentTarget.SetSelected(true);
+                currentTarget.SetSelected(true, this);
                 arrow.gameObject.SetActive(true);
                 
             }
@@ -105,18 +105,29 @@ public class FocusZone : MonoBehaviour
             // If this enemy was the current target, unselect it
             if (currentTarget && GameObject.ReferenceEquals(other.gameObject, currentTarget.gameObject))
             {
-                currentTarget.SetSelected(false);
-                currentTarget = null;
-
-                // If there are other potential targets, select the next one
-                if (potentialTargets.Count > 0)
-                {
-                    currentTarget = potentialTargets[0];
-                    currentTarget.SetSelected(true);
-                }
-                else
-                    arrow.gameObject.SetActive(false);
+                currentTarget.SetSelected(false, this);
+                TrySelectAnotherTarget();
             }
         }
+    }
+
+    void TrySelectAnotherTarget()
+    {
+        currentTarget = null;
+
+        // If there are other potential targets, select the next one
+        if (potentialTargets.Count > 0)
+        {
+            currentTarget = potentialTargets[0];
+            currentTarget.SetSelected(true, this);
+        }
+        else
+            arrow.gameObject.SetActive(false);
+    }
+
+    public void TargetDestroyed()
+    {
+        potentialTargets.Remove(currentTarget);
+        TrySelectAnotherTarget();
     }
 }

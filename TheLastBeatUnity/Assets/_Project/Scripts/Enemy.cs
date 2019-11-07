@@ -15,13 +15,15 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     int maxLives;
     int lives;
-    [SerializeField]
-    float knockbackStrength;
-    [SerializeField]
-    float knockbackDuration;
-    float knockbackTimer;
+
+    float showHurtTimer;
+    float showHurtDuration;
+
     bool hasResetMaterial;
     Material material;
+
+    bool isTarget;
+    FocusZone focusZone;
 
     [Header("References")]
     [SerializeField] [Required]
@@ -29,63 +31,78 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
+        TimeManager.Instance.AddEnemy(this);
+
         rb = GetComponent<Rigidbody>();
 
         lives = maxLives;
-        knockbackTimer = 0;
+        showHurtTimer = 0;
+        showHurtDuration = 0.1f;
+
         material = GetComponent<MeshRenderer>().material;
     }
 
     private void Update()
     {
         transform.LookAt(player);
-        
-        knockbackTimer -= Time.deltaTime;
 
-        if (knockbackTimer <= 0 && !hasResetMaterial)
+        showHurtTimer -= Time.deltaTime;
+
+        if (showHurtTimer <= 0 && !hasResetMaterial)
         {
-            material.color = Color.red;
+            material.color = isTarget ? Color.green : Color.red;
             hasResetMaterial = true;
         }
     }
 
     void FixedUpdate()
     {
-        if (knockbackTimer <= 0)
-        {
-            Vector3 movement = (player.position - transform.position);
+        Vector3 movement = (player.position - transform.position);
 
-            if (movement.sqrMagnitude > 10)
-            {
-                movement.Normalize();
-                rb.velocity = movement * speed;
-            }
+        if (movement.sqrMagnitude > 10)
+        {
+            movement.Normalize();
+            rb.velocity = movement * speed;
         }
     }
 
     public void GetAttacked()
     {
-        if (knockbackTimer <= 0)
+        lives--;
+        if (lives == 0)
         {
-            lives--;
-            if (lives == 0)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            material.color = Color.blue;
-            knockbackTimer = knockbackDuration;
-            hasResetMaterial = false;
-            rb.velocity = -transform.forward * knockbackStrength;
+            Destroy(gameObject);
+            return;
         }
+
+        material.color = Color.blue;
+        showHurtTimer = showHurtDuration;
+        hasResetMaterial = false;
     }
 
-    public void SetSelected(bool selected)
+    public void SetSelected(bool selected, FocusZone newFocusZone)
     {
+        isTarget = selected;
+        focusZone = newFocusZone;
         if (selected)
             material.color = Color.green;
         else
             material.color = Color.red;
+    }
+
+    public void Slow()
+    {
+        speed /= 10.0f;
+    }
+
+    public void ResetSpeed()
+    {
+        speed *= 10.0f;
+    }
+
+    private void OnDestroy()
+    {
+        if (isTarget)
+            focusZone.TargetDestroyed();
     }
 }

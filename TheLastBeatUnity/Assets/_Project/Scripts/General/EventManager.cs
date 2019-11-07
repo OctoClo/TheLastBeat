@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 
 public class GameEvent
-{
-    	
-}
+{}
 
 public class EventManager
 {
