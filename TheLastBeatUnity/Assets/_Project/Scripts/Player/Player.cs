@@ -79,30 +79,63 @@ public class Player : Inputable
     void Dash()
     {
         dashing = true;
-        AkSoundEngine.PostEvent("DashFX", gameObject);
         health.NewAction(1.5f, dashImpactBeatDelay);
         TimeManager.Instance.SlowEnemies();
-        gameObject.layer = LayerMask.NameToLayer("Player Dashing");
 
         Sequence seq = DOTween.Sequence();
 
-        Vector3 goalPosition = new Vector3(currentTarget.transform.position.x, transform.position.y, currentTarget.transform.position.z) - transform.position;
-        goalPosition *= 1.3f;
-        goalPosition += transform.position;
+        Vector3 direction = new Vector3(currentTarget.transform.position.x, transform.position.y, currentTarget.transform.position.z) - transform.position;
+
+        RaycastHit hit = GetObstacleOnDash(direction);
+
+        // Dash towards the target
+        if (hit.collider)
+            direction = new Vector3(hit.point.x, transform.position.y, hit.point.z) - transform.position;
+        else
+        {
+            direction *= 1.3f;
+            gameObject.layer = LayerMask.NameToLayer("Player Dashing");
+        }
+
+        Vector3 goalPosition = direction + transform.position;
         seq.Append(transform.DOMove(goalPosition, dashDuration));
+        
+        if (hit.collider)
+        {
+            direction *= -0.5f;
+            goalPosition += direction;
+            seq.Append(transform.DOMove(goalPosition, dashDuration / 2.0f));
+        }
 
         seq.AppendCallback(() =>
-        {
-            dashing = false;
-            TimeManager.Instance.ResetEnemies();
-            currentTarget.GetAttacked();
-            gameObject.layer = LayerMask.NameToLayer("Default");
+            {
+                dashing = false;
+                TimeManager.Instance.ResetEnemies();
 
-            Time.timeScale = 0.1f;
-            StartCoroutine(WaitDuringSlowMotion());
-        });
-        
+                if (!hit.collider)
+                {
+                    currentTarget.GetAttacked();
+                    gameObject.layer = LayerMask.NameToLayer("Default");
+                    Time.timeScale = 0.1f;
+                    StartCoroutine(WaitDuringSlowMotion());
+                }
+            }
+        );
+
         seq.Play();
+    }
+
+    RaycastHit GetObstacleOnDash(Vector3 direction)
+    {
+        RaycastHit[] hits = Physics.RaycastAll(transform.position, direction, direction.magnitude);
+
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.collider.gameObject.layer != LayerMask.NameToLayer("Enemies"))
+                return hit;
+        }
+
+        return new RaycastHit();
     }
 
     IEnumerator WaitDuringSlowMotion()
