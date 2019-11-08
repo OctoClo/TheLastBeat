@@ -205,6 +205,9 @@ public class CameraPosition : MonoBehaviour
     [TabGroup("Offset")][SerializeField]
     bool decaying = false;
 
+    [TabGroup("Offset")][SerializeField]
+    AnimationCurve cameraSmoothing;
+
     //Automaticly sampled
     Vector2 offsetValueMax;
     float ratio;
@@ -218,7 +221,7 @@ public class CameraPosition : MonoBehaviour
         if(decaying)
             Decay(delta);
 
-        offset.m_Offset = new Vector3(offsetValueMax.x * movement.x * maxRatio.x, offsetValueMax.y * movement.y * maxRatio.y, 0);
+        offset.m_Offset = new Vector3(offsetValueMax.x * cameraSmoothing.Evaluate(movement.x) * maxRatio.x, offsetValueMax.y * cameraSmoothing.Evaluate(movement.y) * maxRatio.y, 0);
     }
 
     void InterpretMovement(Vector2 value)
