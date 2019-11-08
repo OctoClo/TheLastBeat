@@ -16,18 +16,24 @@ public class Enemy : MonoBehaviour
     int maxLives;
     int lives;
 
-    float showHurtTimer;
-    float showHurtDuration;
-
-    bool hasResetMaterial;
-    Material material;
-
-    bool isTarget;
-    FocusZone focusZone;
+    [Header("Stun")]
+    bool stunned;
+    [SerializeField]
+    float stunDuration;
+    float stunTimer;
+    [SerializeField] [Range(0.0f, 1.0f)]
+    float[] chancesToGetStunned;
+    [SerializeField]
+    int stunCounter;
 
     [Header("References")]
     [SerializeField] [Required]
     Transform player;
+
+    bool isTarget;
+    FocusZone focusZone;
+
+    Material material;
 
     private void Start()
     {
@@ -36,22 +42,23 @@ public class Enemy : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         lives = maxLives;
-        showHurtTimer = 0;
-        showHurtDuration = 0.1f;
+        stunTimer = 0;
 
         material = GetComponent<MeshRenderer>().material;
+
+        stunCounter = 0;
     }
 
     private void Update()
     {
         transform.LookAt(player);
 
-        showHurtTimer -= Time.deltaTime;
+        stunTimer -= Time.deltaTime;
 
-        if (showHurtTimer <= 0 && !hasResetMaterial)
+        if (stunTimer <= 0 && stunned)
         {
             material.color = isTarget ? Color.green : Color.red;
-            hasResetMaterial = true;
+            stunned = false;
         }
     }
 
@@ -75,9 +82,17 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        material.color = Color.blue;
-        showHurtTimer = showHurtDuration;
-        hasResetMaterial = false;
+        if (stunCounter < chancesToGetStunned.Length)
+        {
+            float stunPercentage = Random.value;
+            if (stunPercentage < chancesToGetStunned[stunCounter])
+            {
+                stunned = true;
+                stunCounter++;
+                stunTimer = stunDuration;
+                material.color = Color.blue;
+            }
+        }
     }
 
     public void SetSelected(bool selected, FocusZone newFocusZone)
