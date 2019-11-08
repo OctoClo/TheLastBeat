@@ -4,7 +4,14 @@ using UnityEngine;
 
 public abstract class CameraState : MonoBehaviour
 {
-    public abstract void OnStateEnter();
-    public abstract void OnStateExit();
-    public abstract void OnStateUpdate();
+    protected CameraMachine machine;
+    protected bool started = false;
+
+    public abstract void StateEnter();
+    public abstract void StateExit();
+    public abstract void StateUpdate();
+    public void SetMachine(CameraMachine mach)
+    {
+        machine = mach;
+    }
 }

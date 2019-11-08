@@ -35,9 +35,18 @@ public class Player : Inputable
     
     IEnumerator currentAction;
 
+    public delegate void ColliderParams(Collider coll);
+    public event ColliderParams TriggerEnter;
+
     private void Start()
     {
         previousPos = transform.position;
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (TriggerEnter != null)
+            TriggerEnter(other);
     }
 
     //If you are doing something (dash , attack animation , etc...) temporary block input
