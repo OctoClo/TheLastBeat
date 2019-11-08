@@ -20,9 +20,11 @@ public class Player : Inputable
     float dashImpactBeatDelay;
     [SerializeField] [ValidateInput("Positive", "This value must be > 0")]
     float dashDuration;
-    [SerializeField] [Tooltip("The evolution of heart beat , must always end at 1")]
-    AnimationCurve dashAnimationCurve;
     bool dashing;
+    [SerializeField]
+    float stunDuration;
+    float stunTimer;
+    bool stunned;
     [SerializeField]
     float slowMotionDuration;
 
@@ -31,9 +33,9 @@ public class Player : Inputable
     Health health;
     [SerializeField] [Required]
     FocusZone focusZone;
-    
-    IEnumerator currentAction;
+
     Enemy currentTarget;
+    Material material;
 
     public bool Positive(float value)
     {
@@ -45,11 +47,14 @@ public class Player : Inputable
         TimeManager.Instance.SetPlayer(this);
 
         previousPos = transform.position;
+        material = GetComponent<MeshRenderer>().material;
+
         dashing = false;
+        stunned = false;
     }
 
     //If you are doing something (dash , attack animation , etc...) temporary block input
-    public override bool BlockInput => (blockInput || dashing);
+    public override bool BlockInput => (blockInput || dashing || stunned);
 
     public override void ProcessInput(Rewired.Player player)
     {
@@ -112,7 +117,16 @@ public class Player : Inputable
                 dashing = false;
                 TimeManager.Instance.ResetEnemies();
 
-                if (!hit.collider)
+                if (hit.collider)
+                {
+                    if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Stun"))
+                    {
+                        stunned = true;
+                        stunTimer = stunDuration;
+                        material.color = Color.blue;
+                    }
+                }
+                else
                 {
                     currentTarget.GetAttacked();
                     gameObject.layer = LayerMask.NameToLayer("Default");
@@ -142,5 +156,19 @@ public class Player : Inputable
     {
         yield return new WaitForSecondsRealtime(slowMotionDuration);
         Time.timeScale = 1;
+    }
+
+    private void Update()
+    {
+        if (stunned)
+        {
+            stunTimer -= Time.deltaTime;
+            
+            if (stunTimer <= 0)
+            {
+                stunned = false;
+                material.color = Color.white;
+            }
+        }
     }
 }
