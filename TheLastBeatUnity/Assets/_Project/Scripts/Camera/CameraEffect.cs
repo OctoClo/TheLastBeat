@@ -6,7 +6,7 @@ using Sirenix.Serialization;
 using Cinemachine;
 using DG.Tweening;
 
-[RequireComponent(typeof(Cinemachine.CinemachineVirtualCamera))]
+[RequireComponent(typeof(CinemachineVirtualCamera))]
 public class CameraEffect : MonoBehaviour
 {
     CinemachineVirtualCamera virtualCam;
