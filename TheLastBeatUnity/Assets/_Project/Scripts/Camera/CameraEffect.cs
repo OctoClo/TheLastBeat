@@ -6,11 +6,12 @@ using Sirenix.Serialization;
 using Cinemachine;
 using DG.Tweening;
 
-[RequireComponent(typeof(Cinemachine.CinemachineVirtualCamera))]
+[RequireComponent(typeof(CinemachineVirtualCamera))]
 public class CameraEffect : MonoBehaviour
 {
     CinemachineVirtualCamera virtualCam;
     Vector3 pivot;
+    CinemachineCameraOffset offset;
 
     private void Start()
     {
@@ -22,6 +23,7 @@ public class CameraEffect : MonoBehaviour
         virtualCam = GetComponent<CinemachineVirtualCamera>();
         perlin = virtualCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         transposer = virtualCam.GetCinemachineComponent<CinemachineFramingTransposer>();
+        offset = GetComponent<CinemachineCameraOffset>();
     }
 
     #region ScreenShake
@@ -152,58 +154,6 @@ public class CameraEffect : MonoBehaviour
                 transposer.m_CameraDistance = originValue;
             }
         }
-    }
-    #endregion
-
-    #region CameraAngle
-
-    [TabGroup("CameraAngle")][SerializeField]
-    float pitchValueTest;
-
-    float angle = 20;
-    public float Angle
-    {
-        get
-        {
-            return angle;
-        }
-        set
-        {
-            angle = value;
-            SetPitch(angle);
-        }
-    }
-
-    [TabGroup("CameraAngle")] [Button(ButtonSizes.Medium,Name = "Set camera pitch (degrees)")] 
-    public void Set()
-    {
-        SetPitch(pitchValueTest);
-    }
-
-    public void Interpolate(float to, float duration)
-    {
-        Transform follow = virtualCam.Follow;
-        Sequence seq = DOTween.Sequence();
-        seq.AppendCallback(() => transposer.m_YDamping = 8);
-        seq.Append(DOTween.To(() => Angle, x => Angle = x, to, duration));
-        seq.Append(DOTween.To(() => transposer.m_YDamping, x => transposer.m_YDamping = x, 1, 1f));
-        seq.Play();
-    }
-
-    public void SetPitch(float angle)
-    {
-        LoadRefs();
-        Transform target = virtualCam.Follow;
-        Vector3 previousPosition = transform.position;
-        Vector3 tempPosition = target.position - (Vector3.forward * transposer.m_CameraDistance);
-        Vector3 finalPosition = RotatePointAroundPivot(tempPosition, virtualCam.Follow.position, Vector3.right * angle);
-        transform.position = finalPosition;
-        transform.LookAt(target);
-    }
-
-    public Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, Vector3 angles)
-    {
-        return Quaternion.Euler(angles) * (point - pivot) + pivot;
     }
     #endregion
 }
