@@ -212,19 +212,7 @@ public class CameraPosition : MonoBehaviour
     Vector2 offsetValueMax;
     float ratio;
 
-    void Update()
-    {
-        Debug.Assert(player != null, "No player linked to the offset");
-        Vector3 delta = player.DeltaMovement;
-        InterpretMovement(new Vector2(delta.x, delta.z));
-
-        if(decaying)
-            Decay(delta);
-
-        offset.m_Offset = new Vector3(offsetValueMax.x * cameraSmoothing.Evaluate(movement.x) * maxRatio.x, offsetValueMax.y * cameraSmoothing.Evaluate(movement.y) * maxRatio.y, 0);
-    }
-
-    void InterpretMovement(Vector2 value)
+    public void InterpretMovement(Vector2 value)
     {
         float potentialX = (Mathf.Sign(value.x) * Time.deltaTime / maxOffsetDuration);
         float potentialY = (Mathf.Sign(value.y) * Time.deltaTime / maxOffsetDuration);
@@ -239,6 +227,7 @@ public class CameraPosition : MonoBehaviour
             //Due to low precision we are forced to have a minimum value
             potentialY = Mathf.Max(0.041f, Mathf.Abs(potentialY)) * Mathf.Sign(potentialY);
             movement += new Vector2(0, potentialY);
+            Debug.Log(potentialY);
         }
 
         movement = new Vector2(Mathf.Clamp(movement.x, -1, 1), Mathf.Clamp(movement.y, -1, 1));
@@ -248,7 +237,7 @@ public class CameraPosition : MonoBehaviour
     /// Allow to reduce the offset if the player dont go in any direction
     /// </summary>
     /// <param name="value"></param>
-    void Decay(Vector2 value)
+    public void Decay(Vector2 value)
     {
         float tempX = movement.x;
         if (value.x == 0 && tempX != 0)
@@ -272,6 +261,11 @@ public class CameraPosition : MonoBehaviour
 
         Vector2 previous = movement;
         movement = new Vector2(tempX, tempY);
+    }
+
+    public void Move()
+    {
+        offset.m_Offset = new Vector3(offsetValueMax.x * cameraSmoothing.Evaluate(movement.x) * maxRatio.x, offsetValueMax.y * cameraSmoothing.Evaluate(movement.y) * maxRatio.y);
     }
     #endregion
 }
