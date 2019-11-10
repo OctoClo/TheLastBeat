@@ -78,6 +78,7 @@ public class Enemy : MonoBehaviour
         lives--;
         if (lives == 0)
         {
+            focusZone.EnemyDestroyed(this);
             Destroy(gameObject);
             return;
         }
@@ -95,10 +96,13 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void SetSelected(bool selected, FocusZone newFocusZone)
+    public void SetFocusZone(FocusZone newFocusZone)
     {
-        isTarget = selected;
         focusZone = newFocusZone;
+    }
+
+    public void SetSelected(bool selected)
+    {
         if (selected)
             material.color = Color.green;
         else
@@ -117,7 +121,6 @@ public class Enemy : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (isTarget)
-            focusZone.TargetDestroyed();
+        
     }
 }

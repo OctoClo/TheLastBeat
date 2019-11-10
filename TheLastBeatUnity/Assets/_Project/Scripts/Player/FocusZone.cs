@@ -6,6 +6,12 @@ using Rewired;
 public class FocusZone : MonoBehaviour
 {
     [SerializeField]
+    bool focusOnNewEnemies;
+
+    [HideInInspector]
+    public bool playerDashing;
+
+    [SerializeField]
     Transform arrow;
 
     Enemy currentTarget;
@@ -47,8 +53,8 @@ public class FocusZone : MonoBehaviour
             // Update target selected state
             if (currentTarget != previousTarget)
             {
-                previousTarget.SetSelected(false, this);
-                currentTarget.SetSelected(true, this);
+                previousTarget.SetSelected(false);
+                currentTarget.SetSelected(true);
             }
         }
     }
@@ -68,8 +74,8 @@ public class FocusZone : MonoBehaviour
             // Update target selected state
             if (currentTarget != previousTarget)
             {
-                previousTarget.SetSelected(false, this);
-                currentTarget.SetSelected(true, this);
+                previousTarget.SetSelected(false);
+                currentTarget.SetSelected(true);
             }
         }
     }
@@ -80,14 +86,19 @@ public class FocusZone : MonoBehaviour
         if (enemy && !potentialTargets.Contains(enemy))
         {
             // Add new enemy to potential targets and sort the list based on x position
+            enemy.SetFocusZone(this);
             potentialTargets.Add(enemy);
             potentialTargets.Sort((enemy1, enemy2) => enemy1.transform.position.x.CompareTo(enemy2.transform.position.x));
 
+            bool changeFocusedEnemy = (focusOnNewEnemies && playerDashing);
             // If no current target, this enemy becomes the target
-            if (!currentTarget)
+            if (!currentTarget || changeFocusedEnemy)
             {
+                if (changeFocusedEnemy)
+                    currentTarget.SetSelected(false);
+
                 currentTarget = enemy;
-                currentTarget.SetSelected(true, this);
+                currentTarget.SetSelected(true);
                 arrow.gameObject.SetActive(true);
                 
             }
@@ -105,7 +116,7 @@ public class FocusZone : MonoBehaviour
             // If this enemy was the current target, unselect it
             if (currentTarget && GameObject.ReferenceEquals(other.gameObject, currentTarget.gameObject))
             {
-                currentTarget.SetSelected(false, this);
+                currentTarget.SetSelected(false);
                 TrySelectAnotherTarget();
             }
         }
@@ -119,15 +130,20 @@ public class FocusZone : MonoBehaviour
         if (potentialTargets.Count > 0)
         {
             currentTarget = potentialTargets[0];
-            currentTarget.SetSelected(true, this);
+            currentTarget.SetSelected(true);
         }
         else
             arrow.gameObject.SetActive(false);
     }
 
-    public void TargetDestroyed()
+    public void EnemyDestroyed(Enemy enemy)
     {
-        potentialTargets.Remove(currentTarget);
-        TrySelectAnotherTarget();
+        if (potentialTargets.Contains(enemy))
+        {
+            potentialTargets.Remove(enemy);
+
+            if (currentTarget == enemy)
+                TrySelectAnotherTarget();
+        }
     }
 }

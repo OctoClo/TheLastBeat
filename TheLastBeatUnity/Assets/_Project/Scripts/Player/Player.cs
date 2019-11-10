@@ -84,6 +84,7 @@ public class Player : Inputable
     void Dash()
     {
         dashing = true;
+        focusZone.playerDashing = true;
         health.NewAction(1.5f, dashImpactBeatDelay);
         TimeManager.Instance.SlowEnemies();
 
@@ -112,31 +113,33 @@ public class Player : Inputable
             seq.Append(transform.DOMove(goalPosition, dashDuration / 2.0f));
         }
 
-        seq.AppendCallback(() =>
-            {
-                dashing = false;
-                TimeManager.Instance.ResetEnemies();
-
-                if (hit.collider)
-                {
-                    if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Stun"))
-                    {
-                        stunned = true;
-                        stunTimer = stunDuration;
-                        material.color = Color.blue;
-                    }
-                }
-                else
-                {
-                    currentTarget.GetAttacked();
-                    gameObject.layer = LayerMask.NameToLayer("Default");
-                    Time.timeScale = 0.1f;
-                    StartCoroutine(WaitDuringSlowMotion());
-                }
-            }
-        );
+        seq.AppendCallback(() => EndDash(hit));
 
         seq.Play();
+    }
+
+    void EndDash(RaycastHit hit)
+    {
+        dashing = false;
+        focusZone.playerDashing = false;
+        TimeManager.Instance.ResetEnemies();
+
+        if (hit.collider)
+        {
+            if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Stun"))
+            {
+                stunned = true;
+                stunTimer = stunDuration;
+                material.color = Color.blue;
+            }
+        }
+        else
+        {
+            currentTarget.GetAttacked();
+            gameObject.layer = LayerMask.NameToLayer("Default");
+            Time.timeScale = 0.1f;
+            StartCoroutine(WaitDuringSlowMotion());
+        }
     }
 
     RaycastHit GetObstacleOnDash(Vector3 direction)
