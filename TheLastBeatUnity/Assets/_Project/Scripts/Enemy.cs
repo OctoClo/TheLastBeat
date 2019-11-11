@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using TMPro;
+using DG.Tweening;
 
 public class EnemyDeadEvent : GameEvent { public Enemy enemy; }
 
@@ -56,7 +57,7 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        transform.LookAt(player);
+        transform.DOLookAt(player.position, 1, AxisConstraint.Y);
 
         stunTimer -= Time.deltaTime;
 

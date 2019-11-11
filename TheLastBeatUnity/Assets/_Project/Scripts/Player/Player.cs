@@ -7,14 +7,12 @@ using DG.Tweening;
 
 public class Player : Inputable
 {
-    [SerializeField]
-    float speedMagnitude;
-
     [Header("Movement")]
     [SerializeField]
     float speed;
     Vector3 previousPos;
 
+    [Space]
     [Header("Dash")]
     [SerializeField] [Tooltip("The longer it is, the longer it take to change frequency")]
     float dashImpactBeatDelay;
@@ -31,13 +29,18 @@ public class Player : Inputable
     float chainMaxDuration;
     float chainTimer;
 
+    [Space]
+    [Header("Blink")]
+    [SerializeField]
+    float blinkSpeed;
+
+    [Space]
     [Header("References")]
     [SerializeField] [Required]
     Health health;
     [SerializeField] [Required]
     FocusZone focusZone;
 
-    [SerializeField]
     List<Enemy> chainedEnemies;
     Enemy currentTarget;
     Material material;
@@ -66,28 +69,36 @@ public class Player : Inputable
     {
         previousPos = transform.position;
 
-        Vector3 movement = new Vector3(player.GetAxis("MoveX"), 0, player.GetAxis("MoveY"));
+        Vector3 direction = new Vector3(player.GetAxis("MoveX"), 0, player.GetAxis("MoveY"));
 
         // Rotation
         currentTarget = focusZone.GetCurrentTarget();
         if (currentTarget)
             transform.forward = new Vector3(currentTarget.transform.position.x, transform.position.y, currentTarget.transform.position.z) - transform.position;
-        else if (movement != Vector3.zero)
-        {
-            Vector3 direction = movement;
-            direction.Normalize();
+        else if (direction != Vector3.zero)
             transform.forward = direction;
+
+        // Translation and dashing
+        if (!dashing)
+        {
+            if (player.GetButtonDown("Blink"))
+                Blink(direction);
+            else if (player.GetButtonDown("Dash") && currentTarget)
+                Dash();
+            else if (player.GetButtonDown("RewindDash"))
+                RewindDash();
+            else
+            {
+                Vector3 movement = direction * Time.deltaTime * speed;
+                transform.Translate(movement, Space.World);
+            }
         }
+    }
 
-        // Translation
-        movement *= Time.deltaTime * speed;
-        transform.Translate(movement, Space.World);
-
-        if (player.GetButtonDown("Dash") && !dashing && currentTarget)
-            Dash();
-
-        if (player.GetButtonDown("RewindDash") && !dashing)
-            RewindDash();
+    void Blink(Vector3 direction)
+    {
+        direction.Normalize();
+        transform.position = transform.position + direction * blinkSpeed;
     }
 
     void Dash()
@@ -123,7 +134,6 @@ public class Player : Inputable
         }
 
         seq.AppendCallback(() => EndDash(hit));
-
         seq.Play();
     }
 
