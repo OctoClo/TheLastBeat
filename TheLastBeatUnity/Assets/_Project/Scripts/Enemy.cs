@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using TMPro;
+
+public class EnemyDeadEvent : GameEvent { public Enemy enemy; }
 
 public class Enemy : MonoBehaviour
 {
@@ -11,10 +14,11 @@ public class Enemy : MonoBehaviour
     Rigidbody rb;
 
     [Header("Life")]
-    [Range(1, 5)]
     [SerializeField]
     int maxLives;
     int lives;
+    [SerializeField]
+    TextMeshProUGUI lifeText;
 
     [Header("Stun")]
     bool stunned;
@@ -42,6 +46,7 @@ public class Enemy : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         lives = maxLives;
+        lifeText.text = lives.ToString();
         stunTimer = 0;
 
         material = GetComponent<MeshRenderer>().material;
@@ -78,11 +83,12 @@ public class Enemy : MonoBehaviour
         lives--;
         if (lives == 0)
         {
-            focusZone.EnemyDestroyed(this);
+            EventManager.Instance.Raise(new EnemyDeadEvent { enemy = this });
             Destroy(gameObject);
             return;
         }
 
+        lifeText.text = lives.ToString();
         if (stunCounter < chancesToGetStunned.Length)
         {
             float stunPercentage = Random.value;

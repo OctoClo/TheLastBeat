@@ -27,6 +27,9 @@ public class Player : Inputable
     bool stunned;
     [SerializeField]
     float slowMotionDuration;
+    [SerializeField]
+    float chainMaxDuration;
+    float chainTimer;
 
     [Header("References")]
     [SerializeField] [Required]
@@ -34,6 +37,8 @@ public class Player : Inputable
     [SerializeField] [Required]
     FocusZone focusZone;
 
+    [SerializeField]
+    List<Enemy> chainedEnemies;
     Enemy currentTarget;
     Material material;
 
@@ -51,6 +56,7 @@ public class Player : Inputable
 
         dashing = false;
         stunned = false;
+        chainedEnemies = new List<Enemy>();
     }
 
     //If you are doing something (dash , attack animation , etc...) temporary block input
@@ -79,6 +85,9 @@ public class Player : Inputable
 
         if (player.GetButtonDown("Dash") && !dashing && currentTarget)
             Dash();
+
+        if (player.GetButtonDown("RewindDash") && !dashing)
+            RewindDash();
     }
 
     void Dash()
@@ -136,6 +145,8 @@ public class Player : Inputable
         else
         {
             currentTarget.GetAttacked();
+            chainedEnemies.Add(currentTarget);
+            chainTimer = chainMaxDuration;
             gameObject.layer = LayerMask.NameToLayer("Default");
             Time.timeScale = 0.1f;
             StartCoroutine(WaitDuringSlowMotion());
@@ -155,6 +166,42 @@ public class Player : Inputable
         return new RaycastHit();
     }
 
+    void RewindDash()
+    {
+        dashing = true;
+        focusZone.overrideControl = true;
+        TimeManager.Instance.SlowEnemies();
+        gameObject.layer = LayerMask.NameToLayer("Player Dashing");
+
+        Sequence seq = DOTween.Sequence();
+        Vector3 direction;
+        Vector3 goalPosition = transform.position;
+        chainedEnemies.Reverse();
+
+        foreach (Enemy enemy in chainedEnemies)
+        {
+            if (enemy)
+            {
+                focusZone.OverrideCurrentEnemy(enemy);
+
+                direction = new Vector3(enemy.transform.position.x, goalPosition.y, enemy.transform.position.z) - goalPosition;
+                direction *= 1.3f;
+
+                goalPosition += direction;
+                seq.Append(transform.DOMove(goalPosition, dashDuration));
+                seq.AppendCallback(() => { enemy.GetAttacked(); });
+            }
+        }
+
+        seq.Play();
+
+        dashing = false;
+        focusZone.overrideControl = false;
+        TimeManager.Instance.ResetEnemies();
+        gameObject.layer = LayerMask.NameToLayer("Default");
+        chainedEnemies.Clear();
+    }
+
     IEnumerator WaitDuringSlowMotion()
     {
         yield return new WaitForSecondsRealtime(slowMotionDuration);
@@ -172,6 +219,14 @@ public class Player : Inputable
                 stunned = false;
                 material.color = Color.white;
             }
+        }
+
+        if (chainedEnemies.Count > 0 && !dashing)
+        {
+            chainTimer -= Time.deltaTime;
+
+            if (chainTimer < 0)
+                chainedEnemies.Clear();
         }
     }
 }
