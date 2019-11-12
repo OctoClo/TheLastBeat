@@ -83,21 +83,24 @@ public class CameraPosition : MonoBehaviour
         SetPitch(pitchValueTest);
     }
 
-    IEnumerator InterpolationCoroutine(float from , float to , float duration)
+    IEnumerator InterpolationCoroutine(float from , float to , float duration, AnimationCurve ac)
     {
         float normalizedTime = 0;
         while (normalizedTime < 1)
         {
             normalizedTime += Time.deltaTime / duration;
-            Angle = Mathf.Lerp(from, to, normalizedTime);
+            Angle = Mathf.Lerp(from, to, ac.Evaluate(normalizedTime));
             yield return null;
         }
         interpolation = null;
     }
 
-    public void Interpolate(float to, float duration)
+    public void Interpolate(float to, float duration, AnimationCurve ac)
     {
-        interpolation = InterpolationCoroutine(Angle, to, duration);
+        Debug.Log(to);
+        Debug.Log(Angle);
+        Debug.Log("====");
+        interpolation = InterpolationCoroutine(Angle, to, duration, ac);
         StartCoroutine(interpolation);
     }
 
@@ -131,7 +134,7 @@ public class CameraPosition : MonoBehaviour
             float newAngle = GetNonBlockingAngle();
             if (newAngle > 0 && interpolation == null)
             {
-                Interpolate(newAngle, durationPitchTransition);
+                Interpolate(newAngle, durationPitchTransition, cameraSmoothing);
             }
         }
     }

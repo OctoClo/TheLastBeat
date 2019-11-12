@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class CameraProfile : ScriptableObject
 {
-    public float DistanceToViewer { get; set; }
-    public float Angle { get; set; }
-    public float FOV { get; set; }
+    public float DistanceToViewer;
+    public float Angle;
+    public float FOV;
+    public float TimeToIn;
+    public AnimationCurve curve;
 }

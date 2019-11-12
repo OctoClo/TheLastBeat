@@ -6,11 +6,10 @@ using Cinemachine;
 public class InCombat : CameraState
 {
     Vector3 confinOrigin;
-    public void SetConfin(Vector3 pointConfin)
+    public void SetConfin(Vector3 pointConfin, GameObject gob)
     {
-        confinOrigin = pointConfin;
-        machine.GetComponent<CinemachineConfiner>().m_BoundingVolume.transform.position = pointConfin;
-        machine.GetComponent<CinemachineConfiner>().m_BoundingVolume.gameObject.SetActive(true);
+        gob.SetActive(true);
+        gob.transform.position = pointConfin;
     }
 
     public override void StateEnter()

@@ -113,8 +113,11 @@ public class CameraEffect : MonoBehaviour
 
     public void StartZoom(float modifier, float duration, ZoomType zoomType, ValueType vt)
     {
+        //No need to set zoom
+        if (modifier == 0 && vt == ValueType.Absolute)
+            return;
+
         modifier = Mathf.Abs(modifier);
-        Debug.Assert(modifier > 0, "Zoom cannot be set to 0");
 
         //Cannot have 2 zooming sequence at the same time
         if (currentZooming != null)
@@ -138,10 +141,9 @@ public class CameraEffect : MonoBehaviour
                 yield return null;
             }
 
-            //Reset at end in editor mode
             if (!Application.isPlaying)
             {
-                virtualCam.m_Lens.FieldOfView = originValue;
+                virtualCam.m_Lens.FieldOfView = Mathf.Lerp(originValue, targetValue, zoomOverTime.Evaluate(0));
             }
         }
         else
@@ -155,12 +157,11 @@ public class CameraEffect : MonoBehaviour
                 yield return null;
             }
 
-            //Reset at end in editor mode
-            //if (!Application.isPlaying)
-            //{
-            //    transposer.m_CameraDistance = originValue;
-            //}
-        }
+            if (!Application.isPlaying)
+            {
+                transposer.m_CameraDistance = Mathf.Lerp(originValue, targetValue, zoomOverTime.Evaluate(0));
+            }
+        }      
     }
     #endregion
 }

@@ -3392,7 +3392,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   valueType: 1
   modifierType: 1
-  durationZoom: 3
+  durationZoom: 1
   zoomOverTime:
     serializedVersion: 2
     m_Curve:
@@ -3512,10 +3512,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26d30b8448562324ab9e93d46fa2bd88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstState: {fileID: 299680491}
+  firstState: {fileID: 299680489}
   fov: 20
-  angle: 20
+  angle: 5
   distance: 40
+  gob: {fileID: 496426890}
   outputAsset: _Project/Scripts/Camera
   outputFile: Combat
 --- !u!114 &299680491

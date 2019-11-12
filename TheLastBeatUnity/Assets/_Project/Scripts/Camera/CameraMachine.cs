@@ -22,6 +22,9 @@ public class CameraMachine : MonoBehaviour
     [SerializeField]
     float distance;
 
+    [SerializeField]
+    GameObject gob;
+
     [Button]
     public void Test()
     {
@@ -36,8 +39,7 @@ public class CameraMachine : MonoBehaviour
         }
     }
 
-    [SerializeField]
-    [FolderPath(RequireExistingPath = true, ParentFolder = "Assets")]
+    [SerializeField] [FolderPath(RequireExistingPath = true, ParentFolder = "Assets")]
     string outputAsset;
 
     [SerializeField]
@@ -56,12 +58,20 @@ public class CameraMachine : MonoBehaviour
         AssetDatabase.Refresh();
     }
 
-
     public CinemachineVirtualCamera virtualCam => GetComponent<CinemachineVirtualCamera>();
 
     private void Start()
     {
         SetState(firstState, 2);
+        StartCoroutine(delay());
+    }
+
+    IEnumerator delay()
+    {
+        yield return new WaitForSeconds(3);
+        InCombat ic = GetComponent<InCombat>();
+        ic.SetConfin(virtualCam.Follow.position, gob);
+        SetState(ic, 2);
     }
 
     void Update()
@@ -73,22 +83,40 @@ public class CameraMachine : MonoBehaviour
     }
 
     //During the transition the camera has no state, careful
-    public void StartTransition(CameraState newState, float timeTransition)
+    public void StartTransition(CameraState newState, CameraProfile cp, float timeTransition)
     {
         CameraEffect camEffect = GetComponent<CameraEffect>();
         CameraPosition camPosition = GetComponent<CameraPosition>();
+        Cinemachine.CinemachineFramingTransposer transposer = virtualCam.GetCinemachineComponent<CinemachineFramingTransposer>();
 
+        float fov = virtualCam.m_Lens.FieldOfView;
+        float angle = camPosition.Angle;
+        float distance = transposer.m_CameraDistance;
+
+        //Run parallel sequence
+        //Set angle
         Sequence seq = DOTween.Sequence();
-        seq.AppendCallback(() => SetState(null, -1));
-        seq.AppendCallback(() => camPosition.Interpolate(newState.Profile.Angle, timeTransition));
-        seq.AppendCallback(() => SetState(newState, -1));
+        seq.AppendCallback(() =>
+        {
+            SetState(null, -1);
+        });
+        seq.AppendCallback(() =>
+        {
+            Debug.Log(cp.Angle);
+            Debug.Log(camPosition.Angle);
+            camPosition.Interpolate(cp.Angle, timeTransition, cp.curve);
+        });
+        seq.AppendCallback(() => {
+            SetState(newState, -1);
+        });
 
+        //Set FOV
         Sequence seq2 = DOTween.Sequence();
-        seq2.AppendCallback(() => camEffect.StartZoom(newState.Profile.FOV - virtualCam.m_Lens.FieldOfView, timeTransition, CameraEffect.ZoomType.FOV, CameraEffect.ValueType.Absolute));
-
-        Cinemachine.CinemachineFramingTransposer transposer = GetComponent<Cinemachine.CinemachineFramingTransposer>();
+        seq2.AppendCallback(() => camEffect.StartZoom(cp.FOV - virtualCam.m_Lens.FieldOfView, timeTransition, CameraEffect.ZoomType.FOV, CameraEffect.ValueType.Absolute));
+     
+        //Set distance
         Sequence seq3 = DOTween.Sequence();
-        seq3.Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, newState.Profile.DistanceToViewer, timeTransition));
+        seq3.Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, cp.DistanceToViewer, timeTransition));
 
         seq.Play();
         seq2.Play();
@@ -100,7 +128,7 @@ public class CameraMachine : MonoBehaviour
     {
         if (durationTransition > 0 && state.Profile != null)
         {
-            StartTransition(state, durationTransition);
+            StartTransition(state, state.Profile, durationTransition);
         }
 
         if (currentState != null)
@@ -110,8 +138,13 @@ public class CameraMachine : MonoBehaviour
         }
             
         currentState = state;
-        currentState.SetMachine(this);
-        currentState.StateEnter();
+
+        if (currentState)
+        {
+            currentState.SetMachine(this);
+            currentState.StateEnter();
+        }
+        
     }
 
 
