@@ -117,8 +117,6 @@ public class CameraEffect : MonoBehaviour
         if (modifier == 0 && vt == ValueType.Absolute)
             return;
 
-        modifier = Mathf.Abs(modifier);
-
         //Cannot have 2 zooming sequence at the same time
         if (currentZooming != null)
             StopCoroutine(currentZooming);
