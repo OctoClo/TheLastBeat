@@ -28,7 +28,7 @@ public class CameraEffect : MonoBehaviour
 
     #region ScreenShake
     [TabGroup("ScreenShake")] [SerializeField]
-    float defaultIntensityScreenShake;
+    float defaultIntensityScreenShake = 0;
 
     [TabGroup("ScreenShake")] [SerializeField]
     float defaultScreenShakeDuration;

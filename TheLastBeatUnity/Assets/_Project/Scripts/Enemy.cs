@@ -13,7 +13,7 @@ public class Enemy : MonoBehaviour
     [Header("Life")]
     [Range(1, 5)]
     [SerializeField]
-    int maxLives;
+    int maxLives = 0;
     int lives;
     [SerializeField]
     float knockbackStrength;

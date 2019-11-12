@@ -20,7 +20,7 @@ public class CameraMachine : MonoBehaviour
     float angle;
 
     [SerializeField]
-    float distance;
+    float distance = 0;
 
     [SerializeField]
     GameObject gob;

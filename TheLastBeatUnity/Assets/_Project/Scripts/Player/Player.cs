@@ -21,16 +21,20 @@ public class Player : Inputable
     [SerializeField]
     float dashDuration;
     [SerializeField]
-    float dashStrength;
+    float dashStrength = 0;
     [SerializeField]
     [Tooltip("The evolution of heart beat , must always end at 1")]
-    AnimationCurve dashAnimationCurve;
+    AnimationCurve dashAnimationCurve = null;
 
     [Header("References")]
     [SerializeField] [Required]
-    Health health;
+    Health health = null;
     [SerializeField] [Required]
     FocusZone focusZone;
+
+    [SerializeField]
+    float maxRotationPerFrame;
+
     public Vector3 DeltaMovement { get; set; }
     
     IEnumerator currentAction;
@@ -60,14 +64,18 @@ public class Player : Inputable
         DeltaMovement = movement;
 
         // Rotation
+        //transform.forward = new Vector3(currentTarget.transform.position.x, transform.position.y, currentTarget.transform.position.z) - transform.position;
         Enemy currentTarget = focusZone.GetCurrentTarget();
         if (currentTarget)
-            transform.forward = new Vector3(currentTarget.transform.position.x, transform.position.y, currentTarget.transform.position.z) - transform.position;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(currentTarget.transform.position - transform.position), maxRotationPerFrame);
         else if (movement != Vector3.zero)
         {
             Vector3 direction = movement;
             direction.Normalize();
-            transform.forward = direction;
+
+            Vector3 forward = transform.forward;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(direction), maxRotationPerFrame);
+            movement = transform.forward;
         }
 
         // Translation

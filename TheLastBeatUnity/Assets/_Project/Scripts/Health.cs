@@ -17,7 +17,7 @@ public class Health : MonoBehaviour
     Image healthBackground;
     RectTransform healthBackgroundRect;
     [TabGroup("Visual")] [SerializeField]
-    TextMeshProUGUI healthText;
+    TextMeshProUGUI healthText = null;
 
     [TabGroup("Visual")] [SerializeField] [Range(1, 5)]
     int healthBackgroundNewScale;
@@ -34,7 +34,7 @@ public class Health : MonoBehaviour
     AnimationCurve hitCurve;
 
     [TabGroup("Gameplay")] [SerializeField]
-    MultiReference referenceMultiply;
+    MultiReference referenceMultiply = MultiReference.CurrentValue;
 
     [TabGroup("Gameplay")] [SerializeField] [ValidateInput("Positive", "This value must be > 0")]
     float freezeTime;

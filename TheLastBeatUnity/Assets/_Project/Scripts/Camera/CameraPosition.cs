@@ -37,7 +37,7 @@ public class CameraPosition : MonoBehaviour
     CinemachineCameraOffset offset;
 
     [TabGroup("CameraAngle")][SerializeField]
-    float pitchValueTest;
+    float pitchValueTest = 0;
 
     [TabGroup("CameraAngle")][SerializeField]
     float minAngle;
