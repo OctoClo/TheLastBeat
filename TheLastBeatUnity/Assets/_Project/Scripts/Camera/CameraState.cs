@@ -6,6 +6,9 @@ public abstract class CameraState : MonoBehaviour
 {
     protected CameraMachine machine;
     protected bool started = false;
+    [SerializeField]
+    CameraProfile profile;
+    public CameraProfile Profile => profile;
 
     public abstract void StateEnter();
     public abstract void StateExit();

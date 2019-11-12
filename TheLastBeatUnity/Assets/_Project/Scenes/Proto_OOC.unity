@@ -231,7 +231,6 @@ Transform:
   - {fileID: 1289064252}
   - {fileID: 1627548204}
   - {fileID: 1281166902}
-  - {fileID: 496426891}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3289,12 +3288,12 @@ GameObject:
   m_Component:
   - component: {fileID: 299680484}
   - component: {fileID: 299680485}
-  - component: {fileID: 299680487}
   - component: {fileID: 299680486}
   - component: {fileID: 299680488}
   - component: {fileID: 299680489}
   - component: {fileID: 299680490}
   - component: {fileID: 299680491}
+  - component: {fileID: 299680487}
   - component: {fileID: 299680492}
   m_Layer: 0
   m_Name: CM vcam1
@@ -3310,13 +3309,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 299680483}
-  m_LocalRotation: {x: 0.1305262, y: -0, z: -0, w: 0.9914449}
-  m_LocalPosition: {x: 0.4, y: 8.640093, z: -41.37497}
+  m_LocalRotation: {x: 0.1736482, y: -0, z: -0, w: 0.9848078}
+  m_LocalPosition: {x: 0.4, y: 12.410807, z: -41.977703}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 445497652}
   m_Father: {fileID: 1313864257}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 27.916002, y: -0.674, z: -1.309}
 --- !u!114 &299680485
 MonoBehaviour:
@@ -3339,7 +3338,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 20222175}
   m_Lens:
-    FieldOfView: 22
+    FieldOfView: 20
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -3446,7 +3445,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pitchValueTest: 15
-  minAngle: 10
+  minAngle: 1
   maxAngle: 30
   tagContains: CameraBlock
   durationPitchTransition: 1.5
@@ -3496,6 +3495,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 119eca766f9f137488db09e26e608ab0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: d001843945537af4cab6fc052446512a, type: 2}
   player: {fileID: 20222176}
   cameraPos: {fileID: 299680488}
   maxOffsetDuration: 2
@@ -3513,6 +3513,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firstState: {fileID: 299680491}
+  fov: 20
+  angle: 20
+  distance: 40
+  outputAsset: _Project/Scripts/Camera
+  outputFile: Combat
 --- !u!114 &299680491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3525,6 +3530,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e46863e90721a04c948862e4061114d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: c0a3d2bee3b1c3f4d9d8d4b0fd267964, type: 2}
 --- !u!114 &299680492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4726,7 +4732,7 @@ MonoBehaviour:
   m_ZDamping: 0
   m_ScreenX: 0.5
   m_ScreenY: 0.5
-  m_CameraDistance: 38.289658
+  m_CameraDistance: 40
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
   m_DeadZoneDepth: 0
@@ -5933,12 +5939,12 @@ GameObject:
   - component: {fileID: 496426893}
   - component: {fileID: 496426892}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: Confiner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &496426891
 Transform:
   m_ObjectHideFlags: 0
@@ -5946,12 +5952,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 496426890}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -5.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4511435}
-  m_RootOrder: 4
+  m_Father: {fileID: 1313864257}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &496426892
 BoxCollider:
@@ -13663,6 +13669,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 496426891}
   - {fileID: 1557770553}
   - {fileID: 299680484}
   m_Father: {fileID: 0}
@@ -15513,12 +15520,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1557770552}
-  m_LocalRotation: {x: 0.1305262, y: -0, z: -0, w: 0.9914449}
-  m_LocalPosition: {x: 0.4, y: 8.640093, z: -41.37497}
+  m_LocalRotation: {x: 0.1736482, y: -0, z: -0, w: 0.9848078}
+  m_LocalPosition: {x: 0.4, y: 12.410807, z: -41.977703}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1313864257}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 10.7630005, y: 0, z: 0}
 --- !u!114 &1557770554
 MonoBehaviour:
@@ -15622,7 +15629,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 22
+  field of view: 20
   orthographic: 0
   orthographic size: 5
   m_Depth: -1

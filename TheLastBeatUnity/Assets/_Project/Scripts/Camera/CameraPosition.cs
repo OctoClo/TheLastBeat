@@ -63,6 +63,8 @@ public class CameraPosition : MonoBehaviour
         }
         set
         {
+            if (virtualCam == null)
+                virtualCam = GetComponent<CinemachineVirtualCamera>();
             if (virtualCam.Follow)
             {
                 Debug.Assert(minAngle < maxAngle, "minAngle greater than maxAngle");

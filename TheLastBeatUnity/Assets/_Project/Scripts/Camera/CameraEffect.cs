@@ -101,6 +101,13 @@ public class CameraEffect : MonoBehaviour
         StartZoom(valueForTest, durationZoom, modifierType , valueType);
     }
 
+    public void SetZoomFOV(float newValue)
+    {
+        if (virtualCam == null)
+            virtualCam = GetComponent<Cinemachine.CinemachineVirtualCamera>();
+        virtualCam.m_Lens.FieldOfView = newValue;
+    }
+
     CinemachineFramingTransposer transposer;
     IEnumerator currentZooming;
 
@@ -149,10 +156,10 @@ public class CameraEffect : MonoBehaviour
             }
 
             //Reset at end in editor mode
-            if (!Application.isPlaying)
-            {
-                transposer.m_CameraDistance = originValue;
-            }
+            //if (!Application.isPlaying)
+            //{
+            //    transposer.m_CameraDistance = originValue;
+            //}
         }
     }
     #endregion
