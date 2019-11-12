@@ -31,6 +31,7 @@ public class Player : Inputable
     Health health;
     [SerializeField] [Required]
     FocusZone focusZone;
+    public Vector3 DeltaMovement { get; set; }
     
     IEnumerator currentAction;
 
@@ -47,6 +48,7 @@ public class Player : Inputable
         previousPos = transform.position;
 
         Vector3 movement = new Vector3(player.GetAxis("MoveX"), 0, player.GetAxis("MoveY"));
+        DeltaMovement = movement;
 
         // Rotation
         Enemy currentTarget = focusZone.GetCurrentTarget();
