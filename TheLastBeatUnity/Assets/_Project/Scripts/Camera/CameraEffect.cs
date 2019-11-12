@@ -6,11 +6,12 @@ using Sirenix.Serialization;
 using Cinemachine;
 using DG.Tweening;
 
-[RequireComponent(typeof(Cinemachine.CinemachineVirtualCamera))]
+[RequireComponent(typeof(CinemachineVirtualCamera))]
 public class CameraEffect : MonoBehaviour
 {
     CinemachineVirtualCamera virtualCam;
     Vector3 pivot;
+    CinemachineCameraOffset offset;
 
     private void Start()
     {
@@ -22,25 +23,31 @@ public class CameraEffect : MonoBehaviour
         virtualCam = GetComponent<CinemachineVirtualCamera>();
         perlin = virtualCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         transposer = virtualCam.GetCinemachineComponent<CinemachineFramingTransposer>();
+        offset = GetComponent<CinemachineCameraOffset>();
     }
 
     #region ScreenShake
-    [TabGroup("ScreenShake")] [SerializeField]
+    [TabGroup("ScreenShake")]
+    [SerializeField]
     float defaultIntensityScreenShake;
 
-    [TabGroup("ScreenShake")] [SerializeField]
+    [TabGroup("ScreenShake")]
+    [SerializeField]
     float defaultScreenShakeDuration;
 
-    [TabGroup("ScreenShake")] [SerializeField]
+    [TabGroup("ScreenShake")]
+    [SerializeField]
     AnimationCurve intensityOverTime;
 
     CinemachineBasicMultiChannelPerlin perlin;
 
-    [TabGroup("ScreenShake")][InfoBox("Ne fonctionne que si le mode solo de la camera est activé", InfoMessageType.None)][Button(ButtonSizes.Medium)]
+    [TabGroup("ScreenShake")]
+    [InfoBox("Ne fonctionne que si le mode solo de la camera est activé", InfoMessageType.None)]
+    [Button(ButtonSizes.Medium)]
     void Test()
     {
         LoadRefs();
-        StartScreenShake(defaultScreenShakeDuration , defaultIntensityScreenShake);
+        StartScreenShake(defaultScreenShakeDuration, defaultIntensityScreenShake);
     }
 
     public void StartScreenShake(float duration, float intensity)
@@ -77,133 +84,100 @@ public class CameraEffect : MonoBehaviour
         Absolute
     }
 
-    [TabGroup("Zoom")] [SerializeField]
+    [TabGroup("Zoom")]
+    [SerializeField]
     ValueType valueType;
 
-    [TabGroup("Zoom")] [SerializeField]
+    [TabGroup("Zoom")]
+    [SerializeField]
     ZoomType modifierType;
 
-    [TabGroup("Zoom")] [SerializeField]
+    [TabGroup("Zoom")]
+    [SerializeField]
     float durationZoom;
 
-    [TabGroup("Zoom")] [SerializeField]
+    [TabGroup("Zoom")]
+    [SerializeField]
     AnimationCurve zoomOverTime;
 
-    [TabGroup("Zoom")] [SerializeField]
+    [TabGroup("Zoom")]
+    [SerializeField]
     float valueForTest;
 
-    [TabGroup("Zoom")] [Button(ButtonSizes.Medium)] [InfoBox("Plus fluide si le mode solo est activé", InfoMessageType.None)]
+    [TabGroup("Zoom")]
+    [Button(ButtonSizes.Medium)]
+    [InfoBox("Plus fluide si le mode solo est activé", InfoMessageType.None)]
     void TestZoom()
     {
         LoadRefs();
-        StartZoom(valueForTest, durationZoom, modifierType , valueType);
+        StartZoom(valueForTest, durationZoom, modifierType, valueType);
+    }
+
+    public void SetZoomFOV(float newValue)
+    {
+        if (virtualCam == null)
+            virtualCam = GetComponent<Cinemachine.CinemachineVirtualCamera>();
+        virtualCam.m_Lens.FieldOfView = newValue;
     }
 
     CinemachineFramingTransposer transposer;
     IEnumerator currentZooming;
 
-    public void StartZoom(float modifier, float duration, ZoomType zoomType, ValueType vt)
+    public void StartZoom(float modifier, float duration, ZoomType zoomType, ValueType vt, float delay = 0)
     {
-        modifier = Mathf.Abs(modifier);
-        Debug.Assert(modifier > 0, "Zoom cannot be set to 0");
+        //No need to set zoom
+        if (modifier == 0 && vt == ValueType.Absolute)
+            return;
+
+        // If we multiply, multiply by a positive number
+        if (vt == ValueType.Relative)
+            modifier = Mathf.Abs(modifier);
 
         //Cannot have 2 zooming sequence at the same time
         if (currentZooming != null)
             StopCoroutine(currentZooming);
 
-        currentZooming = ZoomCoroutine(modifier, durationZoom, zoomType , vt);
+        currentZooming = ZoomCoroutine(modifier, durationZoom, zoomType, vt, delay);
         StartCoroutine(currentZooming);
     }
 
-    IEnumerator ZoomCoroutine(float modifier , float duration, ZoomType zoomType , ValueType vt)
+    IEnumerator ZoomCoroutine(float modifier, float duration, ZoomType zoomType, ValueType vt, float delay = 0)
     {
+        yield return new WaitForSecondsRealtime(delay);
+
         float normalizedTime = 0;
         if (zoomType == ZoomType.FOV)
         {
             float originValue = virtualCam.m_Lens.FieldOfView;
-            float targetValue = vt == ValueType.Relative ? originValue * modifier : originValue + modifier;
+            float targetValue = vt == ValueType.Relative ? originValue * modifier : originValue - modifier;
             while (normalizedTime < 1)
             {
-                normalizedTime += Time.deltaTime / duration;
+                normalizedTime += Time.deltaTime * TimeManager.Instance.CurrentTimeScale / duration;
                 virtualCam.m_Lens.FieldOfView = Mathf.Lerp(originValue, targetValue, zoomOverTime.Evaluate(normalizedTime));
                 yield return null;
             }
 
-            //Reset at end in editor mode
             if (!Application.isPlaying)
             {
-                virtualCam.m_Lens.FieldOfView = originValue;
+                virtualCam.m_Lens.FieldOfView = Mathf.Lerp(originValue, targetValue, zoomOverTime.Evaluate(0));
             }
         }
         else
         {
             float originValue = transposer.m_CameraDistance;
-            float targetValue = vt == ValueType.Relative ? originValue * modifier : originValue + modifier;
+            float targetValue = vt == ValueType.Relative ? originValue * modifier : originValue - modifier;
             while (normalizedTime < 1)
             {
-                normalizedTime += Time.deltaTime / duration;
+                normalizedTime += Time.deltaTime * TimeManager.Instance.CurrentTimeScale / duration;
                 transposer.m_CameraDistance = Mathf.Lerp(originValue, targetValue, zoomOverTime.Evaluate(normalizedTime));
                 yield return null;
             }
 
-            //Reset at end in editor mode
             if (!Application.isPlaying)
             {
-                transposer.m_CameraDistance = originValue;
+                transposer.m_CameraDistance = Mathf.Lerp(originValue, targetValue, zoomOverTime.Evaluate(0));
             }
         }
-    }
-    #endregion
-
-    #region CameraAngle
-
-    [TabGroup("CameraAngle")][SerializeField]
-    float pitchValueTest;
-
-    float angle = 20;
-    public float Angle
-    {
-        get
-        {
-            return angle;
-        }
-        set
-        {
-            angle = value;
-            SetPitch(angle);
-        }
-    }
-
-    [TabGroup("CameraAngle")] [Button(ButtonSizes.Medium,Name = "Set camera pitch (degrees)")] 
-    public void Set()
-    {
-        SetPitch(pitchValueTest);
-    }
-
-    public void Interpolate(float to, float duration)
-    {
-        Transform follow = virtualCam.Follow;
-        Sequence seq = DOTween.Sequence();
-        seq.AppendCallback(() => transposer.m_YDamping = 8);
-        seq.Append(DOTween.To(() => Angle, x => Angle = x, to, duration));
-        seq.Append(DOTween.To(() => transposer.m_YDamping, x => transposer.m_YDamping = x, 1, 1f));
-        seq.Play();
-    }
-
-    public void SetPitch(float angle)
-    {
-        LoadRefs();
-        Transform target = virtualCam.Follow;
-        Vector3 previousPosition = transform.position;
-        Vector3 tempPosition = target.position - (Vector3.forward * transposer.m_CameraDistance);
-        Vector3 finalPosition = RotatePointAroundPivot(tempPosition, virtualCam.Follow.position, Vector3.right * angle);
-        transform.position = finalPosition;
-        transform.LookAt(target);
-    }
-
-    public Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, Vector3 angles)
-    {
-        return Quaternion.Euler(angles) * (point - pivot) + pivot;
     }
     #endregion
 }

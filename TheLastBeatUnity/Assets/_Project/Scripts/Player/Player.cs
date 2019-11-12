@@ -14,20 +14,32 @@ public class Player : Inputable
 
     [Space]
     [Header("Dash")]
-    [SerializeField] [Tooltip("The longer it is, the longer it take to change frequency")]
-    float dashImpactBeatDelay;
     [SerializeField] [ValidateInput("Positive", "This value must be > 0")]
     float dashDuration;
     bool dashing;
     [SerializeField]
+    float chainMaxDuration;
+    float chainTimer;
+    [SerializeField]
+    [Tooltip("The longer it is, the longer it take to change frequency")]
+    float dashImpactBeatDelay;
+    [SerializeField]
     float stunDuration;
     float stunTimer;
     bool stunned;
+
+    [Space]
+    [Header("Dash effects")]
+    [SerializeField]
+    CameraEffect cameraEffect;
+    [SerializeField]
+    float zoomDuration;
+    [SerializeField]
+    float zoomValue;
     [SerializeField]
     float slowMotionDuration;
     [SerializeField]
-    float chainMaxDuration;
-    float chainTimer;
+    ParticleSystem dashParticles;
 
     [Space]
     [Header("Blink")]
@@ -82,8 +94,8 @@ public class Player : Inputable
         if (!dashing)
         {
             if (player.GetButtonDown("Blink"))
-                Blink(direction);
-            else if (player.GetButtonDown("Dash") && currentTarget)
+                StartCoroutine(Blink(direction));
+            else if (player.GetButtonDown("Rush") && currentTarget)
                 Dash();
             else if (player.GetButtonDown("RewindDash"))
                 RewindDash();
@@ -95,10 +107,13 @@ public class Player : Inputable
         }
     }
 
-    void Blink(Vector3 direction)
+    IEnumerator Blink(Vector3 direction)
     {
+        //dashParticles.Play();
         direction.Normalize();
         transform.position = transform.position + direction * blinkSpeed;
+        yield return new WaitForSecondsRealtime(1);
+        //dashParticles.Stop();
     }
 
     void Dash()
@@ -107,6 +122,7 @@ public class Player : Inputable
         focusZone.playerDashing = true;
         health.NewAction(1.5f, dashImpactBeatDelay);
         TimeManager.Instance.SlowEnemies();
+        //cameraEffect.StartZoom(zoomValue, zoomDuration, CameraEffect.ZoomType.Distance, CameraEffect.ValueType.Absolute);
 
         Sequence seq = DOTween.Sequence();
 
@@ -158,9 +174,16 @@ public class Player : Inputable
             chainedEnemies.Add(currentTarget);
             chainTimer = chainMaxDuration;
             gameObject.layer = LayerMask.NameToLayer("Default");
-            Time.timeScale = 0.1f;
+            TimeManager.Instance.SetTimeScale(1);
             StartCoroutine(WaitDuringSlowMotion());
         }
+    }
+
+    IEnumerator WaitDuringSlowMotion()
+    {
+        yield return new WaitForSecondsRealtime(slowMotionDuration);
+        TimeManager.Instance.SetTimeScale(1);
+        //cameraEffect.StartZoom(-zoomValue, zoomDuration, CameraEffect.ZoomType.Distance, CameraEffect.ValueType.Absolute);
     }
 
     RaycastHit GetObstacleOnDash(Vector3 direction)
@@ -210,12 +233,6 @@ public class Player : Inputable
         TimeManager.Instance.ResetEnemies();
         gameObject.layer = LayerMask.NameToLayer("Default");
         chainedEnemies.Clear();
-    }
-
-    IEnumerator WaitDuringSlowMotion()
-    {
-        yield return new WaitForSecondsRealtime(slowMotionDuration);
-        Time.timeScale = 1;
     }
 
     private void Update()

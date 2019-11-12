@@ -7,6 +7,8 @@ public class TimeManager
     Player player;
     List<Enemy> enemies = new List<Enemy>();
 
+    public float CurrentTimeScale;
+
     public void SetPlayer(Player newPlayer)
     {
         player = newPlayer;
@@ -26,6 +28,12 @@ public class TimeManager
                 timeManager = new TimeManager();
             return timeManager;
         }
+    }
+
+    public void SetTimeScale(float timeScale)
+    {
+        CurrentTimeScale = timeScale;
+        Time.timeScale = CurrentTimeScale;
     }
 
     public void SlowEnemies()
