@@ -115,6 +115,7 @@ public class CameraMachine : MonoBehaviour
         //Run parallel sequence
         //Set angle
 
+        //You can't have two sequence of camera transition at the same time
         if (runningSequences.seq != null)
         {
             runningSequences.seq.Kill();

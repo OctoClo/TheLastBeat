@@ -21,7 +21,6 @@ public class OutOfCombat : CameraState
 
     public override void StateEnter()
     {
-
     }
 
     public override void StateExit()
@@ -76,7 +75,7 @@ public class OutOfCombat : CameraState
         float tempY = movement.y;
         if (value.y == 0 && tempY != 0)
         {
-            tempY += (decayPerSecond * Time.deltaTime * -Mathf.Sign(movement.y));
+            tempY += (decayPerSecond * Time.deltaTime * -Mathf.Sign(movement.y) * Mathf.Abs(movement.y / movement.x));
             if (tempY * movement.y < 0)
             {
                 tempY = 0;
