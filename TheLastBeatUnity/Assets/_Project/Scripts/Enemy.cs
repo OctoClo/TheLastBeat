@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using TMPro;
+using DG.Tweening;
+
+public class EnemyDeadEvent : GameEvent { public Enemy enemy; }
 
 public class Enemy : MonoBehaviour
 {
@@ -11,74 +15,97 @@ public class Enemy : MonoBehaviour
     Rigidbody rb;
 
     [Header("Life")]
-    [Range(1, 5)]
     [SerializeField]
     int maxLives = 0;
     int lives;
     [SerializeField]
-    float knockbackStrength;
+    TextMeshProUGUI lifeText;
+
+    [Header("Stun")]
+    bool stunned;
     [SerializeField]
-    float knockbackDuration;
-    float knockbackTimer;
-    bool hasResetMaterial;
-    Material material;
+    float stunDuration;
+    float stunTimer;
+    [SerializeField] [Range(0.0f, 1.0f)]
+    float[] chancesToGetStunned;
+    [SerializeField]
+    int stunCounter;
 
     [Header("References")]
     [SerializeField] [Required]
     Transform player;
 
+    bool isTarget;
+    FocusZone focusZone;
+
+    Material material;
+
     private void Start()
     {
+        TimeManager.Instance.AddEnemy(this);
+
         rb = GetComponent<Rigidbody>();
 
         lives = maxLives;
-        knockbackTimer = 0;
+        lifeText.text = lives.ToString();
+        stunTimer = 0;
+
         material = GetComponent<MeshRenderer>().material;
+
+        stunCounter = 0;
     }
 
     private void Update()
     {
-        transform.LookAt(player);
-        
-        knockbackTimer -= Time.deltaTime;
+        transform.DOLookAt(player.position, 1, AxisConstraint.Y);
 
-        if (knockbackTimer <= 0 && !hasResetMaterial)
+        stunTimer -= Time.deltaTime;
+
+        if (stunTimer <= 0 && stunned)
         {
-            material.color = Color.red;
-            hasResetMaterial = true;
+            material.color = isTarget ? Color.green : Color.red;
+            stunned = false;
         }
     }
 
     void FixedUpdate()
     {
-        if (knockbackTimer <= 0)
-        {
-            Vector3 movement = (player.position - transform.position);
+        Vector3 movement = (player.position - transform.position);
 
-            if (movement.sqrMagnitude > 10)
-            {
-                movement.Normalize();
-                rb.velocity = movement * speed;
-            }
+        if (movement.sqrMagnitude > 10)
+        {
+            movement.Normalize();
+            rb.velocity = movement * speed;
         }
     }
 
     public void GetAttacked()
     {
-        if (knockbackTimer <= 0)
+        lives--;
+        if (lives == 0)
         {
-            lives--;
-            if (lives == 0)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            material.color = Color.blue;
-            knockbackTimer = knockbackDuration;
-            hasResetMaterial = false;
-            rb.velocity = -transform.forward * knockbackStrength;
+            EventManager.Instance.Raise(new EnemyDeadEvent { enemy = this });
+            Destroy(gameObject);
+            return;
         }
+
+        lifeText.text = lives.ToString();
+        if (stunCounter < chancesToGetStunned.Length)
+        {
+            float stunPercentage = Random.value;
+            if (stunPercentage < chancesToGetStunned[stunCounter])
+            {
+                stunned = true;
+                stunCounter++;
+                stunTimer = stunDuration;
+                material.color = Color.blue;
+            }
+        }
+    }
+
+    public void SetFocusZone(FocusZone newFocusZone)
+    {
+        focusZone = newFocusZone;
     }
 
     public void SetSelected(bool selected)
@@ -87,5 +114,20 @@ public class Enemy : MonoBehaviour
             material.color = Color.green;
         else
             material.color = Color.red;
+    }
+
+    public void Slow()
+    {
+        speed /= 10.0f;
+    }
+
+    public void ResetSpeed()
+    {
+        speed *= 10.0f;
+    }
+
+    private void OnDestroy()
+    {
+        
     }
 }

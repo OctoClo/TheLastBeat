@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
 using Doozy.Engine;
+using DG.Tweening;
 
 public class PauseEvent : GameEvent { public bool pause; }
 
@@ -12,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        DOTween.SetTweensCapacity(2000, 100);
         pause = false;
     }
 
