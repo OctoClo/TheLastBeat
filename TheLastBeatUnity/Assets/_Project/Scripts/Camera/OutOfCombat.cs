@@ -17,7 +17,8 @@ public class OutOfCombat : CameraState
     [SerializeField]
     float decayPerSecond;
 
-    Vector2 movement = new Vector2();
+    float movementX;
+    float movementY;
 
     public override void StateEnter()
     {
@@ -33,7 +34,7 @@ public class OutOfCombat : CameraState
         Vector2 vec = new Vector2(player.DeltaMovement.x, player.DeltaMovement.z);
         InterpretMovement(vec);
         Decay(vec);
-        cameraPos.Move(movement.x, movement.y);
+        cameraPos.Move(movementX, movementY);
     }
 
     public void InterpretMovement(Vector2 value)
@@ -43,17 +44,16 @@ public class OutOfCombat : CameraState
 
         if (Mathf.Abs(value.x) > 0.0001f)
         {
-            movement += new Vector2(potentialX, 0);
+            movementX += potentialX;
         }
 
         if (Mathf.Abs(value.y) > 0.0001f)
         {
-            //Due to low precision we are forced to have a minimum value
-            potentialY = Mathf.Max(0.041f, Mathf.Abs(potentialY)) * Mathf.Sign(potentialY);
-            movement += new Vector2(0, potentialY);
+            movementY += potentialY;
         }
 
-        movement = new Vector2(Mathf.Clamp(movement.x, -1, 1), Mathf.Clamp(movement.y, -1, 1));
+        movementX = Mathf.Clamp(movementX, -1, 1);
+        movementY = Mathf.Clamp(movementY, -1, 1);
     }
 
     /// <summary>
@@ -62,27 +62,27 @@ public class OutOfCombat : CameraState
     /// <param name="value"></param>
     public void Decay(Vector2 value)
     {
-        float tempX = movement.x;
+        float tempX = movementX;
         if (value.x == 0 && tempX != 0)
         {
-            tempX += (decayPerSecond * Time.deltaTime * -Mathf.Sign(movement.x));
-            if (tempX * movement.x < 0)
+            tempX += (decayPerSecond * Time.deltaTime * -Mathf.Sign(movementX));
+            if (tempX * movementX < 0)
             {
                 tempX = 0;
             }
         }
 
-        float tempY = movement.y;
+        float tempY = movementY;
         if (value.y == 0 && tempY != 0)
         {
-            tempY += (decayPerSecond * Time.deltaTime * -Mathf.Sign(movement.y) * Mathf.Abs(movement.y / movement.x));
-            if (tempY * movement.y < 0)
+            tempY += (decayPerSecond * Time.deltaTime * -Mathf.Sign(movementY) * Mathf.Abs(movementY / movementX));
+            if (tempY * movementY < 0)
             {
                 tempY = 0;
             }
         }
 
-        Vector2 previous = movement;
-        movement = new Vector2(tempX, tempY);
+        movementY = tempY;
+        movementX = tempX;
     }
 }

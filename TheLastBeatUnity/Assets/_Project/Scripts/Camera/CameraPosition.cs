@@ -207,7 +207,7 @@ public class CameraPosition : MonoBehaviour
 
     public void Move(float ratioX , float ratioY)
     {
-        offset.m_Offset = new Vector3(offsetValueMax.x * cameraSmoothing.Evaluate(ratioX) * maxRatio.x, offsetValueMax.y * cameraSmoothing.Evaluate(ratioY) * maxRatio.y);
+        offset.m_Offset = new Vector3((float)(offsetValueMax.x * cameraSmoothing.Evaluate(ratioX) * maxRatio.x), (float)(offsetValueMax.y * cameraSmoothing.Evaluate(ratioY) * maxRatio.y));
     }
 
     #endregion
