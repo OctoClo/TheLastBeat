@@ -97,9 +97,6 @@ public class CameraPosition : MonoBehaviour
 
     public void Interpolate(float to, float duration, AnimationCurve ac)
     {
-        Debug.Log(to);
-        Debug.Log(Angle);
-        Debug.Log("====");
         interpolation = InterpolationCoroutine(Angle, to, duration, ac);
         StartCoroutine(interpolation);
     }

@@ -6,19 +6,22 @@ using Cinemachine;
 public class InCombat : CameraState
 {
     Vector3 confinOrigin;
+    GameObject confiner;
+
     public void SetConfin(Vector3 pointConfin, GameObject gob)
     {
-        gob.SetActive(true);
+        confiner = gob;
         gob.transform.position = pointConfin;
     }
 
     public override void StateEnter()
     {
+        confiner.SetActive(true);
     }
 
     public override void StateExit()
     {
-        machine.GetComponent<CinemachineConfiner>().m_BoundingVolume.gameObject.SetActive(false);
+        confiner.SetActive(false);
     }
 
     public override void StateUpdate()

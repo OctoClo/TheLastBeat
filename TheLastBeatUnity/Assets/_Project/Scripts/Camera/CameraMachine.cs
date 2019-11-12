@@ -62,16 +62,7 @@ public class CameraMachine : MonoBehaviour
 
     private void Start()
     {
-        SetState(firstState, 2);
-        StartCoroutine(delay());
-    }
-
-    IEnumerator delay()
-    {
-        yield return new WaitForSeconds(3);
-        InCombat ic = GetComponent<InCombat>();
-        ic.SetConfin(virtualCam.Follow.position, gob);
-        SetState(ic, 2);
+        StartTransition(firstState, firstState.Profile, 0.1f);
     }
 
     void Update()
@@ -83,7 +74,7 @@ public class CameraMachine : MonoBehaviour
     }
 
     //During the transition the camera has no state, careful
-    public void StartTransition(CameraState newState, CameraProfile cp, float timeTransition)
+    public void StartTransition(CameraState newState, CameraProfile cp, float timeTransition, bool resetOffset = false)
     {
         CameraEffect camEffect = GetComponent<CameraEffect>();
         CameraPosition camPosition = GetComponent<CameraPosition>();
@@ -98,16 +89,15 @@ public class CameraMachine : MonoBehaviour
         Sequence seq = DOTween.Sequence();
         seq.AppendCallback(() =>
         {
-            SetState(null, -1);
+            SetState(null);
         });
         seq.AppendCallback(() =>
         {
-            Debug.Log(cp.Angle);
-            Debug.Log(camPosition.Angle);
             camPosition.Interpolate(cp.Angle, timeTransition, cp.curve);
         });
+        seq.AppendInterval(timeTransition);
         seq.AppendCallback(() => {
-            SetState(newState, -1);
+            SetState(newState);
         });
 
         //Set FOV
@@ -118,19 +108,21 @@ public class CameraMachine : MonoBehaviour
         Sequence seq3 = DOTween.Sequence();
         seq3.Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, cp.DistanceToViewer, timeTransition));
 
+        if (resetOffset)
+        {
+            CinemachineCameraOffset offset = GetComponent<CinemachineCameraOffset>();
+            Sequence seq4 = DOTween.Sequence();
+            seq4.Append(DOTween.To(() => offset.m_Offset, x => offset.m_Offset = x, Vector3.zero, timeTransition));
+        }
+
         seq.Play();
         seq2.Play();
         seq3.Play();
     }
 
     //Negative / zero = ignore transition
-    public void SetState(CameraState state, float durationTransition = -1)
+    public void SetState(CameraState state)
     {
-        if (durationTransition > 0 && state.Profile != null)
-        {
-            StartTransition(state, state.Profile, durationTransition);
-        }
-
         if (currentState != null)
         {
             currentState.StateExit();
