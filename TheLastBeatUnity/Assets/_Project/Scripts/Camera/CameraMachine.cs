@@ -25,6 +25,15 @@ public class CameraMachine : MonoBehaviour
     [SerializeField]
     GameObject gob;
 
+    struct Sequences
+    {
+        public Sequence seq;
+        public Sequence seq2;
+        public Sequence seq3;
+        public Sequence seq4;
+    }
+    Sequences runningSequences;
+
     [Button]
     public void Test()
     {
@@ -65,6 +74,25 @@ public class CameraMachine : MonoBehaviour
         StartTransition(firstState, firstState.Profile, 0.1f);
     }
 
+    IEnumerator TestCoroutine()
+    {
+       while (true)
+        {
+            yield return new WaitForSeconds(Random.Range(1.5f, 2.5f));
+            if (Random.value < 0.5f)
+            {
+                CameraState cs = GetComponent<OutOfCombat>();
+                StartTransition(cs, cs.Profile, 2);
+            }
+            else
+            {
+                CameraState cs = GetComponent<InCombat>();
+                GetComponent<InCombat>().SetConfin(virtualCam.Follow.transform.position, gob);
+                StartTransition(cs, cs.Profile, 2);
+            }
+        }
+    }
+
     void Update()
     {
         if (currentState != null)
@@ -86,38 +114,60 @@ public class CameraMachine : MonoBehaviour
 
         //Run parallel sequence
         //Set angle
-        Sequence seq = DOTween.Sequence();
-        seq.AppendCallback(() =>
+
+        if (runningSequences.seq != null)
+        {
+            runningSequences.seq.Kill();
+        }
+
+        if (runningSequences.seq2 != null)
+        {
+            runningSequences.seq2.Kill();
+        }
+
+        if (runningSequences.seq3 != null)
+        {
+            runningSequences.seq3.Kill();
+        }
+
+        runningSequences.seq = DOTween.Sequence();
+        runningSequences.seq.AppendCallback(() =>
         {
             SetState(null);
         });
-        seq.AppendCallback(() =>
+        runningSequences.seq.AppendCallback(() =>
         {
             camPosition.Interpolate(cp.Angle, timeTransition, cp.curve);
         });
-        seq.AppendInterval(timeTransition);
-        seq.AppendCallback(() => {
+        runningSequences.seq.AppendInterval(timeTransition);
+        runningSequences.seq.AppendCallback(() => {
             SetState(newState);
         });
 
         //Set FOV
-        Sequence seq2 = DOTween.Sequence();
-        seq2.AppendCallback(() => camEffect.StartZoom(cp.FOV - virtualCam.m_Lens.FieldOfView, timeTransition, CameraEffect.ZoomType.FOV, CameraEffect.ValueType.Absolute));
-     
+        runningSequences.seq2 = DOTween.Sequence();
+        runningSequences.seq2.AppendCallback(() => camEffect.StartZoom(cp.FOV - virtualCam.m_Lens.FieldOfView, timeTransition, CameraEffect.ZoomType.FOV, CameraEffect.ValueType.Absolute));
+
         //Set distance
-        Sequence seq3 = DOTween.Sequence();
-        seq3.Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, cp.DistanceToViewer, timeTransition));
+        runningSequences.seq3 = DOTween.Sequence();
+        runningSequences.seq3.Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, cp.DistanceToViewer, timeTransition));
 
         if (resetOffset)
         {
             CinemachineCameraOffset offset = GetComponent<CinemachineCameraOffset>();
-            Sequence seq4 = DOTween.Sequence();
-            seq4.Append(DOTween.To(() => offset.m_Offset, x => offset.m_Offset = x, Vector3.zero, timeTransition));
+
+            if (runningSequences.seq4 != null)
+            {
+                runningSequences.seq4.Kill();
+            }
+
+            runningSequences.seq4 = DOTween.Sequence();
+            runningSequences.seq4.Append(DOTween.To(() => offset.m_Offset, x => offset.m_Offset = x, Vector3.zero, timeTransition));
         }
 
-        seq.Play();
-        seq2.Play();
-        seq3.Play();
+        runningSequences.seq.Play();
+        runningSequences.seq2.Play();
+        runningSequences.seq3.Play();
     }
 
     //Negative / zero = ignore transition
