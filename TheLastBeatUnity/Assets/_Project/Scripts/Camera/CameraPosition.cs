@@ -63,9 +63,14 @@ public class CameraPosition : MonoBehaviour
         }
         set
         {
-            Debug.Assert(minAngle < maxAngle, "minAngle greater than maxAngle");
-            angle = Mathf.Clamp(value, minAngle, maxAngle);
-            SetPitch(angle);
+            if (virtualCam == null)
+                virtualCam = GetComponent<CinemachineVirtualCamera>();
+            if (virtualCam.Follow)
+            {
+                Debug.Assert(minAngle < maxAngle, "minAngle greater than maxAngle");
+                angle = Mathf.Clamp(value, minAngle, maxAngle);
+                SetPitch(angle);
+            }         
         }
     }
 
@@ -78,21 +83,21 @@ public class CameraPosition : MonoBehaviour
         SetPitch(pitchValueTest);
     }
 
-    IEnumerator InterpolationCoroutine(float from , float to , float duration)
+    IEnumerator InterpolationCoroutine(float from , float to , float duration, AnimationCurve ac)
     {
         float normalizedTime = 0;
         while (normalizedTime < 1)
         {
             normalizedTime += Time.deltaTime / duration;
-            Angle = Mathf.Lerp(from, to, normalizedTime);
+            Angle = Mathf.Lerp(from, to, ac.Evaluate(normalizedTime));
             yield return null;
         }
         interpolation = null;
     }
 
-    public void Interpolate(float to, float duration)
+    public void Interpolate(float to, float duration, AnimationCurve ac)
     {
-        interpolation = InterpolationCoroutine(Angle, to, duration);
+        interpolation = InterpolationCoroutine(Angle, to, duration, ac);
         StartCoroutine(interpolation);
     }
 
@@ -126,7 +131,7 @@ public class CameraPosition : MonoBehaviour
             float newAngle = GetNonBlockingAngle();
             if (newAngle > 0 && interpolation == null)
             {
-                Interpolate(newAngle, durationPitchTransition);
+                Interpolate(newAngle, durationPitchTransition, cameraSmoothing);
             }
         }
     }
@@ -191,19 +196,7 @@ public class CameraPosition : MonoBehaviour
     Vector2 movement = new Vector2();
 
     [TabGroup("Offset")][SerializeField]
-    Player player;
-
-    [TabGroup("Offset")][SerializeField]
-    float maxOffsetDuration;
-
-    [TabGroup("Offset")][SerializeField]
-    float decayPerSecond;
-
-    [TabGroup("Offset")][SerializeField]
     Vector2 maxRatio;
-
-    [TabGroup("Offset")][SerializeField]
-    bool decaying = false;
 
     [TabGroup("Offset")][SerializeField]
     AnimationCurve cameraSmoothing;
@@ -212,60 +205,10 @@ public class CameraPosition : MonoBehaviour
     Vector2 offsetValueMax;
     float ratio;
 
-    public void InterpretMovement(Vector2 value)
+    public void Move(float ratioX , float ratioY)
     {
-        float potentialX = (Mathf.Sign(value.x) * Time.deltaTime / maxOffsetDuration);
-        float potentialY = (Mathf.Sign(value.y) * Time.deltaTime / maxOffsetDuration);
-
-        if (Mathf.Abs(value.x) > 0.0001f)
-        {
-            movement += new Vector2(potentialX, 0);
-        }
-
-        if (Mathf.Abs(value.y) > 0.0001f)
-        {
-            //Due to low precision we are forced to have a minimum value
-            potentialY = Mathf.Max(0.041f, Mathf.Abs(potentialY)) * Mathf.Sign(potentialY);
-            movement += new Vector2(0, potentialY);
-            Debug.Log(potentialY);
-        }
-
-        movement = new Vector2(Mathf.Clamp(movement.x, -1, 1), Mathf.Clamp(movement.y, -1, 1));
+        offset.m_Offset = new Vector3(offsetValueMax.x * cameraSmoothing.Evaluate(ratioX) * maxRatio.x, offsetValueMax.y * cameraSmoothing.Evaluate(ratioY) * maxRatio.y);
     }
 
-    /// <summary>
-    /// Allow to reduce the offset if the player dont go in any direction
-    /// </summary>
-    /// <param name="value"></param>
-    public void Decay(Vector2 value)
-    {
-        float tempX = movement.x;
-        if (value.x == 0 && tempX != 0)
-        {
-            tempX += (decayPerSecond * Time.deltaTime * -Mathf.Sign(movement.x));
-            if (tempX * movement.x < 0)
-            {
-                tempX = 0;
-            }
-        }
-
-        float tempY = movement.y;
-        if (value.y == 0 && tempY != 0)
-        {       
-            tempY += (decayPerSecond * Time.deltaTime * -Mathf.Sign(movement.y));
-            if (tempY * movement.y < 0)
-            {
-                tempY = 0;
-            }
-        }
-
-        Vector2 previous = movement;
-        movement = new Vector2(tempX, tempY);
-    }
-
-    public void Move()
-    {
-        offset.m_Offset = new Vector3(offsetValueMax.x * cameraSmoothing.Evaluate(movement.x) * maxRatio.x, offsetValueMax.y * cameraSmoothing.Evaluate(movement.y) * maxRatio.y);
-    }
     #endregion
 }
