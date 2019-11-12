@@ -9,45 +9,43 @@ public class Player : Inputable
 {
     [Header("Movement")]
     [SerializeField]
-    float speed;
-    Vector3 previousPos;
+    float speed = 7.5f;
+    public Vector3 CurrentDirection { get; set; }
 
-    [Space]
-    [Header("Dash")]
+    //If you are doing something (dash , attack animation, etc...) or if game paused, temporary block input
+    public override bool BlockInput => (blockInput || dashing || stunned);
+
+    [Space] [Header("Dash")]
     [SerializeField] [ValidateInput("Positive", "This value must be > 0")]
-    float dashDuration;
-    bool dashing;
+    float dashDuration = 0.5f;
+    bool dashing = false;
     [SerializeField]
-    float chainMaxDuration;
-    float chainTimer;
+    float chainMaxDuration = 2;
+    float chainTimer = 0;
     [SerializeField]
-    [Tooltip("The longer it is, the longer it take to change frequency")]
-    float dashImpactBeatDelay;
-    [SerializeField]
-    float stunDuration;
-    float stunTimer;
-    bool stunned;
+    float stunDuration = 0.5f;
+    float stunTimer = 0;
+    bool stunned = false;
+    [SerializeField] [Tooltip("The longer it is, the longer it take to change frequency")]
+    float dashImpactBeatDelay = 0;
 
-    [Space]
-    [Header("Dash effects")]
+    [Space] [Header("Dash effects")]
     [SerializeField]
-    CameraEffect cameraEffect;
+    CameraEffect cameraEffect = null;
     [SerializeField]
-    float zoomDuration;
+    float zoomDuration = 0.5f;
     [SerializeField]
-    float zoomValue;
+    float zoomValue = 5;
     [SerializeField]
-    float slowMotionDuration;
+    float slowMotionDuration = 0.5f;
     [SerializeField]
-    ParticleSystem dashParticles;
+    ParticleSystem dashParticles = null;
 
-    [Space]
-    [Header("Blink")]
+    [Space] [Header("Blink")]
     [SerializeField]
-    float blinkSpeed;
+    float blinkSpeed = 5;
 
-    [Space]
-    [Header("References")]
+    [Space] [Header("References")]
     [SerializeField] [Required]
     Health health = null;
     [SerializeField] [Required]
@@ -55,60 +53,57 @@ public class Player : Inputable
     [SerializeField]
     float maxRotationPerFrame;
 
-    public Vector3 DeltaMovement { get; set; }
+    
 
-    List<Enemy> chainedEnemies;
-    Enemy currentTarget;
-    Material material;
+    List<Enemy> chainedEnemies = new List<Enemy>();
+    Enemy currentTarget = null;
+    Material material = null;
 
     public bool Positive(float value)
     {
         return value > 0;
     }
 
-    public delegate void ColliderParams(Collider coll);
-    public event ColliderParams TriggerEnter;
-
     private void Start()
     {
         TimeManager.Instance.SetPlayer(this);
-
-        previousPos = transform.position;
         material = GetComponent<MeshRenderer>().material;
-
-        dashing = false;
-        stunned = false;
-        chainedEnemies = new List<Enemy>();
     }
-
-    public void OnTriggerEnter(Collider other)
-    {
-        if (TriggerEnter != null)
-            TriggerEnter(other);
-    }
-
-    //If you are doing something (dash , attack animation , etc...) temporary block input
-    public override bool BlockInput => (blockInput || dashing || stunned);
 
     public override void ProcessInput(Rewired.Player player)
     {
-        previousPos = transform.position;
-
         Vector3 direction = new Vector3(player.GetAxis("MoveX"), 0, player.GetAxis("MoveY"));
-        DeltaMovement = movement;
+        CurrentDirection = direction;
 
         // Rotation
         currentTarget = focusZone.GetCurrentTarget();
+        Vector3 lookVector;
         if (currentTarget)
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(currentTarget.transform.position - transform.position), maxRotationPerFrame);
-        else if (movement != Vector3.zero)
         {
-            Vector3 direction = movement;
-            direction.Normalize();
+            lookVector = new Vector3(currentTarget.transform.position.x, transform.position.y, currentTarget.transform.position.z) - transform.position;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(lookVector), maxRotationPerFrame);
+        }
+        else if (direction != Vector3.zero)
+        {
+            lookVector = direction;
+            lookVector.Normalize();
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(lookVector), maxRotationPerFrame);
+        }
 
-            Vector3 forward = transform.forward;
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(direction), maxRotationPerFrame);
-            movement = transform.forward;
+        // Translation and dashing
+        if (!dashing)
+        {
+            if (player.GetButtonDown("Blink"))
+                StartCoroutine(Blink(direction));
+            else if (player.GetButtonDown("Rush") && currentTarget)
+                Rush();
+            else if (player.GetButtonDown("RewindRush"))
+                RewindRush();
+            else
+            {
+                Vector3 movement = direction * Time.deltaTime * speed;
+                transform.Translate(movement, Space.World);
+            }
         }
     }
 
@@ -121,7 +116,7 @@ public class Player : Inputable
         //dashParticles.Stop();
     }
 
-    void Dash()
+    void Rush()
     {
         dashing = true;
         focusZone.playerDashing = true;
@@ -154,11 +149,11 @@ public class Player : Inputable
             seq.Append(transform.DOMove(goalPosition, dashDuration / 2.0f));
         }
 
-        seq.AppendCallback(() => EndDash(hit));
+        seq.AppendCallback(() => EndRush(hit));
         seq.Play();
     }
 
-    void EndDash(RaycastHit hit)
+    void EndRush(RaycastHit hit)
     {
         dashing = false;
         focusZone.playerDashing = false;
@@ -204,7 +199,7 @@ public class Player : Inputable
         return new RaycastHit();
     }
 
-    void RewindDash()
+    void RewindRush()
     {
         dashing = true;
         focusZone.overrideControl = true;
