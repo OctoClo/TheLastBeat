@@ -31,7 +31,7 @@ public class OutOfCombat : CameraState
 
     public override void StateUpdate()
     {
-        Vector2 vec = new Vector2(player.DeltaMovement.x, player.DeltaMovement.z);
+        Vector2 vec = new Vector2(player.CurrentDirection.x, player.CurrentDirection.z);
         InterpretMovement(vec);
         Decay(vec);
         cameraPos.Move(movement.x, movement.y);

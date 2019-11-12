@@ -30,19 +30,23 @@ public class CameraEffect : MonoBehaviour
     [TabGroup("ScreenShake")] [SerializeField]
     float defaultIntensityScreenShake = 0;
 
-    [TabGroup("ScreenShake")] [SerializeField]
+    [TabGroup("ScreenShake")]
+    [SerializeField]
     float defaultScreenShakeDuration;
 
-    [TabGroup("ScreenShake")] [SerializeField]
+    [TabGroup("ScreenShake")]
+    [SerializeField]
     AnimationCurve intensityOverTime;
 
     CinemachineBasicMultiChannelPerlin perlin;
 
-    [TabGroup("ScreenShake")][InfoBox("Ne fonctionne que si le mode solo de la camera est activé", InfoMessageType.None)][Button(ButtonSizes.Medium)]
+    [TabGroup("ScreenShake")]
+    [InfoBox("Ne fonctionne que si le mode solo de la camera est activé", InfoMessageType.None)]
+    [Button(ButtonSizes.Medium)]
     void Test()
     {
         LoadRefs();
-        StartScreenShake(defaultScreenShakeDuration , defaultIntensityScreenShake);
+        StartScreenShake(defaultScreenShakeDuration, defaultIntensityScreenShake);
     }
 
     public void StartScreenShake(float duration, float intensity)
@@ -79,26 +83,33 @@ public class CameraEffect : MonoBehaviour
         Absolute
     }
 
-    [TabGroup("Zoom")] [SerializeField]
+    [TabGroup("Zoom")]
+    [SerializeField]
     ValueType valueType;
 
-    [TabGroup("Zoom")] [SerializeField]
+    [TabGroup("Zoom")]
+    [SerializeField]
     ZoomType modifierType;
 
-    [TabGroup("Zoom")] [SerializeField]
+    [TabGroup("Zoom")]
+    [SerializeField]
     float durationZoom;
 
-    [TabGroup("Zoom")] [SerializeField]
+    [TabGroup("Zoom")]
+    [SerializeField]
     AnimationCurve zoomOverTime;
 
-    [TabGroup("Zoom")] [SerializeField]
+    [TabGroup("Zoom")]
+    [SerializeField]
     float valueForTest;
 
-    [TabGroup("Zoom")] [Button(ButtonSizes.Medium)] [InfoBox("Plus fluide si le mode solo est activé", InfoMessageType.None)]
+    [TabGroup("Zoom")]
+    [Button(ButtonSizes.Medium)]
+    [InfoBox("Plus fluide si le mode solo est activé", InfoMessageType.None)]
     void TestZoom()
     {
         LoadRefs();
-        StartZoom(valueForTest, durationZoom, modifierType , valueType);
+        StartZoom(valueForTest, durationZoom, modifierType, valueType);
     }
 
     public void SetZoomFOV(float newValue)
@@ -111,30 +122,36 @@ public class CameraEffect : MonoBehaviour
     CinemachineFramingTransposer transposer;
     IEnumerator currentZooming;
 
-    public void StartZoom(float modifier, float duration, ZoomType zoomType, ValueType vt)
+    public void StartZoom(float modifier, float duration, ZoomType zoomType, ValueType vt, float delay = 0)
     {
         //No need to set zoom
         if (modifier == 0 && vt == ValueType.Absolute)
             return;
 
+        // If we multiply, multiply by a positive number
+        if (vt == ValueType.Relative)
+            modifier = Mathf.Abs(modifier);
+
         //Cannot have 2 zooming sequence at the same time
         if (currentZooming != null)
             StopCoroutine(currentZooming);
 
-        currentZooming = ZoomCoroutine(modifier, durationZoom, zoomType , vt);
+        currentZooming = ZoomCoroutine(modifier, durationZoom, zoomType, vt, delay);
         StartCoroutine(currentZooming);
     }
 
-    IEnumerator ZoomCoroutine(float modifier , float duration, ZoomType zoomType , ValueType vt)
+    IEnumerator ZoomCoroutine(float modifier, float duration, ZoomType zoomType, ValueType vt, float delay = 0)
     {
+        yield return new WaitForSecondsRealtime(delay);
+
         float normalizedTime = 0;
         if (zoomType == ZoomType.FOV)
         {
             float originValue = virtualCam.m_Lens.FieldOfView;
-            float targetValue = vt == ValueType.Relative ? originValue * modifier : originValue + modifier;
+            float targetValue = vt == ValueType.Relative ? originValue * modifier : originValue - modifier;
             while (normalizedTime < 1)
             {
-                normalizedTime += Time.deltaTime / duration;
+                normalizedTime += Time.deltaTime * TimeManager.Instance.CurrentTimeScale / duration;
                 virtualCam.m_Lens.FieldOfView = Mathf.Lerp(originValue, targetValue, zoomOverTime.Evaluate(normalizedTime));
                 yield return null;
             }
@@ -147,10 +164,10 @@ public class CameraEffect : MonoBehaviour
         else
         {
             float originValue = transposer.m_CameraDistance;
-            float targetValue = vt == ValueType.Relative ? originValue * modifier : originValue + modifier;
+            float targetValue = vt == ValueType.Relative ? originValue * modifier : originValue - modifier;
             while (normalizedTime < 1)
             {
-                normalizedTime += Time.deltaTime / duration;
+                normalizedTime += Time.deltaTime * TimeManager.Instance.CurrentTimeScale / duration;
                 transposer.m_CameraDistance = Mathf.Lerp(originValue, targetValue, zoomOverTime.Evaluate(normalizedTime));
                 yield return null;
             }
