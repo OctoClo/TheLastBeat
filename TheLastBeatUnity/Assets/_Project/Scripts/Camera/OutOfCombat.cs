@@ -58,6 +58,8 @@ public class OutOfCombat : CameraState
         InterpretMovement(vec);
         Decay(vec);
         Move(movementX, movementY);
+
+        GetComponent<CameraPosition>().CheckOcclusionToPlayer(Profile.Angle);
     }
 
     public void InterpretMovement(Vector2 value)

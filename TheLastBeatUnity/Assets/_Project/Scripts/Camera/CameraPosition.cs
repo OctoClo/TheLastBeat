@@ -20,22 +20,12 @@ public class CameraPosition : MonoBehaviour
     private void Start()
     {
         LoadRefs();
-        sequencePitchControl = DOTween.Sequence();
-        sequencePitchControl.AppendCallback(() => CheckOcclusionToPlayer());
-        sequencePitchControl.AppendInterval(0.2f);
-        sequencePitchControl.SetLoops(-1);
-        sequencePitchControl.Play();
-
-        Angle = pitchValueTest;
     }
 
     #region CameraAngle
     CinemachineVirtualCamera virtualCam;
     CinemachineFramingTransposer transposer;
     CinemachineCameraOffset offset;
-
-    [SerializeField]
-    float pitchValueTest = 0;
 
     [SerializeField]
     float minAngle;
@@ -45,9 +35,6 @@ public class CameraPosition : MonoBehaviour
 
     [SerializeField]
     string tagContains;
-
-    [SerializeField]
-    float durationPitchTransition;
 
     IEnumerator interpolation;
 
@@ -73,12 +60,6 @@ public class CameraPosition : MonoBehaviour
     }
 
     Sequence sequencePitchControl;
-
-    [Button(ButtonSizes.Medium, Name = "Set camera pitch (degrees)")]
-    public void Set()
-    {
-        SetPitch(pitchValueTest);
-    }
 
     IEnumerator InterpolationCoroutine(float from , float to , float duration)
     {
@@ -123,14 +104,21 @@ public class CameraPosition : MonoBehaviour
         return Quaternion.Euler(angles) * (point - pivot) + pivot;
     }
 
-    public void CheckOcclusionToPlayer()
+    public void CheckOcclusionToPlayer(float defaultAngle)
     {
         if (IsSomethingBlocking(GetPitch(Angle)))
         {
             float newAngle = GetNonBlockingAngle();
             if (newAngle > 0 && interpolation == null)
             {
-                Interpolate(newAngle, durationPitchTransition);
+                Interpolate(newAngle, 0.5f);
+            }
+        }
+        else
+        {
+            if (defaultAngle != Angle && !IsSomethingBlocking(GetPitch(defaultAngle)))
+            {
+                Interpolate(defaultAngle, 0.5f);
             }
         }
     }
@@ -158,34 +146,54 @@ public class CameraPosition : MonoBehaviour
     float GetNonBlockingAngle()
     {
         Debug.Assert(angle < maxAngle && angle > minAngle, "Angle out of bound");
+
         float maxOutput = angle;
+        bool foundMax = false;
+        bool foundMin = false;
         for (float higherAngle = angle + 1; higherAngle < maxAngle; higherAngle++)
         {
             if (!IsSomethingBlocking(GetPitch(higherAngle)))
             {
+                foundMax = true;
                 maxOutput = higherAngle;
                 break;
             }
         }
 
         float minOutput = angle;
-        for (float lowerAngle = angle - 1; lowerAngle > minAngle; lowerAngle++)
+        for (float lowerAngle = angle - 1; lowerAngle > minAngle; lowerAngle--)
         {
             if (!IsSomethingBlocking(GetPitch(lowerAngle)))
             {
+                foundMin = true;
                 minOutput = lowerAngle;
                 break;
             }
         }
         
         //No valid angle found
-        if (maxOutput == angle && minOutput == angle)
+        if (!foundMax && !foundMin)
             return -1;
 
-        if (Mathf.Abs(maxOutput - angle) <= Mathf.Abs(minOutput - angle))
-            return maxOutput;
+        if (foundMax)
+        {
+            //Both found an angle , get the smallest
+            if (foundMin)
+            {
+                if (Mathf.Abs(maxOutput - angle) <= Mathf.Abs(minOutput - angle))
+                    return maxOutput;
+                else
+                    return minOutput;
+            }
+            else
+            {
+                return maxOutput;
+            }
+        }
         else
+        {
             return minOutput;
+        }
     }
 
     #endregion
