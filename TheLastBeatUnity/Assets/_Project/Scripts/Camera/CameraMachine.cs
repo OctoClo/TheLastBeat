@@ -5,25 +5,32 @@ using Cinemachine;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using DG.Tweening;
+using System.Linq;
 
 public class CameraMachine : MonoBehaviour
 {
     CameraState currentState;
 
-    [SerializeField]
+    [SerializeField][TabGroup("Machine")]
     CameraState firstState;
 
-    [SerializeField]
+    [SerializeField][TabGroup("Profile")]
     float fov;
 
-    [SerializeField]
+    [SerializeField][TabGroup("Profile")]
     float angle;
 
-    [SerializeField]
+    [SerializeField][TabGroup("Profile")]
+    AnimationCurve curveTransition;
+
+    [SerializeField][TabGroup("Profile")]
     float distance = 0;
 
-    [SerializeField]
-    GameObject gob;
+    public static CameraMachine GetLiveCamera()
+    {
+        CinemachineVirtualCamera cam = GameObject.FindObjectOfType<CinemachineBrain>().ActiveVirtualCamera as CinemachineVirtualCamera;
+        return cam.GetComponent<CameraMachine>();
+    }
 
     struct Sequences
     {
@@ -34,7 +41,7 @@ public class CameraMachine : MonoBehaviour
     }
     Sequences runningSequences;
 
-    [Button]
+    [Button][TabGroup("Profile")]
     public void Test()
     {
         CameraEffect camEffect = GetComponent<CameraEffect>();
@@ -48,19 +55,20 @@ public class CameraMachine : MonoBehaviour
         }
     }
 
-    [SerializeField] [FolderPath(RequireExistingPath = true, ParentFolder = "Assets")]
+    [SerializeField] [FolderPath(RequireExistingPath = true, ParentFolder = "Assets")][TabGroup("Profile")]
     string outputAsset;
 
-    [SerializeField]
+    [TabGroup("Profile")]
     string outputFile;
 
-    [Button]
+    [Button][TabGroup("Profile")]
     public void GenerateAsset()
     {
         CameraProfile cp = ScriptableObject.CreateInstance<CameraProfile>();
         cp.FOV = fov;
         cp.Angle = angle;
         cp.DistanceToViewer = distance;
+        cp.curve = curveTransition;
 
         AssetDatabase.CreateAsset(cp, "Assets/" + outputAsset + "/" + outputFile + ".asset");
         AssetDatabase.SaveAssets();
@@ -68,11 +76,6 @@ public class CameraMachine : MonoBehaviour
     }
 
     public CinemachineVirtualCamera virtualCam => GetComponent<CinemachineVirtualCamera>();
-
-    private void Start()
-    {
-        StartTransition(firstState, firstState.Profile, 0.1f);
-    }
 
     IEnumerator TestCoroutine()
     {
@@ -87,9 +90,26 @@ public class CameraMachine : MonoBehaviour
             else
             {
                 CameraState cs = GetComponent<InCombat>();
-                GetComponent<InCombat>().SetConfin(virtualCam.Follow.transform.position, gob);
                 StartTransition(cs, cs.Profile, 2);
             }
+        }
+    }
+
+    private void Start()
+    {
+        StartTransition(GetComponent<OutOfCombat>(), GetComponent<OutOfCombat>().Profile, 0.1f);
+    }
+
+    public void StartZoom(float newValue , CameraEffect.ZoomType zt, float duration)
+    {
+        if (zt == CameraEffect.ZoomType.FOV)
+        {
+            DOTween.To(() => virtualCam.m_Lens.FieldOfView, x => virtualCam.m_Lens.FieldOfView = x, newValue, duration);
+        }
+        else
+        {
+            CinemachineFramingTransposer transposer = virtualCam.GetCinemachineComponent<CinemachineFramingTransposer>();
+            DOTween.To(() => transposer.m_CameraDistance , x => transposer.m_CameraDistance = x, newValue, duration);
         }
     }
 
@@ -115,6 +135,7 @@ public class CameraMachine : MonoBehaviour
         //Run parallel sequence
         //Set angle
 
+        //You can't have two sequence of camera transition at the same time
         if (runningSequences.seq != null)
         {
             runningSequences.seq.Kill();
@@ -131,22 +152,13 @@ public class CameraMachine : MonoBehaviour
         }
 
         runningSequences.seq = DOTween.Sequence();
-        runningSequences.seq.AppendCallback(() =>
-        {
-            SetState(null);
-        });
-        runningSequences.seq.AppendCallback(() =>
-        {
-            camPosition.Interpolate(cp.Angle, timeTransition, cp.curve);
-        });
-        runningSequences.seq.AppendInterval(timeTransition);
-        runningSequences.seq.AppendCallback(() => {
-            SetState(newState);
-        });
+        runningSequences.seq.AppendCallback(() => SetState(null));
+        runningSequences.seq.Append(DOTween.To(() => camPosition.Angle, x => camPosition.Angle = x, cp.Angle, timeTransition));
+        runningSequences.seq.AppendCallback(() => SetState(newState));
 
         //Set FOV
         runningSequences.seq2 = DOTween.Sequence();
-        runningSequences.seq2.AppendCallback(() => camEffect.StartZoom(cp.FOV - virtualCam.m_Lens.FieldOfView, timeTransition, CameraEffect.ZoomType.FOV, CameraEffect.ValueType.Absolute));
+        runningSequences.seq2.Append(DOTween.To(() => virtualCam.m_Lens.FieldOfView, x => virtualCam.m_Lens.FieldOfView = x, cp.FOV, timeTransition));
 
         //Set distance
         runningSequences.seq3 = DOTween.Sequence();
@@ -189,5 +201,22 @@ public class CameraMachine : MonoBehaviour
         
     }
 
+    public void EnterCombat(float time, float width = 50)
+    {
+        InCombat ic = GetComponent<InCombat>();
+        ic.Width = width;
+        if (ic)
+        {
+            StartTransition(ic, ic.Profile, time, true);
+        }
+    }
 
+    public void EnterOOC(float time)
+    {
+        OutOfCombat ooc = GetComponent<OutOfCombat>();
+        if (ooc)
+        {
+            StartTransition(ooc, ooc.Profile, time);
+        }
+    }
 }

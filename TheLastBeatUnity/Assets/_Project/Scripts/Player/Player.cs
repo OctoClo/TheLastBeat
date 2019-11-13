@@ -51,11 +51,6 @@ public class Player : Inputable
     public FocusZone FocusZone = null;
     Enemy currentTarget = null;
 
-    public bool Positive(float value)
-    {
-        return value > 0;
-    }
-
     private void Start()
     {
         TimeManager.Instance.SetPlayer(this);
@@ -152,5 +147,29 @@ public class Player : Inputable
     public void ResetChainedEnemies()
     {
         chainedEnemies.Clear();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("CombatZone"))
+        {
+            CameraMachine machine = GameObject.FindObjectOfType<CameraMachine>();
+            if (machine)
+            {
+                machine.EnterCombat(0.5f, other.GetComponent<BoxCollider>().size.x);
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("CombatZone"))
+        {
+            CameraMachine machine = GameObject.FindObjectOfType<CameraMachine>();
+            if (machine)
+            {
+                machine.EnterOOC(0.5f);
+            }
+        }
     }
 }
