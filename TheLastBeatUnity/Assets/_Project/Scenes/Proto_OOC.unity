@@ -3438,21 +3438,30 @@ MonoBehaviour:
   profile: {fileID: 11400000, guid: d001843945537af4cab6fc052446512a, type: 2}
   player: {fileID: 20222176}
   cameraPos: {fileID: 299680488}
-  maxOffsetDuration: 5
+  maxOffsetDuration: 3
   decayPerSecond: 0
   maxRatio: {x: 0.25, y: 0.25}
   cameraSmoothing:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0
+      time: -1
+      value: -1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
+    - serializedVersion: 3
+      time: 0.014408171
+      value: 0
+      inSlope: 1.4041235
+      outSlope: 1.4041235
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.13866654
     - serializedVersion: 3
       time: 1
       value: 1
