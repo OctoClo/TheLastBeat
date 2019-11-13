@@ -5,23 +5,34 @@ using Cinemachine;
 
 public class InCombat : CameraState
 {
-    Vector3 confinOrigin;
-    GameObject confiner;
+    [SerializeField]
+    GameObject confinObject;
+    public GameObject ConfinObject => confinObject;
 
-    public void SetConfin(Vector3 pointConfin, GameObject gob)
+    float width = 10;
+    public float Width
     {
-        confiner = gob;
-        gob.transform.position = pointConfin;
+        get
+        {
+            return width;
+        }
+        set
+        {
+            width = Mathf.Abs(width);
+            Vector3 size = ConfinObject.GetComponent<BoxCollider>().size;
+            ConfinObject.GetComponent<BoxCollider>().size = new Vector3(width, size.y, size.z);
+        }
     }
 
     public override void StateEnter()
     {
-        confiner.SetActive(true);
+        confinObject.SetActive(true);
+        confinObject.transform.position = machine.virtualCam.Follow.position;
     }
 
     public override void StateExit()
     {
-        confiner.SetActive(false);
+        confinObject.SetActive(false);
     }
 
     public override void StateUpdate()

@@ -15,8 +15,6 @@ public class CameraPosition : MonoBehaviour
         virtualCam = GetComponent<CinemachineVirtualCamera>();
         transposer = virtualCam.GetCinemachineComponent<CinemachineFramingTransposer>();
         offset = GetComponent<CinemachineCameraOffset>();
-        ratio = Camera.main.aspect;
-        offsetValueMax = new Vector2(virtualCam.m_Lens.OrthographicSize, virtualCam.m_Lens.OrthographicSize / ratio);
     }
 
     private void Start()
@@ -36,19 +34,19 @@ public class CameraPosition : MonoBehaviour
     CinemachineFramingTransposer transposer;
     CinemachineCameraOffset offset;
 
-    [TabGroup("CameraAngle")][SerializeField]
+    [SerializeField]
     float pitchValueTest = 0;
 
-    [TabGroup("CameraAngle")][SerializeField]
+    [SerializeField]
     float minAngle;
 
-    [TabGroup("CameraAngle")][SerializeField]
+    [SerializeField]
     float maxAngle;
 
-    [TabGroup("CameraAngle")][SerializeField]
+    [SerializeField]
     string tagContains;
 
-    [TabGroup("CameraAngle")] [SerializeField]
+    [SerializeField]
     float durationPitchTransition;
 
     IEnumerator interpolation;
@@ -76,30 +74,29 @@ public class CameraPosition : MonoBehaviour
 
     Sequence sequencePitchControl;
 
-    [TabGroup("CameraAngle")]
     [Button(ButtonSizes.Medium, Name = "Set camera pitch (degrees)")]
     public void Set()
     {
         SetPitch(pitchValueTest);
     }
 
-    IEnumerator InterpolationCoroutine(float from , float to , float duration, AnimationCurve ac)
+    IEnumerator InterpolationCoroutine(float from , float to , float duration)
     {
         float normalizedTime = 0;
         while (normalizedTime < 1)
         {
             normalizedTime += Time.deltaTime / duration;
-            Angle = Mathf.Lerp(from, to, ac.Evaluate(normalizedTime));
+            Angle = Mathf.Lerp(from, to, normalizedTime);
             yield return null;
         }
         interpolation = null;
     }
 
-    public void Interpolate(float to, float duration, AnimationCurve ac)
+    public void Interpolate(float to, float duration)
     {
         if (interpolation != null)
             StopCoroutine(interpolation);
-        interpolation = InterpolationCoroutine(Angle, to, duration, ac);
+        interpolation = InterpolationCoroutine(Angle, to, duration);
         StartCoroutine(interpolation);
     }
 
@@ -133,7 +130,7 @@ public class CameraPosition : MonoBehaviour
             float newAngle = GetNonBlockingAngle();
             if (newAngle > 0 && interpolation == null)
             {
-                Interpolate(newAngle, durationPitchTransition, cameraSmoothing);
+                Interpolate(newAngle, durationPitchTransition);
             }
         }
     }
@@ -189,31 +186,6 @@ public class CameraPosition : MonoBehaviour
             return maxOutput;
         else
             return minOutput;
-    }
-
-    #endregion
-
-    #region Offset
-    //Normalized values of offset
-
-    [TabGroup("Offset")][SerializeField]
-    Vector2 maxRatio;
-
-    [TabGroup("Offset")][SerializeField]
-    AnimationCurve cameraSmoothing;
-
-    //Automaticly sampled
-    Vector2 offsetValueMax;
-    float ratio;
-
-    public void Reset(bool hard = false)
-    {
-        Move(0, 0);
-    }
-
-    public void Move(float ratioX , float ratioY)
-    {
-        offset.m_Offset = new Vector3((float)(offsetValueMax.x * cameraSmoothing.Evaluate(ratioX) * maxRatio.x), (float)(offsetValueMax.y * cameraSmoothing.Evaluate(ratioY) * maxRatio.y));
     }
 
     #endregion

@@ -262,7 +262,7 @@ public class Player : Inputable
             CameraMachine machine = GameObject.FindObjectOfType<CameraMachine>();
             if (machine)
             {
-                machine.EnterCombat(0.5f);
+                machine.EnterCombat(0.5f, other.GetComponent<BoxCollider>().size.x);
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class OutOfCombat : CameraState
 {
@@ -17,14 +18,34 @@ public class OutOfCombat : CameraState
     [SerializeField]
     float decayPerSecond;
 
+    [SerializeField]
+    Vector2 maxRatio;
+
+    [SerializeField]
+    AnimationCurve cameraSmoothing;
+
+    float ratio;
+    Vector2 offsetValueMax;
+
     float movementX;
     float movementY;
 
+    CinemachineCameraOffset offset;
+
     public override void StateEnter()
     {
-        cameraPos.Reset();
         movementX = 0;
         movementY = 0;
+
+        ratio = Camera.main.aspect;
+        offsetValueMax = new Vector2(machine.virtualCam.m_Lens.OrthographicSize, machine.virtualCam.m_Lens.OrthographicSize / ratio);
+        offset = GetComponent<CinemachineCameraOffset>();
+        Move(0, 0);
+    }
+
+    public void Move(float ratioX, float ratioY)
+    {
+        offset.m_Offset = new Vector3((float)(offsetValueMax.x * cameraSmoothing.Evaluate(ratioX) * maxRatio.x), (float)(offsetValueMax.y * cameraSmoothing.Evaluate(ratioY) * maxRatio.y));
     }
 
     public override void StateExit()
@@ -36,7 +57,7 @@ public class OutOfCombat : CameraState
         Vector2 vec = new Vector2(player.CurrentDirection.x, player.CurrentDirection.z);
         InterpretMovement(vec);
         Decay(vec);
-        cameraPos.Move(movementX, movementY);
+        Move(movementX, movementY);
     }
 
     public void InterpretMovement(Vector2 value)

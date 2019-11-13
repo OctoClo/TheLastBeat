@@ -10,23 +10,20 @@ public class CameraMachine : MonoBehaviour
 {
     CameraState currentState;
 
-    [SerializeField]
+    [SerializeField][TabGroup("Machine")]
     CameraState firstState;
 
-    [SerializeField]
+    [SerializeField][TabGroup("Profile")]
     float fov;
 
-    [SerializeField]
+    [SerializeField][TabGroup("Profile")]
     float angle;
 
-    [SerializeField]
+    [SerializeField][TabGroup("Profile")]
     AnimationCurve curveTransition;
 
-    [SerializeField]
+    [SerializeField][TabGroup("Profile")]
     float distance = 0;
-
-    [SerializeField]
-    GameObject confinGameObject;
 
     struct Sequences
     {
@@ -37,7 +34,7 @@ public class CameraMachine : MonoBehaviour
     }
     Sequences runningSequences;
 
-    [Button]
+    [Button][TabGroup("Profile")]
     public void Test()
     {
         CameraEffect camEffect = GetComponent<CameraEffect>();
@@ -51,13 +48,13 @@ public class CameraMachine : MonoBehaviour
         }
     }
 
-    [SerializeField] [FolderPath(RequireExistingPath = true, ParentFolder = "Assets")]
+    [SerializeField] [FolderPath(RequireExistingPath = true, ParentFolder = "Assets")][TabGroup("Profile")]
     string outputAsset;
 
-    [SerializeField]
+    [TabGroup("Profile")]
     string outputFile;
 
-    [Button]
+    [Button][TabGroup("Profile")]
     public void GenerateAsset()
     {
         CameraProfile cp = ScriptableObject.CreateInstance<CameraProfile>();
@@ -86,7 +83,6 @@ public class CameraMachine : MonoBehaviour
             else
             {
                 CameraState cs = GetComponent<InCombat>();
-                GetComponent<InCombat>().SetConfin(virtualCam.Follow.transform.position, confinGameObject);
                 StartTransition(cs, cs.Profile, 2);
             }
         }
@@ -185,10 +181,10 @@ public class CameraMachine : MonoBehaviour
         
     }
 
-    public void EnterCombat(float time)
+    public void EnterCombat(float time, float width = 50)
     {
         InCombat ic = GetComponent<InCombat>();
-        ic.SetConfin(transform.position, confinGameObject);
+        ic.Width = width;
         if (ic)
         {
             StartTransition(ic, ic.Profile, time, true);

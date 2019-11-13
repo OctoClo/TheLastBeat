@@ -3423,40 +3423,6 @@ MonoBehaviour:
   maxAngle: 30
   tagContains: CameraBlock
   durationPitchTransition: 1.5
-  maxRatio: {x: 0.25, y: 0.25}
-  cameraSmoothing:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -1
-      value: -1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.014408171
-      value: 0
-      inSlope: 1.4041235
-      outSlope: 1.4041235
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.13866654
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!114 &299680489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3474,6 +3440,31 @@ MonoBehaviour:
   cameraPos: {fileID: 299680488}
   maxOffsetDuration: 5
   decayPerSecond: 0
+  maxRatio: {x: 0.25, y: 0.25}
+  cameraSmoothing:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &299680490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3496,9 +3487,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   distance: 40
-  confinGameObject: {fileID: 496426890}
   outputAsset: _Project/Scripts/Camera
-  outputFile: Combat
 --- !u!114 &299680491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3512,6 +3501,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   profile: {fileID: 11400000, guid: c0a3d2bee3b1c3f4d9d8d4b0fd267964, type: 2}
+  confinObject: {fileID: 496426890}
 --- !u!114 &299680492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5952,7 +5942,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 15.406952, y: 100, z: 205.38754}
-  m_Center: {x: -0.69218826, y: 0, z: -51.563828}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &496426893
 MeshRenderer:
   m_ObjectHideFlags: 0
