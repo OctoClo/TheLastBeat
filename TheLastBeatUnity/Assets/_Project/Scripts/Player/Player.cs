@@ -8,36 +8,35 @@ using System;
 
 public class Player : Inputable
 {
-    [TabGroup("Movement")] [SerializeField]
+    [TabGroup("Movement")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
     float speed = 7.5f;
-    [TabGroup("Movement")] [SerializeField]
+    [TabGroup("Movement")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
     float maxRotationPerFrame = 30;
     public Vector3 CurrentDirection { get; set; }
 
     //If you are doing something (dash , attack animation, etc...) or if game paused, temporary block input
     public override bool BlockInput => (blockInput || Status.Dashing || Status.Stunned);
 
-    [TabGroup("Rush")] [SerializeField] [ValidateInput("Positive", "This value must be > 0")]
+    [TabGroup("Rush")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
     float rushDuration = 0.5f;
-    [TabGroup("Rush")] [SerializeField] [ValidateInput("Positive", "This value must be > 0")]
+    [TabGroup("Rush")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
     float rushRewindDuration = 0.5f;
-    [TabGroup("Rush")] [SerializeField] [ValidateInput("Positive", "This value must be > 0")]
+    [TabGroup("Rush")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
     float rushZoomDuration = 0.5f;
-    [TabGroup("Rush")] [SerializeField] [ValidateInput("Positive", "This value must be > 0")]
+    [TabGroup("Rush")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
     float rushZoomValue = 5;
-    [TabGroup("Rush")] [SerializeField] [ValidateInput("Positive", "This value must be > 0")]
+    [TabGroup("Rush")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
     float rushSlowMoDuration = 0.5f;
     [TabGroup("Rush")] [SerializeField] [Tooltip("The longer it is, the longer it take to change frequency")]
     float rushImpactBeatDelay = 0;
-    [TabGroup("Rush")] [SerializeField] [ValidateInput("Positive", "This value must be > 0")]
+    [TabGroup("Rush")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
     float rushChainMaxInterval = 2;
     float rushChainTimer = 0;
-    [SerializeField]
     List<Enemy> chainedEnemies = new List<Enemy>();
 
-    [TabGroup("Blink")] [SerializeField]
+    [TabGroup("Blink")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
     float blinkSpeed = 5;
-    [TabGroup("Blink")] [SerializeField]
+    [TabGroup("Blink")] [SerializeField] [Required]
     ParticleSystem blinkParticles = null;
 
     [Space] [Header("References")] [SerializeField] [Required]
@@ -50,6 +49,8 @@ public class Player : Inputable
     [HideInInspector]
     public FocusZone FocusZone = null;
     Enemy currentTarget = null;
+
+    bool CheckPositive(float value) { return value > 0; }
 
     private void Start()
     {
