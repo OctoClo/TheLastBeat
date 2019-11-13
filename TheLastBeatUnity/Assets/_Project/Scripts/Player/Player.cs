@@ -53,16 +53,9 @@ public class Player : Inputable
     [SerializeField]
     float maxRotationPerFrame;
 
-    
-
     List<Enemy> chainedEnemies = new List<Enemy>();
     Enemy currentTarget = null;
     Material material = null;
-
-    public bool Positive(float value)
-    {
-        return value > 0;
-    }
 
     private void Start()
     {
@@ -254,6 +247,30 @@ public class Player : Inputable
 
             if (chainTimer < 0)
                 chainedEnemies.Clear();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("CombatZone"))
+        {
+            CameraMachine machine = GameObject.FindObjectOfType<CameraMachine>();
+            if (machine)
+            {
+                machine.EnterCombat(0.5f, other.GetComponent<BoxCollider>().size.x);
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("CombatZone"))
+        {
+            CameraMachine machine = GameObject.FindObjectOfType<CameraMachine>();
+            if (machine)
+            {
+                machine.EnterOOC(0.5f);
+            }
         }
     }
 }

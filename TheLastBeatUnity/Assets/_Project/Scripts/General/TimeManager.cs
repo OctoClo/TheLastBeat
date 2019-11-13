@@ -7,7 +7,7 @@ public class TimeManager
     Player player;
     List<Enemy> enemies = new List<Enemy>();
 
-    public float CurrentTimeScale;
+    public float CurrentTimeScale = 1;
 
     public void SetPlayer(Player newPlayer)
     {
