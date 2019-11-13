@@ -28,8 +28,8 @@ public class CameraMachine : MonoBehaviour
 
     public static CameraMachine GetLiveCamera()
     {
-        CinemachineVirtualCamera virtualCam = GameObject.FindObjectsOfType<CinemachineVirtualCamera>().OrderBy(x => x.m_Priority).First();
-        return virtualCam.GetComponent<CameraMachine>();
+        CinemachineVirtualCamera cam = GameObject.FindObjectOfType<CinemachineBrain>().ActiveVirtualCamera as CinemachineVirtualCamera;
+        return cam.GetComponent<CameraMachine>();
     }
 
     struct Sequences
