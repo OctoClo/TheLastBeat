@@ -20,10 +20,13 @@ public class CameraMachine : MonoBehaviour
     float angle;
 
     [SerializeField]
+    AnimationCurve curveTransition;
+
+    [SerializeField]
     float distance = 0;
 
     [SerializeField]
-    GameObject gob;
+    GameObject confinGameObject;
 
     struct Sequences
     {
@@ -61,6 +64,7 @@ public class CameraMachine : MonoBehaviour
         cp.FOV = fov;
         cp.Angle = angle;
         cp.DistanceToViewer = distance;
+        cp.curve = curveTransition;
 
         AssetDatabase.CreateAsset(cp, "Assets/" + outputAsset + "/" + outputFile + ".asset");
         AssetDatabase.SaveAssets();
@@ -68,11 +72,6 @@ public class CameraMachine : MonoBehaviour
     }
 
     public CinemachineVirtualCamera virtualCam => GetComponent<CinemachineVirtualCamera>();
-
-    private void Start()
-    {
-        StartTransition(firstState, firstState.Profile, 0.1f);
-    }
 
     IEnumerator TestCoroutine()
     {
@@ -87,10 +86,15 @@ public class CameraMachine : MonoBehaviour
             else
             {
                 CameraState cs = GetComponent<InCombat>();
-                GetComponent<InCombat>().SetConfin(virtualCam.Follow.transform.position, gob);
+                GetComponent<InCombat>().SetConfin(virtualCam.Follow.transform.position, confinGameObject);
                 StartTransition(cs, cs.Profile, 2);
             }
         }
+    }
+
+    private void Start()
+    {
+        StartTransition(GetComponent<OutOfCombat>(), GetComponent<OutOfCombat>().Profile, 0.1f);
     }
 
     void Update()
@@ -132,22 +136,13 @@ public class CameraMachine : MonoBehaviour
         }
 
         runningSequences.seq = DOTween.Sequence();
-        runningSequences.seq.AppendCallback(() =>
-        {
-            SetState(null);
-        });
-        runningSequences.seq.AppendCallback(() =>
-        {
-            camPosition.Interpolate(cp.Angle, timeTransition, cp.curve);
-        });
-        runningSequences.seq.AppendInterval(timeTransition);
-        runningSequences.seq.AppendCallback(() => {
-            SetState(newState);
-        });
+        runningSequences.seq.AppendCallback(() => SetState(null));
+        runningSequences.seq.Append(DOTween.To(() => camPosition.Angle, x => camPosition.Angle = x, cp.Angle, timeTransition));
+        runningSequences.seq.AppendCallback(() => SetState(newState));
 
         //Set FOV
         runningSequences.seq2 = DOTween.Sequence();
-        runningSequences.seq2.AppendCallback(() => camEffect.StartZoom(cp.FOV - virtualCam.m_Lens.FieldOfView, timeTransition, CameraEffect.ZoomType.FOV, CameraEffect.ValueType.Absolute));
+        runningSequences.seq2.Append(DOTween.To(() => virtualCam.m_Lens.FieldOfView, x => virtualCam.m_Lens.FieldOfView = x, cp.FOV, timeTransition));
 
         //Set distance
         runningSequences.seq3 = DOTween.Sequence();
@@ -190,5 +185,22 @@ public class CameraMachine : MonoBehaviour
         
     }
 
+    public void EnterCombat(float time)
+    {
+        InCombat ic = GetComponent<InCombat>();
+        ic.SetConfin(transform.position, confinGameObject);
+        if (ic)
+        {
+            StartTransition(ic, ic.Profile, time, true);
+        }
+    }
 
+    public void EnterOOC(float time)
+    {
+        OutOfCombat ooc = GetComponent<OutOfCombat>();
+        if (ooc)
+        {
+            StartTransition(ooc, ooc.Profile, time);
+        }
+    }
 }

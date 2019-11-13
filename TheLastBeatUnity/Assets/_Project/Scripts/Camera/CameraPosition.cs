@@ -97,6 +97,8 @@ public class CameraPosition : MonoBehaviour
 
     public void Interpolate(float to, float duration, AnimationCurve ac)
     {
+        if (interpolation != null)
+            StopCoroutine(interpolation);
         interpolation = InterpolationCoroutine(Angle, to, duration, ac);
         StartCoroutine(interpolation);
     }

@@ -108,6 +108,7 @@ public class CameraEffect : MonoBehaviour
     [InfoBox("Plus fluide si le mode solo est activé", InfoMessageType.None)]
     void TestZoom()
     {
+        DOTween.Init();
         LoadRefs();
         StartZoom(valueForTest, durationZoom, modifierType, valueType);
     }
@@ -122,7 +123,7 @@ public class CameraEffect : MonoBehaviour
     CinemachineFramingTransposer transposer;
     IEnumerator currentZooming;
 
-    public void StartZoom(float modifier, float duration, ZoomType zoomType, ValueType vt, float delay = 0)
+    public void StartZoom(float modifier, float duration, ZoomType zoomType, ValueType vt)
     {
         //No need to set zoom
         if (modifier == 0 && vt == ValueType.Absolute)
@@ -136,14 +137,12 @@ public class CameraEffect : MonoBehaviour
         if (currentZooming != null)
             StopCoroutine(currentZooming);
 
-        currentZooming = ZoomCoroutine(modifier, durationZoom, zoomType, vt, delay);
+        currentZooming = ZoomCoroutine(modifier, durationZoom, zoomType, vt);
         StartCoroutine(currentZooming);
     }
 
-    IEnumerator ZoomCoroutine(float modifier, float duration, ZoomType zoomType, ValueType vt, float delay = 0)
+    IEnumerator ZoomCoroutine(float modifier, float duration, ZoomType zoomType, ValueType vt)
     {
-        yield return new WaitForSecondsRealtime(delay);
-
         float normalizedTime = 0;
         if (zoomType == ZoomType.FOV)
         {
