@@ -10,52 +10,52 @@ public class Player : Inputable
     [Header("Movement")]
     [SerializeField]
     float speed = 7.5f;
+    [SerializeField]
+    float maxRotationPerFrame = 30;
     public Vector3 CurrentDirection { get; set; }
 
     //If you are doing something (dash , attack animation, etc...) or if game paused, temporary block input
     public override bool BlockInput => (blockInput || dashing || stunned);
 
-    [Space] [Header("Dash")]
-    [SerializeField] [ValidateInput("Positive", "This value must be > 0")]
-    float dashDuration = 0.5f;
-    bool dashing = false;
+    Dictionary<EInputAction, Ability> abilities;  
+    
+    
+
     [SerializeField]
     float chainMaxDuration = 2;
     float chainTimer = 0;
+    List<Enemy> chainedEnemies = new List<Enemy>();
+
+    bool dashing = false;
+
     [SerializeField]
     float stunDuration = 0.5f;
     float stunTimer = 0;
     bool stunned = false;
-    [SerializeField] [Tooltip("The longer it is, the longer it take to change frequency")]
-    float dashImpactBeatDelay = 0;
 
-    [Space] [Header("Dash effects")]
-    [SerializeField]
-    CameraEffect cameraEffect = null;
-    [SerializeField]
-    float zoomDuration = 0.5f;
-    [SerializeField]
-    float zoomValue = 5;
-    [SerializeField]
-    float slowMotionDuration = 0.5f;
-    [SerializeField]
-    ParticleSystem dashParticles = null;
+    [TabGroup("Rush")] [SerializeField] [ValidateInput("Positive", "This value must be > 0")]
+    float rushDuration = 0.5f;
+    [TabGroup("Rush")] [SerializeField] [ValidateInput("Positive", "This value must be > 0")]
+    float rushZoomDuration = 0.5f;
+    [TabGroup("Rush")] [SerializeField] [ValidateInput("Positive", "This value must be > 0")]
+    float rushZoomValue = 5;
+    [TabGroup("Rush")] [SerializeField] [ValidateInput("Positive", "This value must be > 0")]
+    float rushSlowMoDuration = 0.5f;
+    [TabGroup("Rush")] [SerializeField] [Tooltip("The longer it is, the longer it take to change frequency")]
+    float rushImpactBeatDelay = 0;
 
-    [Space] [Header("Blink")]
-    [SerializeField]
+    [TabGroup("Blink")] [SerializeField]
     float blinkSpeed = 5;
+    [TabGroup("Blink")] [SerializeField]
+    ParticleSystem blinkParticles = null;
 
     [Space] [Header("References")]
     [SerializeField] [Required]
     Health health = null;
-    [SerializeField] [Required]
-    FocusZone focusZone;
     [SerializeField]
-    float maxRotationPerFrame;
+    CameraEffect cameraEffect = null;
+    public FocusZone FocusZone = null;
 
-    
-
-    List<Enemy> chainedEnemies = new List<Enemy>();
     Enemy currentTarget = null;
     Material material = null;
 
@@ -68,6 +68,14 @@ public class Player : Inputable
     {
         TimeManager.Instance.SetPlayer(this);
         material = GetComponent<MeshRenderer>().material;
+
+        abilities = new Dictionary<EInputAction, Ability>();
+
+        Ability blink = new BlinkAbility(this, blinkSpeed, blinkParticles);
+        abilities.Add(EInputAction.BLINK, blink);
+
+        Ability rush = new RushAbility(this, rushDuration, rushZoomDuration, rushZoomValue, rushSlowMoDuration, rushImpactBeatDelay);
+        abilities.Add(EInputAction.RUSH, rush);
     }
 
     public override void ProcessInput(Rewired.Player player)
@@ -76,7 +84,7 @@ public class Player : Inputable
         CurrentDirection = direction;
 
         // Rotation
-        currentTarget = focusZone.GetCurrentTarget();
+        currentTarget = FocusZone.GetCurrentTarget();
         Vector3 lookVector;
         if (currentTarget)
         {
@@ -93,10 +101,22 @@ public class Player : Inputable
         // Translation and dashing
         if (!dashing)
         {
-            if (player.GetButtonDown("Blink"))
-                StartCoroutine(Blink(direction));
-            else if (player.GetButtonDown("Rush") && currentTarget)
-                Rush();
+            if (player.GetButtonDown(EInputAction.BLINK.ToString()))
+            {
+                Ability blink = null;
+                abilities.TryGetValue(EInputAction.BLINK, out blink);
+
+                if (blink != null)
+                    blink.Launch();
+            }
+            else if (player.GetButtonDown(EInputAction.RUSH.ToString()) && currentTarget)
+            {
+                Ability rush = null;
+                abilities.TryGetValue(EInputAction.RUSH, out rush);
+
+                if (rush != null)
+                    rush.Launch();
+            }
             else if (player.GetButtonDown("RewindRush"))
                 RewindRush();
             else
@@ -107,102 +127,15 @@ public class Player : Inputable
         }
     }
 
-    IEnumerator Blink(Vector3 direction)
+    public Enemy GetCurrentTarget()
     {
-        //dashParticles.Play();
-        direction.Normalize();
-        transform.position = transform.position + direction * blinkSpeed;
-        yield return new WaitForSecondsRealtime(1);
-        //dashParticles.Stop();
-    }
-
-    void Rush()
-    {
-        dashing = true;
-        focusZone.playerDashing = true;
-        health.NewAction(1.5f, dashImpactBeatDelay);
-        TimeManager.Instance.SlowEnemies();
-        //cameraEffect.StartZoom(zoomValue, zoomDuration, CameraEffect.ZoomType.Distance, CameraEffect.ValueType.Absolute);
-
-        Sequence seq = DOTween.Sequence();
-
-        Vector3 direction = new Vector3(currentTarget.transform.position.x, transform.position.y, currentTarget.transform.position.z) - transform.position;
-
-        RaycastHit hit = GetObstacleOnDash(direction);
-
-        // Dash towards the target
-        if (hit.collider)
-            direction = new Vector3(hit.point.x, transform.position.y, hit.point.z) - transform.position;
-        else
-        {
-            direction *= 1.3f;
-            gameObject.layer = LayerMask.NameToLayer("Player Dashing");
-        }
-
-        Vector3 goalPosition = direction + transform.position;
-        seq.Append(transform.DOMove(goalPosition, dashDuration));
-        
-        if (hit.collider)
-        {
-            direction *= -0.5f;
-            goalPosition += direction;
-            seq.Append(transform.DOMove(goalPosition, dashDuration / 2.0f));
-        }
-
-        seq.AppendCallback(() => EndRush(hit));
-        seq.Play();
-    }
-
-    void EndRush(RaycastHit hit)
-    {
-        dashing = false;
-        focusZone.playerDashing = false;
-        TimeManager.Instance.ResetEnemies();
-
-        if (hit.collider)
-        {
-            if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Stun"))
-            {
-                stunned = true;
-                stunTimer = stunDuration;
-                material.color = Color.blue;
-            }
-        }
-        else
-        {
-            currentTarget.GetAttacked();
-            chainedEnemies.Add(currentTarget);
-            chainTimer = chainMaxDuration;
-            gameObject.layer = LayerMask.NameToLayer("Default");
-            TimeManager.Instance.SetTimeScale(1);
-            StartCoroutine(WaitDuringSlowMotion());
-        }
-    }
-
-    IEnumerator WaitDuringSlowMotion()
-    {
-        yield return new WaitForSecondsRealtime(slowMotionDuration);
-        TimeManager.Instance.SetTimeScale(1);
-        //cameraEffect.StartZoom(-zoomValue, zoomDuration, CameraEffect.ZoomType.Distance, CameraEffect.ValueType.Absolute);
-    }
-
-    RaycastHit GetObstacleOnDash(Vector3 direction)
-    {
-        RaycastHit[] hits = Physics.RaycastAll(transform.position, direction, direction.magnitude);
-
-        foreach (RaycastHit hit in hits)
-        {
-            if (hit.collider.gameObject.layer != LayerMask.NameToLayer("Enemies"))
-                return hit;
-        }
-
-        return new RaycastHit();
+        return FocusZone.GetCurrentTarget();
     }
 
     void RewindRush()
     {
         dashing = true;
-        focusZone.overrideControl = true;
+        FocusZone.overrideControl = true;
         TimeManager.Instance.SlowEnemies();
         gameObject.layer = LayerMask.NameToLayer("Player Dashing");
 
@@ -215,13 +148,13 @@ public class Player : Inputable
         {
             if (enemy)
             {
-                focusZone.OverrideCurrentEnemy(enemy);
+                FocusZone.OverrideCurrentEnemy(enemy);
 
                 direction = new Vector3(enemy.transform.position.x, goalPosition.y, enemy.transform.position.z) - goalPosition;
                 direction *= 1.3f;
 
                 goalPosition += direction;
-                seq.Append(transform.DOMove(goalPosition, dashDuration));
+                seq.Append(transform.DOMove(goalPosition, rushDuration));
                 seq.AppendCallback(() => { enemy.GetAttacked(); });
             }
         }
@@ -229,7 +162,7 @@ public class Player : Inputable
         seq.Play();
 
         dashing = false;
-        focusZone.overrideControl = false;
+        FocusZone.overrideControl = false;
         TimeManager.Instance.ResetEnemies();
         gameObject.layer = LayerMask.NameToLayer("Default");
         chainedEnemies.Clear();
@@ -237,6 +170,9 @@ public class Player : Inputable
 
     private void Update()
     {
+        foreach (KeyValuePair<EInputAction, Ability> abilityPair in abilities)
+            abilityPair.Value.Update(Time.deltaTime * TimeManager.Instance.CurrentTimeScale);
+
         if (stunned)
         {
             stunTimer -= Time.deltaTime;

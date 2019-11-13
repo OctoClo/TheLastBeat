@@ -503,19 +503,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 7.5
-  dashDuration: 0.2
+  maxRotationPerFrame: 30
   chainMaxDuration: 1
   stunDuration: 1
-  dashImpactBeatDelay: 0
-  cameraEffect: {fileID: 0}
-  zoomDuration: 0.1
-  zoomValue: 5
-  slowMotionDuration: 0.4
-  dashParticles: {fileID: 2677722166019704287}
+  rushDuration: 0.5
+  rushZoomDuration: 0.5
+  rushZoomValue: 5
+  rushSlowMoDuration: 0.5
+  rushImpactBeatDelay: 0
   blinkSpeed: 5
+  blinkParticles: {fileID: 2677722166019704287}
   health: {fileID: 0}
-  focusZone: {fileID: 3489716976359924725}
-  maxRotationPerFrame: 30
+  cameraEffect: {fileID: 0}
+  FocusZone: {fileID: 3489716976359924725}
 --- !u!1 &4748544424461611197
 GameObject:
   m_ObjectHideFlags: 0
@@ -528,7 +528,7 @@ GameObject:
   - component: {fileID: 2677722166019704287}
   - component: {fileID: 8880225825181935549}
   m_Layer: 0
-  m_Name: Particle System
+  m_Name: Blink Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
