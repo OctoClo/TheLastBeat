@@ -57,11 +57,6 @@ public class Player : Inputable
     Enemy currentTarget = null;
     Material material = null;
 
-    public bool Positive(float value)
-    {
-        return value > 0;
-    }
-
     private void Start()
     {
         TimeManager.Instance.SetPlayer(this);

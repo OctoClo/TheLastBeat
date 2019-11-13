@@ -5,6 +5,7 @@ using Cinemachine;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using DG.Tweening;
+using System.Linq;
 
 public class CameraMachine : MonoBehaviour
 {
@@ -24,6 +25,12 @@ public class CameraMachine : MonoBehaviour
 
     [SerializeField][TabGroup("Profile")]
     float distance = 0;
+
+    public static CameraMachine GetLiveCamera()
+    {
+        CinemachineVirtualCamera virtualCam = GameObject.FindObjectsOfType<CinemachineVirtualCamera>().OrderBy(x => x.m_Priority).First();
+        return virtualCam.GetComponent<CameraMachine>();
+    }
 
     struct Sequences
     {
@@ -91,6 +98,19 @@ public class CameraMachine : MonoBehaviour
     private void Start()
     {
         StartTransition(GetComponent<OutOfCombat>(), GetComponent<OutOfCombat>().Profile, 0.1f);
+    }
+
+    public void StartZoom(float newValue , CameraEffect.ZoomType zt, float duration)
+    {
+        if (zt == CameraEffect.ZoomType.FOV)
+        {
+            DOTween.To(() => virtualCam.m_Lens.FieldOfView, x => virtualCam.m_Lens.FieldOfView = x, newValue, duration);
+        }
+        else
+        {
+            CinemachineFramingTransposer transposer = virtualCam.GetCinemachineComponent<CinemachineFramingTransposer>();
+            DOTween.To(() => transposer.m_CameraDistance , x => transposer.m_CameraDistance = x, newValue, duration);
+        }
     }
 
     void Update()

@@ -10,6 +10,7 @@ using DG.Tweening;
 public class CameraEffect : MonoBehaviour
 {
     CinemachineVirtualCamera virtualCam;
+    public CinemachineVirtualCamera VirtualCam => virtualCam;
     Vector3 pivot;
     CinemachineCameraOffset offset;
 
