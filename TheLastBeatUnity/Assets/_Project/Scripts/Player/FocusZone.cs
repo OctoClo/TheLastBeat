@@ -8,24 +8,22 @@ public class FocusZone : MonoBehaviour
     [SerializeField]
     bool focusOnNewEnemies;
 
-    [HideInInspector]
-    public bool playerDashing;
-    [HideInInspector]
-    public bool overrideControl;
-
     [SerializeField]
     Transform arrow;
 
+    [HideInInspector]
+    public bool overrideControl;
+
+    [HideInInspector]
+    public PlayerStatus playerStatus;
+
+    List<Enemy> potentialTargets;
     Enemy currentTarget;
     Vector3 targetLookVector;
     Quaternion targetRotation;
 
-    [SerializeField]
-    List<Enemy> potentialTargets;
-
     private void Start()
     {
-        playerDashing = false;
         overrideControl = false;
         potentialTargets = new List<Enemy>();
     }
@@ -115,7 +113,7 @@ public class FocusZone : MonoBehaviour
             potentialTargets.Add(enemy);
             potentialTargets.Sort((enemy1, enemy2) => enemy1.transform.position.x.CompareTo(enemy2.transform.position.x));
 
-            bool changeFocusedEnemy = (focusOnNewEnemies && playerDashing);
+            bool changeFocusedEnemy = (focusOnNewEnemies && playerStatus.dashing);
             // If no current target, this enemy becomes the target
             if (!overrideControl && (!currentTarget || changeFocusedEnemy))
             {

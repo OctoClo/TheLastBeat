@@ -5,7 +5,6 @@ using DG.Tweening;
 
 public class RushAbility : Ability
 {
-    bool dashing = false;
     float duration = 0;
 
     float zoomDuration = 0;
@@ -50,11 +49,10 @@ public class RushAbility : Ability
 
     void Rush()
     {
-        dashing = true;
-        player.FocusZone.playerDashing = true;
+        player.Status.dashing = true;
         //health.NewAction(1.5f, impactBeatDelay);
-        TimeManager.Instance.SlowEnemies();
         //cameraEffect.StartZoom(zoomValue, zoomDuration, CameraEffect.ZoomType.Distance, CameraEffect.ValueType.Absolute);
+        TimeManager.Instance.SlowEnemies();
 
         Sequence seq = DOTween.Sequence();
 
@@ -88,8 +86,7 @@ public class RushAbility : Ability
 
     void EndRush(RaycastHit hit)
     {
-        dashing = false;
-        player.FocusZone.playerDashing = false;
+        player.Status.dashing = false;
         TimeManager.Instance.ResetEnemies();
 
         if (hit.collider)

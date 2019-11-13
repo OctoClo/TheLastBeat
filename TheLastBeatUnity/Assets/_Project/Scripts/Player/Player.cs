@@ -7,31 +7,14 @@ using DG.Tweening;
 
 public class Player : Inputable
 {
-    [Header("Movement")]
-    [SerializeField]
+    [TabGroup("Movement")] [SerializeField]
     float speed = 7.5f;
-    [SerializeField]
+    [TabGroup("Movement")] [SerializeField]
     float maxRotationPerFrame = 30;
     public Vector3 CurrentDirection { get; set; }
 
     //If you are doing something (dash , attack animation, etc...) or if game paused, temporary block input
-    public override bool BlockInput => (blockInput || dashing || stunned);
-
-    Dictionary<EInputAction, Ability> abilities;  
-    
-    
-
-    [SerializeField]
-    float chainMaxDuration = 2;
-    float chainTimer = 0;
-    List<Enemy> chainedEnemies = new List<Enemy>();
-
-    bool dashing = false;
-
-    [SerializeField]
-    float stunDuration = 0.5f;
-    float stunTimer = 0;
-    bool stunned = false;
+    public override bool BlockInput => (blockInput || Status.dashing || Status.stunned);
 
     [TabGroup("Rush")] [SerializeField] [ValidateInput("Positive", "This value must be > 0")]
     float rushDuration = 0.5f;
@@ -49,15 +32,23 @@ public class Player : Inputable
     [TabGroup("Blink")] [SerializeField]
     ParticleSystem blinkParticles = null;
 
-    [Space] [Header("References")]
-    [SerializeField] [Required]
-    Health health = null;
+    [Space]
+    [Header("References")]
     [SerializeField]
-    CameraEffect cameraEffect = null;
-    public FocusZone FocusZone = null;
+    [Required]
+    Health health = null;
 
+    [SerializeField]
+    float chainMaxDuration = 2;
+    float chainTimer = 0;
+    List<Enemy> chainedEnemies = new List<Enemy>();
+
+    [HideInInspector]
+    public PlayerStatus Status;
+
+    Dictionary<EInputAction, Ability> abilities;
+    FocusZone focusZone = null;
     Enemy currentTarget = null;
-    Material material = null;
 
     public bool Positive(float value)
     {
@@ -67,7 +58,9 @@ public class Player : Inputable
     private void Start()
     {
         TimeManager.Instance.SetPlayer(this);
-        material = GetComponent<MeshRenderer>().material;
+        Status = GetComponent<PlayerStatus>();
+        focusZone = GetComponentInChildren<FocusZone>();
+        focusZone.playerStatus = Status;
 
         abilities = new Dictionary<EInputAction, Ability>();
 
@@ -84,7 +77,7 @@ public class Player : Inputable
         CurrentDirection = direction;
 
         // Rotation
-        currentTarget = FocusZone.GetCurrentTarget();
+        currentTarget = focusZone.GetCurrentTarget();
         Vector3 lookVector;
         if (currentTarget)
         {
@@ -99,7 +92,7 @@ public class Player : Inputable
         }
 
         // Translation and dashing
-        if (!dashing)
+        if (!Status.dashing)
         {
             if (player.GetButtonDown(EInputAction.BLINK.ToString()))
             {
@@ -129,13 +122,13 @@ public class Player : Inputable
 
     public Enemy GetCurrentTarget()
     {
-        return FocusZone.GetCurrentTarget();
+        return focusZone.GetCurrentTarget();
     }
 
     void RewindRush()
     {
-        dashing = true;
-        FocusZone.overrideControl = true;
+        Status.dashing = true;
+        focusZone.overrideControl = true;
         TimeManager.Instance.SlowEnemies();
         gameObject.layer = LayerMask.NameToLayer("Player Dashing");
 
@@ -148,7 +141,7 @@ public class Player : Inputable
         {
             if (enemy)
             {
-                FocusZone.OverrideCurrentEnemy(enemy);
+                focusZone.OverrideCurrentEnemy(enemy);
 
                 direction = new Vector3(enemy.transform.position.x, goalPosition.y, enemy.transform.position.z) - goalPosition;
                 direction *= 1.3f;
@@ -161,8 +154,8 @@ public class Player : Inputable
 
         seq.Play();
 
-        dashing = false;
-        FocusZone.overrideControl = false;
+        Status.dashing = false;
+        focusZone.overrideControl = false;
         TimeManager.Instance.ResetEnemies();
         gameObject.layer = LayerMask.NameToLayer("Default");
         chainedEnemies.Clear();
@@ -171,20 +164,11 @@ public class Player : Inputable
     private void Update()
     {
         foreach (KeyValuePair<EInputAction, Ability> abilityPair in abilities)
-            abilityPair.Value.Update(Time.deltaTime * TimeManager.Instance.CurrentTimeScale);
+            abilityPair.Value.Update(Time.deltaTime * Time.timeScale);
 
-        if (stunned)
-        {
-            stunTimer -= Time.deltaTime;
-            
-            if (stunTimer <= 0)
-            {
-                stunned = false;
-                material.color = Color.white;
-            }
-        }
+        
 
-        if (chainedEnemies.Count > 0 && !dashing)
+        if (chainedEnemies.Count > 0 && !Status.dashing)
         {
             chainTimer -= Time.deltaTime;
 
