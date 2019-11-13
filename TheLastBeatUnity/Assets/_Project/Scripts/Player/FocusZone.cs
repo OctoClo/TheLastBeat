@@ -6,27 +6,21 @@ using Rewired;
 public class FocusZone : MonoBehaviour
 {
     [SerializeField]
-    bool focusOnNewEnemies;
+    bool focusOnNewEnemies = false;
 
     [SerializeField]
-    Transform arrow;
+    Transform arrow = null;
 
     [HideInInspector]
-    public bool overrideControl;
+    public bool overrideControl = false;
 
     [HideInInspector]
-    public PlayerStatus playerStatus;
+    public PlayerStatus playerStatus = null;
 
-    List<Enemy> potentialTargets;
-    Enemy currentTarget;
-    Vector3 targetLookVector;
-    Quaternion targetRotation;
-
-    private void Start()
-    {
-        overrideControl = false;
-        potentialTargets = new List<Enemy>();
-    }
+    List<Enemy> potentialTargets = new List<Enemy>();
+    Enemy currentTarget = null;
+    Vector3 targetLookVector = Vector3.zero;
+    Quaternion targetRotation = Quaternion.identity;
 
     private void OnEnable()
     {
@@ -113,7 +107,7 @@ public class FocusZone : MonoBehaviour
             potentialTargets.Add(enemy);
             potentialTargets.Sort((enemy1, enemy2) => enemy1.transform.position.x.CompareTo(enemy2.transform.position.x));
 
-            bool changeFocusedEnemy = (focusOnNewEnemies && playerStatus.dashing);
+            bool changeFocusedEnemy = (focusOnNewEnemies && playerStatus.Dashing);
             // If no current target, this enemy becomes the target
             if (!overrideControl && (!currentTarget || changeFocusedEnemy))
             {

@@ -49,7 +49,7 @@ public class RushAbility : Ability
 
     void Rush()
     {
-        player.Status.dashing = true;
+        player.Status.StartDashing();
         //health.NewAction(1.5f, impactBeatDelay);
         //cameraEffect.StartZoom(zoomValue, zoomDuration, CameraEffect.ZoomType.Distance, CameraEffect.ValueType.Absolute);
         TimeManager.Instance.SlowEnemies();
@@ -86,23 +86,15 @@ public class RushAbility : Ability
 
     void EndRush(RaycastHit hit)
     {
-        player.Status.dashing = false;
+        player.Status.StopDashing();
         TimeManager.Instance.ResetEnemies();
 
         if (hit.collider)
-        {
-            /*if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Stun"))
-            {
-                stunned = true;
-                stunTimer = stunDuration;
-                material.color = Color.blue;
-            }*/
-        }
+            player.Status.Stun();
         else
         {
             target.GetAttacked();
-            //chainedEnemies.Add(currentTarget);
-            //chainTimer = chainMaxDuration;
+            player.AddChainedEnemy(target);
             player.gameObject.layer = LayerMask.NameToLayer("Default");
             //TimeManager.Instance.SetTimeScale(0.1f);
             slowMoTimer = slowMoDuration;

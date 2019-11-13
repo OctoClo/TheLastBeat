@@ -5,21 +5,44 @@ using Sirenix.OdinInspector;
 
 public class PlayerStatus : MonoBehaviour
 {
-    [TabGroup("Status")]
-    public bool stunned = false;
+    [TabGroup("Status")] [SerializeField]
+    bool stunned => Stunned;
+    public bool Stunned { get; private set; }
 
     [TabGroup("Status")]
-    public bool dashing = false;
+    bool dashing => Dashing;
+    public bool Dashing { get; private set; }
 
     [TabGroup("Stun")] [SerializeField]
     float stunDuration = 0.5f;
     float stunTimer = 0;
+    [TabGroup("Stun")] [SerializeField]
+    Color stunColor = Color.blue;
+    Color normalColor = Color.white;
 
     Material material = null;
 
     private void Start()
     {
         material = GetComponent<MeshRenderer>().material;
+        normalColor = material.color;
+    }
+
+    public void Stun()
+    {
+        Stunned = true;
+        material.color = stunColor;
+        stunTimer = stunDuration;
+    }
+
+    public void StartDashing()
+    {
+        Dashing = true;
+    }
+
+    public void StopDashing()
+    {
+        Dashing = false;
     }
 
     private void Update()
@@ -30,8 +53,8 @@ public class PlayerStatus : MonoBehaviour
 
             if (stunTimer <= 0)
             {
-                stunned = false;
-                material.color = Color.white;
+                Stunned = false;
+                material.color = normalColor;
             }
         }
     }

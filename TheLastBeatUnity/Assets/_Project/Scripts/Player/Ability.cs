@@ -6,7 +6,7 @@ public enum EInputAction
 {
     BLINK,
     RUSH,
-    REWIND_RUSH
+    REWINDRUSH
 }
 
 public abstract class Ability
