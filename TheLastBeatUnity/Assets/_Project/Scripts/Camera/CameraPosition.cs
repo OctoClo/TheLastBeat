@@ -195,7 +195,6 @@ public class CameraPosition : MonoBehaviour
 
     #region Offset
     //Normalized values of offset
-    Vector2 movement = new Vector2();
 
     [TabGroup("Offset")][SerializeField]
     Vector2 maxRatio;
@@ -206,6 +205,11 @@ public class CameraPosition : MonoBehaviour
     //Automaticly sampled
     Vector2 offsetValueMax;
     float ratio;
+
+    public void Reset(bool hard = false)
+    {
+        Move(0, 0);
+    }
 
     public void Move(float ratioX , float ratioY)
     {

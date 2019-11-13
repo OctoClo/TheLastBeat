@@ -22,11 +22,13 @@ public class OutOfCombat : CameraState
 
     public override void StateEnter()
     {
+        cameraPos.Reset();
+        movementX = 0;
+        movementY = 0;
     }
 
     public override void StateExit()
     {
-
     }
 
     public override void StateUpdate()
