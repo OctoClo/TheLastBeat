@@ -6,8 +6,8 @@ using Cinemachine;
 public class InCombat : CameraState
 {
     [SerializeField]
-    GameObject confinObject;
-    public GameObject ConfinObject => confinObject;
+    Collider confinObject;
+    public Collider ConfinObject => confinObject;
 
     float width = 10;
     public float Width
@@ -26,13 +26,18 @@ public class InCombat : CameraState
 
     public override void StateEnter()
     {
-        confinObject.SetActive(true);
+        confinObject.enabled = true;
         confinObject.transform.position = machine.virtualCam.Follow.position;
+        CinemachineConfiner cf = CameraMachine.GetLiveCamera().GetComponent<CinemachineConfiner>();
+        if (cf != null)
+        {
+            cf.m_BoundingVolume = confinObject;
+        }
     }
 
     public override void StateExit()
     {
-        confinObject.SetActive(false);
+        confinObject.enabled = false;
     }
 
     public override void StateUpdate()

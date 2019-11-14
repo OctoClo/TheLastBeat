@@ -59,26 +59,16 @@ public class CameraPosition : MonoBehaviour
         }
     }
 
-    Sequence sequencePitchControl;
-
-    IEnumerator InterpolationCoroutine(float from , float to , float duration)
-    {
-        float normalizedTime = 0;
-        while (normalizedTime < 1)
-        {
-            normalizedTime += Time.deltaTime / duration;
-            Angle = Mathf.Lerp(from, to, normalizedTime);
-            yield return null;
-        }
-        interpolation = null;
-    }
+    Sequence interpolationSequence;
 
     public void Interpolate(float to, float duration)
     {
-        if (interpolation != null)
-            StopCoroutine(interpolation);
-        interpolation = InterpolationCoroutine(Angle, to, duration);
-        StartCoroutine(interpolation);
+        if (interpolationSequence != null && interpolationSequence.IsPlaying())
+            interpolationSequence.Kill();
+
+        interpolationSequence = DOTween.Sequence();
+        interpolationSequence.Append(DOTween.To(() => Angle, x => Angle = x, to, duration));
+        interpolationSequence.Play();
     }
 
     public void SetPitch(float angle)
