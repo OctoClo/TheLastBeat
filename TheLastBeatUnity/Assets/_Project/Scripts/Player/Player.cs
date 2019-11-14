@@ -4,63 +4,71 @@ using UnityEngine;
 using Rewired;
 using Sirenix.OdinInspector;
 using DG.Tweening;
+using System;
 
 public class Player : Inputable
 {
-    [Header("Movement")]
-    [SerializeField]
+    [TabGroup("Movement")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
     float speed = 7.5f;
+    [TabGroup("Movement")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
+    float maxRotationPerFrame = 30;
     public Vector3 CurrentDirection { get; set; }
 
     //If you are doing something (dash , attack animation, etc...) or if game paused, temporary block input
-    public override bool BlockInput => (blockInput || dashing || stunned);
+    public override bool BlockInput => (blockInput || Status.Dashing || Status.Stunned);
 
-    [Space] [Header("Dash")]
-    [SerializeField] [ValidateInput("Positive", "This value must be > 0")]
-    float dashDuration = 0.5f;
-    bool dashing = false;
-    [SerializeField]
-    float chainMaxDuration = 2;
-    float chainTimer = 0;
-    [SerializeField]
-    float stunDuration = 0.5f;
-    float stunTimer = 0;
-    bool stunned = false;
-    [SerializeField] [Tooltip("The longer it is, the longer it take to change frequency")]
-    float dashImpactBeatDelay = 0;
-
-    [Space] [Header("Dash effects")]
-    [SerializeField]
-    CameraEffect cameraEffect = null;
-    [SerializeField]
-    float zoomDuration = 0.5f;
-    [SerializeField]
-    float zoomValue = 5;
-    [SerializeField]
-    float slowMotionDuration = 0.5f;
-    [SerializeField]
-    ParticleSystem dashParticles = null;
-
-    [Space] [Header("Blink")]
-    [SerializeField]
-    float blinkSpeed = 5;
-
-    [Space] [Header("References")]
-    [SerializeField] [Required]
-    Health health = null;
-    [SerializeField] [Required]
-    FocusZone focusZone;
-    [SerializeField]
-    float maxRotationPerFrame;
-
+    [TabGroup("Rush")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
+    float rushDuration = 0.5f;
+    [TabGroup("Rush")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
+    float rushRewindDuration = 0.5f;
+    [TabGroup("Rush")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
+    float rushZoomDuration = 0.5f;
+    [TabGroup("Rush")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
+    float rushZoomValue = 5;
+    [TabGroup("Rush")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
+    float rushSlowMoDuration = 0.5f;
+    [TabGroup("Rush")] [SerializeField] [Tooltip("The longer it is, the longer it take to change frequency")]
+    float rushImpactBeatDelay = 0;
+    [TabGroup("Rush")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
+    float rushChainMaxInterval = 2;
+    float rushChainTimer = 0;
     List<Enemy> chainedEnemies = new List<Enemy>();
+
+    [TabGroup("Blink")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
+    float blinkSpeed = 5;
+    [TabGroup("Blink")] [SerializeField] [Required]
+    ParticleSystem blinkParticles = null;
+
+    [Space] [Header("References")] [SerializeField] [Required]
+    Health health = null;
+
+    [HideInInspector]
+    public PlayerStatus Status;
+
+    Dictionary<EInputAction, Ability> abilities;
+    [HideInInspector]
+    public FocusZone FocusZone = null;
     Enemy currentTarget = null;
-    Material material = null;
+
+    bool CheckPositive(float value) { return value > 0; }
 
     private void Start()
     {
         TimeManager.Instance.SetPlayer(this);
-        material = GetComponent<MeshRenderer>().material;
+        Status = GetComponent<PlayerStatus>();
+        FocusZone = GetComponentInChildren<FocusZone>();
+        FocusZone.playerStatus = Status;
+
+        abilities = new Dictionary<EInputAction, Ability>();
+
+        Ability blink = new BlinkAbility(this, blinkSpeed, blinkParticles);
+        abilities.Add(EInputAction.BLINK, blink);
+
+        Ability rush = new RushAbility(this, rushDuration, rushZoomDuration, rushZoomValue, rushSlowMoDuration, rushImpactBeatDelay);
+        abilities.Add(EInputAction.RUSH, rush);
+
+        Ability rewindRush = new RewindRushAbility(this, rushRewindDuration);
+        abilities.Add(EInputAction.REWINDRUSH, rewindRush);
     }
 
     public override void ProcessInput(Rewired.Player player)
@@ -68,8 +76,8 @@ public class Player : Inputable
         Vector3 direction = new Vector3(player.GetAxis("MoveX"), 0, player.GetAxis("MoveY"));
         CurrentDirection = direction;
 
-        // Rotation
-        currentTarget = focusZone.GetCurrentTarget();
+        // Look at
+        currentTarget = FocusZone.GetCurrentTarget();
         Vector3 lookVector;
         if (currentTarget)
         {
@@ -83,16 +91,23 @@ public class Player : Inputable
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(lookVector), maxRotationPerFrame);
         }
 
-        // Translation and dashing
-        if (!dashing)
+        // Movement and abilities
+        if (!Status.Dashing)
         {
-            if (player.GetButtonDown("Blink"))
-                StartCoroutine(Blink(direction));
-            else if (player.GetButtonDown("Rush") && currentTarget)
-                Rush();
-            else if (player.GetButtonDown("RewindRush"))
-                RewindRush();
-            else
+            Ability ability = null;
+
+            foreach (EInputAction action in (EInputAction[])Enum.GetValues(typeof(EInputAction)))
+            {
+                if (player.GetButtonDown(action.ToString()))
+                {
+                    abilities.TryGetValue(action, out ability);
+
+                    if (ability != null)
+                        ability.Launch();
+                }
+            }
+
+            if (ability == null)
             {
                 Vector3 movement = direction * Time.deltaTime * speed;
                 transform.Translate(movement, Space.World);
@@ -100,154 +115,39 @@ public class Player : Inputable
         }
     }
 
-    IEnumerator Blink(Vector3 direction)
-    {
-        //dashParticles.Play();
-        direction.Normalize();
-        transform.position = transform.position + direction * blinkSpeed;
-        yield return new WaitForSecondsRealtime(1);
-        //dashParticles.Stop();
-    }
-
-    void Rush()
-    {
-        dashing = true;
-        focusZone.playerDashing = true;
-        health.NewAction(1.5f, dashImpactBeatDelay);
-        TimeManager.Instance.SlowEnemies();
-        //cameraEffect.StartZoom(zoomValue, zoomDuration, CameraEffect.ZoomType.Distance, CameraEffect.ValueType.Absolute);
-
-        Sequence seq = DOTween.Sequence();
-
-        Vector3 direction = new Vector3(currentTarget.transform.position.x, transform.position.y, currentTarget.transform.position.z) - transform.position;
-
-        RaycastHit hit = GetObstacleOnDash(direction);
-
-        // Dash towards the target
-        if (hit.collider)
-            direction = new Vector3(hit.point.x, transform.position.y, hit.point.z) - transform.position;
-        else
-        {
-            direction *= 1.3f;
-            gameObject.layer = LayerMask.NameToLayer("Player Dashing");
-        }
-
-        Vector3 goalPosition = direction + transform.position;
-        seq.Append(transform.DOMove(goalPosition, dashDuration));
-        
-        if (hit.collider)
-        {
-            direction *= -0.5f;
-            goalPosition += direction;
-            seq.Append(transform.DOMove(goalPosition, dashDuration / 2.0f));
-        }
-
-        seq.AppendCallback(() => EndRush(hit));
-        seq.Play();
-    }
-
-    void EndRush(RaycastHit hit)
-    {
-        dashing = false;
-        focusZone.playerDashing = false;
-        TimeManager.Instance.ResetEnemies();
-
-        if (hit.collider)
-        {
-            if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Stun"))
-            {
-                stunned = true;
-                stunTimer = stunDuration;
-                material.color = Color.blue;
-            }
-        }
-        else
-        {
-            currentTarget.GetAttacked();
-            chainedEnemies.Add(currentTarget);
-            chainTimer = chainMaxDuration;
-            gameObject.layer = LayerMask.NameToLayer("Default");
-            TimeManager.Instance.SetTimeScale(1);
-            StartCoroutine(WaitDuringSlowMotion());
-        }
-    }
-
-    IEnumerator WaitDuringSlowMotion()
-    {
-        yield return new WaitForSecondsRealtime(slowMotionDuration);
-        TimeManager.Instance.SetTimeScale(1);
-        //cameraEffect.StartZoom(-zoomValue, zoomDuration, CameraEffect.ZoomType.Distance, CameraEffect.ValueType.Absolute);
-    }
-
-    RaycastHit GetObstacleOnDash(Vector3 direction)
-    {
-        RaycastHit[] hits = Physics.RaycastAll(transform.position, direction, direction.magnitude);
-
-        foreach (RaycastHit hit in hits)
-        {
-            if (hit.collider.gameObject.layer != LayerMask.NameToLayer("Enemies"))
-                return hit;
-        }
-
-        return new RaycastHit();
-    }
-
-    void RewindRush()
-    {
-        dashing = true;
-        focusZone.overrideControl = true;
-        TimeManager.Instance.SlowEnemies();
-        gameObject.layer = LayerMask.NameToLayer("Player Dashing");
-
-        Sequence seq = DOTween.Sequence();
-        Vector3 direction;
-        Vector3 goalPosition = transform.position;
-        chainedEnemies.Reverse();
-
-        foreach (Enemy enemy in chainedEnemies)
-        {
-            if (enemy)
-            {
-                focusZone.OverrideCurrentEnemy(enemy);
-
-                direction = new Vector3(enemy.transform.position.x, goalPosition.y, enemy.transform.position.z) - goalPosition;
-                direction *= 1.3f;
-
-                goalPosition += direction;
-                seq.Append(transform.DOMove(goalPosition, dashDuration));
-                seq.AppendCallback(() => { enemy.GetAttacked(); });
-            }
-        }
-
-        seq.Play();
-
-        dashing = false;
-        focusZone.overrideControl = false;
-        TimeManager.Instance.ResetEnemies();
-        gameObject.layer = LayerMask.NameToLayer("Default");
-        chainedEnemies.Clear();
-    }
-
     private void Update()
     {
-        if (stunned)
-        {
-            stunTimer -= Time.deltaTime;
-            
-            if (stunTimer <= 0)
-            {
-                stunned = false;
-                material.color = Color.white;
-            }
-        }
+        foreach (KeyValuePair<EInputAction, Ability> abilityPair in abilities)
+            abilityPair.Value.Update(Time.deltaTime * Time.timeScale);
 
-        if (chainedEnemies.Count > 0 && !dashing)
+        if (chainedEnemies.Count > 0 && !Status.Dashing)
         {
-            chainTimer -= Time.deltaTime;
+            rushChainTimer -= Time.deltaTime;
 
-            if (chainTimer < 0)
-                chainedEnemies.Clear();
+            if (rushChainTimer < 0)
+                ResetChainedEnemies();
         }
+    }
+
+    public Enemy GetCurrentTarget()
+    {
+        return FocusZone.GetCurrentTarget();
+    }
+
+    public List<Enemy> GetChainedEnemies()
+    {
+        return chainedEnemies;
+    }
+
+    public void AddChainedEnemy(Enemy enemy)
+    {
+        chainedEnemies.Add(enemy);
+        rushChainTimer = rushChainMaxInterval;
+    }
+
+    public void ResetChainedEnemies()
+    {
+        chainedEnemies.Clear();
     }
 
     private void OnTriggerEnter(Collider other)

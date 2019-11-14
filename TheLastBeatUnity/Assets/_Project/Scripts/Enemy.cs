@@ -9,50 +9,46 @@ public class EnemyDeadEvent : GameEvent { public Enemy enemy; }
 
 public class Enemy : MonoBehaviour
 {
-    [Header("Movement")]
-    [SerializeField]
-    float speed;
-    Rigidbody rb;
+    [Header("Movement")] [SerializeField]
+    float speed = 5;
+    Rigidbody rb = null;
 
     [Header("Life")]
     [SerializeField]
-    int maxLives = 0;
-    int lives;
+    int maxLives = 10;
+    int lives = 10;
     [SerializeField]
-    TextMeshProUGUI lifeText;
+    TextMeshProUGUI lifeText = null;
 
     [Header("Stun")]
-    bool stunned;
+    bool stunned = false;
     [SerializeField]
-    float stunDuration;
-    float stunTimer;
+    float stunDuration = 1;
+    float stunTimer = 0;
     [SerializeField] [Range(0.0f, 1.0f)]
-    float[] chancesToGetStunned;
+    float[] chancesToGetStunned = new float[5];
     [SerializeField]
-    int stunCounter;
+    int stunCounter = 0;
+    
 
     [Header("References")]
     [SerializeField] [Required]
-    Transform player;
+    Transform player = null;
 
-    bool isTarget;
-    FocusZone focusZone;
+    bool isTarget = false;
+    FocusZone focusZone = null;
 
-    Material material;
+    Material material = null;
 
     private void Start()
     {
         TimeManager.Instance.AddEnemy(this);
 
         rb = GetComponent<Rigidbody>();
+        material = GetComponent<MeshRenderer>().material;
 
         lives = maxLives;
         lifeText.text = lives.ToString();
-        stunTimer = 0;
-
-        material = GetComponent<MeshRenderer>().material;
-
-        stunCounter = 0;
     }
 
     private void Update()
@@ -124,10 +120,5 @@ public class Enemy : MonoBehaviour
     public void ResetSpeed()
     {
         speed *= 10.0f;
-    }
-
-    private void OnDestroy()
-    {
-        
     }
 }
