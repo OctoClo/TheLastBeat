@@ -88,7 +88,7 @@ public class RushAbility : Ability
         player.Status.StopDashing();
         TimeManager.Instance.ResetEnemies();
 
-        if (hit.collider)
+        if (hit.collider && hit.collider.gameObject.layer == LayerMask.NameToLayer("Stun"))
             player.Status.Stun();
         else
         {
