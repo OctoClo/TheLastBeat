@@ -33,17 +33,17 @@ public class CameraMachine : MonoBehaviour
 
     IEnumerator TestCoroutine()
     {
-       while (true)
+        while (true)
         {
             yield return new WaitForSeconds(Random.Range(1.5f, 2.5f));
             if (Random.value < 0.5f)
             {
-                CameraState cs = GetComponent<OutOfCombat>();
+                CameraState cs = GetComponent<CameraOutOfCombat>();
                 StartTransition(cs, cs.Profile, 2);
             }
             else
             {
-                CameraState cs = GetComponent<InCombat>();
+                CameraState cs = GetComponent<CameraInCombat>();
                 StartTransition(cs, cs.Profile, 2);
             }
         }
@@ -157,7 +157,7 @@ public class CameraMachine : MonoBehaviour
 
     public void EnterCombat(float time, float width = 50)
     {
-        InCombat ic = GetComponent<InCombat>();
+        CameraInCombat ic = GetComponent<CameraInCombat>();
         ic.ConfinerWidth = width;
         if (ic)
         {
@@ -167,7 +167,7 @@ public class CameraMachine : MonoBehaviour
 
     public void EnterOOC(float time)
     {
-        OutOfCombat ooc = GetComponent<OutOfCombat>();
+        CameraOutOfCombat ooc = GetComponent<CameraOutOfCombat>();
         if (ooc)
         {
             StartTransition(ooc, ooc.Profile, time);

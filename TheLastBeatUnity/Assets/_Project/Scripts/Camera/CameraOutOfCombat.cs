@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-public class OutOfCombat : CameraState
+public class CameraOutOfCombat : CameraState
 {
     // Start is called before the first frame update
     [SerializeField]

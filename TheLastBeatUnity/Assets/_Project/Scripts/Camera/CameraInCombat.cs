@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-public class InCombat : CameraState
+public class CameraInCombat : CameraState
 {
     [SerializeField]
     Collider confinObject = null;

@@ -10,38 +10,33 @@ using UnityEditor;
 using Sirenix.OdinInspector;
 using Cinemachine;
 
-public class ProfileGenerator : MonoBehaviour
+public class CameraProfileGenerator : MonoBehaviour
 {
-    [SerializeField]
-    [TabGroup("Profile")]
+    [TabGroup("Profile")] [SerializeField]
     float fov = 0;
 
-    [SerializeField]
-    [TabGroup("Profile")]
+    [TabGroup("Profile")] [SerializeField]
     float angle = 0;
 
-    [SerializeField]
-    [TabGroup("Profile")]
-    AnimationCurve curveTransition = null;
-
-    [SerializeField][TabGroup("Profile")]
+    [TabGroup("Profile")] [SerializeField]
     float distance = 0;
 
-    [SerializeField]
-    [FolderPath(RequireExistingPath = true, ParentFolder = "Assets")]
-    [TabGroup("Profile")]
-    string outputAsset = "";
+    [TabGroup("Profile")] [SerializeField]
+    AnimationCurve transitionInCurve = null;
 
-    [TabGroup("Profile")]
-    string outputFile = "";
+    [TabGroup("Profile")] [SerializeField] [FolderPath(RequireExistingPath = true, ParentFolder = "Assets")]
+    string outputAssetFolder = "";
 
-    [SerializeField]
+    [TabGroup("Profile")] [SerializeField]
+    string outputAssetName = "";
+
+    [TabGroup("References")] [SerializeField] [Required]
     CinemachineVirtualCamera virtualCam;
 
-    [SerializeField]
+    [TabGroup("References")] [SerializeField] [Required]
     CameraEffect camEffect;
 
-    [SerializeField]
+    [TabGroup("References")] [SerializeField] [Required]
     CameraPosition camPosition;
 
 #if UNITY_EDITOR
@@ -52,9 +47,9 @@ public class ProfileGenerator : MonoBehaviour
         cp.FOV = fov;
         cp.Angle = angle;
         cp.DistanceToViewer = distance;
-        cp.transitionIn = curveTransition;
+        cp.transitionIn = transitionInCurve;
 
-        AssetDatabase.CreateAsset(cp, "Assets/" + outputAsset + "/" + outputFile + ".asset");
+        AssetDatabase.CreateAsset(cp, "Assets/" + outputAssetFolder + "/" + outputAssetName + ".asset");
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
     }

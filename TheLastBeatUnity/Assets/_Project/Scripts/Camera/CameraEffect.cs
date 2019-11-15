@@ -9,6 +9,9 @@ using DG.Tweening;
 [RequireComponent(typeof(CinemachineVirtualCamera))]
 public class CameraEffect : MonoBehaviour
 {
+    [InfoBox("Pensez à activer le mode Solo en haut du Component Cinemachine Virtual Camera")] [SerializeField]
+    string hello = "Pensez-yyyy";
+
     public CinemachineVirtualCamera VirtualCam { get; private set; }
 
     private void Start()
@@ -25,24 +28,21 @@ public class CameraEffect : MonoBehaviour
 
     #region ScreenShake
     [TabGroup("ScreenShake")] [SerializeField]
-    float defaultIntensityScreenShake = 0;
+    float shakeDuration = 0;
 
-    [TabGroup("ScreenShake")]
-    [SerializeField]
-    float defaultScreenShakeDuration = 0;
+    [TabGroup("ScreenShake")] [SerializeField]
+    float shakeIntensity = 0;
 
-    [TabGroup("ScreenShake")][SerializeField]
-    AnimationCurve intensityOverTime = null;
+    [TabGroup("ScreenShake")] [SerializeField]
+    AnimationCurve shakeIntensityOverTime = null;
 
     CinemachineBasicMultiChannelPerlin perlin;
 
-    [TabGroup("ScreenShake")]
-    [InfoBox("Ne fonctionne que si le mode solo de la camera est activé", InfoMessageType.None)]
-    [Button(ButtonSizes.Medium)]
-    void Test()
+    [TabGroup("ScreenShake")] [Button(ButtonSizes.Medium)]
+    void TestScreenShake()
     {
         LoadRefs();
-        StartScreenShake(defaultScreenShakeDuration, defaultIntensityScreenShake);
+        StartScreenShake(shakeDuration, shakeIntensity);
     }
 
     public void StartScreenShake(float duration, float intensity)
@@ -59,7 +59,7 @@ public class CameraEffect : MonoBehaviour
         while (normalizedTime < 1)
         {
             normalizedTime += Time.deltaTime / duration;
-            perlin.m_AmplitudeGain = intensity * intensityOverTime.Evaluate(normalizedTime);
+            perlin.m_AmplitudeGain = intensity * shakeIntensityOverTime.Evaluate(normalizedTime);
             yield return null;
         }
     }
@@ -79,34 +79,27 @@ public class CameraEffect : MonoBehaviour
         Absolute
     }
 
-    [TabGroup("Zoom")]
-    [SerializeField]
+    [TabGroup("Zoom")] [SerializeField] [Tooltip("Absolute = Value + Modif ; Relative = Value * Modif")]
     ValueType valueType = ValueType.Absolute;
 
-    [TabGroup("Zoom")]
-    [SerializeField]
+    [TabGroup("Zoom")] [SerializeField]
     ZoomType modifierType = ZoomType.Distance;
 
-    [TabGroup("Zoom")]
-    [SerializeField]
-    float durationZoom = 0;
+    [TabGroup("Zoom")] [SerializeField]
+    float zoomDuration = 0;
 
-    [TabGroup("Zoom")]
-    [SerializeField]
-    AnimationCurve zoomOverTime = null;
+    [TabGroup("Zoom")] [SerializeField]
+    float zoomIntensity = 0;
 
-    [TabGroup("Zoom")]
-    [SerializeField]
-    float valueForTest = 0;
+    [TabGroup("Zoom")] [SerializeField]
+    AnimationCurve zoomIntensityOverTime = null;
 
-    [TabGroup("Zoom")]
-    [Button(ButtonSizes.Medium)]
-    [InfoBox("Plus fluide si le mode solo est activé", InfoMessageType.None)]
+    [TabGroup("Zoom")] [Button(ButtonSizes.Medium)]
     void TestZoom()
     {
         DOTween.Init();
         LoadRefs();
-        StartZoom(valueForTest, durationZoom, modifierType, valueType);
+        StartZoom(shakeIntensity, zoomDuration, modifierType, valueType);
     }
 
     public void SetZoomFOV(float newValue)
@@ -133,7 +126,7 @@ public class CameraEffect : MonoBehaviour
         if (currentZooming != null)
             StopCoroutine(currentZooming);
 
-        currentZooming = ZoomCoroutine(modifier, durationZoom, zoomType, vt);
+        currentZooming = ZoomCoroutine(modifier, zoomDuration, zoomType, vt);
         StartCoroutine(currentZooming);
     }
 
@@ -147,13 +140,13 @@ public class CameraEffect : MonoBehaviour
             while (normalizedTime < 1)
             {
                 normalizedTime += Time.deltaTime * TimeManager.Instance.CurrentTimeScale / duration;
-                VirtualCam.m_Lens.FieldOfView = Mathf.Lerp(originValue, targetValue, zoomOverTime.Evaluate(normalizedTime));
+                VirtualCam.m_Lens.FieldOfView = Mathf.Lerp(originValue, targetValue, zoomIntensityOverTime.Evaluate(normalizedTime));
                 yield return null;
             }
 
             if (!Application.isPlaying)
             {
-                VirtualCam.m_Lens.FieldOfView = Mathf.Lerp(originValue, targetValue, zoomOverTime.Evaluate(0));
+                VirtualCam.m_Lens.FieldOfView = Mathf.Lerp(originValue, targetValue, zoomIntensityOverTime.Evaluate(0));
             }
         }
         else
@@ -163,13 +156,13 @@ public class CameraEffect : MonoBehaviour
             while (normalizedTime < 1)
             {
                 normalizedTime += Time.deltaTime * TimeManager.Instance.CurrentTimeScale / duration;
-                transposer.m_CameraDistance = Mathf.Lerp(originValue, targetValue, zoomOverTime.Evaluate(normalizedTime));
+                transposer.m_CameraDistance = Mathf.Lerp(originValue, targetValue, zoomIntensityOverTime.Evaluate(normalizedTime));
                 yield return null;
             }
 
             if (!Application.isPlaying)
             {
-                transposer.m_CameraDistance = Mathf.Lerp(originValue, targetValue, zoomOverTime.Evaluate(0));
+                transposer.m_CameraDistance = Mathf.Lerp(originValue, targetValue, zoomIntensityOverTime.Evaluate(0));
             }
         }      
     }
