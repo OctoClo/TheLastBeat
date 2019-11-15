@@ -38,7 +38,7 @@ public class Enemy : MonoBehaviour
     bool isTarget = false;
     FocusZone focusZone = null;
 
-    Material material = null;
+    Material material = null ;
 
     private void Start()
     {
