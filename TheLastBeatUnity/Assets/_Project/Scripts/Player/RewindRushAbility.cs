@@ -17,16 +17,10 @@ public class RewindRushAbility : Ability
         RewindRush();
     }
 
-    public override void Update(float deltaTime)
-    {
-
-    }
-
     void RewindRush()
     {
         player.Status.StartDashing();
         player.FocusZone.overrideControl = true;
-        TimeManager.Instance.SlowEnemies();
         player.gameObject.layer = LayerMask.NameToLayer("Player Dashing");
 
         Sequence seq = DOTween.Sequence();
@@ -55,7 +49,6 @@ public class RewindRushAbility : Ability
 
         player.Status.StopDashing();
         player.FocusZone.overrideControl = false;
-        TimeManager.Instance.ResetEnemies();
         player.gameObject.layer = LayerMask.NameToLayer("Default");
         player.ResetChainedEnemies();
     }

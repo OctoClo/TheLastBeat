@@ -43,8 +43,6 @@ public class RushAbility : Ability
             if (slowMoTimer < 0)
             {
                 slowMoTimer = 0;
-                TimeManager.Instance.SetTimeScale(1);
-                //cameraEffect.StartZoom(-zoomValue, zoomDuration, CameraEffect.ZoomType.Distance, CameraEffect.ValueType.Absolute);
             }
         }
     }
@@ -52,9 +50,6 @@ public class RushAbility : Ability
     void Rush()
     {
         player.Status.StartDashing();
-        //health.NewAction(1.5f, impactBeatDelay);
-        //cameraEffect.StartZoom(zoomValue, zoomDuration, CameraEffect.ZoomType.Distance, CameraEffect.ValueType.Absolute);
-        TimeManager.Instance.SlowEnemies();
 
         Sequence seq = DOTween.Sequence();
         Vector3 direction = new Vector3(target.transform.position.x, player.transform.position.y, target.transform.position.z) - player.transform.position;
@@ -86,7 +81,6 @@ public class RushAbility : Ability
     void EndRush(RaycastHit hit)
     {
         player.Status.StopDashing();
-        TimeManager.Instance.ResetEnemies();
 
         if (hit.collider && hit.collider.gameObject.layer == LayerMask.NameToLayer("Stun"))
             player.Status.Stun();
@@ -95,7 +89,6 @@ public class RushAbility : Ability
             target.GetAttacked();
             player.AddChainedEnemy(target);
             player.gameObject.layer = LayerMask.NameToLayer("Default");
-            //TimeManager.Instance.SetTimeScale(0.1f);
             slowMoTimer = slowMoDuration;
         }
     }

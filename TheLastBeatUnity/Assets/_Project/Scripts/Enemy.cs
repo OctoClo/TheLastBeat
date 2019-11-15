@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
@@ -42,8 +42,6 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        TimeManager.Instance.AddEnemy(this);
-
         rb = GetComponent<Rigidbody>();
         material = GetComponent<MeshRenderer>().material;
 
@@ -110,15 +108,5 @@ public class Enemy : MonoBehaviour
             material.color = Color.green;
         else
             material.color = Color.red;
-    }
-
-    public void Slow()
-    {
-        speed /= 10.0f;
-    }
-
-    public void ResetSpeed()
-    {
-        speed *= 10.0f;
     }
 }

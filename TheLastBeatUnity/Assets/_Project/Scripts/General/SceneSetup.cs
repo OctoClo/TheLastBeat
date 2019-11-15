@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEditor;
+using AK.Wwise;
 
 public class SceneSetup : MonoBehaviour
 {

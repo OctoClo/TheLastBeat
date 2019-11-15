@@ -2843,7 +2843,7 @@ MonoBehaviour:
   profile: {fileID: 11400000, guid: d001843945537af4cab6fc052446512a, type: 2}
   player: {fileID: 368058109}
   cameraPos: {fileID: 336615867}
-  maxOffsetDuration: 3
+  secondsFromZeroToMaxOffset: 3
   decayPerSecond: 0
   maxRatio: {x: 0.25, y: 0.25}
   cameraSmoothing:
@@ -2893,7 +2893,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minAngle: 1
   maxAngle: 30
-  tagContains: CameraBlock
+  moveifTagContains: 
 --- !u!114 &336615868
 MonoBehaviour:
   m_ObjectHideFlags: 0

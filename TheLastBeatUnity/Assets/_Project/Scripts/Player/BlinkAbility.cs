@@ -15,12 +15,8 @@ public class BlinkAbility : Ability
 
     public override void Launch()
     {
-        Blink();
-    }
-
-    public override void Update(float deltaTime)
-    {
-        
+        if (player.CurrentDirection != Vector3.zero)
+            Blink();
     }
 
     private void Blink()
