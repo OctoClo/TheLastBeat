@@ -140,7 +140,7 @@ public class CameraEffect : MonoBehaviour
             while (normalizedTime < 1)
             {
                 normalizedTime += Time.deltaTime / duration;
-                VirtualCam.m_Lens.FieldOfView = Mathf.Lerp(originValue, targetValue, zoomOverTime.Evaluate(normalizedTime));
+                VirtualCam.m_Lens.FieldOfView = Mathf.Lerp(originValue, targetValue, zoomIntensityOverTime.Evaluate(normalizedTime));
                 yield return null;
             }
 
@@ -156,7 +156,7 @@ public class CameraEffect : MonoBehaviour
             while (normalizedTime < 1)
             {
                 normalizedTime += Time.deltaTime / duration;
-                transposer.m_CameraDistance = Mathf.Lerp(originValue, targetValue, zoomOverTime.Evaluate(normalizedTime));
+                transposer.m_CameraDistance = Mathf.Lerp(originValue, targetValue, zoomIntensityOverTime.Evaluate(normalizedTime));
                 yield return null;
             }
 
