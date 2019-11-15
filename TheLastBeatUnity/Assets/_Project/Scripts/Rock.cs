@@ -8,7 +8,7 @@ public class Rock : Beatable
     Vector3 scale;
 
     [SerializeField]
-    float coeff;
+    float coeff = 0;
 
     private void Start()
     {

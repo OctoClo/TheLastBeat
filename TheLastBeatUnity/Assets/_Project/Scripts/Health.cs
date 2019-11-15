@@ -10,51 +10,53 @@ public class Health : MonoBehaviour
 {
     #region properties
     [SerializeField]
-    bool debugMode;
+    readonly bool debugMode = false;
     Rect debugWindowRect = new Rect(20, 20, 120, 50);
 
     [TabGroup("Visual")] [SerializeField]
-    Image healthBackground;
-    RectTransform healthBackgroundRect;
+    Image healthBackground = null;
+    RectTransform healthBackgroundRect = null;
     [TabGroup("Visual")] [SerializeField]
     TextMeshProUGUI healthText = null;
 
-    [TabGroup("Visual")] [SerializeField] [Range(1, 5)]
-    int healthBackgroundNewScale;
-    float healthBackgroundCurrentScale; 
+    [TabGroup("Visual")]
+    [SerializeField]
+    [Range(1, 5)]
+    int healthBackgroundNewScale = 0;
+    float healthBackgroundCurrentScale = 0;
 
     [TabGroup("Gameplay")] [SerializeField]
-    int startingFrequency;
+    int startingFrequency = 0;
     [TabGroup("Gameplay")] [SerializeField]
-    int minimalFrequency;
+    int minimalFrequency = 0;
     [TabGroup("Gameplay")] [SerializeField]
-    int maximalFrequency;
+    int maximalFrequency = 0;
 
     [TabGroup("Gameplay")] [SerializeField]
-    AnimationCurve hitCurve;
+    AnimationCurve hitCurve = null;
 
     [TabGroup("Gameplay")] [SerializeField]
     MultiReference referenceMultiply = MultiReference.CurrentValue;
 
     [TabGroup("Gameplay")] [SerializeField] [ValidateInput("Positive", "This value must be > 0")]
-    float freezeTime;
+    float freezeTime = 0;
 
     [TabGroup("Gameplay")] [SerializeField] [ValidateInput("Positive", "This value must be > 0")]
-    float timeBeforeTachy;
-    float currentTimeBeforeTachy;
+    float timeBeforeTachy = 0;
+    float currentTimeBeforeTachy = 0;
     bool inTachycardie = false;
 
     //Time stamp of the last action
-    float lastTimeAction;
-    float beatsPerMinutes;
+    float lastTimeAction = 0;
+    float beatsPerMinutes = 0;
     float TimeBetweenBeats => (1 / beatsPerMinutes) * 60;
     float DurationSequence => Mathf.Min(0.1f, TimeBetweenBeats / 2);
     int numberBeat = 200;
     float currentMultiplier = 1;
     float accumulator = 0;
-    bool pause;
+    bool pause = false;
 
-    IEnumerator healthCoroutine;
+    IEnumerator healthCoroutine = null;
 
     public bool Positive(float value)
     {

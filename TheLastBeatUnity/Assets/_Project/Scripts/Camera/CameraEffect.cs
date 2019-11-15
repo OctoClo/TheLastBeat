@@ -9,10 +9,7 @@ using DG.Tweening;
 [RequireComponent(typeof(CinemachineVirtualCamera))]
 public class CameraEffect : MonoBehaviour
 {
-    CinemachineVirtualCamera virtualCam;
-    public CinemachineVirtualCamera VirtualCam => virtualCam;
-    Vector3 pivot;
-    CinemachineCameraOffset offset;
+    public CinemachineVirtualCamera VirtualCam { get; private set; }
 
     private void Start()
     {
@@ -21,10 +18,9 @@ public class CameraEffect : MonoBehaviour
 
     void LoadRefs()
     {
-        virtualCam = GetComponent<CinemachineVirtualCamera>();
-        perlin = virtualCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-        transposer = virtualCam.GetCinemachineComponent<CinemachineFramingTransposer>();
-        offset = GetComponent<CinemachineCameraOffset>();
+        VirtualCam = GetComponent<CinemachineVirtualCamera>();
+        perlin = VirtualCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        transposer = VirtualCam.GetCinemachineComponent<CinemachineFramingTransposer>();
     }
 
     #region ScreenShake
@@ -33,11 +29,10 @@ public class CameraEffect : MonoBehaviour
 
     [TabGroup("ScreenShake")]
     [SerializeField]
-    float defaultScreenShakeDuration;
+    float defaultScreenShakeDuration = 0;
 
-    [TabGroup("ScreenShake")]
-    [SerializeField]
-    AnimationCurve intensityOverTime;
+    [TabGroup("ScreenShake")][SerializeField]
+    AnimationCurve intensityOverTime = null;
 
     CinemachineBasicMultiChannelPerlin perlin;
 
@@ -86,23 +81,23 @@ public class CameraEffect : MonoBehaviour
 
     [TabGroup("Zoom")]
     [SerializeField]
-    ValueType valueType;
+    readonly ValueType valueType = ValueType.Absolute;
 
     [TabGroup("Zoom")]
     [SerializeField]
-    ZoomType modifierType;
+    readonly ZoomType modifierType = ZoomType.Distance;
 
     [TabGroup("Zoom")]
     [SerializeField]
-    float durationZoom;
+    readonly float durationZoom = 0;
 
     [TabGroup("Zoom")]
     [SerializeField]
-    AnimationCurve zoomOverTime;
+    readonly AnimationCurve zoomOverTime = null;
 
     [TabGroup("Zoom")]
     [SerializeField]
-    float valueForTest;
+    readonly float valueForTest = 0;
 
     [TabGroup("Zoom")]
     [Button(ButtonSizes.Medium)]
@@ -116,9 +111,9 @@ public class CameraEffect : MonoBehaviour
 
     public void SetZoomFOV(float newValue)
     {
-        if (virtualCam == null)
-            virtualCam = GetComponent<Cinemachine.CinemachineVirtualCamera>();
-        virtualCam.m_Lens.FieldOfView = newValue;
+        if (VirtualCam == null)
+            VirtualCam = GetComponent<Cinemachine.CinemachineVirtualCamera>();
+        VirtualCam.m_Lens.FieldOfView = newValue;
     }
 
     CinemachineFramingTransposer transposer;
@@ -147,18 +142,18 @@ public class CameraEffect : MonoBehaviour
         float normalizedTime = 0;
         if (zoomType == ZoomType.FOV)
         {
-            float originValue = virtualCam.m_Lens.FieldOfView;
+            float originValue = VirtualCam.m_Lens.FieldOfView;
             float targetValue = vt == ValueType.Relative ? originValue * modifier : originValue - modifier;
             while (normalizedTime < 1)
             {
                 normalizedTime += Time.deltaTime * TimeManager.Instance.CurrentTimeScale / duration;
-                virtualCam.m_Lens.FieldOfView = Mathf.Lerp(originValue, targetValue, zoomOverTime.Evaluate(normalizedTime));
+                VirtualCam.m_Lens.FieldOfView = Mathf.Lerp(originValue, targetValue, zoomOverTime.Evaluate(normalizedTime));
                 yield return null;
             }
 
             if (!Application.isPlaying)
             {
-                virtualCam.m_Lens.FieldOfView = Mathf.Lerp(originValue, targetValue, zoomOverTime.Evaluate(0));
+                VirtualCam.m_Lens.FieldOfView = Mathf.Lerp(originValue, targetValue, zoomOverTime.Evaluate(0));
             }
         }
         else

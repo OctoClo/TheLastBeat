@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraBillboard : MonoBehaviour
 {
     [SerializeField]
-    Camera cam;
+    Camera cam = null;
 
     void LateUpdate()
     {

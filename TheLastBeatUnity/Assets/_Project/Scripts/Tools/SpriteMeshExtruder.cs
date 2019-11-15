@@ -12,7 +12,7 @@ public class SpriteMeshExtruder : MonoBehaviour
 
     [SerializeField]
     [FolderPath(RequireExistingPath = true, ParentFolder = "Assets")]
-    string resultAssetPath;
+    string resultAssetPath = "";
 
     [SerializeField]
     string resultAssetName = "Default";

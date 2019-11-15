@@ -4,15 +4,16 @@ using UnityEngine;
 
 public abstract class CameraState : MonoBehaviour
 {
-    protected CameraMachine machine;
+    protected CameraMachine machine = null;
     protected bool started = false;
+
     [SerializeField]
-    CameraProfile profile;
+    CameraProfile profile = null;
     public CameraProfile Profile => profile;
 
-    public abstract void StateEnter();
-    public abstract void StateExit();
-    public abstract void StateUpdate();
+    public virtual void StateEnter() { }
+    public virtual void StateExit() { }
+    public virtual void StateUpdate() { }
     public void SetMachine(CameraMachine mach)
     {
         machine = mach;

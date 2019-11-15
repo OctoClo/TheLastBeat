@@ -28,17 +28,17 @@ public class CameraPosition : MonoBehaviour
     CinemachineCameraOffset offset;
 
     [SerializeField]
-    float minAngle;
+    readonly float minAngle = 0;
 
     [SerializeField]
-    float maxAngle;
+    readonly float maxAngle = 0;
 
     [SerializeField]
-    string tagContains;
+    readonly string tagContains = "";
 
-    IEnumerator interpolation;
+    IEnumerator interpolation = null;
 
-    float angle;
+    float angle = 0;
 
     public float Angle
     {

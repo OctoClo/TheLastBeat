@@ -12,16 +12,16 @@ public class CameraMachine : MonoBehaviour
     CameraState currentState;
 
     [SerializeField][TabGroup("Machine")]
-    CameraState firstState;
+    readonly CameraState firstState = null;
 
     [SerializeField][TabGroup("Profile")]
-    float fov;
+    readonly float fov = 0;
 
     [SerializeField][TabGroup("Profile")]
-    float angle;
+    readonly float angle = 0;
 
     [SerializeField][TabGroup("Profile")]
-    AnimationCurve curveTransition;
+    AnimationCurve curveTransition = null;
 
     [SerializeField][TabGroup("Profile")]
     float distance = 0;
@@ -56,10 +56,10 @@ public class CameraMachine : MonoBehaviour
     }
 
     [SerializeField] [FolderPath(RequireExistingPath = true, ParentFolder = "Assets")][TabGroup("Profile")]
-    string outputAsset;
+    string outputAsset = "";
 
     [TabGroup("Profile")]
-    string outputFile;
+    string outputFile = "";
 
     [Button][TabGroup("Profile")]
     public void GenerateAsset()
@@ -97,7 +97,7 @@ public class CameraMachine : MonoBehaviour
 
     private void Start()
     {
-        StartTransition(GetComponent<OutOfCombat>(), GetComponent<OutOfCombat>().Profile, 0.1f);
+        StartTransition(firstState, firstState.Profile, 0.1f);
     }
 
     public void StartZoom(float newValue , CameraEffect.ZoomType zt, float duration)

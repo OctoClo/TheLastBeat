@@ -6,7 +6,8 @@ using Cinemachine;
 public class InCombat : CameraState
 {
     [SerializeField]
-    Collider confinObject;
+    readonly Collider confinObject = null;
+
     public Collider ConfinObject => confinObject;
 
     float width = 10;

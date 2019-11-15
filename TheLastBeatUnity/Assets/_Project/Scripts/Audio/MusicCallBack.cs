@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class MusicCallBack : MonoBehaviour
 {
-    [SerializeField] AK.Wwise.Event musicEvent;
-    float beatDuration;
-    float tempo;
-    public string myWeapon;
+    [SerializeField]
+    readonly AK.Wwise.Event musicEvent = null;
 
     [SerializeField]
-    BeatManager bm;
+    readonly BeatManager bm = null;
 
     void Start()
     {
@@ -26,7 +24,7 @@ public class MusicCallBack : MonoBehaviour
                 break;
 
             case AkCallbackType.AK_MusicSyncBeat:
-                beatDuration = musicInfo.segmentInfo_fBeatDuration;
+                float beatDuration = musicInfo.segmentInfo_fBeatDuration;
                 bm.BeatDelayed(beatDuration, BeatManager.TypeBeat.BEAT);
                 break;
 

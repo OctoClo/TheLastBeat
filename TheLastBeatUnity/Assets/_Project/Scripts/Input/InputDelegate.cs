@@ -6,7 +6,7 @@ using Rewired;
 public class InputDelegate : MonoBehaviour
 {
     [SerializeField]
-    Inputable inputable;
+    Inputable inputable = null;
 
     Rewired.Player player;
 

@@ -5,10 +5,10 @@ using UnityEngine;
 public class BeatManager : MonoBehaviour
 {
     [SerializeField]
-    List<Beatable> Beats;
+    List<Beatable> Beats = new List<Beatable>();
 
     [SerializeField]
-    List<Beatable> Bar;
+    List<Beatable> Bar = new List<Beatable>();
 
     public enum TypeBeat
     {

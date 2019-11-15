@@ -39,8 +39,9 @@ public class Player : Inputable
     [TabGroup("Blink")] [SerializeField] [Required]
     ParticleSystem blinkParticles = null;
 
-    [Space] [Header("References")] [SerializeField] [Required]
-    Health health = null;
+    //Currently unused , uncomment when it does
+    //[Space] [Header("References")] [SerializeField] [Required]
+    //readonly Health health = null;
 
     [HideInInspector]
     public PlayerStatus Status;

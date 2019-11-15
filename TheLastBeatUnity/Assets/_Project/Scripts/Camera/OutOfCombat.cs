@@ -7,22 +7,22 @@ public class OutOfCombat : CameraState
 {
     // Start is called before the first frame update
     [SerializeField]
-    Player player;
+    Player player = null;
 
     [SerializeField]
     CameraPosition cameraPos;
 
     [SerializeField]
-    float maxOffsetDuration;
+    readonly float maxOffsetDuration = 0;
 
     [SerializeField]
-    float decayPerSecond;
+    readonly float decayPerSecond = 0;
 
     [SerializeField]
-    Vector2 maxRatio;
+    readonly Vector2 maxRatio = Vector2.zero;
 
     [SerializeField]
-    AnimationCurve cameraSmoothing;
+    readonly AnimationCurve cameraSmoothing = null;
 
     float ratio;
     Vector2 offsetValueMax;

@@ -13,16 +13,8 @@ namespace AK
 {
     namespace EVENTS
     {
-        static const AkUniqueID DASHFXOFFBEAT = 2318329526U;
-        static const AkUniqueID DASHFXONBEAT = 2129184572U;
-        static const AkUniqueID HITMUSICFX = 1530518599U;
+        static const AkUniqueID DASHFX = 416687607U;
         static const AkUniqueID MUSIC = 3991942870U;
-        static const AkUniqueID PLAY_AMBDESERT = 3681445093U;
-        static const AkUniqueID PLAY_WILDLIFEDESERT_1 = 92132223U;
-        static const AkUniqueID PLAY_WILDLIFEDESERT_2 = 92132220U;
-        static const AkUniqueID REVERSE = 3260481321U;
-        static const AkUniqueID SLOMOMUSICFX = 996118318U;
-        static const AkUniqueID STOP_AMB = 435770000U;
     } // namespace EVENTS
 
     namespace SWITCHES
@@ -42,13 +34,7 @@ namespace AK
     namespace GAME_PARAMETERS
     {
         static const AkUniqueID MUSICCRUSHER = 3946755902U;
-        static const AkUniqueID MUSICSLOWMO = 4098383957U;
     } // namespace GAME_PARAMETERS
-
-    namespace TRIGGERS
-    {
-        static const AkUniqueID ONBEAT = 1813808854U;
-    } // namespace TRIGGERS
 
     namespace BANKS
     {
