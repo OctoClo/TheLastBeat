@@ -29,7 +29,9 @@ public class RushAbility : Ability
 
     public override void Launch()
     {
-        Rush();
+        target = player.GetCurrentTarget();
+        if (target)
+            Rush();
     }
 
     public override void Update(float deltaTime)
@@ -55,10 +57,7 @@ public class RushAbility : Ability
         TimeManager.Instance.SlowEnemies();
 
         Sequence seq = DOTween.Sequence();
-
-        target = player.GetCurrentTarget();
         Vector3 direction = new Vector3(target.transform.position.x, player.transform.position.y, target.transform.position.z) - player.transform.position;
-
         RaycastHit hit = GetObstacleOnDash(direction);
 
         // Dash towards the target
@@ -89,7 +88,7 @@ public class RushAbility : Ability
         player.Status.StopDashing();
         TimeManager.Instance.ResetEnemies();
 
-        if (hit.collider)
+        if (hit.collider && hit.collider.gameObject.layer == LayerMask.NameToLayer("Stun"))
             player.Status.Stun();
         else
         {
