@@ -52,7 +52,7 @@ public class ProfileGenerator : MonoBehaviour
         cp.FOV = fov;
         cp.Angle = angle;
         cp.DistanceToViewer = distance;
-        cp.curve = curveTransition;
+        cp.transitionIn = curveTransition;
 
         AssetDatabase.CreateAsset(cp, "Assets/" + outputAsset + "/" + outputFile + ".asset");
         AssetDatabase.SaveAssets();

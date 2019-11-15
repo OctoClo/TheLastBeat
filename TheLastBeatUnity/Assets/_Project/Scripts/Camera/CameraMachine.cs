@@ -22,10 +22,10 @@ public class CameraMachine : MonoBehaviour
 
     struct Sequences
     {
-        public Sequence seq;
-        public Sequence seq2;
-        public Sequence seq3;
-        public Sequence seq4;
+        public Sequence sequenceAngle;
+        public Sequence sequenceFOV;
+        public Sequence sequenceDistance;
+        public Sequence sequenceOffset;
     }
     Sequences runningSequences;
 
@@ -90,50 +90,50 @@ public class CameraMachine : MonoBehaviour
         //Set angle
 
         //You can't have two sequence of camera transition at the same time
-        if (runningSequences.seq != null)
+        if (runningSequences.sequenceAngle != null)
         {
-            runningSequences.seq.Kill();
+            runningSequences.sequenceAngle.Kill();
         }
 
-        if (runningSequences.seq2 != null)
+        if (runningSequences.sequenceFOV != null)
         {
-            runningSequences.seq2.Kill();
+            runningSequences.sequenceFOV.Kill();
         }
 
-        if (runningSequences.seq3 != null)
+        if (runningSequences.sequenceDistance != null)
         {
-            runningSequences.seq3.Kill();
+            runningSequences.sequenceDistance.Kill();
         }
 
-        runningSequences.seq = DOTween.Sequence();
-        runningSequences.seq.AppendCallback(() => SetState(null));
-        runningSequences.seq.Append(DOTween.To(() => camPosition.Angle, x => camPosition.Angle = x, cp.Angle, timeTransition));
-        runningSequences.seq.AppendCallback(() => SetState(newState));
+        runningSequences.sequenceAngle = DOTween.Sequence();
+        runningSequences.sequenceAngle.AppendCallback(() => SetState(null));
+        runningSequences.sequenceAngle.Append(DOTween.To(() => camPosition.Angle, x => camPosition.Angle = x, cp.Angle, timeTransition));
+        runningSequences.sequenceAngle.AppendCallback(() => SetState(newState));
 
         //Set FOV
-        runningSequences.seq2 = DOTween.Sequence();
-        runningSequences.seq2.Append(DOTween.To(() => virtualCam.m_Lens.FieldOfView, x => virtualCam.m_Lens.FieldOfView = x, cp.FOV, timeTransition));
+        runningSequences.sequenceFOV = DOTween.Sequence();
+        runningSequences.sequenceFOV.Append(DOTween.To(() => virtualCam.m_Lens.FieldOfView, x => virtualCam.m_Lens.FieldOfView = x, cp.FOV, timeTransition));
 
         //Set distance
-        runningSequences.seq3 = DOTween.Sequence();
-        runningSequences.seq3.Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, cp.DistanceToViewer, timeTransition));
+        runningSequences.sequenceDistance = DOTween.Sequence();
+        runningSequences.sequenceDistance.Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, cp.DistanceToViewer, timeTransition));
 
         if (resetOffset)
         {
             CinemachineCameraOffset offset = GetComponent<CinemachineCameraOffset>();
 
-            if (runningSequences.seq4 != null)
+            if (runningSequences.sequenceOffset != null)
             {
-                runningSequences.seq4.Kill();
+                runningSequences.sequenceOffset.Kill();
             }
 
-            runningSequences.seq4 = DOTween.Sequence();
-            runningSequences.seq4.Append(DOTween.To(() => offset.m_Offset, x => offset.m_Offset = x, Vector3.zero, timeTransition));
+            runningSequences.sequenceOffset = DOTween.Sequence();
+            runningSequences.sequenceOffset.Append(DOTween.To(() => offset.m_Offset, x => offset.m_Offset = x, Vector3.zero, timeTransition));
         }
 
-        runningSequences.seq.Play();
-        runningSequences.seq2.Play();
-        runningSequences.seq3.Play();
+        runningSequences.sequenceAngle.Play();
+        runningSequences.sequenceFOV.Play();
+        runningSequences.sequenceDistance.Play();
     }
 
     //Negative / zero = ignore transition
@@ -158,7 +158,7 @@ public class CameraMachine : MonoBehaviour
     public void EnterCombat(float time, float width = 50)
     {
         InCombat ic = GetComponent<InCombat>();
-        ic.Width = width;
+        ic.ConfinerWidth = width;
         if (ic)
         {
             StartTransition(ic, ic.Profile, time, true);

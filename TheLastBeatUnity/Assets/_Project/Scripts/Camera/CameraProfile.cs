@@ -7,5 +7,5 @@ public class CameraProfile : ScriptableObject
     public float DistanceToViewer;
     public float Angle;
     public float FOV;
-    public AnimationCurve curve;
+    public AnimationCurve transitionIn;
 }

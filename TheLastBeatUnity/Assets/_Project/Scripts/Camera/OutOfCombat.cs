@@ -13,7 +13,7 @@ public class OutOfCombat : CameraState
     CameraPosition cameraPos;
 
     [SerializeField]
-    float maxOffsetDuration = 0;
+    float secondsFromZeroToMaxOffset = 0;
 
     [SerializeField]
     float decayPerSecond = 0;
@@ -24,7 +24,7 @@ public class OutOfCombat : CameraState
     [SerializeField]
     AnimationCurve cameraSmoothing = null;
 
-    float ratio;
+    float resolutionRatio;
     Vector2 offsetValueMax;
 
     float movementX;
@@ -37,8 +37,8 @@ public class OutOfCombat : CameraState
         movementX = 0;
         movementY = 0;
 
-        ratio = Camera.main.aspect;
-        offsetValueMax = new Vector2(machine.virtualCam.m_Lens.OrthographicSize, machine.virtualCam.m_Lens.OrthographicSize / ratio);
+        resolutionRatio = Camera.main.aspect;
+        offsetValueMax = new Vector2(machine.virtualCam.m_Lens.OrthographicSize, machine.virtualCam.m_Lens.OrthographicSize / resolutionRatio);
         offset = GetComponent<CinemachineCameraOffset>();
         Move(0, 0);
     }
@@ -64,8 +64,8 @@ public class OutOfCombat : CameraState
 
     public void InterpretMovement(Vector2 value)
     {
-        float potentialX = (Mathf.Sign(value.x) * Time.deltaTime / maxOffsetDuration);
-        float potentialY = (Mathf.Sign(value.y) * Time.deltaTime / maxOffsetDuration);
+        float potentialX = (Mathf.Sign(value.x) * Time.deltaTime / secondsFromZeroToMaxOffset);
+        float potentialY = (Mathf.Sign(value.y) * Time.deltaTime / secondsFromZeroToMaxOffset);
 
         if (Mathf.Abs(value.x) > 0.0001f)
         {

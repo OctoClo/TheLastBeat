@@ -34,10 +34,9 @@ public class CameraPosition : MonoBehaviour
     float maxAngle = 0;
 
     [SerializeField]
-    string tagContains = "";
+    string moveifTagContains = "";
 
-    IEnumerator interpolation = null;
-
+    IEnumerator interpolationCoroutine = null;
     float angle = 10;
 
     public float Angle
@@ -99,7 +98,7 @@ public class CameraPosition : MonoBehaviour
         if (IsSomethingBlocking(GetPitch(Angle)))
         {
             float newAngle = GetNonBlockingAngle();
-            if (newAngle > 0 && interpolation == null)
+            if (newAngle > 0 && interpolationCoroutine == null)
             {
                 Interpolate(newAngle, 0.5f);
             }
@@ -121,7 +120,7 @@ public class CameraPosition : MonoBehaviour
 
         foreach(RaycastHit hit in Physics.RaycastAll(ray , Vector3.Distance(target.position , initialPoint)))
         {
-            if (hit.collider.tag.Contains(tagContains))
+            if (hit.collider.tag.Contains(moveifTagContains))
             {
                 return true;
             }

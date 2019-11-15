@@ -10,18 +10,18 @@ public class InCombat : CameraState
 
     public Collider ConfinObject => confinObject;
 
-    float width = 10;
-    public float Width
+    float confinerWidth = 10;
+    public float ConfinerWidth
     {
         get
         {
-            return width;
+            return confinerWidth;
         }
         set
         {
-            width = Mathf.Abs(width);
+            confinerWidth = Mathf.Abs(confinerWidth);
             Vector3 size = ConfinObject.GetComponent<BoxCollider>().size;
-            ConfinObject.GetComponent<BoxCollider>().size = new Vector3(width, size.y, size.z);
+            ConfinObject.GetComponent<BoxCollider>().size = new Vector3(confinerWidth, size.y, size.z);
         }
     }
 
