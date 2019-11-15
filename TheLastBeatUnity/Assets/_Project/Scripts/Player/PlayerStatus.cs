@@ -49,7 +49,7 @@ public class PlayerStatus : MonoBehaviour
     {
         if (stunned)
         {
-            stunTimer -= Time.deltaTime * Time.timeScale;
+            stunTimer -= Time.deltaTime / Time.timeScale;
 
             if (stunTimer <= 0)
             {

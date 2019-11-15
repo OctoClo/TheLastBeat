@@ -39,10 +39,6 @@ public class Player : Inputable
     [TabGroup("Blink")] [SerializeField] [Required]
     ParticleSystem blinkParticles = null;
 
-    //Currently unused , uncomment when it does
-    //[Space] [Header("References")] [SerializeField] [Required]
-    //readonly Health health = null;
-
     [HideInInspector]
     public PlayerStatus Status;
 
@@ -55,7 +51,6 @@ public class Player : Inputable
 
     private void Start()
     {
-        TimeManager.Instance.SetPlayer(this);
         Status = GetComponent<PlayerStatus>();
         FocusZone = GetComponentInChildren<FocusZone>();
         FocusZone.playerStatus = Status;
@@ -119,7 +114,7 @@ public class Player : Inputable
     private void Update()
     {
         foreach (KeyValuePair<EInputAction, Ability> abilityPair in abilities)
-            abilityPair.Value.Update(Time.deltaTime * Time.timeScale);
+            abilityPair.Value.Update(Time.deltaTime / Time.timeScale);
 
         if (chainedEnemies.Count > 0 && !Status.Dashing)
         {

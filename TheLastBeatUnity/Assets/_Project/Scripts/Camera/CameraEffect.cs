@@ -139,8 +139,8 @@ public class CameraEffect : MonoBehaviour
             float targetValue = vt == ValueType.Relative ? originValue * modifier : originValue - modifier;
             while (normalizedTime < 1)
             {
-                normalizedTime += Time.deltaTime * TimeManager.Instance.CurrentTimeScale / duration;
-                VirtualCam.m_Lens.FieldOfView = Mathf.Lerp(originValue, targetValue, zoomIntensityOverTime.Evaluate(normalizedTime));
+                normalizedTime += Time.deltaTime / duration;
+                VirtualCam.m_Lens.FieldOfView = Mathf.Lerp(originValue, targetValue, zoomOverTime.Evaluate(normalizedTime));
                 yield return null;
             }
 
@@ -155,8 +155,8 @@ public class CameraEffect : MonoBehaviour
             float targetValue = vt == ValueType.Relative ? originValue * modifier : originValue - modifier;
             while (normalizedTime < 1)
             {
-                normalizedTime += Time.deltaTime * TimeManager.Instance.CurrentTimeScale / duration;
-                transposer.m_CameraDistance = Mathf.Lerp(originValue, targetValue, zoomIntensityOverTime.Evaluate(normalizedTime));
+                normalizedTime += Time.deltaTime / duration;
+                transposer.m_CameraDistance = Mathf.Lerp(originValue, targetValue, zoomOverTime.Evaluate(normalizedTime));
                 yield return null;
             }
 

@@ -19,8 +19,6 @@ public class FocusZone : MonoBehaviour
 
     List<Enemy> potentialTargets = new List<Enemy>();
     Enemy currentTarget = null;
-    Vector3 targetLookVector = Vector3.zero;
-    Quaternion targetRotation = Quaternion.identity;
 
     private void OnEnable()
     {

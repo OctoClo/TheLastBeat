@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class TimeManager
 {
-    Player player;
-    List<Enemy> enemies = new List<Enemy>();
+    float currentTimeScale = 1;
 
-    public float CurrentTimeScale = 1;
-
-    public void SetPlayer(Player newPlayer)
+    public float CurrentTimeScale
     {
-        player = newPlayer;
-    }
-
-    public void AddEnemy(Enemy newEnemy)
-    {
-        enemies.Add(newEnemy);
+        get
+        {
+            return currentTimeScale;
+        }
+        set
+        {
+            currentTimeScale = Mathf.Max(0, value);
+            Time.timeScale = currentTimeScale;
+        }
     }
 
     static TimeManager timeManager = null;
@@ -28,23 +28,5 @@ public class TimeManager
                 timeManager = new TimeManager();
             return timeManager;
         }
-    }
-
-    public void SetTimeScale(float timeScale)
-    {
-        CurrentTimeScale = timeScale;
-        Time.timeScale = CurrentTimeScale;
-    }
-
-    public void SlowEnemies()
-    {
-        foreach (Enemy enemy in enemies)
-            enemy.Slow();
-    }
-
-    public void ResetEnemies()
-    {
-        foreach (Enemy enemy in enemies)
-            enemy.ResetSpeed();
     }
 }

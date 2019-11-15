@@ -18,7 +18,7 @@ public abstract class Ability
         player = newPlayer;
     }
 
-    public abstract void Launch();
+    public virtual void Launch() { }
 
-    public abstract void Update(float deltaTime);
+    public virtual void Update(float deltaTime) { }
 }
