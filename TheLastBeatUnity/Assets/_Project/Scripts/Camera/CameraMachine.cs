@@ -12,13 +12,13 @@ public class CameraMachine : MonoBehaviour
     CameraState currentState;
 
     [SerializeField][TabGroup("Machine")]
-    readonly CameraState firstState = null;
+    CameraState firstState = null;
 
     [SerializeField][TabGroup("Profile")]
-    readonly float fov = 0;
+    float fov = 0;
 
     [SerializeField][TabGroup("Profile")]
-    readonly float angle = 0;
+    float angle = 0;
 
     [SerializeField][TabGroup("Profile")]
     AnimationCurve curveTransition = null;

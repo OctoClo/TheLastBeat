@@ -2828,8 +2828,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firstState: {fileID: 336615866}
-  fov: 20
-  angle: 5
+  fov: 0
+  angle: 0
   curveTransition:
     serializedVersion: 2
     m_Curve: []
@@ -2853,7 +2853,7 @@ MonoBehaviour:
   profile: {fileID: 11400000, guid: d001843945537af4cab6fc052446512a, type: 2}
   player: {fileID: 368058109}
   cameraPos: {fileID: 336615867}
-  maxOffsetDuration: 10
+  maxOffsetDuration: 3
   decayPerSecond: 0
   maxRatio: {x: 0.25, y: 0.25}
   cameraSmoothing:
@@ -2902,7 +2902,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minAngle: 1
-  maxAngle: 50
+  maxAngle: 30
   tagContains: CameraBlock
 --- !u!114 &336615868
 MonoBehaviour:
@@ -2942,34 +2942,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  valueType: 1
-  modifierType: 1
-  durationZoom: 1
-  zoomOverTime:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  valueForTest: 10
 --- !u!114 &336615869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5887,10 +5859,8 @@ MonoBehaviour:
   musicEvent:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 44d1168cebdeea041a5d9b0ccb938146,
-      type: 2}
-  myWeapon: 
-  bm: {fileID: 1858208005}
+    WwiseObjectReference: {fileID: 0}
+  bm: {fileID: 0}
 --- !u!1 &672183717
 GameObject:
   m_ObjectHideFlags: 0
@@ -7897,7 +7867,6 @@ Transform:
   - {fileID: 1381583575}
   - {fileID: 2010006729}
   - {fileID: 1142610335}
-  - {fileID: 1257299621}
   - {fileID: 361484832}
   - {fileID: 1196073805}
   m_Father: {fileID: 0}
@@ -10126,7 +10095,7 @@ Transform:
   m_LocalScale: {x: 6.4183645, y: 4.7196, z: 1}
   m_Children: []
   m_Father: {fileID: 925849653}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1206598229
 GameObject:

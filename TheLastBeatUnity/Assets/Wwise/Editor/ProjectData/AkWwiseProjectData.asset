@@ -24,14 +24,14 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 53f38f5348f7094493a66f9c8647d632
     GuidInternal: 
-    m_lastTime: -8586293352563479296
+    m_lastTime: -8586277994821652218
     List: []
   BankWwu:
   - PhysicalPath: SoundBanks\Default Work Unit.wwu
     ParentPhysicalPath: 
     guid: 00607f23f4bb1c4ba4ba719fd5871f3f
     GuidInternal: 
-    m_lastTime: -8586292482224040686
+    m_lastTime: -8586277994811716646
     List:
     - name: TheLastBank
       guid: ba44c042ce392242af9fd5c1beb6de48
@@ -47,17 +47,41 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 8758d50e9a0ca842a9ceccd260c5af42
     GuidInternal: 
-    m_lastTime: -8586292482224190285
+    m_lastTime: -8586277994823876271
     List:
-    - name: DashFX
-      guid: 085c5b252ae25a40a1d306bcd171b283
-      id: 416687607
+    - name: DashFXOffBeat
+      guid: 2ff54b16913df94c9315546f884b8f0f
+      id: 2318329526
       PathAndIcons:
       - ElementName: Default Work Unit
         ObjectType: 12
-      - ElementName: DashFX
+      - ElementName: DashFXOffBeat
         ObjectType: 3
-      Path: Default Work Unit\DashFX
+      Path: Default Work Unit\DashFXOffBeat
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: DashFXOnBeat
+      guid: 085c5b252ae25a40a1d306bcd171b283
+      id: 2129184572
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: DashFXOnBeat
+        ObjectType: 3
+      Path: Default Work Unit\DashFXOnBeat
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: HitMusicFX
+      guid: 99dfbaf434086c43af6c4fa0d57cbebb
+      id: 1530518599
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: HitMusicFX
+        ObjectType: 3
+      Path: Default Work Unit\HitMusicFX
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -73,12 +97,84 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: Play_AmbDesert
+      guid: 4385c76f7ea2514d8d08d372b433eb9f
+      id: 3681445093
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Play_AmbDesert
+        ObjectType: 3
+      Path: Default Work Unit\Play_AmbDesert
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_WildlifeDesert_1
+      guid: b70521ce177bd548ad39c9a76a41b44e
+      id: 92132223
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Play_WildlifeDesert_1
+        ObjectType: 3
+      Path: Default Work Unit\Play_WildlifeDesert_1
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_WildlifeDesert_2
+      guid: ae2b0d386f6d6c4785fe2961fc6278d7
+      id: 92132220
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Play_WildlifeDesert_2
+        ObjectType: 3
+      Path: Default Work Unit\Play_WildlifeDesert_2
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Reverse
+      guid: 97cc03ce3d7d7f4c99363f176e1ab104
+      id: 3260481321
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Reverse
+        ObjectType: 3
+      Path: Default Work Unit\Reverse
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: SloMoMusicFX
+      guid: 132f99754a954445bfe974bc0983221f
+      id: 996118318
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: SloMoMusicFX
+        ObjectType: 3
+      Path: Default Work Unit\SloMoMusicFX
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Stop_Amb
+      guid: aa5cbde83aa17f45a352282eccff51d7
+      id: 435770000
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Stop_Amb
+        ObjectType: 3
+      Path: Default Work Unit\Stop_Amb
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
   RtpcWwu:
   - PhysicalPath: Game Parameters\Default Work Unit.wwu
     ParentPhysicalPath: 
     guid: f33de71626d113469ad3450a44be09c2
     GuidInternal: 
-    m_lastTime: -8586292482224180320
+    m_lastTime: -8586277994823866305
     List:
     - name: MusicCrusher
       guid: 5d683a5f3806e94c9fe29471a79b243a
@@ -89,6 +185,15 @@ MonoBehaviour:
       - ElementName: MusicCrusher
         ObjectType: 13
       Path: Default Work Unit\MusicCrusher
+    - name: MusicSlowMo
+      guid: 263d0783e83c6f4398acb9a0393994a2
+      id: 4098383957
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: MusicSlowMo
+        ObjectType: 13
+      Path: Default Work Unit\MusicSlowMo
   StateWwu:
   - PhysicalPath: States\Default Work Unit.wwu
     ParentPhysicalPath: 
@@ -127,8 +232,17 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: ae2e44bc844a96409b3f2bc980076559
     GuidInternal: 
-    m_lastTime: -8586297625736613196
-    List: []
+    m_lastTime: -8586277994811616636
+    List:
+    - name: OnBeat
+      guid: ffd3cb5f60b62441a39d20e0b0da27d8
+      id: 1813808854
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: OnBeat
+        ObjectType: 14
+      Path: Default Work Unit\OnBeat
   ExpandedItems:
   - /TheLastBeatAudio
   autoPopulateEnabled: 1

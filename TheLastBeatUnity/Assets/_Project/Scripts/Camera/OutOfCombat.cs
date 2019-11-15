@@ -13,16 +13,16 @@ public class OutOfCombat : CameraState
     CameraPosition cameraPos;
 
     [SerializeField]
-    readonly float maxOffsetDuration = 0;
+    float maxOffsetDuration = 0;
 
     [SerializeField]
-    readonly float decayPerSecond = 0;
+    float decayPerSecond = 0;
 
     [SerializeField]
-    readonly Vector2 maxRatio = Vector2.zero;
+    Vector2 maxRatio = Vector2.zero;
 
     [SerializeField]
-    readonly AnimationCurve cameraSmoothing = null;
+    AnimationCurve cameraSmoothing = null;
 
     float ratio;
     Vector2 offsetValueMax;

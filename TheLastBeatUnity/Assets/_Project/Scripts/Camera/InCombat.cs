@@ -6,7 +6,7 @@ using Cinemachine;
 public class InCombat : CameraState
 {
     [SerializeField]
-    readonly Collider confinObject = null;
+    Collider confinObject = null;
 
     public Collider ConfinObject => confinObject;
 
@@ -39,9 +39,5 @@ public class InCombat : CameraState
     public override void StateExit()
     {
         confinObject.enabled = false;
-    }
-
-    public override void StateUpdate()
-    {
     }
 }

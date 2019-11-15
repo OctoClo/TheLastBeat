@@ -5,10 +5,10 @@ using UnityEngine;
 public class MusicCallBack : MonoBehaviour
 {
     [SerializeField]
-    readonly AK.Wwise.Event musicEvent = null;
+    AK.Wwise.Event musicEvent = null;
 
     [SerializeField]
-    readonly BeatManager bm = null;
+    BeatManager bm = null;
 
     void Start()
     {

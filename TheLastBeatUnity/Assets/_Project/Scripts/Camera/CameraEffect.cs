@@ -81,23 +81,23 @@ public class CameraEffect : MonoBehaviour
 
     [TabGroup("Zoom")]
     [SerializeField]
-    readonly ValueType valueType = ValueType.Absolute;
+    ValueType valueType = ValueType.Absolute;
 
     [TabGroup("Zoom")]
     [SerializeField]
-    readonly ZoomType modifierType = ZoomType.Distance;
+    ZoomType modifierType = ZoomType.Distance;
 
     [TabGroup("Zoom")]
     [SerializeField]
-    readonly float durationZoom = 0;
+    float durationZoom = 0;
 
     [TabGroup("Zoom")]
     [SerializeField]
-    readonly AnimationCurve zoomOverTime = null;
+    AnimationCurve zoomOverTime = null;
 
     [TabGroup("Zoom")]
     [SerializeField]
-    readonly float valueForTest = 0;
+    float valueForTest = 0;
 
     [TabGroup("Zoom")]
     [Button(ButtonSizes.Medium)]

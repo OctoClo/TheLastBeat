@@ -10,7 +10,7 @@ public class Health : MonoBehaviour
 {
     #region properties
     [SerializeField]
-    readonly bool debugMode = false;
+    bool debugMode = false;
     Rect debugWindowRect = new Rect(20, 20, 120, 50);
 
     [TabGroup("Visual")] [SerializeField]
