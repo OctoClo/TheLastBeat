@@ -14,18 +14,6 @@ public class CameraMachine : MonoBehaviour
     [SerializeField][TabGroup("Machine")]
     CameraState firstState = null;
 
-    [SerializeField][TabGroup("Profile")]
-    float fov = 0;
-
-    [SerializeField][TabGroup("Profile")]
-    float angle = 0;
-
-    [SerializeField][TabGroup("Profile")]
-    AnimationCurve curveTransition = null;
-
-    [SerializeField][TabGroup("Profile")]
-    float distance = 0;
-
     public static CameraMachine GetLiveCamera()
     {
         CinemachineVirtualCamera cam = GameObject.FindObjectOfType<CinemachineBrain>().ActiveVirtualCamera as CinemachineVirtualCamera;
@@ -40,40 +28,6 @@ public class CameraMachine : MonoBehaviour
         public Sequence seq4;
     }
     Sequences runningSequences;
-
-    [Button][TabGroup("Profile")]
-    public void Test()
-    {
-        CameraEffect camEffect = GetComponent<CameraEffect>();
-        CameraPosition camPosition = GetComponent<CameraPosition>();
-
-        if (camEffect && camPosition)
-        {
-            camPosition.Angle = angle;
-            camEffect.SetZoomFOV(fov);
-            virtualCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_CameraDistance = distance;
-        }
-    }
-
-    [SerializeField] [FolderPath(RequireExistingPath = true, ParentFolder = "Assets")][TabGroup("Profile")]
-    string outputAsset = "";
-
-    [TabGroup("Profile")]
-    string outputFile = "";
-
-    [Button][TabGroup("Profile")]
-    public void GenerateAsset()
-    {
-        CameraProfile cp = ScriptableObject.CreateInstance<CameraProfile>();
-        cp.FOV = fov;
-        cp.Angle = angle;
-        cp.DistanceToViewer = distance;
-        cp.curve = curveTransition;
-
-        AssetDatabase.CreateAsset(cp, "Assets/" + outputAsset + "/" + outputFile + ".asset");
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
-    }
 
     public CinemachineVirtualCamera virtualCam => GetComponent<CinemachineVirtualCamera>();
 
