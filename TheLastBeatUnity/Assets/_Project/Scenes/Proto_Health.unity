@@ -3110,10 +3110,10 @@ RectTransform:
   m_Father: {fileID: 1473025031}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.475, y: 0.05}
-  m_AnchorMax: {x: 0.525, y: 0.2}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.1}
+  m_AnchorMax: {x: 0.5, y: 0.1}
+  m_AnchoredPosition: {x: 0, y: 32}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &354599508
 MonoBehaviour:
@@ -7508,6 +7508,11 @@ PrefabInstance:
       propertyPath: cameraEffect
       value: 
       objectReference: {fileID: 336615868}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: healthSystem
+      value: 
+      objectReference: {fileID: 1779586504}
     - target: {fileID: 3489716977114045590, guid: 07801b51c158daf499d145da957e6459,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -15690,10 +15695,10 @@ MonoBehaviour:
   debugMode: 1
   healthBackgroundRect: {fileID: 1006101020}
   healthBackgroundNewScale: 1.5
-  fakeLimitPulse: 100
   minimalPulse: 20
   lowLimitPulse: 60
   highLimitPulse: 80
+  fakeLimitPulse: 100
   colorChange: {fileID: 1264457777}
   inLimitModifierPulse:
     serializedVersion: 2
@@ -15724,6 +15729,7 @@ MonoBehaviour:
   highPulseColor: {r: 0.4110613, g: 1, b: 0, a: 1}
   inLimitColor: {r: 1, g: 0.7341389, b: 0, a: 1}
   berserkColor: {r: 1, g: 0, b: 0, a: 1}
+  actionBeforeDeath: 3
 --- !u!4 &1779586505
 Transform:
   m_ObjectHideFlags: 0

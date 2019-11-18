@@ -65,6 +65,7 @@ public class RushAbility : Ability
         }
 
         Vector3 goalPosition = direction + player.transform.position;
+        seq.AppendCallback(() => player.Health.ModifyPulseValue(5));
         seq.Append(player.transform.DOMove(goalPosition, duration));
 
         if (hit.collider)

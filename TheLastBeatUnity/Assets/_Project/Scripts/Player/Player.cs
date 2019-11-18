@@ -42,6 +42,10 @@ public class Player : Inputable
     [HideInInspector]
     public PlayerStatus Status;
 
+    [SerializeField]
+    Health healthSystem;
+    public Health Health => healthSystem;
+
     Dictionary<EInputAction, Ability> abilities;
     [HideInInspector]
     public FocusZone FocusZone = null;

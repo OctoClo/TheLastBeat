@@ -74,6 +74,7 @@ public class Health : Beatable
     public void Start()
     {
         OnPulseStateChanged(CurrentState);
+        temporarySize = healthBackgroundRect.transform.localScale;
         Debug.Assert(minimalPulse < lowLimitPulse && lowLimitPulse < highLimitPulse && highLimitPulse < fakeLimitPulse, "limit pulse not sorted");
     }
 
@@ -122,8 +123,6 @@ public class Health : Beatable
             return;
 
         seq = DOTween.Sequence();
-
-        temporarySize = healthBackgroundRect.transform.localScale;
         seq.Append(healthBackgroundRect.DOScale(temporarySize * healthBackgroundNewScale, sequenceDuration));
         seq.Append(healthBackgroundRect.DOScale(temporarySize, sequenceDuration));
         seq.Play();
@@ -168,7 +167,10 @@ public class Health : Beatable
     void OnPulseStateChanged(PulseState previous)
     {
         if (previous == PulseState.Berserk && berserkSeq != null)
+        {
+            healthBackgroundRect.DOScale(temporarySize * 3, 0.1f);
             berserkSeq.Kill();
+        }
 
         switch (CurrentState)
         {
@@ -193,10 +195,11 @@ public class Health : Beatable
                 if (berserkSeq != null && berserkSeq.IsPlaying())
                     berserkSeq.Kill();
 
-                temporarySize = healthBackgroundRect.transform.localScale;
+                healthBackgroundRect.DOScale(temporarySize * 3, sequenceDuration);
+
                 berserkSeq = DOTween.Sequence();
-                berserkSeq.Append(healthBackgroundRect.DOScale(temporarySize * 3, sequenceDuration / 1.5f));
-                berserkSeq.Append(healthBackgroundRect.DOScale(temporarySize, sequenceDuration / 1.5f));
+                berserkSeq.Append(DOTween.To(() => colorChange.color, x => colorChange.color = x, berserkColor, 0.3f));
+                berserkSeq.Append(DOTween.To(() => colorChange.color, x => colorChange.color = x, Color.white, 0.3f));
                 berserkSeq.SetLoops(-1);
                 berserkSeq.Play();
 
@@ -211,7 +214,7 @@ public class Health : Beatable
             colorseq.Kill();
 
         colorseq = DOTween.Sequence();
-        colorseq.Append(DOTween.To(() => colorChange.color, x => colorChange.color = x, newColor, 1));
+        colorseq.Append(DOTween.To(() => colorChange.color, x => colorChange.color = x, newColor, 0.5f));
     }
 
     void DebugWindow(int windowID)
