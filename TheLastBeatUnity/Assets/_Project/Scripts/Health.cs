@@ -6,232 +6,227 @@ using Sirenix.OdinInspector;
 using DG.Tweening;
 using TMPro;
 
-public class Health : MonoBehaviour
+public class Health : Beatable
 {
-    #region properties
     [SerializeField]
     bool debugMode = false;
-    Rect debugWindowRect = new Rect(20, 20, 120, 50);
+    Rect debugWindowRect = new Rect(20, 20, 120, 120 );
 
-    [TabGroup("Visual")] [SerializeField]
-    Image healthBackground = null;
-    RectTransform healthBackgroundRect = null;
-    [TabGroup("Visual")] [SerializeField]
-    TextMeshProUGUI healthText = null;
+    [SerializeField] [TabGroup("Visual")]
+    RectTransform healthBackgroundRect;
 
-    [TabGroup("Visual")]
+    [SerializeField] [Range(1, 5)] [TabGroup("Visual")]
+    float healthBackgroundNewScale = 0;
+
+    float currentPulse = 50;
+    Vector3 temporarySize;
+
+    [SerializeField] [TabGroup("Gameplay")]
+    float minimalPulse = 20;
+
+    [SerializeField] [TabGroup("Gameplay")]
+    float lowLimitPulse = 60;
+
+    [SerializeField] [TabGroup("Gameplay")]
+    float highLimitPulse = 80;
+
     [SerializeField]
-    [Range(1, 5)]
-    int healthBackgroundNewScale = 0;
-    float healthBackgroundCurrentScale = 0;
+    [TabGroup("Gameplay")]
+    float fakeLimitPulse = 100;
 
-    [TabGroup("Gameplay")] [SerializeField]
-    int startingFrequency = 0;
-    [TabGroup("Gameplay")] [SerializeField]
-    int minimalFrequency = 0;
-    [TabGroup("Gameplay")] [SerializeField]
-    int maximalFrequency = 0;
+    [SerializeField] [TabGroup("Visual")]
+    Image colorChange;
 
-    [TabGroup("Gameplay")] [SerializeField]
-    AnimationCurve hitCurve = null;
+    [SerializeField] [TabGroup("Gameplay")]
+    AnimationCurve inLimitModifierPulse = null;
 
-    [TabGroup("Gameplay")] [SerializeField]
-    MultiReference referenceMultiply = MultiReference.CurrentValue;
+    [SerializeField] [TabGroup("Visual")]
+    Color calmPulseColor;
 
-    [TabGroup("Gameplay")] [SerializeField] [ValidateInput("Positive", "This value must be > 0")]
-    float freezeTime = 0;
+    [SerializeField] [TabGroup("Visual")]
+    Color lowPulseColor;
 
-    [TabGroup("Gameplay")] [SerializeField] [ValidateInput("Positive", "This value must be > 0")]
-    float timeBeforeTachy = 0;
-    float currentTimeBeforeTachy = 0;
-    bool inTachycardie = false;
+    [SerializeField] [TabGroup("Visual")]
+    Color highPulseColor;
 
-    //Time stamp of the last action
-    float lastTimeAction = 0;
-    float beatsPerMinutes = 0;
-    float TimeBetweenBeats => (1 / beatsPerMinutes) * 60;
-    float DurationSequence => Mathf.Min(0.1f, TimeBetweenBeats / 2);
-    int numberBeat = 200;
-    float currentMultiplier = 1;
-    float accumulator = 0;
-    bool pause = false;
+    [SerializeField] [TabGroup("Visual")]
+    Color inLimitColor;
 
-    IEnumerator healthCoroutine = null;
+    [SerializeField] [TabGroup("Visual")]
+    Color berserkColor;
 
-    public bool Positive(float value)
+    [SerializeField] [TabGroup("Gameplay")]
+    int actionBeforeDeath = 3;
+    int currentActionCountdownHealth;
+
+    Sequence seq;
+    Sequence colorseq;
+    Sequence berserkSeq;
+
+    CombatState currentState = CombatState.InCombat;
+
+    enum CombatState
     {
-        return value > 0;
-    }
-
-    public enum MultiReference
-    {
-        OriginalValue,
-        CurrentValue
-    }
-    #endregion
-
-    private void OnEnable()
-    {
-        EventManager.Instance.AddListener<PauseEvent>(OnPauseEvent);
-    }
-
-    private void OnDisable()
-    {
-        EventManager.Instance.RemoveListener<PauseEvent>(OnPauseEvent);
+        InCombat,
+        OutOfCombat
     }
 
     public void Start()
     {
-        pause = false;
-        healthBackgroundRect = healthBackground.GetComponent<RectTransform>();
-        healthBackgroundCurrentScale = healthBackgroundRect.localScale.x;
-        beatsPerMinutes = startingFrequency;
-        Beat();
+        OnPulseStateChanged(CurrentState);
+        Debug.Assert(minimalPulse < lowLimitPulse && lowLimitPulse < highLimitPulse && highLimitPulse < fakeLimitPulse, "limit pulse not sorted");
     }
 
-    private void Update()
+    void Die()
     {
-        if (!pause)
-        {
-            accumulator += Time.deltaTime;
-            if (accumulator > TimeBetweenBeats)
-            {
-                accumulator = 0;
-                Beat();
-            }
-        }
-
-        //Heart Beat too high ! staying too long will trigger tachy mode
-        if (maximalFrequency < beatsPerMinutes)
-        {
-            currentTimeBeforeTachy -= Time.deltaTime;
-        }
-        else
-        {
-            currentTimeBeforeTachy = timeBeforeTachy;
-        }
-
-        //countdown just reached 0 , enter tachy mode
-        if (currentTimeBeforeTachy < 0 && ! inTachycardie)
-        {
-            SetTachycardie(true);
-        }
+        Debug.Log("died");
     }
 
-    private void OnPauseEvent(PauseEvent e)
+    PulseState CurrentState
     {
-        pause = e.pause;
-    }
-
-    public void Beat()
-    {
-        Sequence seqMin = DOTween.Sequence();
-        Sequence seqMax = DOTween.Sequence();
-
-        seqMin.Append(healthBackgroundRect.DOScale(healthBackgroundNewScale, DurationSequence));
-        seqMin.Append(healthBackgroundRect.DOScale(healthBackgroundCurrentScale, DurationSequence));
-        seqMin.Play();
-
-        seqMax.Append(healthBackgroundRect.DOScale(healthBackgroundNewScale, DurationSequence));
-        seqMax.Append(healthBackgroundRect.DOScale(healthBackgroundCurrentScale, DurationSequence));
-        seqMax.Play();
-
-        numberBeat--;
-        healthText.text = numberBeat.ToString();
-    }
-
-    public void Hit(float damage, float duration , bool multiply = true)
-    {
-        StartHealthTransition(beatsPerMinutes, CalculateNewValue(damage, false), duration);
-    }
-
-    public float CalculateNewValue(float value, bool multipy = true)
-    {
-        float output;
-        if (multipy)
-            output = (referenceMultiply == MultiReference.OriginalValue ? startingFrequency : beatsPerMinutes) * value;
-        else
-            output = beatsPerMinutes + value;
-
-        output = Mathf.Max(minimalFrequency, output);
-        return output;
-    }
-
-    //Add an action to the current combo
-    public void NewAction(float multiplier, float duration)
-    {
-        if (multiplier > currentMultiplier)
+        get
         {
-            currentMultiplier = multiplier;
-            lastTimeAction = Time.timeSinceLevelLoad;
-            StartHealthTransition(beatsPerMinutes, CalculateNewValue(multiplier), 3);
-        }
-        else if ((int)multiplier == (int)currentMultiplier)
-        {
-            lastTimeAction = Time.timeSinceLevelLoad;
-        }
-        else
-        {
-            beatsPerMinutes = startingFrequency * multiplier;
+            if (currentPulse == minimalPulse)
+                return PulseState.Calm;
 
-            //Freeze time over , heartBeat can down
-            if (Time.timeSinceLevelLoad - lastTimeAction > freezeTime)
-            {
-                lastTimeAction = Time.timeSinceLevelLoad;
-                currentMultiplier = multiplier;
-                StartHealthTransition(beatsPerMinutes, CalculateNewValue(multiplier), duration);
-            }
+            if (currentPulse < lowLimitPulse)
+                return PulseState.Low;
+
+            if (currentPulse < highLimitPulse)
+                return PulseState.High;
+
+            if (currentPulse < fakeLimitPulse)
+                return PulseState.InLimit;
+
+            return PulseState.Berserk;
         }
     }
 
-    IEnumerator SetHealthCoroutine(float from, float to, float duration)
+    enum PulseState
     {
-        float normalizedTime = 0;
-        while (normalizedTime < 1)
-        {
-            normalizedTime += Time.deltaTime / duration;
-            beatsPerMinutes = Mathf.Lerp(from, to, hitCurve.Evaluate(normalizedTime));
-            yield return null;
-        }
-        healthCoroutine = null;
+        Calm,
+        Low,
+        High,
+        InLimit,
+        Berserk
     }
 
-    void StartHealthTransition(float from , float to, float duration)
+    public override void Beat()
     {
-        Debug.Assert(duration > 0);
-        //Only one health animation at the same time
-        if (healthCoroutine != null)
-        {
-            StopCoroutine(healthCoroutine);
-        }
-        healthCoroutine = SetHealthCoroutine(from, to, duration);
-        StartCoroutine(healthCoroutine);
+        BeatSequence();
     }
 
-    //What to do when you enter / leave tachycardie ?
-    public void SetTachycardie(bool value)
+    public void BeatSequence()
     {
-        inTachycardie = value;
-        if (value)
-        {
-            healthBackground.color = Color.red;
-        }
-        else
-        {
-            healthBackground.color = Color.white;
-        }
+        if (CurrentState == PulseState.Berserk)
+            return;
+
+        seq = DOTween.Sequence();
+
+        temporarySize = healthBackgroundRect.transform.localScale;
+        seq.Append(healthBackgroundRect.DOScale(temporarySize * healthBackgroundNewScale, sequenceDuration));
+        seq.Append(healthBackgroundRect.DOScale(temporarySize, sequenceDuration));
+        seq.Play();
     }
 
-    public void OnGUI()
+    private void OnGUI()
     {
         if (debugMode)
         {
-            debugWindowRect = GUI.Window(0, debugWindowRect, DisplayWindow, "Debug");
+            debugWindowRect = GUI.Window(0, debugWindowRect, DebugWindow, "Debug");
         }
     }
 
-    void DisplayWindow(int id)
+    public void ModifyPulseValue(float deltaValue, bool countAsAction = true)
     {
-        GUI.Label(new Rect(70, 20, 50, 20),Mathf.Round(beatsPerMinutes).ToString());
+        PulseState previousState = CurrentState;
+        if (CurrentState == PulseState.InLimit)
+        {
+            float ratio = (currentPulse - highLimitPulse) / (fakeLimitPulse - highLimitPulse);
+            currentPulse += inLimitModifierPulse.Evaluate(ratio) * deltaValue;
+        }
+        else
+        {
+            currentPulse += deltaValue;
+        }    
+        
+        if (CurrentState != previousState)
+        {
+            OnPulseStateChanged(previousState);
+        }
+
+        if (CurrentState == PulseState.Berserk && countAsAction)
+        {
+            currentActionCountdownHealth--;
+            if (currentActionCountdownHealth <= 0)
+            {
+                Die();
+            }
+        }
+    }
+
+    void OnPulseStateChanged(PulseState previous)
+    {
+        if (previous == PulseState.Berserk && berserkSeq != null)
+            berserkSeq.Kill();
+
+        switch (CurrentState)
+        {
+            case PulseState.Calm:
+                TransitionColor(calmPulseColor);
+                break;
+
+            case PulseState.Low:
+                TransitionColor(lowPulseColor);
+                break;
+
+            case PulseState.High:
+                TransitionColor(highPulseColor);
+                break;
+
+            case PulseState.InLimit:
+                TransitionColor(inLimitColor);
+                break;
+
+            case PulseState.Berserk:
+                currentActionCountdownHealth = actionBeforeDeath;
+                if (berserkSeq != null && berserkSeq.IsPlaying())
+                    berserkSeq.Kill();
+
+                temporarySize = healthBackgroundRect.transform.localScale;
+                berserkSeq = DOTween.Sequence();
+                berserkSeq.Append(healthBackgroundRect.DOScale(temporarySize * 3, sequenceDuration / 1.5f));
+                berserkSeq.Append(healthBackgroundRect.DOScale(temporarySize, sequenceDuration / 1.5f));
+                berserkSeq.SetLoops(-1);
+                berserkSeq.Play();
+
+                TransitionColor(berserkColor);
+                break;
+        }
+    }
+
+    void TransitionColor(Color newColor)
+    {
+        if (colorseq != null && colorseq.IsPlaying())
+            colorseq.Kill();
+
+        colorseq = DOTween.Sequence();
+        colorseq.Append(DOTween.To(() => colorChange.color, x => colorChange.color = x, newColor, 1));
+    }
+
+    void DebugWindow(int windowID)
+    {
+        if (GUI.Button(new Rect(30,25, 80, 25), "+"))
+        {
+            ModifyPulseValue(5, false);
+        }
+        
+        if (GUI.Button(new Rect(30, 50 , 80 , 25), "-"))
+        {
+            ModifyPulseValue(-5, false);
+        }
+
+        GUI.Label(new Rect(20, 75, 100, 25), currentPulse.ToString());
+        GUI.Label(new Rect(20, 95, 100, 25), CurrentState.ToString());
     }
 }
