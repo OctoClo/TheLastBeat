@@ -55,7 +55,7 @@ public class Health : Beatable
     [SerializeField] [TabGroup("Visual")]
     Color berserkColor;
 
-    [SerializeField] [TabGroup("Gameplay")]
+    [SerializeField] [TabGroup("Gameplay")] [InfoBox("Cela inclus l'action qui a fait passé en berserk", InfoMessageType.Warning)]
     int actionBeforeDeath = 3;
     int currentActionCountdownHealth;
 

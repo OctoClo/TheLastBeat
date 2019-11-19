@@ -6,10 +6,12 @@ using DG.Tweening;
 public class RewindRushAbility : Ability
 {
     float duration = 0;
+    float pulsationCost;
 
-    public RewindRushAbility(Player newPlayer, float rewindRushDuration) : base(newPlayer)
+    public RewindRushAbility(Player newPlayer, float rewindRushDuration, float newCost) : base(newPlayer)
     {
         duration = rewindRushDuration;
+        pulsationCost = newCost;
     }
 
     public override void Launch()
@@ -24,6 +26,7 @@ public class RewindRushAbility : Ability
         player.gameObject.layer = LayerMask.NameToLayer("Player Dashing");
 
         Sequence seq = DOTween.Sequence();
+        seq.AppendCallback(() => player.Health.ModifyPulseValue(pulsationCost));
         Vector3 direction;
         Vector3 goalPosition = player.transform.position;
 
