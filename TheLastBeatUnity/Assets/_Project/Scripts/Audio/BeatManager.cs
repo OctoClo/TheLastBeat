@@ -10,6 +10,9 @@ public class BeatManager : MonoBehaviour
     [SerializeField]
     List<Beatable> Bar = new List<Beatable>();
 
+    [SerializeField]
+    float tolerance;
+
     public enum TypeBeat
     {
         BEAT,
@@ -26,7 +29,7 @@ public class BeatManager : MonoBehaviour
     }
     public static BeatManager Instance => GameObject.FindObjectOfType<BeatManager>();
 
-    public bool IsInRythm(float toleranceSec , float sampleTime , TypeBeat layer)
+    public bool IsInRythm(float sampleTime , TypeBeat layer)
     {
         float rest;
         if (layer == TypeBeat.BAR)
@@ -38,7 +41,7 @@ public class BeatManager : MonoBehaviour
             rest = (LastBeat.lastTimeBeat - sampleTime) % LastBeat.beatInterval;
         }
 
-        if (Mathf.Abs(rest) < toleranceSec)
+        if (Mathf.Abs(rest) < tolerance)
             return true;
 
         return false;
@@ -47,7 +50,7 @@ public class BeatManager : MonoBehaviour
     public void BeatDelayed(float timeBetweenBeat, TypeBeat tb)
     {
         BeatDetection bd = new BeatDetection();
-        bd.lastTimeBeat = Time.realtimeSinceStartup;
+        bd.lastTimeBeat = TimeManager.Instance.SampleCurrentTime();
         bd.beatInterval = timeBetweenBeat;
 
         if (tb == TypeBeat.BAR)

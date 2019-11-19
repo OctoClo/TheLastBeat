@@ -731,6 +731,44 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &85266609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92240e8d42912a24fbe802194525c752, type: 3}
+  m_Name: Test3
+  m_EditorClassIdentifier: 
+  Length: 100
+  ModifierInZone:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0.099907584
+      outSlope: 0.099907584
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.05678776
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  colorRepr: {r: 0.9056604, g: 0.37151, b: 0, a: 1}
 --- !u!1 &89388892
 GameObject:
   m_ObjectHideFlags: 0
@@ -9314,6 +9352,44 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1132084937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92240e8d42912a24fbe802194525c752, type: 3}
+  m_Name: Test2
+  m_EditorClassIdentifier: 
+  Length: 20
+  ModifierInZone:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0.099907584
+      outSlope: 0.099907584
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.05678776
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  colorRepr: {r: 0, g: 0.96346426, b: 1, a: 1}
 --- !u!1 &1135716822
 GameObject:
   m_ObjectHideFlags: 0
@@ -15539,6 +15615,44 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1761765266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92240e8d42912a24fbe802194525c752, type: 3}
+  m_Name: Test
+  m_EditorClassIdentifier: 
+  Length: 20
+  ModifierInZone:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0.099907584
+      outSlope: 0.099907584
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.05678776
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  colorRepr: {r: 0.18798447, g: 0, b: 1, a: 1}
 --- !u!1 &1762056447
 GameObject:
   m_ObjectHideFlags: 0
@@ -15710,26 +15824,27 @@ MonoBehaviour:
   debugMode: 1
   healthBackgroundRect: {fileID: 1006101020}
   healthBackgroundNewScale: 1.5
-  minimalPulse: 20
-  lowLimitPulse: 60
-  highLimitPulse: 80
-  fakeLimitPulse: 100
+  currentPulse: 12
   colorChange: {fileID: 1264457777}
-  inLimitModifierPulse:
+  actionBeforeDeath: -2
+  dieAtMissInputBerserk: 0
+  minimalPulse: 0
+  maximalPulse: 100
+  pulseMultiplier:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: 0.09776315
-      outSlope: 0.09776315
+      inSlope: 0.099907584
+      outSlope: 0.099907584
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.049330764
+      outWeight: 0.05678776
     - serializedVersion: 3
       time: 1
-      value: 0.6
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -15739,12 +15854,13 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  calmPulseColor: {r: 0, g: 0.9706273, b: 1, a: 1}
-  lowPulseColor: {r: 0, g: 0.66026163, b: 1, a: 1}
-  highPulseColor: {r: 0.4110613, g: 1, b: 0, a: 1}
-  inLimitColor: {r: 1, g: 0.7341389, b: 0, a: 1}
-  berserkColor: {r: 1, g: 0, b: 0, a: 1}
-  actionBeforeDeath: 3
+  colorZone: {r: 0.9056604, g: 0.37151, b: 0, a: 1}
+  lengthZone: 40
+  labelZone: Test3
+  allZones:
+  - {fileID: 1761765266}
+  - {fileID: 1132084937}
+  - {fileID: 85266609}
 --- !u!4 &1779586505
 Transform:
   m_ObjectHideFlags: 0
@@ -16326,6 +16442,7 @@ MonoBehaviour:
   - {fileID: 1779586504}
   Bar:
   - {fileID: 113675267}
+  tolerance: 0.2
 --- !u!4 &1858208006
 Transform:
   m_ObjectHideFlags: 0

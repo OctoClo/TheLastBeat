@@ -5,12 +5,13 @@ using UnityEngine.UI;
 using Sirenix.OdinInspector;
 using DG.Tweening;
 using TMPro;
+using System.Linq;
 
 public class Health : Beatable
 {
     [SerializeField]
     bool debugMode = false;
-    Rect debugWindowRect = new Rect(20, 20, 120, 120 );
+    Rect debugWindowRect = new Rect(20, 20, 240, 160 );
 
     [SerializeField] [TabGroup("Visual")]
     RectTransform healthBackgroundRect;
@@ -18,46 +19,52 @@ public class Health : Beatable
     [SerializeField] [Range(1, 5)] [TabGroup("Visual")]
     float healthBackgroundNewScale = 0;
 
+    [SerializeField] [TabGroup("Gameplay")] 
     float currentPulse = 50;
     Vector3 temporarySize;
-
-    [SerializeField] [TabGroup("Gameplay")]
-    float minimalPulse = 20;
-
-    [SerializeField] [TabGroup("Gameplay")]
-    float lowLimitPulse = 60;
-
-    [SerializeField] [TabGroup("Gameplay")]
-    float highLimitPulse = 80;
-
-    [SerializeField]
-    [TabGroup("Gameplay")]
-    float fakeLimitPulse = 100;
 
     [SerializeField] [TabGroup("Visual")]
     Image colorChange;
 
-    [SerializeField] [TabGroup("Gameplay")]
-    AnimationCurve inLimitModifierPulse = null;
-
-    [SerializeField] [TabGroup("Visual")]
-    Color calmPulseColor;
-
-    [SerializeField] [TabGroup("Visual")]
-    Color lowPulseColor;
-
-    [SerializeField] [TabGroup("Visual")]
-    Color highPulseColor;
-
-    [SerializeField] [TabGroup("Visual")]
-    Color inLimitColor;
-
-    [SerializeField] [TabGroup("Visual")]
-    Color berserkColor;
-
-    [SerializeField] [TabGroup("Gameplay")] [InfoBox("Cela inclus l'action qui a fait passé en berserk", InfoMessageType.Warning)]
+    [SerializeField] [TabGroup("Gameplay")] [InfoBox("Cela inclus l'action qui a fait passé en berserk, n'importe quel valeur en negatif pour infini", InfoMessageType.None)]
     int actionBeforeDeath = 3;
+
+    [SerializeField] [TabGroup("Gameplay")] 
+    bool dieAtMissInputBerserk = false;
+
+    [SerializeField] [TabGroup("Gameplay")] 
+    float minimalPulse = 0;
+
+    [SerializeField] [TabGroup("Gameplay")] 
+    float maximalPulse = 100;
+
     int currentActionCountdownHealth;
+
+    [SerializeField] [TabGroup("ZoneGeneration")]
+    AnimationCurve pulseMultiplier = null;
+
+    [SerializeField] [TabGroup("ZoneGeneration")]
+    Color colorZone;
+
+    [SerializeField] [TabGroup("ZoneGeneration")]
+    float lengthZone;
+
+    [SerializeField] [TabGroup("ZoneGeneration")]
+    string labelZone;
+
+    [SerializeField]
+    List<PulseZone> allZones = new List<PulseZone>();
+
+    [Button][TabGroup("ZoneGeneration")]
+    void Generate()
+    {
+        PulseZone pz = ScriptableObject.CreateInstance<PulseZone>();
+        pz.Length = lengthZone;
+        pz.ModifierInZone = pulseMultiplier;
+        pz.colorRepr = colorZone;
+        pz.name = labelZone;
+        allZones.Add(pz);
+    }
 
     Sequence seq;
     Sequence colorseq;
@@ -73,9 +80,8 @@ public class Health : Beatable
 
     public void Start()
     {
-        OnPulseStateChanged(CurrentState);
+        OnZoneChanged(CurrentZone);
         temporarySize = healthBackgroundRect.transform.localScale;
-        Debug.Assert(minimalPulse < lowLimitPulse && lowLimitPulse < highLimitPulse && highLimitPulse < fakeLimitPulse, "limit pulse not sorted");
     }
 
     void Die()
@@ -83,34 +89,42 @@ public class Health : Beatable
         Debug.Log("died");
     }
 
-    PulseState CurrentState
+    PulseZone Sample(float pulseValue)
     {
-        get
+        if (allZones.Count == 0)
+            return null;
+
+        if (pulseValue < 0)
         {
-            if (currentPulse <= minimalPulse)
-                return PulseState.Calm;
-
-            if (currentPulse < lowLimitPulse)
-                return PulseState.Low;
-
-            if (currentPulse < highLimitPulse)
-                return PulseState.High;
-
-            if (currentPulse < fakeLimitPulse)
-                return PulseState.InLimit;
-
-            return PulseState.Berserk;
+            ratioPulse = 0;
+            return allZones[0];
         }
+
+        if (allZones.Sum(x => x.Length) < pulseValue)
+        {
+            ratioPulse = 1;
+            return allZones[allZones.Count() - 1];
+        }
+
+        float cursor = 0;
+        foreach(PulseZone pz in allZones)
+        {
+            if (pulseValue <= cursor + pz.Length && pulseValue >= cursor)
+            {
+                ratioPulse = (pulseValue - cursor) / (pz.Length);
+                return pz;
+            }
+            else
+            {
+                cursor += pz.Length;
+            }
+        }
+        return null;
     }
 
-    enum PulseState
-    {
-        Calm,
-        Low,
-        High,
-        InLimit,
-        Berserk
-    }
+    PulseZone CurrentZone => Sample(currentPulse);
+    bool IsLastPulseZone => CurrentZone == allZones[allZones.Count - 1];
+    float ratioPulse = 0;
 
     public override void Beat()
     {
@@ -119,7 +133,7 @@ public class Health : Beatable
 
     public void BeatSequence()
     {
-        if (CurrentState == PulseState.Berserk)
+        if (IsLastPulseZone)
             return;
 
         seq = DOTween.Sequence();
@@ -138,74 +152,36 @@ public class Health : Beatable
 
     public void ModifyPulseValue(float deltaValue, bool countAsAction = true)
     {
-        PulseState previousState = CurrentState;
-        if (CurrentState == PulseState.InLimit)
+        PulseZone previousZone = CurrentZone;
+        currentPulse += previousZone.ModifierInZone.Evaluate(ratioPulse) * deltaValue;
+        currentPulse = Mathf.Clamp(currentPulse, minimalPulse, maximalPulse);
+
+        if (CurrentZone != previousZone)
         {
-            float ratio = (currentPulse - highLimitPulse) / (fakeLimitPulse - highLimitPulse);
-            currentPulse += inLimitModifierPulse.Evaluate(ratio) * deltaValue;
-        }
-        else
-        {
-            currentPulse += deltaValue;
-        }    
-        
-        if (CurrentState != previousState)
-        {
-            OnPulseStateChanged(previousState);
+            OnZoneChanged(previousZone);
         }
 
-        if (CurrentState == PulseState.Berserk && countAsAction)
+        if (IsLastPulseZone && countAsAction)
         {
-            currentActionCountdownHealth--;
-            if (currentActionCountdownHealth <= 0)
+            if (BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime() , BeatManager.TypeBeat.BEAT))
             {
-                Die();
+                currentActionCountdownHealth--;
+                if (currentActionCountdownHealth == 0)
+                {
+                    Die();
+                }
+            }
+            else
+            {
+                if (dieAtMissInputBerserk)
+                    Die();
             }
         }
     }
 
-    void OnPulseStateChanged(PulseState previous)
+    void OnZoneChanged(PulseZone previous)
     {
-        if (previous == PulseState.Berserk && berserkSeq != null)
-        {
-            healthBackgroundRect.DOScale(temporarySize * 3, 0.1f);
-            berserkSeq.Kill();
-        }
-
-        switch (CurrentState)
-        {
-            case PulseState.Calm:
-                TransitionColor(calmPulseColor);
-                break;
-
-            case PulseState.Low:
-                TransitionColor(lowPulseColor);
-                break;
-
-            case PulseState.High:
-                TransitionColor(highPulseColor);
-                break;
-
-            case PulseState.InLimit:
-                TransitionColor(inLimitColor);
-                break;
-
-            case PulseState.Berserk:
-                currentActionCountdownHealth = actionBeforeDeath;
-                if (berserkSeq != null && berserkSeq.IsPlaying())
-                    berserkSeq.Kill();
-
-                healthBackgroundRect.DOScale(temporarySize * 3, sequenceDuration);
-
-                berserkSeq = DOTween.Sequence();
-                berserkSeq.Append(DOTween.To(() => colorChange.color, x => colorChange.color = x, berserkColor, 0.3f));
-                berserkSeq.Append(DOTween.To(() => colorChange.color, x => colorChange.color = x, Color.white, 0.3f));
-                berserkSeq.SetLoops(-1);
-                berserkSeq.Play();
-
-                TransitionColor(berserkColor);
-                break;
-        }
+        TransitionColor(CurrentZone.colorRepr);
     }
 
     void TransitionColor(Color newColor)
@@ -230,6 +206,34 @@ public class Health : Beatable
         }
 
         GUI.Label(new Rect(20, 75, 100, 25), currentPulse.ToString());
-        GUI.Label(new Rect(20, 95, 100, 25), CurrentState.ToString());
+        GUI.Label(new Rect(20, 95, 100, 25), CurrentZone.name);
+
+        float startX = 20;
+        float startY = 130;
+        float height = 25;
+
+        float width = 200;
+        float totalPulse = allZones.Sum(x => x.Length);
+        float cursor = 0;
+
+        foreach(PulseZone pz in allZones)
+        {
+            float beginX = ((cursor / totalPulse) * width) + startX;
+            float endX = (((cursor + pz.Length) / totalPulse) * width) + startX;
+            DrawQuad(new Rect(beginX, startY, endX - beginX, height), pz.colorRepr);
+            cursor += pz.Length;
+        }
+
+        float xRatio = Mathf.Clamp(currentPulse / totalPulse, 0,1) * width + startX;
+        DrawQuad(new Rect(xRatio, startY, 0.1f, height), Color.white);
+    }
+
+    void DrawQuad(Rect position, Color color)
+    {
+        Texture2D texture = new Texture2D(1, 1);
+        texture.SetPixel(0, 0, color);
+        texture.Apply();
+        GUI.skin.box.normal.background = texture;
+        GUI.Box(position, GUIContent.none);
     }
 }

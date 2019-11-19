@@ -24,11 +24,11 @@ public class BlinkAbility : Ability
     private void Blink()
     {
         //particles.Play();
-        //player.Health.ModifyPulseValue(pulsationCost);
+        player.Health.ModifyPulseValue(pulsationCost);
         player.transform.position = player.transform.position + player.CurrentDirection * speed;
         //particles.Stop();
 
-        if (BeatManager.Instance.IsInRythm(0.15f, Time.realtimeSinceStartup, BeatManager.TypeBeat.BEAT))
+        if (BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT))
         {
             Debug.Log("rythm");
         }
