@@ -87,7 +87,7 @@ public class Health : Beatable
     {
         get
         {
-            if (currentPulse == minimalPulse)
+            if (currentPulse <= minimalPulse)
                 return PulseState.Calm;
 
             if (currentPulse < lowLimitPulse)
