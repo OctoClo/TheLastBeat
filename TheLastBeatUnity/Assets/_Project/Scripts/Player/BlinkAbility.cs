@@ -22,7 +22,14 @@ public class BlinkAbility : Ability
     private void Blink()
     {
         //particles.Play();
+        player.Anim.LaunchAnim(EPlayerAnim.BLINKING);
         player.transform.position = player.transform.position + player.CurrentDirection * speed;
+        End();
+        
+    }
+
+    public override void End()
+    {
         //particles.Stop();
     }
 }

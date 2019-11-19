@@ -40,6 +40,7 @@ public class RewindRushAbility : Ability
                 direction *= 1.3f;
 
                 goalPosition += direction;
+                seq.AppendCallback(() => player.Anim.LaunchAnim(EPlayerAnim.RUSHING));
                 seq.Append(player.transform.DOMove(goalPosition, duration));
                 seq.AppendCallback(() => { enemy.GetAttacked(); });
             }
@@ -47,6 +48,11 @@ public class RewindRushAbility : Ability
 
         seq.Play();
 
+        End();
+    }
+
+    public override void End()
+    {
         player.Status.StopDashing();
         player.FocusZone.overrideControl = false;
         player.gameObject.layer = LayerMask.NameToLayer("Default");
