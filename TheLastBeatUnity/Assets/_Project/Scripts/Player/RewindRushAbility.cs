@@ -21,7 +21,7 @@ public class RewindRushAbility : Ability
     {
         player.Status.StartDashing();
         player.FocusZone.overrideControl = true;
-        player.gameObject.layer = LayerMask.NameToLayer("Player Dashing");
+        player.ColliderObject.layer = LayerMask.NameToLayer("Player Dashing");
 
         Sequence seq = DOTween.Sequence();
         Vector3 direction;
@@ -55,7 +55,7 @@ public class RewindRushAbility : Ability
     {
         player.Status.StopDashing();
         player.FocusZone.overrideControl = false;
-        player.gameObject.layer = LayerMask.NameToLayer("Default");
+        player.ColliderObject.layer = LayerMask.NameToLayer("Default");
         player.ResetChainedEnemies();
     }
 }

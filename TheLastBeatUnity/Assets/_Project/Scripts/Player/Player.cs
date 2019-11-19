@@ -43,6 +43,8 @@ public class Player : Inputable
     public PlayerStatus Status;
     [HideInInspector]
     public PlayerAnim Anim;
+    [HideInInspector]
+    public GameObject ColliderObject;
 
     Dictionary<EInputAction, Ability> abilities;
     [HideInInspector]
@@ -57,6 +59,7 @@ public class Player : Inputable
         Anim = GetComponent<PlayerAnim>();
         FocusZone = GetComponentInChildren<FocusZone>();
         FocusZone.playerStatus = Status;
+        ColliderObject = GetComponentInChildren<CapsuleCollider>().gameObject;
 
         abilities = new Dictionary<EInputAction, Ability>();
 
