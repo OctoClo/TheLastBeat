@@ -24,30 +24,24 @@ public class BeatManager : MonoBehaviour
         public float lastTimeBeat;
         public float beatInterval;
     }
-
-    static BeatManager instance;
-    public static BeatManager Instance;
+    public static BeatManager Instance => GameObject.FindObjectOfType<BeatManager>();
 
     public bool IsInRythm(float toleranceSec , float sampleTime , TypeBeat layer)
     {
+        float rest;
         if (layer == TypeBeat.BAR)
         {
-            if (Mathf.Abs(LastBar.lastTimeBeat - sampleTime) < toleranceSec)
-                return true;
+            rest = (LastBar.lastTimeBeat - sampleTime) % LastBar.beatInterval;
         }
         else
         {
-
+            rest = (LastBeat.lastTimeBeat - sampleTime) % LastBeat.beatInterval;
         }
-        return false;
-    }
 
-    private void Start()
-    {
-        if (!instance)
-            instance = this;
-        else
-            Destroy(gameObject);
+        if (Mathf.Abs(rest) < toleranceSec)
+            return true;
+
+        return false;
     }
 
     public void BeatDelayed(float timeBetweenBeat, TypeBeat tb)
