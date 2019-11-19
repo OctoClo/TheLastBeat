@@ -25,7 +25,6 @@ public class PlayerAnim : MonoBehaviour
         {
             case EPlayerAnim.RUSHING:
                 animator.SetTrigger("rush");
-                Debug.Log("Launching anim rush");
                 break;
         }
     }
