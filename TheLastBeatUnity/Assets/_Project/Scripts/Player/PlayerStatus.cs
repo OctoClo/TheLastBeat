@@ -24,14 +24,14 @@ public class PlayerStatus : MonoBehaviour
 
     private void Start()
     {
-        material = GetComponent<MeshRenderer>().material;
-        normalColor = material.color;
+        //material = GetComponent<MeshRenderer>().material;
+        //normalColor = material.color;
     }
 
     public void Stun()
     {
         Stunned = true;
-        material.color = stunColor;
+        //material.color = stunColor;
         stunTimer = stunDuration;
     }
 
@@ -54,7 +54,7 @@ public class PlayerStatus : MonoBehaviour
             if (stunTimer <= 0)
             {
                 Stunned = false;
-                material.color = normalColor;
+                //material.color = normalColor;
             }
         }
     }

@@ -12,6 +12,8 @@ public class Player : Inputable
     float speed = 7.5f;
     [TabGroup("Movement")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
     float maxRotationPerFrame = 30;
+    [TabGroup("Movement")] [SerializeField] [Required]
+    Animator animator;
     public Vector3 CurrentDirection { get; set; }
 
     //If you are doing something (dash , attack animation, etc...) or if game paused, temporary block input
@@ -71,6 +73,7 @@ public class Player : Inputable
     {
         Vector3 direction = new Vector3(player.GetAxis("MoveX"), 0, player.GetAxis("MoveY"));
         CurrentDirection = direction;
+        animator.SetBool("moving", (direction != Vector3.zero));
 
         // Look at
         currentTarget = FocusZone.GetCurrentTarget();
