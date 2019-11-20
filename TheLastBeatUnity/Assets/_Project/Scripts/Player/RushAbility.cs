@@ -15,16 +15,19 @@ public class RushAbility : Ability
 
     float impactBeatDelay = 0;
 
+    float pulsationCost;
+
     Enemy target = null;
 
     public RushAbility(Player newPlayer, float rushDuration, float newZoomDuration, float newZoomValue,
-                    float newSlowMoDuration, float newImpactBeatDelay) : base(newPlayer)
+                    float newSlowMoDuration, float newImpactBeatDelay, float newCost) : base(newPlayer)
     {
         duration = rushDuration;
         impactBeatDelay = newImpactBeatDelay;
         zoomDuration = newZoomDuration;
         zoomValue = newZoomValue;
         slowMoDuration = newSlowMoDuration;
+        pulsationCost = newCost;
     }
 
     public override void Launch()
@@ -65,6 +68,7 @@ public class RushAbility : Ability
         }
 
         Vector3 goalPosition = direction + player.transform.position;
+        seq.AppendCallback(() => player.Health.ModifyPulseValue(pulsationCost));
         seq.Append(player.transform.DOMove(goalPosition, duration));
 
         if (hit.collider)

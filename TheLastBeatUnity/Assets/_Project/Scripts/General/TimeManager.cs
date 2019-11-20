@@ -19,6 +19,11 @@ public class TimeManager
         }
     }
 
+    public float SampleCurrentTime()
+    {
+        return Time.realtimeSinceStartup;
+    }
+
     static TimeManager timeManager = null;
     public static TimeManager Instance
     {

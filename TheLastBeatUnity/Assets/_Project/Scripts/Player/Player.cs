@@ -31,16 +31,26 @@ public class Player : Inputable
     float rushImpactBeatDelay = 0;
     [TabGroup("Rush")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
     float rushChainMaxInterval = 2;
+    [TabGroup("Rush")] [SerializeField]
+    float pulsationCostRush = 0;
+    [TabGroup("Rush")] [SerializeField]
+    float pulsationCostRewind =0;
     float rushChainTimer = 0;
     List<Enemy> chainedEnemies = new List<Enemy>();
 
     [TabGroup("Blink")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
     float blinkSpeed = 5;
+    [TabGroup("Blink")] [SerializeField]
+    float pulsationCostBlink = 0;
     [TabGroup("Blink")] [SerializeField] [Required]
     ParticleSystem blinkParticles = null;
 
     [HideInInspector]
     public PlayerStatus Status;
+
+    [SerializeField]
+    Health healthSystem;
+    public Health Health => healthSystem;
 
     Dictionary<EInputAction, Ability> abilities;
     [HideInInspector]
@@ -57,13 +67,13 @@ public class Player : Inputable
 
         abilities = new Dictionary<EInputAction, Ability>();
 
-        Ability blink = new BlinkAbility(this, blinkSpeed, blinkParticles);
+        Ability blink = new BlinkAbility(this, blinkSpeed, blinkParticles, pulsationCostBlink);
         abilities.Add(EInputAction.BLINK, blink);
 
-        Ability rush = new RushAbility(this, rushDuration, rushZoomDuration, rushZoomValue, rushSlowMoDuration, rushImpactBeatDelay);
+        Ability rush = new RushAbility(this, rushDuration, rushZoomDuration, rushZoomValue, rushSlowMoDuration, rushImpactBeatDelay, pulsationCostRush);
         abilities.Add(EInputAction.RUSH, rush);
 
-        Ability rewindRush = new RewindRushAbility(this, rushRewindDuration);
+        Ability rewindRush = new RewindRushAbility(this, rushRewindDuration, pulsationCostRewind);
         abilities.Add(EInputAction.REWINDRUSH, rewindRush);
     }
 
