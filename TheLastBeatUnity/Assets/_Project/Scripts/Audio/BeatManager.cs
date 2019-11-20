@@ -21,6 +21,11 @@ public class BeatManager : MonoBehaviour
 
     public BeatDetection LastBar { get; private set; }
     public BeatDetection LastBeat { get; private set; }
+    int validationToken = 0;
+
+    //Used to identify
+    int countBeat = 0;
+    int lastBeatValidated = 0;
 
     public struct BeatDetection
     {
@@ -31,18 +36,37 @@ public class BeatManager : MonoBehaviour
 
     public bool IsInRythm(float sampleTime , TypeBeat layer)
     {
-        float rest;
         if (layer == TypeBeat.BAR)
         {
-            rest = (LastBar.lastTimeBeat - sampleTime) % LastBar.beatInterval;
+            if (sampleTime - LastBar.lastTimeBeat > 0 && sampleTime - LastBar.lastTimeBeat < tolerance && countBeat > lastBeatValidated)
+            {
+                return true;
+            }
+
+            float nextBeat = LastBar.lastTimeBeat + LastBar.beatInterval;
+            //A bit early
+            if (sampleTime - nextBeat < 0 && sampleTime - nextBeat > -tolerance && countBeat + 1 > lastBeatValidated)
+            {
+                return true;
+            }
         }
         else
         {
-            rest = (LastBeat.lastTimeBeat - sampleTime) % LastBeat.beatInterval;
-        }
+            //A bit late
+            if (sampleTime - LastBeat.lastTimeBeat > 0 && sampleTime - LastBeat.lastTimeBeat < tolerance && countBeat > lastBeatValidated)
+            {
+                lastBeatValidated = countBeat;
+                return true;
+            }
 
-        if (Mathf.Abs(rest) < tolerance)
-            return true;
+            float nextBeat = LastBeat.lastTimeBeat + LastBeat.beatInterval;
+            //A bit early
+            if (sampleTime - nextBeat < 0 && sampleTime - nextBeat > -tolerance && countBeat + 1 > lastBeatValidated)
+            {
+                lastBeatValidated = countBeat + 1;
+                return true;
+            }
+        }
 
         return false;
     }
@@ -66,7 +90,10 @@ public class BeatManager : MonoBehaviour
         if (tb == TypeBeat.BAR)
             LastBar = bd;
         else
+        {
+            countBeat++;
             LastBeat = bd;
+        }
 
         StartCoroutine(BeatCoundown(tb));
         foreach (Beatable beat in (tb == TypeBeat.BAR ? Bar : Beats))
