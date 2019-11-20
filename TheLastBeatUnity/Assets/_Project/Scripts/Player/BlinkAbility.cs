@@ -31,6 +31,7 @@ public class BlinkAbility : Ability
         if (BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT))
         {
             Debug.Log("rythm");
+            BeatManager.Instance.ValidateLastBeat(BeatManager.TypeBeat.BEAT);
         }
     }
 }

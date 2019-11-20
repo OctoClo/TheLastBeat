@@ -47,6 +47,16 @@ public class BeatManager : MonoBehaviour
         return false;
     }
 
+    //On made the action in the right time , flag it as validated
+    public void ValidateLastBeat(TypeBeat tb)
+    {
+        StopAllCoroutines();
+        foreach (Beatable beat in (tb == TypeBeat.BAR ? Bar : Beats))
+        {
+            beat.ValidateBeat();
+        }
+    }
+
     public void BeatDelayed(float timeBetweenBeat, TypeBeat tb)
     {
         BeatDetection bd = new BeatDetection();
@@ -58,9 +68,19 @@ public class BeatManager : MonoBehaviour
         else
             LastBeat = bd;
 
+        StartCoroutine(BeatCoundown(tb));
         foreach (Beatable beat in (tb == TypeBeat.BAR ? Bar : Beats))
         {
             beat.BeatDelayed(timeBetweenBeat);
+        }
+    }
+
+    IEnumerator BeatCoundown(TypeBeat tb)
+    {
+        yield return new WaitForSeconds(tolerance);
+        foreach (Beatable beat in (tb == TypeBeat.BAR ? Bar : Beats))
+        {
+            beat.MissedBeat();
         }
     }
 }

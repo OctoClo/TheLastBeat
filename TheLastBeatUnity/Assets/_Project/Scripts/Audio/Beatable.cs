@@ -13,7 +13,8 @@ public abstract class Beatable : MonoBehaviour
     Coroutine beatCoroutine;
 
     public abstract void Beat();
-
+    public virtual void ValidateBeat() { }
+    public virtual void MissedBeat() { }
     public void BeatDelayed(float timeBetweenBeat)
     {
         if (!pause)

@@ -11,7 +11,7 @@ public class Health : Beatable
 {
     [SerializeField]
     bool debugMode = false;
-    Rect debugWindowRect = new Rect(20, 20, 240, 160 );
+    Rect debugWindowRect = new Rect(20, 20, 240, 180 );
 
     [SerializeField] [TabGroup("Visual")]
     RectTransform healthBackgroundRect;
@@ -39,23 +39,27 @@ public class Health : Beatable
     float maximalPulse = 100;
 
     int currentActionCountdownHealth;
+    bool died = false;
 
-    [SerializeField] [TabGroup("ZoneGeneration")]
+    [SerializeField] [TabGroup("Zone generation")]
     AnimationCurve pulseMultiplier = null;
 
-    [SerializeField] [TabGroup("ZoneGeneration")]
+    [SerializeField] [TabGroup("Zone generation")]
     Color colorZone;
 
-    [SerializeField] [TabGroup("ZoneGeneration")]
+    [SerializeField] [TabGroup("Zone generation")]
     float lengthZone;
 
-    [SerializeField] [TabGroup("ZoneGeneration")]
+    [SerializeField] [TabGroup("Zone generation")]
     string labelZone;
 
     [SerializeField]
     List<PulseZone> allZones = new List<PulseZone>();
 
-    [Button][TabGroup("ZoneGeneration")]
+    [SerializeField][TabGroup("Zone generation")][Range(0,10)]
+    float scaleUI;
+
+    [Button][TabGroup("Zone generation")]
     void Generate()
     {
         PulseZone pz = ScriptableObject.CreateInstance<PulseZone>();
@@ -63,6 +67,7 @@ public class Health : Beatable
         pz.ModifierInZone = pulseMultiplier;
         pz.colorRepr = colorZone;
         pz.name = labelZone;
+        pz.ScaleModifier = scaleUI;
         allZones.Add(pz);
     }
 
@@ -80,13 +85,17 @@ public class Health : Beatable
 
     public void Start()
     {
-        OnZoneChanged(CurrentZone);
+        Debug.Assert(allZones.Count > 0, "No segment");
+        if (CurrentZone)
+        {
+            OnZoneChanged(CurrentZone);
+        }
         temporarySize = healthBackgroundRect.transform.localScale;
     }
 
     void Die()
     {
-        Debug.Log("died");
+        died = true;
     }
 
     PulseZone Sample(float pulseValue)
@@ -123,8 +132,9 @@ public class Health : Beatable
     }
 
     PulseZone CurrentZone => Sample(currentPulse);
-    bool IsLastPulseZone => CurrentZone == allZones[allZones.Count - 1];
+    bool IsBerserkZone => CurrentZone == allZones[allZones.Count - 1];
     float ratioPulse = 0;
+    Color colorDuringBerserk;
 
     public override void Beat()
     {
@@ -133,11 +143,11 @@ public class Health : Beatable
 
     public void BeatSequence()
     {
-        if (IsLastPulseZone)
+        if (!CurrentZone || IsBerserkZone)
             return;
 
         seq = DOTween.Sequence();
-        seq.Append(healthBackgroundRect.DOScale(temporarySize * healthBackgroundNewScale, sequenceDuration));
+        seq.Append(healthBackgroundRect.DOScale(temporarySize * CurrentZone.ScaleModifier, sequenceDuration));
         seq.Append(healthBackgroundRect.DOScale(temporarySize, sequenceDuration));
         seq.Play();
     }
@@ -153,6 +163,12 @@ public class Health : Beatable
     public void ModifyPulseValue(float deltaValue, bool countAsAction = true)
     {
         PulseZone previousZone = CurrentZone;
+        if (!CurrentZone)
+        {
+            currentPulse += deltaValue;
+            return;
+        }
+            
         currentPulse += previousZone.ModifierInZone.Evaluate(ratioPulse) * deltaValue;
         currentPulse = Mathf.Clamp(currentPulse, minimalPulse, maximalPulse);
 
@@ -161,8 +177,9 @@ public class Health : Beatable
             OnZoneChanged(previousZone);
         }
 
-        if (IsLastPulseZone && countAsAction)
+        if (IsBerserkZone && countAsAction)
         {
+            //Not in rythm
             if (BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime() , BeatManager.TypeBeat.BEAT))
             {
                 currentActionCountdownHealth--;
@@ -179,8 +196,36 @@ public class Health : Beatable
         }
     }
 
+    public override void MissedBeat()
+    {
+        if (IsBerserkZone && dieAtMissInputBerserk)
+        {
+            Die();
+        }
+    }
+
     void OnZoneChanged(PulseZone previous)
     {
+        if (!CurrentZone)
+            return;
+
+        //Entered berserk mode
+        if (IsBerserkZone)
+        {
+            healthBackgroundRect.DOScale(temporarySize * CurrentZone.ScaleModifier, 0.1f);
+            colorDuringBerserk = CurrentZone.colorRepr;
+            berserkSeq = DOTween.Sequence();
+            berserkSeq.Append(DOTween.To(() => colorChange.color, x => colorChange.color = x, Color.white, 0.1f));
+            berserkSeq.Append(DOTween.To(() => colorChange.color, x => colorChange.color = x, colorDuringBerserk, 0.1f));
+            berserkSeq.SetLoops(-1);
+            berserkSeq.Play();
+        }
+
+        if (previous == allZones[allZones.Count - 1] && berserkSeq != null)
+        {
+            berserkSeq.Kill();
+        }
+
         TransitionColor(CurrentZone.colorRepr);
     }
 
@@ -189,8 +234,7 @@ public class Health : Beatable
         if (colorseq != null && colorseq.IsPlaying())
             colorseq.Kill();
 
-        colorseq = DOTween.Sequence();
-        colorseq.Append(DOTween.To(() => colorChange.color, x => colorChange.color = x, newColor, 0.5f));
+        DOTween.To(() => colorChange.color, x => colorChange.color = x, newColor, 0.5f);
     }
 
     void DebugWindow(int windowID)
@@ -206,7 +250,12 @@ public class Health : Beatable
         }
 
         GUI.Label(new Rect(20, 75, 100, 25), currentPulse.ToString());
-        GUI.Label(new Rect(20, 95, 100, 25), CurrentZone.name);
+
+        if (CurrentZone)
+            GUI.Label(new Rect(20, 95, 100, 25), CurrentZone.name);
+
+        if (died)
+            GUI.Label(new Rect(20, 160, 100, 25), "Died");
 
         float startX = 20;
         float startY = 130;
@@ -216,6 +265,7 @@ public class Health : Beatable
         float totalPulse = allZones.Sum(x => x.Length);
         float cursor = 0;
 
+        //Draw rectangles with width relative to the sum of their value
         foreach(PulseZone pz in allZones)
         {
             float beginX = ((cursor / totalPulse) * width) + startX;

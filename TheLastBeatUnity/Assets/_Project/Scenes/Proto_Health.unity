@@ -731,44 +731,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &85266609
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92240e8d42912a24fbe802194525c752, type: 3}
-  m_Name: Test3
-  m_EditorClassIdentifier: 
-  Length: 100
-  ModifierInZone:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0.099907584
-      outSlope: 0.099907584
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.05678776
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  colorRepr: {r: 0.9056604, g: 0.37151, b: 0, a: 1}
 --- !u!1 &89388892
 GameObject:
   m_ObjectHideFlags: 0
@@ -3625,6 +3587,45 @@ Transform:
   m_Father: {fileID: 10180536}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &398362653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92240e8d42912a24fbe802194525c752, type: 3}
+  m_Name: HIgh
+  m_EditorClassIdentifier: 
+  Length: 20
+  ModifierInZone:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  colorRepr: {r: 1, g: 0.8057229, b: 0, a: 1}
+  ScaleModifier: 1.86
 --- !u!1 &415953752
 GameObject:
   m_ObjectHideFlags: 0
@@ -6282,6 +6283,45 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &737404033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92240e8d42912a24fbe802194525c752, type: 3}
+  m_Name: Calm
+  m_EditorClassIdentifier: 
+  Length: 2
+  ModifierInZone:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  colorRepr: {r: 0, g: 0.90588236, b: 0.74136066, a: 1}
+  ScaleModifier: 1.35
 --- !u!1 &742687187
 GameObject:
   m_ObjectHideFlags: 0
@@ -7204,6 +7244,45 @@ Transform:
   m_Father: {fileID: 1521367184}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &815327174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92240e8d42912a24fbe802194525c752, type: 3}
+  m_Name: InLimit
+  m_EditorClassIdentifier: 
+  Length: 10
+  ModifierInZone:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.39999998
+      outSlope: -0.39999998
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.6
+      inSlope: -0.39999998
+      outSlope: -0.39999998
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  colorRepr: {r: 1, g: 0.5235948, b: 0, a: 1}
+  ScaleModifier: 1.86
 --- !u!1 &834102209
 GameObject:
   m_ObjectHideFlags: 0
@@ -7444,6 +7523,45 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &867230422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92240e8d42912a24fbe802194525c752, type: 3}
+  m_Name: Low
+  m_EditorClassIdentifier: 
+  Length: 20
+  ModifierInZone:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  colorRepr: {r: 0, g: 0.6882107, b: 1, a: 1}
+  ScaleModifier: 1.35
 --- !u!1 &876336455
 GameObject:
   m_ObjectHideFlags: 0
@@ -9352,44 +9470,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1132084937
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92240e8d42912a24fbe802194525c752, type: 3}
-  m_Name: Test2
-  m_EditorClassIdentifier: 
-  Length: 20
-  ModifierInZone:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0.099907584
-      outSlope: 0.099907584
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.05678776
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  colorRepr: {r: 0, g: 0.96346426, b: 1, a: 1}
 --- !u!1 &1135716822
 GameObject:
   m_ObjectHideFlags: 0
@@ -15615,44 +15695,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1761765266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92240e8d42912a24fbe802194525c752, type: 3}
-  m_Name: Test
-  m_EditorClassIdentifier: 
-  Length: 20
-  ModifierInZone:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0.099907584
-      outSlope: 0.099907584
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.05678776
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  colorRepr: {r: 0.18798447, g: 0, b: 1, a: 1}
 --- !u!1 &1762056447
 GameObject:
   m_ObjectHideFlags: 0
@@ -15827,7 +15869,7 @@ MonoBehaviour:
   currentPulse: 12
   colorChange: {fileID: 1264457777}
   actionBeforeDeath: -2
-  dieAtMissInputBerserk: 0
+  dieAtMissInputBerserk: 1
   minimalPulse: 0
   maximalPulse: 100
   pulseMultiplier:
@@ -15836,31 +15878,34 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: 0.099907584
-      outSlope: 0.099907584
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.05678776
-    - serializedVersion: 3
-      time: 1
-      value: 0
       inSlope: 0
       outSlope: 0
-      tangentMode: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  colorZone: {r: 0.9056604, g: 0.37151, b: 0, a: 1}
-  lengthZone: 40
-  labelZone: Test3
+  colorZone: {r: 1, g: 0.066404626, b: 0, a: 1}
+  lengthZone: 6
+  labelZone: Berserk
   allZones:
-  - {fileID: 1761765266}
-  - {fileID: 1132084937}
-  - {fileID: 85266609}
+  - {fileID: 737404033}
+  - {fileID: 867230422}
+  - {fileID: 398362653}
+  - {fileID: 815327174}
+  - {fileID: 2059468334}
+  scaleUI: 2.58
 --- !u!4 &1779586505
 Transform:
   m_ObjectHideFlags: 0
@@ -18605,6 +18650,45 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2059468334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92240e8d42912a24fbe802194525c752, type: 3}
+  m_Name: Berserk
+  m_EditorClassIdentifier: 
+  Length: 6
+  ModifierInZone:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  colorRepr: {r: 1, g: 0.066404626, b: 0, a: 1}
+  ScaleModifier: 2.58
 --- !u!1 &2074056898
 GameObject:
   m_ObjectHideFlags: 0
