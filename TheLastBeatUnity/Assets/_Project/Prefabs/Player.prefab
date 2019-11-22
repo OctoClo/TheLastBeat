@@ -282,8 +282,37 @@ MonoBehaviour:
   rushChainMaxInterval: 2
   pulsationCostRush: 0
   pulsationCostRewind: 0
+  soundRushOffBeat:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 4a18d2dc5f5984f409d9ea8765209507,
+      type: 2}
+  soundRushOnBeat:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 877a8f9f45a0b854b9c55bdf1c4e1798,
+      type: 2}
+  rewindNormalState:
+    idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: a958b6c151689af4b88c97f8bed9154c,
+      type: 2}
+  rewindState:
+    idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: d76c5d52299cb714f965e151251d92e3,
+      type: 2}
   blinkSpeed: 5
   pulsationCostBlink: 0
+  soundBlink:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: a310b7a7eea90554f8500d2f68b2f277,
+      type: 2}
   blinkParticles: {fileID: 7874518215433590455}
   Status: {fileID: 0}
   Anim: {fileID: 0}
@@ -304,6 +333,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stunDuration: 0.5
   stunColor: {r: 0, g: 0, b: 1, a: 1}
+  stunMusicSXF:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: c9a3feedb831db34e802055ebcc8eff8,
+      type: 2}
 --- !u!114 &8955398434261733278
 MonoBehaviour:
   m_ObjectHideFlags: 0
