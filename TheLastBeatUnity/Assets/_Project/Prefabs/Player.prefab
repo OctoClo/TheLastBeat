@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3489716976257525471}
   - component: {fileID: 3489716976257525470}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 3489716976359924727}
   - component: {fileID: 3489716976359924724}
   - component: {fileID: 3489716976359924725}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Focus Zone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -201,10 +201,11 @@ GameObject:
   m_Component:
   - component: {fileID: 3489716977114045590}
   - component: {fileID: 3489716977114045608}
+  - component: {fileID: 4657491567881127649}
   - component: {fileID: 3489716977114045609}
   - component: {fileID: 75586183539498471}
   - component: {fileID: 8955398434261733278}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -244,6 +245,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!136 &4657491567881127649
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3489716977114045591}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.32
+  m_Height: 1.8
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.1, z: 0}
 --- !u!114 &3489716977114045609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,20 +347,6 @@ Transform:
   m_Father: {fileID: 3489716977114045590}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &3490801100232397733
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9113689007072814480}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 42.20722
-  m_Height: 186.90897
-  m_Direction: 1
-  m_Center: {x: 37.803543, y: 8750.329, z: -534.0014}
 --- !u!1001 &3489716977049381670
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -396,6 +397,14 @@ PrefabInstance:
     - target: {fileID: 400002, guid: 21543d2b66928224f8a9536ff3811682, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 21543d2b66928224f8a9536ff3811682, type: 3}
+      propertyPath: m_Name
+      value: Light
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 21543d2b66928224f8a9536ff3811682, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: 21543d2b66928224f8a9536ff3811682, type: 3}
       propertyPath: m_Name
@@ -474,6 +483,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 577659411266488804, guid: b04f307b9a0eafb49a75b140317e805d,
+        type: 3}
+      propertyPath: m_Name
+      value: Blink particles
+      objectReference: {fileID: 0}
+    - target: {fileID: 577659411266488804, guid: b04f307b9a0eafb49a75b140317e805d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 577659411266488804, guid: b04f307b9a0eafb49a75b140317e805d,
         type: 3}
@@ -596,12 +615,6 @@ PrefabInstance:
 --- !u!4 &4277489674016218518 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: ad89ffa1a5e3a214a91c25c225df1a88,
-    type: 3}
-  m_PrefabInstance: {fileID: 9089960579572627084}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &9113689007072814480 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 25989298420437788, guid: ad89ffa1a5e3a214a91c25c225df1a88,
     type: 3}
   m_PrefabInstance: {fileID: 9089960579572627084}
   m_PrefabAsset: {fileID: 0}
