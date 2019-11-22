@@ -35,6 +35,14 @@ public class Player : Inputable
     float pulsationCostRush = 0;
     [TabGroup("Rush")] [SerializeField]
     float pulsationCostRewind =0;
+    [TabGroup("Rush")] [SerializeField]
+    AK.Wwise.Event soundRushOffBeat = null;
+    [TabGroup("Rush")] [SerializeField]
+    AK.Wwise.Event soundRushOnBeat = null;
+    [TabGroup("Rush")] [SerializeField]
+    AK.Wwise.State rewindNormalState = null;
+    [TabGroup("Rush")] [SerializeField]
+    AK.Wwise.State rewindState = null;
     float rushChainTimer = 0;
     List<Enemy> chainedEnemies = new List<Enemy>();
 
@@ -42,6 +50,8 @@ public class Player : Inputable
     float blinkSpeed = 5;
     [TabGroup("Blink")] [SerializeField]
     float pulsationCostBlink = 0;
+    [TabGroup("Blink")] [SerializeField]
+    AK.Wwise.Event soundBlink = null;
     [TabGroup("Blink")] [SerializeField] [Required]
     ParticleSystem blinkParticles = null;
 
@@ -67,13 +77,13 @@ public class Player : Inputable
 
         abilities = new Dictionary<EInputAction, Ability>();
 
-        Ability blink = new BlinkAbility(this, blinkSpeed, blinkParticles, pulsationCostBlink);
+        Ability blink = new BlinkAbility(this, blinkSpeed, blinkParticles,soundBlink,pulsationCostBlink);
         abilities.Add(EInputAction.BLINK, blink);
 
-        Ability rush = new RushAbility(this, rushDuration, rushZoomDuration, rushZoomValue, rushSlowMoDuration, rushImpactBeatDelay, pulsationCostRush);
+        Ability rush = new RushAbility(this, rushDuration, rushZoomDuration, rushZoomValue, rushSlowMoDuration, rushImpactBeatDelay, pulsationCostRush, soundRushOnBeat , soundRushOffBeat);
         abilities.Add(EInputAction.RUSH, rush);
 
-        Ability rewindRush = new RewindRushAbility(this, rushRewindDuration, pulsationCostRewind);
+        Ability rewindRush = new RewindRushAbility(this, rushRewindDuration, pulsationCostRewind, rewindNormalState , rewindState);
         abilities.Add(EInputAction.REWINDRUSH, rewindRush);
     }
 

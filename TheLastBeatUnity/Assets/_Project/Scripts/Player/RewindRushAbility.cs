@@ -7,11 +7,15 @@ public class RewindRushAbility : Ability
 {
     float duration = 0;
     float pulsationCost;
+    AK.Wwise.State rewindState;
+    AK.Wwise.State normalState;
 
-    public RewindRushAbility(Player newPlayer, float rewindRushDuration, float newCost) : base(newPlayer)
+    public RewindRushAbility(Player newPlayer, float rewindRushDuration, float newCost, AK.Wwise.State normal, AK.Wwise.State rewind) : base(newPlayer)
     {
         duration = rewindRushDuration;
         pulsationCost = newCost;
+        rewindState = rewind;
+        normalState = normal;
     }
 
     public override void Launch()
@@ -21,11 +25,13 @@ public class RewindRushAbility : Ability
 
     void RewindRush()
     {
+        rewindState.SetValue();
         player.Status.StartDashing();
         player.FocusZone.overrideControl = true;
         player.gameObject.layer = LayerMask.NameToLayer("Player Dashing");
 
         Sequence seq = DOTween.Sequence();
+        //seq.AppendCallback(() => rewindState.SetValue());
         seq.AppendCallback(() => player.Health.ModifyPulseValue(pulsationCost));
         Vector3 direction;
         Vector3 goalPosition = player.transform.position;
@@ -48,11 +54,15 @@ public class RewindRushAbility : Ability
             }
         }
 
-        seq.Play();
+        seq.AppendCallback(() =>
+        {
+            player.Status.StopDashing();
+            player.FocusZone.overrideControl = false;
+            player.gameObject.layer = LayerMask.NameToLayer("Default");
+            player.ResetChainedEnemies();
+            normalState.SetValue();
+        });
 
-        player.Status.StopDashing();
-        player.FocusZone.overrideControl = false;
-        player.gameObject.layer = LayerMask.NameToLayer("Default");
-        player.ResetChainedEnemies();
+        seq.Play();
     }
 }

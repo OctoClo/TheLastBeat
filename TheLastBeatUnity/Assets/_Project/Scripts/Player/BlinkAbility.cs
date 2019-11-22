@@ -7,12 +7,14 @@ public class BlinkAbility : Ability
     float speed = 5;
     ParticleSystem particles = null;
     float pulsationCost;
+    AK.Wwise.Event soundBlink;
 
-    public BlinkAbility(Player newPlayer, float blinkSpeed, ParticleSystem blinkParticles, float newCost) : base(newPlayer)
+    public BlinkAbility(Player newPlayer, float blinkSpeed, ParticleSystem blinkParticles, AK.Wwise.Event sound, float newCost) : base(newPlayer)
     {
         speed = blinkSpeed;
         particles = blinkParticles;
         pulsationCost = newCost;
+        soundBlink = sound;
     }
 
     public override void Launch()
@@ -23,6 +25,7 @@ public class BlinkAbility : Ability
 
     private void Blink()
     {
+        soundBlink.Post(player.gameObject);
         //particles.Play();
         player.Health.ModifyPulseValue(pulsationCost);
         player.transform.position = player.transform.position + player.CurrentDirection * speed;
@@ -30,7 +33,6 @@ public class BlinkAbility : Ability
 
         if (BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT))
         {
-            Debug.Log("rythm");
             BeatManager.Instance.ValidateLastBeat(BeatManager.TypeBeat.BEAT);
         }
     }
