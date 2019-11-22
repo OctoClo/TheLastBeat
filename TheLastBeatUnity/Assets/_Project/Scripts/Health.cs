@@ -27,6 +27,12 @@ public class Health : Beatable
     [SerializeField] [TabGroup("Visual")]
     Image colorChange;
 
+    [SerializeField] [TabGroup("Visual")]
+    AK.Wwise.State inLimit;
+
+    [SerializeField] [TabGroup("Visual")]
+    AK.Wwise.State outLimit;
+
     [SerializeField] [TabGroup("Gameplay")] [InfoBox("Cela inclus l'action qui a fait passé en berserk, n'importe quel valeur en negatif pour infini", InfoMessageType.None)]
     int actionBeforeDeath = 3;
 
@@ -214,6 +220,15 @@ public class Health : Beatable
     {
         if (!CurrentZone)
             return;
+
+        if (allZones.FindIndex(x => x == CurrentZone) < allZones.Count - 2)
+        {
+            outLimit.SetValue();
+        }
+        else
+        {
+            inLimit.SetValue();
+        }
 
         //Entered berserk mode
         if (IsBerserkZone)

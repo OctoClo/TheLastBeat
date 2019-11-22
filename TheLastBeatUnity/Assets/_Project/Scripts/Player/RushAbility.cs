@@ -20,9 +20,11 @@ public class RushAbility : Ability
     Enemy target = null;
     bool obstacleAhead = false;
     RaycastHit obstacle;
+    AK.Wwise.Event soundOffBeat = null;
+    AK.Wwise.Event soundOnBeat = null;
 
     public RushAbility(Player newPlayer, float rushDuration, float newZoomDuration, float newZoomValue,
-                    float newSlowMoDuration, float newImpactBeatDelay, float newCost) : base(newPlayer)
+                    float newSlowMoDuration, float newImpactBeatDelay, float newCost, AK.Wwise.Event onBeat , AK.Wwise.Event offBeat) : base(newPlayer)
     {
         duration = rushDuration;
         impactBeatDelay = newImpactBeatDelay;
@@ -30,6 +32,8 @@ public class RushAbility : Ability
         zoomValue = newZoomValue;
         slowMoDuration = newSlowMoDuration;
         pulsationCost = newCost;
+        soundOffBeat = offBeat;
+        soundOnBeat = onBeat;
     }
 
     public override void Launch()
@@ -54,6 +58,17 @@ public class RushAbility : Ability
 
     void Rush()
     {
+        if (BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime() , BeatManager.TypeBeat.BEAT))
+        {
+            BeatManager.Instance.ValidateLastBeat(BeatManager.TypeBeat.BEAT);
+            soundOnBeat.Post(player.gameObject);
+        }
+        else
+        {
+            soundOffBeat.Post(player.gameObject);
+        }
+
+
         player.Status.StartDashing();
         player.Anim.LaunchAnim(EPlayerAnim.RUSHING);
 
