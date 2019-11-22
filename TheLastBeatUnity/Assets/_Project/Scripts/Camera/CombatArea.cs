@@ -15,6 +15,9 @@ public class CombatArea : MonoBehaviour
     [SerializeField]
     AnimationCurve weightModifier;
 
+    [SerializeField]
+    float ignoreIfFurtherThan = 10;
+
     float radius;
 
     // Start is called before the first frame update

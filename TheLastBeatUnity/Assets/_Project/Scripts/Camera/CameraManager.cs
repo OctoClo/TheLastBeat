@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using System.Linq;
 
 public class CameraManager : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class CameraManager : MonoBehaviour
     CinemachineStateDrivenCamera stateDrive;
 
     public bool InCombat => stateDrive.LiveChild == combatCamera;
+    public CinemachineVirtualCamera LiveCamera { get; private set; }
 
     void Start()
     {
@@ -31,5 +33,10 @@ public class CameraManager : MonoBehaviour
     public void CameraStateChange(string triggerName)
     {
         anim.SetTrigger(triggerName);
+    }
+
+    public void NewLiveCamera(ICinemachineCamera newCam , ICinemachineCamera oldCam)
+    {
+        LiveCamera = newCam as CinemachineVirtualCamera;
     }
 }
