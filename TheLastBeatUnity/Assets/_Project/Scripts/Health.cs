@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 using DG.Tweening;
 using TMPro;
 using System.Linq;
+using UnityEditor;
 
 public class Health : Beatable
 {
@@ -59,6 +60,9 @@ public class Health : Beatable
     [SerializeField][TabGroup("Zone generation")][Range(0,10)]
     float scaleUI;
 
+    [SerializeField][TabGroup("Zone generation")][FolderPath]
+    string path;
+    
     [Button][TabGroup("Zone generation")]
     void Generate()
     {
@@ -69,6 +73,8 @@ public class Health : Beatable
         pz.name = labelZone;
         pz.ScaleModifier = scaleUI;
         allZones.Add(pz);
+
+        AssetDatabase.CreateAsset(pz , path + "/" + labelZone + ".asset");
     }
 
     Sequence seq;

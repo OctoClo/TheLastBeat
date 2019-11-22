@@ -25,7 +25,14 @@ public class BlinkAbility : Ability
     {
         //particles.Play();
         player.Health.ModifyPulseValue(pulsationCost);
+        player.Anim.LaunchAnim(EPlayerAnim.BLINKING);
         player.transform.position = player.transform.position + player.CurrentDirection * speed;
+        End();
+        
+    }
+
+    public override void End()
+    {
         //particles.Stop();
 
         if (BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT))

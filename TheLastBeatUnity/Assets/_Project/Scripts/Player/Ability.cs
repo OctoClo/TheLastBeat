@@ -20,5 +20,7 @@ public abstract class Ability
 
     public virtual void Launch() { }
 
+    public virtual void End() { }
+
     public virtual void Update(float deltaTime) { }
 }

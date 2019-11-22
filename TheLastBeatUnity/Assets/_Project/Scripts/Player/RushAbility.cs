@@ -18,6 +18,8 @@ public class RushAbility : Ability
     float pulsationCost;
 
     Enemy target = null;
+    bool obstacleAhead = false;
+    RaycastHit obstacle;
 
     public RushAbility(Player newPlayer, float rushDuration, float newZoomDuration, float newZoomValue,
                     float newSlowMoDuration, float newImpactBeatDelay, float newCost) : base(newPlayer)
@@ -53,60 +55,68 @@ public class RushAbility : Ability
     void Rush()
     {
         player.Status.StartDashing();
+        player.Anim.LaunchAnim(EPlayerAnim.RUSHING);
 
         Sequence seq = DOTween.Sequence();
         Vector3 direction = new Vector3(target.transform.position.x, player.transform.position.y, target.transform.position.z) - player.transform.position;
-        RaycastHit hit = GetObstacleOnDash(direction);
+        GetObstacleOnDash(direction);
 
         // Dash towards the target
-        if (hit.collider)
-            direction = new Vector3(hit.point.x, player.transform.position.y, hit.point.z) - player.transform.position;
+        if (obstacleAhead)
+        {
+            direction = new Vector3(obstacle.point.x, player.transform.position.y, obstacle.point.z) - player.transform.position;
+        }
         else
         {
             direction *= 1.3f;
-            player.gameObject.layer = LayerMask.NameToLayer("Player Dashing");
+            player.ColliderObject.layer = LayerMask.NameToLayer("Player Dashing");
         }
 
         Vector3 goalPosition = direction + player.transform.position;
         seq.AppendCallback(() => player.Health.ModifyPulseValue(pulsationCost));
         seq.Append(player.transform.DOMove(goalPosition, duration));
 
-        if (hit.collider)
+        if (obstacleAhead)
         {
             direction *= -0.5f;
             goalPosition += direction;
             seq.Append(player.transform.DOMove(goalPosition, duration / 2.0f));
         }
 
-        seq.AppendCallback(() => EndRush(hit));
+        seq.AppendCallback(() => End());
         seq.Play();
     }
 
-    void EndRush(RaycastHit hit)
-    {
-        player.Status.StopDashing();
-
-        if (hit.collider && hit.collider.gameObject.layer == LayerMask.NameToLayer("Stun"))
-            player.Status.Stun();
-        else
-        {
-            target.GetAttacked();
-            player.AddChainedEnemy(target);
-            player.gameObject.layer = LayerMask.NameToLayer("Default");
-            slowMoTimer = slowMoDuration;
-        }
-    }
-
-    RaycastHit GetObstacleOnDash(Vector3 direction)
+    void GetObstacleOnDash(Vector3 direction)
     {
         RaycastHit[] hits = Physics.RaycastAll(player.transform.position, direction, direction.magnitude);
 
         foreach (RaycastHit hit in hits)
         {
-            if (hit.collider.gameObject.layer != LayerMask.NameToLayer("Enemies"))
-                return hit;
+            if (hit.collider.gameObject.layer != LayerMask.NameToLayer("Enemies") && !hit.collider.isTrigger)
+            {
+                Debug.Log(hit.collider.gameObject.name, hit.collider.gameObject);
+                obstacleAhead = true;
+                obstacle = hit;
+                return;
+            }
         }
 
-        return new RaycastHit();
+        obstacleAhead = false;
+    }
+
+    public override void End()
+    {
+        player.Status.StopDashing();
+
+        if (obstacleAhead && obstacle.collider.gameObject.layer == LayerMask.NameToLayer("Stun"))
+            player.Status.Stun();
+        else
+        {
+            target.GetAttacked();
+            player.AddChainedEnemy(target);
+            player.ColliderObject.layer = LayerMask.NameToLayer("Default");
+            slowMoTimer = slowMoDuration;
+        }
     }
 }

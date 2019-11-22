@@ -47,6 +47,10 @@ public class Player : Inputable
 
     [HideInInspector]
     public PlayerStatus Status;
+    [HideInInspector]
+    public PlayerAnim Anim;
+    [HideInInspector]
+    public GameObject ColliderObject;
 
     [SerializeField]
     Health healthSystem;
@@ -62,8 +66,10 @@ public class Player : Inputable
     private void Start()
     {
         Status = GetComponent<PlayerStatus>();
+        Anim = GetComponent<PlayerAnim>();
         FocusZone = GetComponentInChildren<FocusZone>();
         FocusZone.playerStatus = Status;
+        ColliderObject = GetComponentInChildren<CapsuleCollider>().gameObject;
 
         abilities = new Dictionary<EInputAction, Ability>();
 
@@ -81,6 +87,7 @@ public class Player : Inputable
     {
         Vector3 direction = new Vector3(player.GetAxis("MoveX"), 0, player.GetAxis("MoveY"));
         CurrentDirection = direction;
+        Anim.SetMovement(direction);
 
         // Look at
         currentTarget = FocusZone.GetCurrentTarget();
