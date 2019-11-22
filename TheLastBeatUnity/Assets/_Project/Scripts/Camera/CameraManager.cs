@@ -7,12 +7,18 @@ public class CameraManager : MonoBehaviour
 {
     public static CameraManager Instance { get; private set; }
 
-    CinemachineStateDrivenCamera stateDrive;
     Animator anim;
+
+    [SerializeField]
+    ICinemachineCamera combatCamera;
+
+    [SerializeField]
+    CinemachineStateDrivenCamera stateDrive;
+
+    public bool InCombat => stateDrive.LiveChild == combatCamera;
 
     void Start()
     {
-        stateDrive = GetComponent<CinemachineStateDrivenCamera>();
         if (stateDrive)
             anim = stateDrive.m_AnimatedTarget;
 
@@ -24,8 +30,6 @@ public class CameraManager : MonoBehaviour
 
     public void CameraStateChange(string triggerName)
     {
-        Debug.Log(triggerName);
         anim.SetTrigger(triggerName);
     }
-
 }
