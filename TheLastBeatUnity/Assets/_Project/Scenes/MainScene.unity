@@ -4827,15 +4827,13 @@ MonoBehaviour:
     valueGuidInternal: 
     groupIdInternal: 0
     groupGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 0c0347ef66123c543b3310a8142e5425,
-      type: 2}
+    WwiseObjectReference: {fileID: 0}
   outLimit:
     idInternal: 0
     valueGuidInternal: 
     groupIdInternal: 0
     groupGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 81e26d6fc04561245ae9338106588908,
-      type: 2}
+    WwiseObjectReference: {fileID: 0}
   actionBeforeDeath: -2
   dieAtMissInputBerserk: 1
   minimalPulse: 0
@@ -5365,9 +5363,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camManager: {fileID: 543947113}
   groupTarget: {fileID: 1035569839}
-  waitTime: 1
+  waitTime: 0
   maxWeight: 0.3
-  timeTransition: 2
+  timeTransition: 1
 --- !u!1 &642637332
 GameObject:
   m_ObjectHideFlags: 0
@@ -11029,8 +11027,7 @@ MonoBehaviour:
     valueGuidInternal: 
     groupIdInternal: 0
     groupGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 81e26d6fc04561245ae9338106588908,
-      type: 2}
+    WwiseObjectReference: {fileID: 0}
   bm: {fileID: 1858208005}
 --- !u!1 &1349375160
 GameObject:
@@ -15272,7 +15269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_LookaheadTime: 0
-  m_LookaheadSmoothing: 10
+  m_LookaheadSmoothing: 3
   m_LookaheadIgnoreY: 0
   m_XDamping: 0
   m_YDamping: 0
@@ -17039,7 +17036,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1967696348}
   m_LocalRotation: {x: 0.021465935, y: 0, z: 0, w: 0.99976957}
-  m_LocalPosition: {x: -7.641016, y: -2.179334, z: -78.760284}
+  m_LocalPosition: {x: -7.641016, y: -2.179072, z: -78.76639}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1773821540}
