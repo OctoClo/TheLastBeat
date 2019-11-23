@@ -172,28 +172,4 @@ public class Player : Inputable
     {
         chainedEnemies.Clear();
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("CombatZone"))
-        {
-            CameraMachine machine = GameObject.FindObjectOfType<CameraMachine>();
-            if (machine)
-            {
-                machine.EnterCombat(0.5f, other.GetComponent<BoxCollider>().size.x);
-            }
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("CombatZone"))
-        {
-            CameraMachine machine = GameObject.FindObjectOfType<CameraMachine>();
-            if (machine)
-            {
-                machine.EnterOOC(0.5f);
-            }
-        }
-    }
 }
