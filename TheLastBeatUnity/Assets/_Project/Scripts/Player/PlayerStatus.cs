@@ -51,7 +51,7 @@ public class PlayerStatus : MonoBehaviour
 
     public void StopBlink()
     {
-        Dashing = true;
+        Blinking = false;
     }
 
     public void StopDashing()

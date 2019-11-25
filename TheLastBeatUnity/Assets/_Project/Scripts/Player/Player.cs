@@ -15,7 +15,7 @@ public class Player : Inputable
     public Vector3 CurrentDirection { get; set; }
 
     //If you are doing something (dash , attack animation, etc...) or if game paused, temporary block input
-    public override bool BlockInput => (blockInput || Status.Dashing || Status.Stunned);
+    public override bool BlockInput => (blockInput || Status.Dashing || Status.Stunned || Status.Blinking);
 
     [TabGroup("Rush")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
     float rushDuration = 0.5f;

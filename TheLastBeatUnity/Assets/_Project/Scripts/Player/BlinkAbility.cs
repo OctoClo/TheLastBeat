@@ -27,17 +27,13 @@ public class BlinkAbility : Ability
 
     private void Blink()
     {
-        //soundBlink.Post(player.gameObject);
-        //particles.Play();
-        //player.Health.ModifyPulseValue(pulsationCost);
-        //player.Anim.LaunchAnim(EPlayerAnim.BLINKING);
-        //player.transform.position = player.transform.position + player.CurrentDirection * speed;
         Vector3 startSize = player.VisualRepr.localScale;
-        Vector3 newPosition = player.transform.position + player.CurrentDirection * speed * 10;
+        Vector3 newPosition = player.transform.position + player.CurrentDirection * speed * 5;
 
         currentSequence = DOTween.Sequence();
         currentSequence.AppendCallback(() =>
         {
+            player.Status.StartBlink();
             if (BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT))
             {
                 BeatManager.Instance.ValidateLastBeat(BeatManager.TypeBeat.BEAT);
@@ -46,11 +42,11 @@ public class BlinkAbility : Ability
             soundBlink.Post(player.gameObject);
         });
         currentSequence.Append(player.VisualRepr.DOScale(Vector3.zero, 0.1f));
-        currentSequence.Append(player.transform.DOMove(newPosition, 1.5f));
+        currentSequence.Append(player.transform.DOMove(newPosition, 0.3f));
         currentSequence.Append(player.VisualRepr.DOScale(startSize, 0.1f));
         currentSequence.AppendCallback(() =>
         {
-            
+            player.Status.StopBlink();
         });
         currentSequence.Play();
     }
