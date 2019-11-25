@@ -12,6 +12,7 @@ public class PlayerStatus : MonoBehaviour
     [TabGroup("Status")]
     bool dashing => Dashing;
     public bool Dashing { get; private set; }
+    public bool Blinking { get; private set; }
 
     [TabGroup("Stun")] [SerializeField]
     float stunDuration = 0.5f;
@@ -39,6 +40,16 @@ public class PlayerStatus : MonoBehaviour
     }
 
     public void StartDashing()
+    {
+        Dashing = true;
+    }
+
+    public void StartBlink()
+    {
+        Blinking = true;
+    }
+
+    public void StopBlink()
     {
         Dashing = true;
     }

@@ -56,7 +56,7 @@ public class Player : Inputable
     ParticleSystem blinkParticles = null;
 
     [HideInInspector]
-    public PlayerStatus Status;
+    public PlayerStatus Status { get; private set; }
     [HideInInspector]
     public PlayerAnim Anim;
     [HideInInspector]
@@ -64,6 +64,11 @@ public class Player : Inputable
 
     [SerializeField]
     Health healthSystem;
+
+    [SerializeField]
+    Transform visualRepr;
+    public Transform VisualRepr => visualRepr;
+
     public Health Health => healthSystem;
 
     Dictionary<EInputAction, Ability> abilities;
