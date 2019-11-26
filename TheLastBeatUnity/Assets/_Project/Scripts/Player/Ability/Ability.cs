@@ -9,6 +9,13 @@ public enum EInputAction
     REWINDRUSH
 }
 
+[System.Serializable]
+public class AbilityParams
+{
+    [HideInInspector]
+    public Player AttachedPlayer;
+}
+
 public abstract class Ability
 {
     protected Player player;

@@ -2,6 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class BlinkParams : AbilityParams
+{
+    public float BlinkSpeed = 0;
+    public ParticleSystem BlinkParticles = null;
+    public AK.Wwise.Event Sound = null;
+    public float PulseCost = 0;
+}
+
 public class BlinkAbility : Ability
 {
     float speed = 5;
@@ -9,12 +18,12 @@ public class BlinkAbility : Ability
     float pulsationCost;
     AK.Wwise.Event soundBlink;
 
-    public BlinkAbility(Player newPlayer, float blinkSpeed, ParticleSystem blinkParticles, AK.Wwise.Event sound, float newCost) : base(newPlayer)
+    public BlinkAbility(BlinkParams bp) : base(bp.AttachedPlayer)
     {
-        speed = blinkSpeed;
-        particles = blinkParticles;
-        pulsationCost = newCost;
-        soundBlink = sound;
+        speed = bp.BlinkSpeed;
+        particles = bp.BlinkParticles;
+        pulsationCost = bp.PulseCost;
+        soundBlink = bp.Sound;
     }
 
     public override void Launch()

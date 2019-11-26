@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
+[System.Serializable]
+public class RushParams : AbilityParams
+{
+    public float RushDuration = 0;
+    public float PulsationCost = 0;
+    public AK.Wwise.Event OnBeatSound = null;
+    public AK.Wwise.Event OffBeatSound = null;
+}
+
 public class RushAbility : Ability
 {
     float duration = 0;
-
-    float zoomDuration = 0;
-    float zoomValue = 0;
-
-    float slowMoDuration = 0;
-    float slowMoTimer = 0;
-
-    float impactBeatDelay = 0;
-
     float pulsationCost;
 
     Enemy target = null;
@@ -23,17 +23,12 @@ public class RushAbility : Ability
     AK.Wwise.Event soundOffBeat = null;
     AK.Wwise.Event soundOnBeat = null;
 
-    public RushAbility(Player newPlayer, float rushDuration, float newZoomDuration, float newZoomValue,
-                    float newSlowMoDuration, float newImpactBeatDelay, float newCost, AK.Wwise.Event onBeat , AK.Wwise.Event offBeat) : base(newPlayer)
+    public RushAbility(RushParams rp) : base(rp.AttachedPlayer)
     {
-        duration = rushDuration;
-        impactBeatDelay = newImpactBeatDelay;
-        zoomDuration = newZoomDuration;
-        zoomValue = newZoomValue;
-        slowMoDuration = newSlowMoDuration;
-        pulsationCost = newCost;
-        soundOffBeat = offBeat;
-        soundOnBeat = onBeat;
+        duration = rp.RushDuration;
+        pulsationCost = rp.PulsationCost;
+        soundOffBeat = rp.OffBeatSound;
+        soundOnBeat = rp.OnBeatSound;
     }
 
     public override void Launch()
@@ -41,19 +36,6 @@ public class RushAbility : Ability
         target = player.GetCurrentTarget();
         if (target)
             Rush();
-    }
-
-    public override void Update(float deltaTime)
-    {
-        if (slowMoTimer > 0)
-        {
-            slowMoTimer -= deltaTime;
-
-            if (slowMoTimer < 0)
-            {
-                slowMoTimer = 0;
-            }
-        }
     }
 
     void Rush()
@@ -131,7 +113,6 @@ public class RushAbility : Ability
             target.GetAttacked();
             player.AddChainedEnemy(target);
             player.ColliderObject.layer = LayerMask.NameToLayer("Default");
-            slowMoTimer = slowMoDuration;
         }
     }
 }

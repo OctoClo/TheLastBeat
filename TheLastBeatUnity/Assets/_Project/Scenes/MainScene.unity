@@ -7232,6 +7232,76 @@ PrefabInstance:
       propertyPath: healthSystem
       value: 
       objectReference: {fileID: 575511352}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: rushParameters.OnBeatSound.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: 877a8f9f45a0b854b9c55bdf1c4e1798,
+        type: 2}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: rushParameters.OffBeatSound.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: 4a18d2dc5f5984f409d9ea8765209507,
+        type: 2}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: rushParameters.RushDuration
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: rushParameters.PulsationCost
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: rushRewindParameters.Duration
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: rushRewindParameters.PulsationCost
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: rushRewindParameters.RewindState.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: d76c5d52299cb714f965e151251d92e3,
+        type: 2}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: rushRewindParameters.NormalState.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: a958b6c151689af4b88c97f8bed9154c,
+        type: 2}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: rushRewindParameters.chainEnnemy
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: blinkParameters.BlinkParticles
+      value: 
+      objectReference: {fileID: 911424944}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: blinkParameters.PulseCost
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: blinkParameters.Sound.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: a310b7a7eea90554f8500d2f68b2f277,
+        type: 2}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: blinkParameters.BlinkSpeed
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 3489716977114045590, guid: 07801b51c158daf499d145da957e6459,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7297,6 +7367,12 @@ PrefabInstance:
 --- !u!4 &911424943 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3489716977114045590, guid: 07801b51c158daf499d145da957e6459,
+    type: 3}
+  m_PrefabInstance: {fileID: 911424942}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &911424944 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7874518215433590455, guid: 07801b51c158daf499d145da957e6459,
     type: 3}
   m_PrefabInstance: {fileID: 911424942}
   m_PrefabAsset: {fileID: 0}
@@ -17036,7 +17112,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1967696348}
   m_LocalRotation: {x: 0.021465935, y: 0, z: 0, w: 0.99976957}
-  m_LocalPosition: {x: -7.641016, y: -2.179072, z: -78.76639}
+  m_LocalPosition: {x: -7.641016, y: -2.1793342, z: -78.760284}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1773821540}

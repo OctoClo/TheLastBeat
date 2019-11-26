@@ -17,43 +17,17 @@ public class Player : Inputable
     //If you are doing something (dash , attack animation, etc...) or if game paused, temporary block input
     public override bool BlockInput => (blockInput || Status.Dashing || Status.Stunned);
 
-    [TabGroup("Rush")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
-    float rushDuration = 0.5f;
-    [TabGroup("Rush")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
-    float rushRewindDuration = 0.5f;
-    [TabGroup("Rush")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
-    float rushZoomDuration = 0.5f;
-    [TabGroup("Rush")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
-    float rushZoomValue = 5;
-    [TabGroup("Rush")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
-    float rushSlowMoDuration = 0.5f;
-    [TabGroup("Rush")] [SerializeField] [Tooltip("The longer it is, the longer it take to change frequency")]
-    float rushImpactBeatDelay = 0;
-    [TabGroup("Rush")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
-    float rushChainMaxInterval = 2;
-    [TabGroup("Rush")] [SerializeField]
-    float pulsationCostRush = 0;
-    [TabGroup("Rush")] [SerializeField]
-    float pulsationCostRewind =0;
-    [TabGroup("Rush")] [SerializeField]
-    AK.Wwise.Event soundRushOffBeat = null;
-    [TabGroup("Rush")] [SerializeField]
-    AK.Wwise.Event soundRushOnBeat = null;
-    [TabGroup("Rush")] [SerializeField]
-    AK.Wwise.State rewindNormalState = null;
-    [TabGroup("Rush")] [SerializeField]
-    AK.Wwise.State rewindState = null;
+    [TabGroup("Blink")] [SerializeField]
+    BlinkParams blinkParameters;
+
+    [TabGroup("Rush")][SerializeField]
+    RushParams rushParameters;
+
+    [TabGroup("Rush")][SerializeField]
+    RewindRushParameters rushRewindParameters;
+
     float rushChainTimer = 0;
     List<Enemy> chainedEnemies = new List<Enemy>();
-
-    [TabGroup("Blink")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
-    float blinkSpeed = 5;
-    [TabGroup("Blink")] [SerializeField]
-    float pulsationCostBlink = 0;
-    [TabGroup("Blink")] [SerializeField]
-    AK.Wwise.Event soundBlink = null;
-    [TabGroup("Blink")] [SerializeField] [Required]
-    ParticleSystem blinkParticles = null;
 
     [HideInInspector]
     public PlayerStatus Status;
@@ -75,6 +49,7 @@ public class Player : Inputable
 
     private void Start()
     {
+        blinkParameters.AttachedPlayer = rushParameters.AttachedPlayer = rushRewindParameters.AttachedPlayer = this;
         Status = GetComponent<PlayerStatus>();
         Anim = GetComponent<PlayerAnim>();
         FocusZone = GetComponentInChildren<FocusZone>();
@@ -83,13 +58,13 @@ public class Player : Inputable
 
         abilities = new Dictionary<EInputAction, Ability>();
 
-        Ability blink = new BlinkAbility(this, blinkSpeed, blinkParticles,soundBlink,pulsationCostBlink);
+        Ability blink = new BlinkAbility(blinkParameters);
         abilities.Add(EInputAction.BLINK, blink);
 
-        Ability rush = new RushAbility(this, rushDuration, rushZoomDuration, rushZoomValue, rushSlowMoDuration, rushImpactBeatDelay, pulsationCostRush, soundRushOnBeat , soundRushOffBeat);
+        Ability rush = new RushAbility(rushParameters);
         abilities.Add(EInputAction.RUSH, rush);
 
-        Ability rewindRush = new RewindRushAbility(this, rushRewindDuration, pulsationCostRewind, rewindNormalState , rewindState);
+        Ability rewindRush = new RewindRushAbility(rushRewindParameters);
         abilities.Add(EInputAction.REWINDRUSH, rewindRush);
     }
 
@@ -165,7 +140,7 @@ public class Player : Inputable
     public void AddChainedEnemy(Enemy enemy)
     {
         chainedEnemies.Add(enemy);
-        rushChainTimer = rushChainMaxInterval;
+        rushChainTimer = rushRewindParameters.chainEnnemy;
     }
 
     public void ResetChainedEnemies()

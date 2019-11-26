@@ -3,6 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
+[System.Serializable]
+public class RewindRushParameters : AbilityParams
+{
+    public float Duration = 0;
+    public float PulsationCost = 0;
+    public AK.Wwise.State RewindState;
+    public AK.Wwise.State NormalState;
+    public float chainEnnemy;
+}
+
 public class RewindRushAbility : Ability
 {
     float duration = 0;
@@ -10,12 +20,12 @@ public class RewindRushAbility : Ability
     AK.Wwise.State rewindState;
     AK.Wwise.State normalState;
 
-    public RewindRushAbility(Player newPlayer, float rewindRushDuration, float newCost, AK.Wwise.State normal, AK.Wwise.State rewind) : base(newPlayer)
+    public RewindRushAbility(RewindRushParameters rrp) : base(rrp.AttachedPlayer)
     {
-        duration = rewindRushDuration;
-        pulsationCost = newCost;
-        rewindState = rewind;
-        normalState = normal;
+        duration = rrp.Duration;
+        pulsationCost = rrp.PulsationCost;
+        rewindState = rrp.RewindState;
+        normalState = rrp.NormalState;
     }
 
     public override void Launch()
