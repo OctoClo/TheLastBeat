@@ -123,9 +123,7 @@ public class Player : Inputable
             {
                 if (player.GetButtonDown(action.ToString()))
                 {
-                    abilities.TryGetValue(action, out ability);
-
-                    if (ability != null)
+                    if (abilities.TryGetValue(action, out ability))
                         ability.Launch();
                 }
             }
