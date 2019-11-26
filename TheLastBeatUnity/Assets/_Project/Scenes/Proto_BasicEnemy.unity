@@ -1087,6 +1087,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1257492828}
     m_Modifications:
+    - target: {fileID: 1604918388792829030, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: camManager
+      value: 
+      objectReference: {fileID: 1060043126}
+    - target: {fileID: 1604918388792829030, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: groupTarget
+      value: 
+      objectReference: {fileID: 7020968}
     - target: {fileID: 3489716977114045591, guid: 07801b51c158daf499d145da957e6459,
         type: 3}
       propertyPath: m_Name
@@ -8495,7 +8505,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 847700066}
   m_LocalRotation: {x: 0.1221292, y: 0, z: 0, w: 0.99251425}
-  m_LocalPosition: {x: -7.641016, y: 9.356158, z: -77.088745}
+  m_LocalPosition: {x: -7.641016, y: 9.356156, z: -77.08873}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1744077519}
@@ -10617,7 +10627,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1006703616}
   m_LocalRotation: {x: -0, y: -0.22136272, z: -0, w: 0.97519153}
-  m_LocalPosition: {x: -15.28, y: -1.02, z: 6.36}
+  m_LocalPosition: {x: -8.3, y: -1.02, z: 6.17}
   m_LocalScale: {x: 7.73, y: 2.46, z: 0.56}
   m_Children: []
   m_Father: {fileID: 1752384414}
@@ -18681,6 +18691,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be731dd40433f684fb40c1f207a2da2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 106158864}
   enemies:
   - {fileID: 636169244}
   - {fileID: 323674722}

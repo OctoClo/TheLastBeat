@@ -16,7 +16,7 @@ public class EnemyStateWander : EnemyState
 
     bool playerInZone = false;
 
-    public EnemyStateWander(Enemy newEnemy, EnemyWanderZone newWanderZone, EnemyDetectionZone newDetectionZone): base(newEnemy)
+    public EnemyStateWander(Enemy newEnemy, EnemyWanderZone newWanderZone, EnemyDetectionZone newDetectionZone) : base(newEnemy)
     {
         EventManager.Instance.AddListener<PlayerInEnemyZoneEvent>(OnPlayerInEnemyZoneEvent);
 
@@ -42,6 +42,7 @@ public class EnemyStateWander : EnemyState
     {
         currentMove = DOTween.Sequence();
         wanderZone.RandomPosition(out nextPosition, enemy.transform.position.y);
+        currentMove.Append(enemy.transform.DOLookAt(nextPosition, 1, AxisConstraint.Y));
         currentMove.Append(enemy.transform.DOMove(nextPosition, Vector3.Distance(enemy.transform.position, nextPosition) / enemy.Speed));
         currentMove.AppendCallback(() =>
         {

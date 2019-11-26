@@ -27,6 +27,8 @@ public abstract class EnemyState
         enemy.SetStateText(stateEnum.ToString().ToLower());
     }
 
+    public virtual void FixedUpdateState() {}
+
     public virtual EEnemyState UpdateState(float deltaTime)
     {
         return stateEnum;

@@ -12,14 +12,13 @@ public class Enemy : MonoBehaviour
     [TabGroup("General")] [SerializeField]
     float speed = 5;
     public float Speed => speed;
-    Rigidbody rb = null;
-    EnemyWanderZone wanderZone;
 
     [TabGroup("General")] [SerializeField]
     int maxLives = 10;
     int lives = 10;
     [TabGroup("General")] [SerializeField]
     int pulseDamage = 5;
+    public EnemyWeaponHitbox WeaponHitbox { get; private set; }
     [TabGroup("General")] [SerializeField]
     TextMeshProUGUI lifeText = null;
     [TabGroup("General")] [SerializeField]
@@ -44,20 +43,22 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
         material = GetComponent<MeshRenderer>().material;
+        WeaponHitbox = GetComponentInChildren<EnemyWeaponHitbox>();
 
         lives = maxLives;
         lifeText.text = lives.ToString();
     }
 
-    public void ZoneInitialize(EnemyWanderZone newWanderZone, EnemyDetectionZone newDetectionZone)
+    public void ZoneInitialize(EnemyWanderZone newWanderZone, EnemyDetectionZone newDetectionZone, Transform newPlayer)
     {
-        wanderZone = newWanderZone;
+        player = newPlayer;
 
         states = new Dictionary<EEnemyState, EnemyState>();
-        states.Add(EEnemyState.WANDER, new EnemyStateWander(this, wanderZone, newDetectionZone));
-        states.Add(EEnemyState.CHASE, new EnemyStateChase(this));
+        states.Add(EEnemyState.WANDER, new EnemyStateWander(this, newWanderZone, newDetectionZone));
+        states.Add(EEnemyState.CHASE, new EnemyStateChase(this, player));
+        states.Add(EEnemyState.PREPARE_ATTACK, new EnemyStatePrepareAttack(this));
+        states.Add(EEnemyState.ATTACK, new EnemyStateAttack(this));
 
         currentStateEnum = EEnemyState.WANDER;
         states.TryGetValue(currentStateEnum, out currentState);
@@ -76,8 +77,6 @@ public class Enemy : MonoBehaviour
             currentState.Enter();
         }
         
-        //transform.DOLookAt(player.position, 1, AxisConstraint.Y);
-
         /*stunTimer -= Time.deltaTime;
 
         if (stunTimer <= 0 && stunned)
@@ -87,15 +86,9 @@ public class Enemy : MonoBehaviour
         }*/
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        /*Vector3 movement = (player.position - transform.position);
-
-        if (movement.sqrMagnitude > 10)
-        {
-            movement.Normalize();
-            rb.velocity = movement * speed;
-        }*/
+        currentState.FixedUpdateState();
     }
 
     public void GetAttacked()

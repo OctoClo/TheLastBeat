@@ -5,6 +5,9 @@ using UnityEngine;
 public class EnemyZone : MonoBehaviour
 {
     [SerializeField]
+    Transform player;
+
+    [SerializeField]
     List<Enemy> enemies;
 
     EnemyWanderZone wanderZone = null;
@@ -17,7 +20,7 @@ public class EnemyZone : MonoBehaviour
 
         foreach (Enemy enemy in enemies)
         {
-            enemy.ZoneInitialize(wanderZone, detectionZone);
+            enemy.ZoneInitialize(wanderZone, detectionZone, player);
         }
     }
 
