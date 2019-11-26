@@ -36,6 +36,7 @@ public class EnemyStateChase : EnemyState
     public override void FixedUpdateState()
     {
         Vector3 movement = (player.position - enemy.transform.position);
+        movement.y = 0;
 
         if (!enemy.WeaponHitbox.PlayerInHitbox)
         {

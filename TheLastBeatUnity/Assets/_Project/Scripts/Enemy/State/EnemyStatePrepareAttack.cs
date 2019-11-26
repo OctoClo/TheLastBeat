@@ -16,7 +16,7 @@ public class EnemyStatePrepareAttack : EnemyState
 
     public override void Enter()
     {
-        base.Enter();
+        enemy.SetStateText("prepare");
 
         animationFinished = false;
         Sequence seq = DOTween.Sequence();

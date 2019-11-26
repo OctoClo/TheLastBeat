@@ -59,6 +59,7 @@ public class Enemy : MonoBehaviour
         states.Add(EEnemyState.CHASE, new EnemyStateChase(this, player));
         states.Add(EEnemyState.PREPARE_ATTACK, new EnemyStatePrepareAttack(this));
         states.Add(EEnemyState.ATTACK, new EnemyStateAttack(this));
+        states.Add(EEnemyState.RECOVER_ATTACK, new EnemyStateRecoverAttack(this));
 
         currentStateEnum = EEnemyState.WANDER;
         states.TryGetValue(currentStateEnum, out currentState);
