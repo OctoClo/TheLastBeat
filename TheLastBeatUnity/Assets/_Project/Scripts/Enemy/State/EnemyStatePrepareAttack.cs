@@ -21,6 +21,7 @@ public class EnemyStatePrepareAttack : EnemyState
         animationFinished = false;
         Sequence seq = DOTween.Sequence();
 
+        seq.AppendInterval(0.5f);
         seq.Append(enemy.transform.DOScale(scaleEndValues, 2));
         seq.AppendCallback(() => animationFinished = true);
 
