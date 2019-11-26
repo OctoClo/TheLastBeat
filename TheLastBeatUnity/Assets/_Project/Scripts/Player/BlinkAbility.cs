@@ -41,9 +41,9 @@ public class BlinkAbility : Ability
             player.Health.ModifyPulseValue(pulsationCost);
             soundBlink.Post(player.gameObject);
         });
-        currentSequence.Append(player.VisualRepr.DOScale(Vector3.zero, 0.1f));
-        currentSequence.Append(player.transform.DOMove(newPosition, 0.3f));
-        currentSequence.Append(player.VisualRepr.DOScale(startSize, 0.1f));
+        currentSequence.Append(player.VisualRepr.DOScale(Vector3.zero, 0.05f));
+        currentSequence.Append(player.transform.DOMove(newPosition, 0.2f));
+        currentSequence.Append(player.VisualRepr.DOScale(startSize, 0.05f));
         currentSequence.AppendCallback(() =>
         {
             player.Status.StopBlink();
