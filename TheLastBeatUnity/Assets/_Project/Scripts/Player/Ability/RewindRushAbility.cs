@@ -10,15 +10,18 @@ public class RewindRushParameters : AbilityParams
     public float PulsationCost = 0;
     public AK.Wwise.State RewindState;
     public AK.Wwise.State NormalState;
-    public float chainEnnemy;
+    public float delayBeforeEnd;
 }
 
 public class RewindRushAbility : Ability
 {
     float duration = 0;
     float pulsationCost;
+    float rushChainTimer = 0;
+    float delayBeforeEnd = 0;
     AK.Wwise.State rewindState;
     AK.Wwise.State normalState;
+    List<Enemy> chainedEnemies = new List<Enemy>();
 
     public RewindRushAbility(RewindRushParameters rrp) : base(rrp.AttachedPlayer)
     {
@@ -26,11 +29,31 @@ public class RewindRushAbility : Ability
         pulsationCost = rrp.PulsationCost;
         rewindState = rrp.RewindState;
         normalState = rrp.NormalState;
+        delayBeforeEnd = rrp.delayBeforeEnd;
     }
 
     public override void Launch()
     {
-        RewindRush();
+        if (chainedEnemies.Count > 0)
+            RewindRush();
+    }
+
+    public override void Update(float deltaTime)
+    {
+        base.Update(deltaTime);
+        if (chainedEnemies.Count > 0 && !player.Status.Dashing)
+        {
+            rushChainTimer -= Time.deltaTime;
+
+            if (rushChainTimer < 0)
+                chainedEnemies.Clear();
+        }
+    }
+
+    public void AddChainEnemy(Enemy enn)
+    {
+        rushChainTimer = delayBeforeEnd;
+        chainedEnemies.Add(enn);
     }
 
     void RewindRush()
@@ -45,7 +68,6 @@ public class RewindRushAbility : Ability
         Vector3 direction;
         Vector3 goalPosition = player.transform.position;
 
-        List<Enemy> chainedEnemies = player.GetChainedEnemies();
         chainedEnemies.Reverse();
 
         foreach (Enemy enemy in chainedEnemies)
@@ -74,7 +96,7 @@ public class RewindRushAbility : Ability
         player.Status.StopDashing();
         player.FocusZone.overrideControl = false;
         player.gameObject.layer = LayerMask.NameToLayer("Default");
-        player.ResetChainedEnemies();
+        chainedEnemies.Clear();
         normalState.SetValue();
     }
 }

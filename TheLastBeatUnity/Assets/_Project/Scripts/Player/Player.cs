@@ -58,14 +58,16 @@ public class Player : Inputable
 
         abilities = new Dictionary<EInputAction, Ability>();
 
-        Ability blink = new BlinkAbility(blinkParameters);
+        BlinkAbility blink = new BlinkAbility(blinkParameters);
         abilities.Add(EInputAction.BLINK, blink);
 
-        Ability rush = new RushAbility(rushParameters);
+        RushAbility rush = new RushAbility(rushParameters);
         abilities.Add(EInputAction.RUSH, rush);
 
-        Ability rewindRush = new RewindRushAbility(rushRewindParameters);
+        RewindRushAbility rewindRush = new RewindRushAbility(rushRewindParameters);
         abilities.Add(EInputAction.REWINDRUSH, rewindRush);
+
+        rush.RewindRush = rewindRush;
     }
 
     public override void ProcessInput(Rewired.Player player)
@@ -96,12 +98,9 @@ public class Player : Inputable
 
             foreach (EInputAction action in (EInputAction[])Enum.GetValues(typeof(EInputAction)))
             {
-                if (player.GetButtonDown(action.ToString()))
+                if (player.GetButtonDown(action.ToString()) && abilities.TryGetValue(action, out ability))
                 {
-                    abilities.TryGetValue(action, out ability);
-
-                    if (ability != null)
-                        ability.Launch();
+                    ability.Launch();
                 }
             }
 
@@ -116,35 +115,11 @@ public class Player : Inputable
     private void Update()
     {
         foreach (KeyValuePair<EInputAction, Ability> abilityPair in abilities)
-            abilityPair.Value.Update(Time.deltaTime / Time.timeScale);
-
-        if (chainedEnemies.Count > 0 && !Status.Dashing)
-        {
-            rushChainTimer -= Time.deltaTime;
-
-            if (rushChainTimer < 0)
-                ResetChainedEnemies();
-        }
+            abilityPair.Value.Update(Time.deltaTime);
     }
 
     public Enemy GetCurrentTarget()
     {
         return FocusZone.GetCurrentTarget();
-    }
-
-    public List<Enemy> GetChainedEnemies()
-    {
-        return chainedEnemies;
-    }
-
-    public void AddChainedEnemy(Enemy enemy)
-    {
-        chainedEnemies.Add(enemy);
-        rushChainTimer = rushRewindParameters.chainEnnemy;
-    }
-
-    public void ResetChainedEnemies()
-    {
-        chainedEnemies.Clear();
     }
 }

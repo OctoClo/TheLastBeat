@@ -4827,13 +4827,15 @@ MonoBehaviour:
     valueGuidInternal: 
     groupIdInternal: 0
     groupGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: 0c0347ef66123c543b3310a8142e5425,
+      type: 2}
   outLimit:
     idInternal: 0
     valueGuidInternal: 
     groupIdInternal: 0
     groupGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: 81e26d6fc04561245ae9338106588908,
+      type: 2}
   actionBeforeDeath: -2
   dieAtMissInputBerserk: 1
   minimalPulse: 0
@@ -7301,6 +7303,11 @@ PrefabInstance:
         type: 3}
       propertyPath: blinkParameters.BlinkSpeed
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: rushRewindParameters.delayBeforeEnd
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3489716977114045590, guid: 07801b51c158daf499d145da957e6459,
         type: 3}
@@ -11103,7 +11110,8 @@ MonoBehaviour:
     valueGuidInternal: 
     groupIdInternal: 0
     groupGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: 81e26d6fc04561245ae9338106588908,
+      type: 2}
   bm: {fileID: 1858208005}
 --- !u!1 &1349375160
 GameObject:
@@ -16192,7 +16200,7 @@ MonoBehaviour:
   - {fileID: 575511352}
   Bar:
   - {fileID: 113675267}
-  tolerance: 0.15
+  tolerance: 0.2
 --- !u!4 &1858208006
 Transform:
   m_ObjectHideFlags: 0
@@ -17112,7 +17120,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1967696348}
   m_LocalRotation: {x: 0.021465935, y: 0, z: 0, w: 0.99976957}
-  m_LocalPosition: {x: -7.641016, y: -2.1793342, z: -78.760284}
+  m_LocalPosition: {x: -7.641016, y: -2.1793313, z: -78.760345}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1773821540}
@@ -19198,6 +19206,16 @@ PrefabInstance:
     - target: {fileID: 1283865250156491682, guid: 7955fd327936669429d459bb67189f8a,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1283865250156491683, guid: 7955fd327936669429d459bb67189f8a,
+        type: 3}
+      propertyPath: _userData.keyboardMaps.Array.data[0].actionElementMaps.Array.data[8]._keyboardKeyCode
+      value: 114
+      objectReference: {fileID: 0}
+    - target: {fileID: 1283865250156491683, guid: 7955fd327936669429d459bb67189f8a,
+        type: 3}
+      propertyPath: _userData.configVars.runInEditMode
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

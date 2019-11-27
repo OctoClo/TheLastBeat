@@ -22,6 +22,7 @@ public class RushAbility : Ability
     RaycastHit obstacle;
     AK.Wwise.Event soundOffBeat = null;
     AK.Wwise.Event soundOnBeat = null;
+    public RewindRushAbility RewindRush { get; set; }
 
     public RushAbility(RushParams rp) : base(rp.AttachedPlayer)
     {
@@ -92,7 +93,6 @@ public class RushAbility : Ability
         {
             if (hit.collider.gameObject.layer != LayerMask.NameToLayer("Enemies") && !hit.collider.isTrigger)
             {
-                Debug.Log(hit.collider.gameObject.name, hit.collider.gameObject);
                 obstacleAhead = true;
                 obstacle = hit;
                 return;
@@ -111,7 +111,10 @@ public class RushAbility : Ability
         else
         {
             target.GetAttacked();
-            player.AddChainedEnemy(target);
+            if (RewindRush != null)
+            {
+                RewindRush.AddChainEnemy(target);
+            }
             player.ColliderObject.layer = LayerMask.NameToLayer("Default");
         }
     }
