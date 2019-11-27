@@ -11,13 +11,10 @@ public class CombatArea : MonoBehaviour
     CinemachineTargetGroup groupTarget;
 
     [SerializeField]
-    float waitTime;
+    float maxWeight = 0;
 
     [SerializeField]
-    float maxWeight;
-
-    [SerializeField]
-    float timeTransition;
+    float timeTransition = 0;
 
     Dictionary<Transform, Sequence> runningSequences = new Dictionary<Transform, Sequence>();
 

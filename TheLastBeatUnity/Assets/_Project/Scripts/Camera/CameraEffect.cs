@@ -7,11 +7,9 @@ using Cinemachine;
 using DG.Tweening;
 
 [RequireComponent(typeof(CinemachineVirtualCamera))]
+[TypeInfoBox("N'oubliez pas d'activer le mode solo present dans le component virtual camera")]
 public class CameraEffect : MonoBehaviour
 {
-    [InfoBox("Pensez à activer le mode Solo en haut du Component Cinemachine Virtual Camera")] [SerializeField]
-    string hello = "Pensez-yyyy";
-
     public CinemachineVirtualCamera VirtualCam { get; private set; }
 
     private void Start()
@@ -87,9 +85,6 @@ public class CameraEffect : MonoBehaviour
 
     [TabGroup("Zoom")] [SerializeField]
     float zoomDuration = 0;
-
-    [TabGroup("Zoom")] [SerializeField]
-    float zoomIntensity = 0;
 
     [TabGroup("Zoom")] [SerializeField]
     AnimationCurve zoomIntensityOverTime = null;
