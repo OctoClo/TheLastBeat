@@ -15,7 +15,7 @@ public class Player : Inputable
     public Vector3 CurrentDirection { get; set; }
 
     //If you are doing something (dash , attack animation, etc...) or if game paused, temporary block input
-    public override bool BlockInput => (blockInput || Status.Dashing || Status.Stunned);
+    public override bool BlockInput => (blockInput || Status.Dashing || Status.Stunned || Status.Blinking);
 
     [TabGroup("Rush")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
     float rushDuration = 0.5f;
@@ -56,7 +56,7 @@ public class Player : Inputable
     ParticleSystem blinkParticles = null;
 
     [HideInInspector]
-    public PlayerStatus Status;
+    public PlayerStatus Status { get; private set; }
     [HideInInspector]
     public PlayerAnim Anim;
     [HideInInspector]
@@ -64,6 +64,11 @@ public class Player : Inputable
 
     [SerializeField]
     Health healthSystem;
+
+    [SerializeField]
+    Transform visualRepr;
+    public Transform VisualRepr => visualRepr;
+
     public Health Health => healthSystem;
 
     Dictionary<EInputAction, Ability> abilities;
