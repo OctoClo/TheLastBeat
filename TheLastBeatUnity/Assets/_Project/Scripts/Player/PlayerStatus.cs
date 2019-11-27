@@ -21,20 +21,11 @@ public class PlayerStatus : MonoBehaviour
     Color stunColor = Color.blue;
     Color normalColor = Color.white;
     [TabGroup("Stun")] [SerializeField]
-    AK.Wwise.Event stunMusicSXF;
-
-    Material material = null;
-
-    private void Start()
-    {
-        //material = GetComponent<MeshRenderer>().material;
-        //normalColor = material.color;
-    }
+    AK.Wwise.Event stunMusicSXF = null;
 
     public void Stun()
     {
         Stunned = true;
-        //material.color = stunColor;
         stunMusicSXF.Post(gameObject);
         stunTimer = stunDuration;
     }
@@ -68,7 +59,6 @@ public class PlayerStatus : MonoBehaviour
             if (stunTimer <= 0)
             {
                 Stunned = false;
-                //material.color = normalColor;
             }
         }
     }

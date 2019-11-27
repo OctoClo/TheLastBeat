@@ -18,31 +18,30 @@ public class Player : Inputable
     public override bool BlockInput => (blockInput || Status.Dashing || Status.Stunned || Status.Blinking);
 
     [TabGroup("Blink")] [SerializeField]
-    BlinkParams blinkParameters;
+    BlinkParams blinkParameters = null;
 
     [TabGroup("Rush")][SerializeField]
-    RushParams rushParameters;
+    RushParams rushParameters = null;
 
     [TabGroup("Rush")][SerializeField]
-    RewindRushParameters rushRewindParameters;
+    RewindRushParameters rushRewindParameters = null;
 
     [HideInInspector]
     public PlayerStatus Status { get; private set; }
     [HideInInspector]
-    public PlayerAnim Anim;
+    public PlayerAnim Anim = null;
     [HideInInspector]
-    public GameObject ColliderObject;
+    public GameObject ColliderObject = null;
 
     [SerializeField]
-    Health healthSystem;
-
-    [SerializeField]
-    Transform visualRepr;
-    public Transform VisualRepr => visualRepr;
-
+    Health healthSystem = null;
     public Health Health => healthSystem;
 
-    Dictionary<EInputAction, Ability> abilities;
+    [SerializeField]
+    Transform model = null;
+    public Transform Model => model;
+
+    Dictionary<EInputAction, Ability> abilities = new Dictionary<EInputAction, Ability>();
     [HideInInspector]
     public FocusZone FocusZone = null;
     Enemy currentTarget = null;
@@ -57,8 +56,6 @@ public class Player : Inputable
         FocusZone = GetComponentInChildren<FocusZone>();
         FocusZone.playerStatus = Status;
         ColliderObject = GetComponentInChildren<CapsuleCollider>().gameObject;
-
-        abilities = new Dictionary<EInputAction, Ability>();
 
         BlinkAbility blink = new BlinkAbility(blinkParameters);
         abilities.Add(EInputAction.BLINK, blink);

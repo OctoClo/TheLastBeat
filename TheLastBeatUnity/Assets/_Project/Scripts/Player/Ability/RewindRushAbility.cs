@@ -8,9 +8,9 @@ public class RewindRushParameters : AbilityParams
 {
     public float Duration = 0;
     public float PulseCost = 0;
-    public float MaxTimeBeforeResetMarks;
-    public AK.Wwise.State RewindState;
-    public AK.Wwise.State NormalState;
+    public float MaxTimeBeforeResetMarks = 0;
+    public AK.Wwise.State RewindState = null;
+    public AK.Wwise.State NormalState = null;
 }
 
 public class RewindRushAbility : Ability
@@ -22,8 +22,8 @@ public class RewindRushAbility : Ability
     float maxTimeBeforeResetMarks = 0;
     float rushChainTimer = 0;
 
-    AK.Wwise.State rewindState;
-    AK.Wwise.State normalState;
+    AK.Wwise.State rewindState = null;
+    AK.Wwise.State normalState = null;
 
     public RewindRushAbility(RewindRushParameters rrp) : base(rrp.AttachedPlayer)
     {

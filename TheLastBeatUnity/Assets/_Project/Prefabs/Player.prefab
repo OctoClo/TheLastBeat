@@ -207,7 +207,7 @@ GameObject:
   - component: {fileID: 8955398434261733278}
   m_Layer: 2
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -273,51 +273,53 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 7.5
   maxRotationPerFrame: 30
-  rushDuration: 0.2
-  rushRewindDuration: 0.2
-  rushZoomDuration: 0.5
-  rushZoomValue: 5
-  rushSlowMoDuration: 0.5
-  rushImpactBeatDelay: 0
-  rushChainMaxInterval: 2
-  pulsationCostRush: 0
-  pulsationCostRewind: 0
-  soundRushOffBeat:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 4a18d2dc5f5984f409d9ea8765209507,
-      type: 2}
-  soundRushOnBeat:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 877a8f9f45a0b854b9c55bdf1c4e1798,
-      type: 2}
-  rewindNormalState:
-    idInternal: 0
-    valueGuidInternal: 
-    groupIdInternal: 0
-    groupGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: a958b6c151689af4b88c97f8bed9154c,
-      type: 2}
-  rewindState:
-    idInternal: 0
-    valueGuidInternal: 
-    groupIdInternal: 0
-    groupGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: d76c5d52299cb714f965e151251d92e3,
-      type: 2}
-  blinkSpeed: 5
-  pulsationCostBlink: 0
-  soundBlink:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: a310b7a7eea90554f8500d2f68b2f277,
-      type: 2}
-  blinkParticles: {fileID: 7874518215433590455}
-  Status: {fileID: 0}
+  blinkParameters:
+    AttachedPlayer: {fileID: 0}
+    Speed: 5
+    PulseCost: 2
+    Particles: {fileID: 7874518215433590455}
+    Sound:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: a310b7a7eea90554f8500d2f68b2f277,
+        type: 2}
+  rushParameters:
+    AttachedPlayer: {fileID: 0}
+    RushDuration: 0.5
+    PulseCost: 2
+    OnBeatSound:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 877a8f9f45a0b854b9c55bdf1c4e1798,
+        type: 2}
+    OffBeatSound:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 4a18d2dc5f5984f409d9ea8765209507,
+        type: 2}
+  rushRewindParameters:
+    AttachedPlayer: {fileID: 0}
+    Duration: 0.3
+    PulseCost: 4
+    MaxTimeBeforeResetMarks: 2
+    RewindState:
+      idInternal: 0
+      valueGuidInternal: 
+      groupIdInternal: 0
+      groupGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: d76c5d52299cb714f965e151251d92e3,
+        type: 2}
+    NormalState:
+      idInternal: 0
+      valueGuidInternal: 
+      groupIdInternal: 0
+      groupGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: a958b6c151689af4b88c97f8bed9154c,
+        type: 2}
   Anim: {fileID: 0}
   ColliderObject: {fileID: 0}
   healthSystem: {fileID: 0}
+  model: {fileID: 4277489674016218518}
   FocusZone: {fileID: 0}
 --- !u!114 &75586183539498471
 MonoBehaviour:
