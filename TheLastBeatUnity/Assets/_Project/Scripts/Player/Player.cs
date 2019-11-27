@@ -17,43 +17,14 @@ public class Player : Inputable
     //If you are doing something (dash , attack animation, etc...) or if game paused, temporary block input
     public override bool BlockInput => (blockInput || Status.Dashing || Status.Stunned || Status.Blinking);
 
-    [TabGroup("Rush")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
-    float rushDuration = 0.5f;
-    [TabGroup("Rush")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
-    float rushRewindDuration = 0.5f;
-    [TabGroup("Rush")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
-    float rushZoomDuration = 0.5f;
-    [TabGroup("Rush")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
-    float rushZoomValue = 5;
-    [TabGroup("Rush")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
-    float rushSlowMoDuration = 0.5f;
-    [TabGroup("Rush")] [SerializeField] [Tooltip("The longer it is, the longer it take to change frequency")]
-    float rushImpactBeatDelay = 0;
-    [TabGroup("Rush")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
-    float rushChainMaxInterval = 2;
-    [TabGroup("Rush")] [SerializeField]
-    float pulsationCostRush = 0;
-    [TabGroup("Rush")] [SerializeField]
-    float pulsationCostRewind =0;
-    [TabGroup("Rush")] [SerializeField]
-    AK.Wwise.Event soundRushOffBeat = null;
-    [TabGroup("Rush")] [SerializeField]
-    AK.Wwise.Event soundRushOnBeat = null;
-    [TabGroup("Rush")] [SerializeField]
-    AK.Wwise.State rewindNormalState = null;
-    [TabGroup("Rush")] [SerializeField]
-    AK.Wwise.State rewindState = null;
-    float rushChainTimer = 0;
-    List<Enemy> chainedEnemies = new List<Enemy>();
+    [TabGroup("Blink")] [SerializeField]
+    BlinkParams blinkParameters;
 
-    [TabGroup("Blink")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
-    float blinkSpeed = 5;
-    [TabGroup("Blink")] [SerializeField]
-    float pulsationCostBlink = 0;
-    [TabGroup("Blink")] [SerializeField]
-    AK.Wwise.Event soundBlink = null;
-    [TabGroup("Blink")] [SerializeField] [Required]
-    ParticleSystem blinkParticles = null;
+    [TabGroup("Rush")][SerializeField]
+    RushParams rushParameters;
+
+    [TabGroup("Rush")][SerializeField]
+    RewindRushParameters rushRewindParameters;
 
     [HideInInspector]
     public PlayerStatus Status { get; private set; }
@@ -80,6 +51,7 @@ public class Player : Inputable
 
     private void Start()
     {
+        blinkParameters.AttachedPlayer = rushParameters.AttachedPlayer = rushRewindParameters.AttachedPlayer = this;
         Status = GetComponent<PlayerStatus>();
         Anim = GetComponent<PlayerAnim>();
         FocusZone = GetComponentInChildren<FocusZone>();
@@ -88,14 +60,16 @@ public class Player : Inputable
 
         abilities = new Dictionary<EInputAction, Ability>();
 
-        Ability blink = new BlinkAbility(this, blinkSpeed, blinkParticles,soundBlink,pulsationCostBlink);
+        BlinkAbility blink = new BlinkAbility(blinkParameters);
         abilities.Add(EInputAction.BLINK, blink);
 
-        Ability rush = new RushAbility(this, rushDuration, rushZoomDuration, rushZoomValue, rushSlowMoDuration, rushImpactBeatDelay, pulsationCostRush, soundRushOnBeat , soundRushOffBeat);
+        RushAbility rush = new RushAbility(rushParameters);
         abilities.Add(EInputAction.RUSH, rush);
 
-        Ability rewindRush = new RewindRushAbility(this, rushRewindDuration, pulsationCostRewind, rewindNormalState , rewindState);
+        RewindRushAbility rewindRush = new RewindRushAbility(rushRewindParameters);
         abilities.Add(EInputAction.REWINDRUSH, rewindRush);
+
+        rush.RewindRush = rewindRush;
     }
 
     public override void ProcessInput(Rewired.Player player)
@@ -126,12 +100,9 @@ public class Player : Inputable
 
             foreach (EInputAction action in (EInputAction[])Enum.GetValues(typeof(EInputAction)))
             {
-                if (player.GetButtonDown(action.ToString()))
+                if (player.GetButtonDown(action.ToString()) && abilities.TryGetValue(action, out ability))
                 {
-                    abilities.TryGetValue(action, out ability);
-
-                    if (ability != null)
-                        ability.Launch();
+                    ability.Launch();
                 }
             }
 
@@ -146,35 +117,11 @@ public class Player : Inputable
     private void Update()
     {
         foreach (KeyValuePair<EInputAction, Ability> abilityPair in abilities)
-            abilityPair.Value.Update(Time.deltaTime / Time.timeScale);
-
-        if (chainedEnemies.Count > 0 && !Status.Dashing)
-        {
-            rushChainTimer -= Time.deltaTime;
-
-            if (rushChainTimer < 0)
-                ResetChainedEnemies();
-        }
+            abilityPair.Value.Update(Time.deltaTime);
     }
 
     public Enemy GetCurrentTarget()
     {
         return FocusZone.GetCurrentTarget();
-    }
-
-    public List<Enemy> GetChainedEnemies()
-    {
-        return chainedEnemies;
-    }
-
-    public void AddChainedEnemy(Enemy enemy)
-    {
-        chainedEnemies.Add(enemy);
-        rushChainTimer = rushChainMaxInterval;
-    }
-
-    public void ResetChainedEnemies()
-    {
-        chainedEnemies.Clear();
     }
 }
