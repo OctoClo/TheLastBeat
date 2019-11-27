@@ -42,8 +42,15 @@ public class Player : Inputable
     public Transform Model => model;
 
     Dictionary<EInputAction, Ability> abilities = new Dictionary<EInputAction, Ability>();
+    IReadOnlyDictionary<EInputAction, Ability> Abilities => abilities;
+
     [HideInInspector]
     public FocusZone FocusZone = null;
+
+    [SerializeField]
+    BeatManager beatManager = null;
+    public BeatManager BeatManager => beatManager;
+
     Enemy currentTarget = null;
 
     bool CheckPositive(float value) { return value > 0; }

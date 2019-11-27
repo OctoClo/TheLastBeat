@@ -8,6 +8,7 @@ public class RewindRushParameters : AbilityParams
 {
     public float Duration = 0;
     public float PulseCost = 0;
+    public int BeatCooldown = 0;
     public float MaxTimeBeforeResetMarks = 0;
     public AK.Wwise.State RewindState = null;
     public AK.Wwise.State NormalState = null;
@@ -17,6 +18,8 @@ public class RewindRushAbility : Ability
 {
     float duration = 0;
     float pulseCost = 0;
+    int cooldown = 0;
+    int currentCooldown = 0;
 
     List<Enemy> chainedEnemies = new List<Enemy>();
     float maxTimeBeforeResetMarks = 0;
@@ -32,11 +35,23 @@ public class RewindRushAbility : Ability
         maxTimeBeforeResetMarks = rrp.MaxTimeBeforeResetMarks;
         rewindState = rrp.RewindState;
         normalState = rrp.NormalState;
+        cooldown = rrp.BeatCooldown;
+
+        if (player.BeatManager)
+            player.BeatManager.OnBeatTriggered += OnBeat;
+    }
+
+    public void OnBeat(BeatManager.TypeBeat tb)
+    {
+        if (tb == BeatManager.TypeBeat.BEAT && currentCooldown > 0)
+        {
+            currentCooldown--;
+        }
     }
 
     public override void Launch()
     {
-        if (chainedEnemies.Count > 0)
+        if (chainedEnemies.Count > 0 && currentCooldown == 0)
             RewindRush();
     }
 
@@ -60,6 +75,7 @@ public class RewindRushAbility : Ability
 
     void RewindRush()
     {
+        currentCooldown = cooldown;
         rewindState.SetValue();
         player.Status.StartDashing();
         player.FocusZone.overrideControl = true;

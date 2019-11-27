@@ -13,6 +13,9 @@ public class BeatManager : MonoBehaviour
     [SerializeField]
     float tolerance = 0;
 
+    [SerializeField]
+    float visualDelay = 0;
+
     public enum TypeBeat
     {
         BEAT,
@@ -22,9 +25,13 @@ public class BeatManager : MonoBehaviour
     public BeatDetection LastBar { get; private set; }
     public BeatDetection LastBeat { get; private set; }
 
+    public delegate void beatParams(TypeBeat tb);
+    public event beatParams OnBeatTriggered;
+
     //Used to identify
     int countBeat = 0;
     int lastBeatValidated = 0;
+    bool isPausing = false;
 
     public struct BeatDetection
     {
@@ -70,7 +77,7 @@ public class BeatManager : MonoBehaviour
         return false;
     }
 
-    //On made the action in the right time , flag it as validated
+    //One made the action in the right time , flag it as validated
     public void ValidateLastBeat(TypeBeat tb)
     {
         StopAllCoroutines();
@@ -80,8 +87,10 @@ public class BeatManager : MonoBehaviour
         }
     }
 
-    public void BeatDelayed(float timeBetweenBeat, TypeBeat tb)
+    public void BeatAll(float timeBetweenBeat, TypeBeat tb)
     {
+        if (isPausing) return;
+
         BeatDetection bd = new BeatDetection();
         bd.lastTimeBeat = TimeManager.Instance.SampleCurrentTime();
         bd.beatInterval = timeBetweenBeat;
@@ -95,9 +104,20 @@ public class BeatManager : MonoBehaviour
         }
 
         StartCoroutine(BeatCoundown(tb));
+        StartCoroutine(DelayedBeat(tb));      
+    }
+
+    IEnumerator DelayedBeat(TypeBeat tb)
+    {
+        yield return new WaitForSeconds(visualDelay);
         foreach (Beatable beat in (tb == TypeBeat.BAR ? Bar : Beats))
         {
-            beat.BeatDelayed(timeBetweenBeat);
+            beat.Beat();
+        }
+
+        if (OnBeatTriggered != null)
+        {
+            OnBeatTriggered(tb);
         }
     }
 
@@ -107,6 +127,21 @@ public class BeatManager : MonoBehaviour
         foreach (Beatable beat in (tb == TypeBeat.BAR ? Bar : Beats))
         {
             beat.MissedBeat();
-        }
+        }        
+    }
+
+    private void OnEnable()
+    {
+        EventManager.Instance.AddListener<PauseEvent>(OnPauseEvent);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.Instance.RemoveListener<PauseEvent>(OnPauseEvent);
+    }
+
+    private void OnPauseEvent(PauseEvent e)
+    {
+        isPausing = e.pause;
     }
 }

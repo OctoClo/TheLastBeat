@@ -11,12 +11,12 @@ public class CameraManager : MonoBehaviour
     public static CameraManager Instance { get; private set; }
 
     [SerializeField]
-    CinemachineVirtualCamera cameraOutOfCombat;
+    CinemachineVirtualCamera cameraOutOfCombat = null;
     [SerializeField]
-    CinemachineVirtualCamera cameraInCombat;
+    CinemachineVirtualCamera cameraInCombat = null;
 
     [SerializeField]
-    CinemachineStateDrivenCamera stateDrive;
+    CinemachineStateDrivenCamera stateDrive = null;
     Animator anim = null;
 
     public CinemachineVirtualCamera LiveCamera { get; private set; }

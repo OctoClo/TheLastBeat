@@ -10,16 +10,19 @@ public class RushParams : AbilityParams
     public float PulseCost = 0;
     public AK.Wwise.Event OnBeatSound = null;
     public AK.Wwise.Event OffBeatSound = null;
+    public int BeatCooldown = 0;
 }
 
 public class RushAbility : Ability
 {
     float duration = 0;
     float pulseCost = 0;
+    int cooldown = 0;
+    int currentCooldown = 0;
 
     Enemy target = null;
     bool obstacleAhead = false;
-    RaycastHit obstacle;
+    RaycastHit obstacle = null;
 
     AK.Wwise.Event soundOffBeat = null;
     AK.Wwise.Event soundOnBeat = null;
@@ -32,13 +35,24 @@ public class RushAbility : Ability
         pulseCost = rp.PulseCost;
         soundOffBeat = rp.OffBeatSound;
         soundOnBeat = rp.OnBeatSound;
+        cooldown = rp.BeatCooldown;
+        if (player.BeatManager)
+            player.BeatManager.OnBeatTriggered += OnBeat;
     }
 
     public override void Launch()
     {
         target = player.GetCurrentTarget();
-        if (target)
+        if (target && currentCooldown == 0)
             Rush();
+    }
+
+    public void OnBeat(BeatManager.TypeBeat tb)
+    {
+        if (tb == BeatManager.TypeBeat.BEAT && currentCooldown > 0)
+        {
+            currentCooldown--;
+        }
     }
 
     void Rush()
@@ -53,7 +67,7 @@ public class RushAbility : Ability
             soundOffBeat.Post(player.gameObject);
         }
 
-
+        currentCooldown = cooldown;
         player.Status.StartDashing();
         player.Anim.LaunchAnim(EPlayerAnim.RUSHING);
 

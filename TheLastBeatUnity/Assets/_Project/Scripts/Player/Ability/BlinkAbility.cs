@@ -8,6 +8,7 @@ public class BlinkParams : AbilityParams
 {
     public float Speed = 0;
     public float PulseCost = 0;
+    public int BeatCooldown = 0;
     public ParticleSystem Particles = null;
     public AK.Wwise.Event Sound = null;
 }
@@ -16,6 +17,9 @@ public class BlinkAbility : Ability
 {
     float speed = 5;
     float pulseCost = 0;
+
+    int currentCooldown = 0;
+    int cooldownBeat = 0;
 
     ParticleSystem particles = null;
     AK.Wwise.Event soundBlink = null;
@@ -28,22 +32,34 @@ public class BlinkAbility : Ability
         particles = bp.Particles;
         pulseCost = bp.PulseCost;
         soundBlink = bp.Sound;
+        cooldownBeat = bp.BeatCooldown;
+        if (player.BeatManager)
+            player.BeatManager.OnBeatTriggered += OnBeat;
+    }
+
+    public void OnBeat(BeatManager.TypeBeat tb)
+    {
+        if (tb == BeatManager.TypeBeat.BEAT && currentCooldown > 0)
+        {
+            currentCooldown--;
+        }
     }
 
     public override void Launch()
     {
-        if (player.CurrentDirection != Vector3.zero)
+        if (player.CurrentDirection != Vector3.zero && currentCooldown == 0)
             Blink();
     }
 
     private void Blink()
     {
         Vector3 startSize = player.Model.localScale;
-        Vector3 newPosition = player.transform.position + player.CurrentDirection * speed * 5;
+        Vector3 newPosition = player.transform.position + player.CurrentDirection * speed;
 
         currentSequence = DOTween.Sequence();
         currentSequence.AppendCallback(() =>
         {
+            currentCooldown = cooldownBeat;
             player.Status.StartBlink();
             if (BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT))
             {
