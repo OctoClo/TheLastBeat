@@ -4,39 +4,46 @@ using UnityEngine;
 using Cinemachine;
 using System.Linq;
 
+public class ChangeCameraEvent : GameEvent {}
+
 public class CameraManager : MonoBehaviour
 {
     public static CameraManager Instance { get; private set; }
 
-    Animator anim;
-
     [SerializeField]
-    ICinemachineCamera combatCamera;
+    CinemachineVirtualCamera cameraOutOfCombat;
+    [SerializeField]
+    CinemachineVirtualCamera cameraInCombat;
 
     [SerializeField]
     CinemachineStateDrivenCamera stateDrive;
+    Animator anim = null;
 
-    public bool InCombat => stateDrive.LiveChild == combatCamera;
     public CinemachineVirtualCamera LiveCamera { get; private set; }
+    public bool InCombat { get; private set; }
 
     void Start()
     {
+        if (Instance == null)
+            Instance = this;
+        
         if (stateDrive)
             anim = stateDrive.m_AnimatedTarget;
-
-        if (Instance == null)
-        {
-            Instance = this;
-        }
+        
+        InCombat = false;
+        ChangeCamera();
     }
 
     public void CameraStateChange(string triggerName)
     {
         anim.SetTrigger(triggerName);
+        InCombat = !InCombat;
+        ChangeCamera();
     }
 
-    public void NewLiveCamera(ICinemachineCamera newCam , ICinemachineCamera oldCam)
+    private void ChangeCamera()
     {
-        LiveCamera = newCam as CinemachineVirtualCamera;
+        LiveCamera = (InCombat ? cameraInCombat : cameraOutOfCombat);
+        EventManager.Instance.Raise(new ChangeCameraEvent());
     }
 }

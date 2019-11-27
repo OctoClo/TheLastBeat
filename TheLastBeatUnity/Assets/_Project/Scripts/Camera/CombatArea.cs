@@ -8,9 +8,6 @@ using DG.Tweening;
 public class CombatArea : MonoBehaviour
 {
     [SerializeField]
-    CameraManager camManager;
-
-    [SerializeField]
     CinemachineTargetGroup groupTarget;
 
     [SerializeField]

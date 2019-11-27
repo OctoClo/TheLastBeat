@@ -1,14 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class CameraBillboard : MonoBehaviour
 {
-    [SerializeField]
-    Camera cam = null;
+    CinemachineVirtualCamera cam;
+
+    private void OnEnable()
+    {
+        EventManager.Instance.AddListener<ChangeCameraEvent>(OnChangeCameraEvent);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.Instance.RemoveListener<ChangeCameraEvent>(OnChangeCameraEvent);
+    }
+
+    void OnChangeCameraEvent(ChangeCameraEvent e)
+    {
+        cam = CameraManager.Instance.LiveCamera;
+    }
 
     void LateUpdate()
     {
-        transform.LookAt(transform.position + cam.transform.rotation * Vector3.forward, cam.transform.rotation * Vector3.up);
+        if (cam)
+            transform.LookAt(transform.position + cam.transform.rotation * Vector3.forward, cam.transform.rotation * Vector3.up);
     }
 }
