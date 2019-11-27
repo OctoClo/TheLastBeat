@@ -7,7 +7,7 @@ using DG.Tweening;
 public class RushParams : AbilityParams
 {
     public float RushDuration = 0;
-    public float PulsationCost = 0;
+    public float PulseCost = 0;
     public AK.Wwise.Event OnBeatSound = null;
     public AK.Wwise.Event OffBeatSound = null;
 }
@@ -15,19 +15,21 @@ public class RushParams : AbilityParams
 public class RushAbility : Ability
 {
     float duration = 0;
-    float pulsationCost;
+    float pulseCost = 0;
 
     Enemy target = null;
     bool obstacleAhead = false;
     RaycastHit obstacle;
+
     AK.Wwise.Event soundOffBeat = null;
     AK.Wwise.Event soundOnBeat = null;
+    
     public RewindRushAbility RewindRush { get; set; }
 
     public RushAbility(RushParams rp) : base(rp.AttachedPlayer)
     {
         duration = rp.RushDuration;
-        pulsationCost = rp.PulsationCost;
+        pulseCost = rp.PulseCost;
         soundOffBeat = rp.OffBeatSound;
         soundOnBeat = rp.OnBeatSound;
     }
@@ -71,7 +73,7 @@ public class RushAbility : Ability
         }
 
         Vector3 goalPosition = direction + player.transform.position;
-        seq.AppendCallback(() => player.Health.ModifyPulseValue(pulsationCost));
+        seq.AppendCallback(() => player.Health.ModifyPulseValue(pulseCost));
         seq.Append(player.transform.DOMove(goalPosition, duration));
 
         if (obstacleAhead)

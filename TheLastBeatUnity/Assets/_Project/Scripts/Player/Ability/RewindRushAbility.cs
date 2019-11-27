@@ -7,29 +7,31 @@ using DG.Tweening;
 public class RewindRushParameters : AbilityParams
 {
     public float Duration = 0;
-    public float PulsationCost = 0;
+    public float PulseCost = 0;
+    public float MaxTimeBeforeResetMarks;
     public AK.Wwise.State RewindState;
     public AK.Wwise.State NormalState;
-    public float delayBeforeEnd;
 }
 
 public class RewindRushAbility : Ability
 {
     float duration = 0;
-    float pulsationCost;
+    float pulseCost = 0;
+
+    List<Enemy> chainedEnemies = new List<Enemy>();
+    float maxTimeBeforeResetMarks = 0;
     float rushChainTimer = 0;
-    float delayBeforeEnd = 0;
+
     AK.Wwise.State rewindState;
     AK.Wwise.State normalState;
-    List<Enemy> chainedEnemies = new List<Enemy>();
 
     public RewindRushAbility(RewindRushParameters rrp) : base(rrp.AttachedPlayer)
     {
         duration = rrp.Duration;
-        pulsationCost = rrp.PulsationCost;
+        pulseCost = rrp.PulseCost;
+        maxTimeBeforeResetMarks = rrp.MaxTimeBeforeResetMarks;
         rewindState = rrp.RewindState;
         normalState = rrp.NormalState;
-        delayBeforeEnd = rrp.delayBeforeEnd;
     }
 
     public override void Launch()
@@ -52,7 +54,7 @@ public class RewindRushAbility : Ability
 
     public void AddChainEnemy(Enemy enn)
     {
-        rushChainTimer = delayBeforeEnd;
+        rushChainTimer = maxTimeBeforeResetMarks;
         chainedEnemies.Add(enn);
     }
 
@@ -64,7 +66,7 @@ public class RewindRushAbility : Ability
         player.ColliderObject.layer = LayerMask.NameToLayer("Player Dashing");
 
         Sequence seq = DOTween.Sequence();
-        seq.AppendCallback(() => player.Health.ModifyPulseValue(pulsationCost));
+        seq.AppendCallback(() => player.Health.ModifyPulseValue(pulseCost));
         Vector3 direction;
         Vector3 goalPosition = player.transform.position;
 

@@ -26,9 +26,6 @@ public class Player : Inputable
     [TabGroup("Rush")][SerializeField]
     RewindRushParameters rushRewindParameters;
 
-    float rushChainTimer = 0;
-    List<Enemy> chainedEnemies = new List<Enemy>();
-
     [HideInInspector]
     public PlayerStatus Status;
     [HideInInspector]
