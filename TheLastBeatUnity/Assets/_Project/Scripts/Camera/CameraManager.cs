@@ -8,15 +8,10 @@ public class CameraManager : MonoBehaviour
 {
     public static CameraManager Instance { get; private set; }
 
-    Animator anim;
+    Animator anim = null;
 
     [SerializeField]
-    ICinemachineCamera combatCamera;
-
-    [SerializeField]
-    CinemachineStateDrivenCamera stateDrive;
-
-    public bool InCombat => stateDrive.LiveChild == combatCamera;
+    CinemachineStateDrivenCamera stateDrive = null;
     public CinemachineVirtualCamera LiveCamera { get; private set; }
 
     void Start()

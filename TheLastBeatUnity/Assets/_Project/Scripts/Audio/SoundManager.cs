@@ -5,13 +5,13 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     [SerializeField]
-    AK.Wwise.Event ambStart;
+    AK.Wwise.Event ambStart = null;
 
     [SerializeField]
-    AK.Wwise.Event musStart;
+    AK.Wwise.Event musStart = null;
 
     [SerializeField]
-    AK.Wwise.State musStateStart;
+    AK.Wwise.State musStateStart = null;
 
     [SerializeField]
     BeatManager bm = null;

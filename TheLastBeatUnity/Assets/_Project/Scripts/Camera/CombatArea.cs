@@ -8,19 +8,16 @@ using DG.Tweening;
 public class CombatArea : MonoBehaviour
 {
     [SerializeField]
-    CameraManager camManager;
+    CinemachineTargetGroup groupTarget = null;
 
     [SerializeField]
-    CinemachineTargetGroup groupTarget;
+    float waitTime = 0;
 
     [SerializeField]
-    float waitTime;
+    float maxWeight = 0;
 
     [SerializeField]
-    float maxWeight;
-
-    [SerializeField]
-    float timeTransition;
+    float timeTransition = 0;
 
     Dictionary<Transform, Sequence> runningSequences = new Dictionary<Transform, Sequence>();
 

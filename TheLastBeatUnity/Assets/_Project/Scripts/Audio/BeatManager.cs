@@ -11,7 +11,7 @@ public class BeatManager : MonoBehaviour
     List<Beatable> Bar = new List<Beatable>();
 
     [SerializeField]
-    float tolerance;
+    float tolerance = 0;
 
     public enum TypeBeat
     {
@@ -21,7 +21,6 @@ public class BeatManager : MonoBehaviour
 
     public BeatDetection LastBar { get; private set; }
     public BeatDetection LastBeat { get; private set; }
-    int validationToken = 0;
 
     //Used to identify
     int countBeat = 0;
