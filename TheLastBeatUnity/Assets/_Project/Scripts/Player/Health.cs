@@ -15,26 +15,20 @@ public class Health : Beatable
     Rect debugWindowRect = new Rect(20, 20, 240, 180 );
 
     [SerializeField] [TabGroup("Visual")]
-    RectTransform healthBackgroundRect;
-
-    [SerializeField] [Range(1, 5)] [TabGroup("Visual")]
-    float healthBackgroundNewScale = 0;
+    RectTransform healthBackgroundRect = null;
 
     [SerializeField] [TabGroup("Gameplay")] 
     float currentPulse = 50;
-    Vector3 temporarySize;
+    Vector3 temporarySize = Vector3.zero;
 
     [SerializeField] [TabGroup("Visual")]
-    Image colorChange;
+    Image colorChange = null;
 
     [SerializeField] [TabGroup("Visual")]
-    AK.Wwise.State inLimit;
+    AK.Wwise.State inLimit = null;
 
     [SerializeField] [TabGroup("Visual")]
-    AK.Wwise.State outLimit;
-
-    [SerializeField] [TabGroup("Gameplay")] [InfoBox("Cela inclus l'action qui a fait passé en berserk, n'importe quel valeur en negatif pour infini", InfoMessageType.None)]
-    int actionBeforeDeath = 3;
+    AK.Wwise.State outLimit = null;
 
     [SerializeField] [TabGroup("Gameplay")] 
     bool dieAtMissInputBerserk = false;
@@ -52,22 +46,22 @@ public class Health : Beatable
     AnimationCurve pulseMultiplier = null;
 
     [SerializeField] [TabGroup("Zone generation")]
-    Color colorZone;
+    Color colorZone = Color.black;
 
     [SerializeField] [TabGroup("Zone generation")]
-    float lengthZone;
+    float lengthZone = 0;
 
     [SerializeField] [TabGroup("Zone generation")]
-    string labelZone;
+    string labelZone = "";
 
     [SerializeField]
     List<PulseZone> allZones = new List<PulseZone>();
 
     [SerializeField][TabGroup("Zone generation")][Range(0,10)]
-    float scaleUI;
+    float scaleUI = 0;
 
     [SerializeField][TabGroup("Zone generation")][FolderPath]
-    string path;
+    string path = "";
     
     [Button][TabGroup("Zone generation")]
     void Generate()
@@ -83,17 +77,8 @@ public class Health : Beatable
         AssetDatabase.CreateAsset(pz , path + "/" + labelZone + ".asset");
     }
 
-    Sequence seq;
-    Sequence colorseq;
-    Sequence berserkSeq;
-
-    CombatState currentState = CombatState.InCombat;
-
-    enum CombatState
-    {
-        InCombat,
-        OutOfCombat
-    }
+    Sequence seq = null;
+    Sequence berserkSeq = null;
 
     public void Start()
     {
@@ -208,14 +193,6 @@ public class Health : Beatable
         }
     }
 
-    public override void MissedBeat()
-    {
-        if (IsBerserkZone && dieAtMissInputBerserk)
-        {
-            Die();
-        }
-    }
-
     void OnZoneChanged(PulseZone previous)
     {
         if (!CurrentZone)
@@ -252,9 +229,6 @@ public class Health : Beatable
 
     void TransitionColor(Color newColor)
     {
-        if (colorseq != null && colorseq.IsPlaying())
-            colorseq.Kill();
-
         DOTween.To(() => colorChange.color, x => colorChange.color = x, newColor, 0.5f);
     }
 

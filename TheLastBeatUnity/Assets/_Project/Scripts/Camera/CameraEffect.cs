@@ -9,9 +9,6 @@ using DG.Tweening;
 [RequireComponent(typeof(CinemachineVirtualCamera))]
 public class CameraEffect : MonoBehaviour
 {
-    [InfoBox("Pensez à activer le mode Solo en haut du Component Cinemachine Virtual Camera")] [SerializeField]
-    string hello = "Pensez-yyyy";
-
     public CinemachineVirtualCamera VirtualCam { get; private set; }
 
     private void Start()
@@ -27,42 +24,24 @@ public class CameraEffect : MonoBehaviour
     }
 
     #region ScreenShake
-    [TabGroup("ScreenShake")] [SerializeField]
-    float shakeDuration = 0;
-
-    [TabGroup("ScreenShake")] [SerializeField]
-    float shakeIntensity = 0;
 
     [TabGroup("ScreenShake")] [SerializeField]
     AnimationCurve shakeIntensityOverTime = null;
 
     CinemachineBasicMultiChannelPerlin perlin;
 
-    [TabGroup("ScreenShake")] [Button(ButtonSizes.Medium)]
-    void TestScreenShake()
-    {
-        LoadRefs();
-        StartScreenShake(shakeDuration, shakeIntensity);
-    }
-
     public void StartScreenShake(float duration, float intensity)
     {
-        StartCoroutine(ScreenShakeSequence(duration, intensity));
-    }
-
-    IEnumerator ScreenShakeSequence(float duration, float intensity)
-    {
-        Vector3 originPosition = transform.position;
-        Debug.Assert(duration > 0);
-        float normalizedTime = 0;
-
-        while (normalizedTime < 1)
+        perlin = VirtualCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        if (perlin)
         {
-            normalizedTime += Time.deltaTime / duration;
-            perlin.m_AmplitudeGain = intensity * shakeIntensityOverTime.Evaluate(normalizedTime);
-            yield return null;
+            screenShakeSequence = DOTween.Sequence();
+            screenShakeSequence.Append(DOTween.To(() => perlin.m_AmplitudeGain, x => perlin.m_AmplitudeGain = x, intensity, duration).SetEase(shakeIntensityOverTime));
+            screenShakeSequence.Play();
         }
     }
+
+    Sequence screenShakeSequence;
     #endregion
 
     #region Zoom
@@ -79,38 +58,11 @@ public class CameraEffect : MonoBehaviour
         Absolute
     }
 
-    [TabGroup("Zoom")] [SerializeField] [Tooltip("Absolute = Value + Modif ; Relative = Value * Modif")]
-    ValueType valueType = ValueType.Absolute;
-
-    [TabGroup("Zoom")] [SerializeField]
-    ZoomType modifierType = ZoomType.Distance;
-
-    [TabGroup("Zoom")] [SerializeField]
-    float zoomDuration = 0;
-
-    [TabGroup("Zoom")] [SerializeField]
-    float zoomIntensity = 0;
-
     [TabGroup("Zoom")] [SerializeField]
     AnimationCurve zoomIntensityOverTime = null;
 
-    [TabGroup("Zoom")] [Button(ButtonSizes.Medium)]
-    void TestZoom()
-    {
-        DOTween.Init();
-        LoadRefs();
-        StartZoom(shakeIntensity, zoomDuration, modifierType, valueType);
-    }
-
-    public void SetZoomFOV(float newValue)
-    {
-        if (VirtualCam == null)
-            VirtualCam = GetComponent<Cinemachine.CinemachineVirtualCamera>();
-        VirtualCam.m_Lens.FieldOfView = newValue;
-    }
-
     CinemachineFramingTransposer transposer;
-    IEnumerator currentZooming;
+    Sequence zoomingSequence;
 
     public void StartZoom(float modifier, float duration, ZoomType zoomType, ValueType vt)
     {
@@ -122,49 +74,34 @@ public class CameraEffect : MonoBehaviour
         if (vt == ValueType.Relative)
             modifier = Mathf.Abs(modifier);
 
-        //Cannot have 2 zooming sequence at the same time
-        if (currentZooming != null)
-            StopCoroutine(currentZooming);
-
-        currentZooming = ZoomCoroutine(modifier, zoomDuration, zoomType, vt);
-        StartCoroutine(currentZooming);
-    }
-
-    IEnumerator ZoomCoroutine(float modifier, float duration, ZoomType zoomType, ValueType vt)
-    {
-        float normalizedTime = 0;
+        zoomingSequence = DOTween.Sequence();
+        Tweener tweener;
         if (zoomType == ZoomType.FOV)
         {
-            float originValue = VirtualCam.m_Lens.FieldOfView;
-            float targetValue = vt == ValueType.Relative ? originValue * modifier : originValue - modifier;
-            while (normalizedTime < 1)
+            if (vt == ValueType.Relative)
             {
-                normalizedTime += Time.deltaTime / duration;
-                VirtualCam.m_Lens.FieldOfView = Mathf.Lerp(originValue, targetValue, zoomIntensityOverTime.Evaluate(normalizedTime));
-                yield return null;
+                tweener = DOTween.To(() => VirtualCam.m_Lens.FieldOfView, x => VirtualCam.m_Lens.FieldOfView = x, VirtualCam.m_Lens.FieldOfView * modifier, duration);
             }
-
-            if (!Application.isPlaying)
+            else
             {
-                VirtualCam.m_Lens.FieldOfView = Mathf.Lerp(originValue, targetValue, zoomIntensityOverTime.Evaluate(0));
+                tweener = DOTween.To(() => VirtualCam.m_Lens.FieldOfView, x => VirtualCam.m_Lens.FieldOfView = x, modifier, duration);
             }
         }
         else
         {
-            float originValue = transposer.m_CameraDistance;
-            float targetValue = vt == ValueType.Relative ? originValue * modifier : originValue - modifier;
-            while (normalizedTime < 1)
+            transposer = VirtualCam.GetCinemachineComponent<CinemachineFramingTransposer>();
+            if (vt == ValueType.Relative)
             {
-                normalizedTime += Time.deltaTime / duration;
-                transposer.m_CameraDistance = Mathf.Lerp(originValue, targetValue, zoomIntensityOverTime.Evaluate(normalizedTime));
-                yield return null;
+                tweener = DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, transposer.m_CameraDistance * modifier, duration);
             }
-
-            if (!Application.isPlaying)
+            else
             {
-                transposer.m_CameraDistance = Mathf.Lerp(originValue, targetValue, zoomIntensityOverTime.Evaluate(0));
+                tweener = DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, modifier, duration);
             }
-        }      
+        }
+        tweener.SetEase(zoomIntensityOverTime);
+        zoomingSequence.Append(tweener);
+        zoomingSequence.Play();
     }
     #endregion
 }

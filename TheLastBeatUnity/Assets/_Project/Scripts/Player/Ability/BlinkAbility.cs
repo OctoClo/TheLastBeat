@@ -1,46 +1,81 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
+
+[System.Serializable]
+public class BlinkParams : AbilityParams
+{
+    public float Speed = 0;
+    public float PulseCost = 0;
+    public float Cooldown = 0;
+    public ParticleSystem Particles = null;
+    public AK.Wwise.Event Sound = null;
+}
 
 public class BlinkAbility : Ability
 {
     float speed = 5;
-    ParticleSystem particles = null;
-    float pulsationCost;
-    AK.Wwise.Event soundBlink;
+    float pulseCost = 0;
 
-    public BlinkAbility(Player newPlayer, float blinkSpeed, ParticleSystem blinkParticles, AK.Wwise.Event sound, float newCost) : base(newPlayer)
+    float currentCooldown = 0;
+    float cooldown = 0;
+
+    ParticleSystem particles = null;
+    AK.Wwise.Event soundBlink = null;
+
+    Sequence currentSequence = null;
+
+    public BlinkAbility(BlinkParams bp) : base(bp.AttachedPlayer)
     {
-        speed = blinkSpeed;
-        particles = blinkParticles;
-        pulsationCost = newCost;
-        soundBlink = sound;
+        speed = bp.Speed;
+        particles = bp.Particles;
+        pulseCost = bp.PulseCost;
+        soundBlink = bp.Sound;
+        cooldown = bp.Cooldown;
     }
 
     public override void Launch()
     {
-        if (player.CurrentDirection != Vector3.zero)
+        if (player.CurrentDirection != Vector3.zero && currentCooldown == 0)
             Blink();
+    }
+
+    public override void Update(float deltaTime)
+    {
+        if (currentCooldown > 0)
+        {
+            currentCooldown = Mathf.Max(0, currentCooldown - deltaTime);
+        }
     }
 
     private void Blink()
     {
-        soundBlink.Post(player.gameObject);
-        //particles.Play();
-        player.Health.ModifyPulseValue(pulsationCost);
-        player.Anim.LaunchAnim(EPlayerAnim.BLINKING);
-        player.transform.position = player.transform.position + player.CurrentDirection * speed;
-        End();
-        
-    }
+        Vector3 startSize = player.VisualPart.localScale;
+        Vector3 newPosition = player.transform.position + player.CurrentDirection * speed;
 
-    public override void End()
-    {
-        //particles.Stop();
-
-        if (BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT))
+        currentSequence = DOTween.Sequence();
+        currentSequence.AppendCallback(() =>
         {
-            BeatManager.Instance.ValidateLastBeat(BeatManager.TypeBeat.BEAT);
-        }
+            currentCooldown = cooldown;
+            player.Status.StartBlink();
+            if (BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT))
+            {
+                BeatManager.Instance.ValidateLastBeat(BeatManager.TypeBeat.BEAT);
+            }
+            else
+            {
+                player.Health.ModifyPulseValue(pulseCost);
+            }
+            soundBlink.Post(player.gameObject);
+        });
+        currentSequence.Append(player.VisualPart.DOScale(Vector3.zero, 0.05f));
+        currentSequence.Append(player.transform.DOMove(newPosition, 0.2f));
+        currentSequence.Append(player.VisualPart.DOScale(startSize, 0.05f));
+        currentSequence.AppendCallback(() =>
+        {
+            player.Status.StopBlink();
+        });
+        currentSequence.Play();
     }
 }

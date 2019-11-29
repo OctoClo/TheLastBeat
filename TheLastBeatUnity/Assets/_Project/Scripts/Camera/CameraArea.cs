@@ -6,13 +6,13 @@ using Cinemachine;
 public class CameraArea : MonoBehaviour
 {
     [SerializeField]
-    string triggerEnter;
+    string triggerEnter = "";
 
     [SerializeField]
-    string triggerAtTag;
+    string triggerAtTag = "";
 
     [SerializeField]
-    string triggerExit;
+    string triggerExit = "";
 
     void OnTriggerEnter(Collider collid)
     {

@@ -194,13 +194,8 @@ public class AkPluginActivator
 
 			case UnityEditor.BuildTarget.tvOS:
 				return "tvOS";
-
-			case UnityEditor.BuildTarget.StandaloneLinux:
-				UnityEngine.Debug.LogError("WwiseUnity: The Linux Wwise Unity integration does not support the 32 bits architecture");
-				return "Linux";
 				
 			case UnityEditor.BuildTarget.StandaloneLinux64:
-			case UnityEditor.BuildTarget.StandaloneLinuxUniversal:
 				return "Linux";
 
 #if UNITY_2017_3_OR_NEWER
@@ -385,15 +380,11 @@ public class AkPluginActivator
 
 					if (pluginArch == "x86")
 					{
-						pluginImporter.SetPlatformData(UnityEditor.BuildTarget.StandaloneLinux, "CPU", "x86");
 						pluginImporter.SetPlatformData(UnityEditor.BuildTarget.StandaloneLinux64, "CPU", "None");
-						pluginImporter.SetPlatformData(UnityEditor.BuildTarget.StandaloneLinuxUniversal, "CPU", "x86");
 					}
 					else if (pluginArch == "x86_64")
 					{
-						pluginImporter.SetPlatformData(UnityEditor.BuildTarget.StandaloneLinux, "CPU", "None");
 						pluginImporter.SetPlatformData(UnityEditor.BuildTarget.StandaloneLinux64, "CPU", "x86_64");
-						pluginImporter.SetPlatformData(UnityEditor.BuildTarget.StandaloneLinuxUniversal, "CPU", "x86_64");
 					}
 					else
 					{
@@ -414,9 +405,7 @@ public class AkPluginActivator
 
 				case "Mac":
 					pluginConfig = splitPath[5];
-					pluginImporter.SetPlatformData(UnityEditor.BuildTarget.StandaloneLinux, "CPU", "None");
 					pluginImporter.SetPlatformData(UnityEditor.BuildTarget.StandaloneLinux64, "CPU", "None");
-					pluginImporter.SetPlatformData(UnityEditor.BuildTarget.StandaloneLinuxUniversal, "CPU", "None");
 
 #if UNITY_2017_3_OR_NEWER
 					pluginImporter.SetPlatformData(UnityEditor.BuildTarget.StandaloneOSX, "CPU", "AnyCPU");
@@ -473,9 +462,7 @@ public class AkPluginActivator
 						continue;
 					}
 
-					pluginImporter.SetPlatformData(UnityEditor.BuildTarget.StandaloneLinux, "CPU", "None");
 					pluginImporter.SetPlatformData(UnityEditor.BuildTarget.StandaloneLinux64, "CPU", "None");
-					pluginImporter.SetPlatformData(UnityEditor.BuildTarget.StandaloneLinuxUniversal, "CPU", "None");
 #if UNITY_2017_3_OR_NEWER
 					pluginImporter.SetPlatformData(UnityEditor.BuildTarget.StandaloneOSX, "CPU", "None");
 #else
