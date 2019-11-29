@@ -38,13 +38,20 @@ public class Player : Inputable
     public Health Health => healthSystem;
 
     [SerializeField]
-    Transform model = null;
-    public Transform Model => model;
+    Transform visualPart = null;
+    public Transform VisualPart => visualPart;
 
     Dictionary<EInputAction, Ability> abilities = new Dictionary<EInputAction, Ability>();
+    IReadOnlyDictionary<EInputAction, Ability> Abilities => abilities;
+
     [HideInInspector]
     public FocusZone FocusZone = null;
-    Enemy currentTarget = null;
+
+    [SerializeField]
+    BeatManager beatManager = null;
+    public BeatManager BeatManager => beatManager;
+
+    public Enemy CurrentTarget { get; private set; }
 
     bool CheckPositive(float value) { return value > 0; }
 
@@ -76,11 +83,11 @@ public class Player : Inputable
         Anim.SetMovement(direction);
 
         // Look at
-        currentTarget = FocusZone.GetCurrentTarget();
+        CurrentTarget = FocusZone.GetCurrentTarget();
         Vector3 lookVector;
-        if (currentTarget)
+        if (CurrentTarget)
         {
-            lookVector = new Vector3(currentTarget.transform.position.x, transform.position.y, currentTarget.transform.position.z) - transform.position;
+            lookVector = new Vector3(CurrentTarget.transform.position.x, transform.position.y, CurrentTarget.transform.position.z) - transform.position;
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(lookVector), maxRotationPerFrame);
         }
         else if (direction != Vector3.zero)

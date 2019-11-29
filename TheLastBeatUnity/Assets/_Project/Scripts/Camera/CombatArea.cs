@@ -8,7 +8,7 @@ using DG.Tweening;
 public class CombatArea : MonoBehaviour
 {
     [SerializeField]
-    CinemachineTargetGroup groupTarget;
+    CinemachineTargetGroup groupTarget = null;
 
     [SerializeField]
     float maxWeight = 0;
@@ -45,7 +45,6 @@ public class CombatArea : MonoBehaviour
                 runningSequences[coll.transform] = null;
             }
             Sequence seq = DOTween.Sequence();
-            seq.AppendInterval(waitTime);
             seq.AppendCallback(() => groupTarget.AddMember(coll.transform, 0, 8));
             seq.Append(DOTween.To(() => GetWeight(coll.transform, 0), x => SetWeight(x, coll.transform), maxWeight, timeTransition));
             seq.Play();
@@ -63,7 +62,6 @@ public class CombatArea : MonoBehaviour
                 runningSequences[coll.transform] = null;
             }
             Sequence seq = DOTween.Sequence();
-            seq.AppendInterval(waitTime);
             seq.Append(DOTween.To(() => GetWeight(coll.transform, maxWeight), x => SetWeight(x, coll.transform), 0, timeTransition));
             seq.AppendCallback(() => runningSequences.Remove(coll.transform));
             seq.AppendCallback(() => groupTarget.RemoveMember(coll.transform));
