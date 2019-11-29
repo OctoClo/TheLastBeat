@@ -5,6 +5,7 @@ using Rewired;
 using Sirenix.OdinInspector;
 using DG.Tweening;
 using System;
+using UnityEngine.SceneManagement;
 
 public class Player : Inputable
 {
@@ -52,8 +53,6 @@ public class Player : Inputable
     public BeatManager BeatManager => beatManager;
 
     public Enemy CurrentTarget { get; private set; }
-
-    bool CheckPositive(float value) { return value > 0; }
 
     private void Start()
     {
@@ -118,10 +117,21 @@ public class Player : Inputable
         }
     }
 
+    public void Die()
+    {
+        blockInput = true;
+        SceneHelper.Instance.StartFade(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name), 3, Color.black);
+    }
+
     private void Update()
     {
         foreach (KeyValuePair<EInputAction, Ability> abilityPair in abilities)
             abilityPair.Value.Update(Time.deltaTime);
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            Die();
+        }
     }
 
     public Enemy GetCurrentTarget()
