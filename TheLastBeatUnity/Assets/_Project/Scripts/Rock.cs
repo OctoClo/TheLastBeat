@@ -6,16 +6,16 @@ using DG.Tweening;
 public class Rock : Beatable
 {
     [SerializeField]
-    Light light;
+    AnimationCurve curve;
 
     [SerializeField]
-    AnimationCurve curveIn;
+    Color color;
 
-    [SerializeField]
-    AnimationCurve curveOut;
+    Sequence currentSequence;
 
     public override void Beat()
     {
-        
+        currentSequence = DOTween.Sequence();
+        currentSequence.Play();
     }
 }
