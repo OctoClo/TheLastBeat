@@ -1936,12 +1936,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!4 &211526432 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4277489674016218518, guid: 07801b51c158daf499d145da957e6459,
-    type: 3}
-  m_PrefabInstance: {fileID: 911424942}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &222881433
 GameObject:
   m_ObjectHideFlags: 0
@@ -7159,89 +7153,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
         type: 3}
-      propertyPath: health
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
-        type: 3}
-      propertyPath: cameraEffect
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
-        type: 3}
       propertyPath: healthSystem
       value: 
       objectReference: {fileID: 575511352}
     - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
         type: 3}
-      propertyPath: rushParameters.PulsationCost
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
-        type: 3}
-      propertyPath: rushRewindParameters.PulsationCost
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
-        type: 3}
-      propertyPath: rushRewindParameters.chainEnnemy
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
-        type: 3}
-      propertyPath: blinkParameters.BlinkParticles
-      value: 
-      objectReference: {fileID: 911424944}
-    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
-        type: 3}
-      propertyPath: blinkParameters.BlinkSpeed
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
-        type: 3}
-      propertyPath: rushRewindParameters.delayBeforeEnd
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
-        type: 3}
-      propertyPath: visualRepr
-      value: 
-      objectReference: {fileID: 211526432}
-    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
-        type: 3}
-      propertyPath: visualPart
-      value: 
-      objectReference: {fileID: 911424945}
-    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
-        type: 3}
       propertyPath: beatManager
       value: 
       objectReference: {fileID: 1858208005}
-    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
-        type: 3}
-      propertyPath: blinkParameters.Cooldown
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
-        type: 3}
-      propertyPath: rushParameters.Cooldown
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
-        type: 3}
-      propertyPath: rushRewindParameters.Cooldown
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
-        type: 3}
-      propertyPath: rushRewindParameters.Duration
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
-        type: 3}
-      propertyPath: rushParameters.RushDuration
-      value: 0.2
-      objectReference: {fileID: 0}
     - target: {fileID: 3489716977114045590, guid: 07801b51c158daf499d145da957e6459,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7306,18 +7225,6 @@ PrefabInstance:
 --- !u!4 &911424943 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3489716977114045590, guid: 07801b51c158daf499d145da957e6459,
-    type: 3}
-  m_PrefabInstance: {fileID: 911424942}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &911424944 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 7874518215433590455, guid: 07801b51c158daf499d145da957e6459,
-    type: 3}
-  m_PrefabInstance: {fileID: 911424942}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &911424945 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2086426542783193144, guid: 07801b51c158daf499d145da957e6459,
     type: 3}
   m_PrefabInstance: {fileID: 911424942}
   m_PrefabAsset: {fileID: 0}
@@ -9826,7 +9733,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1226111959}
   m_LocalRotation: {x: 0.14789571, y: -0, z: -0, w: 0.989003}
-  m_LocalPosition: {x: -18.4, y: 18.411997, z: -82.91675}
+  m_LocalPosition: {x: -18.4, y: 17.129631, z: -78.72494}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 742687188}
@@ -14704,7 +14611,7 @@ MonoBehaviour:
   m_ZDamping: 0
   m_ScreenX: 0.5
   m_ScreenY: 0.5
-  m_CameraDistance: 67.28
+  m_CameraDistance: 62.896423
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
   m_DeadZoneDepth: 0
@@ -15711,7 +15618,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1836562120}
   m_LocalRotation: {x: 0.14789571, y: 0, z: 0, w: 0.989003}
-  m_LocalPosition: {x: -7.641016, y: 15.020926, z: -85.33061}
+  m_LocalPosition: {x: -7.641016, y: 13.738561, z: -81.138794}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1702200850}
@@ -16947,7 +16854,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1967696348}
   m_LocalRotation: {x: 0.021465935, y: 0, z: 0, w: 0.99976957}
-  m_LocalPosition: {x: -7.641016, y: -2.1790721, z: -78.76639}
+  m_LocalPosition: {x: -7.641016, y: -2.179334, z: -78.760284}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1773821540}
