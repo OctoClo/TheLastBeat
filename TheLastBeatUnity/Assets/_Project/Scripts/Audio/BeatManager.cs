@@ -126,4 +126,10 @@ public class BeatManager : MonoBehaviour
     {
         isPausing = e.pause;
     }
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+        OnBeatTriggered = null;
+    }
 }

@@ -25,6 +25,8 @@ public class SoundManager : MonoBehaviour
 
     void SyncReference(object in_cookie, AkCallbackType in_type, object in_info)
     {
+        if (bm == null) return;
+
         AkMusicSyncCallbackInfo musicInfo = in_info as AkMusicSyncCallbackInfo;
         switch (in_type)
         {
