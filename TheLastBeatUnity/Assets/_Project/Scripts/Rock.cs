@@ -5,21 +5,17 @@ using DG.Tweening;
 
 public class Rock : Beatable
 {
-    Vector3 scale;
+    [SerializeField]
+    Light light;
 
     [SerializeField]
-    float coeff = 0;
+    AnimationCurve curveIn;
 
-    private void Start()
-    {
-        scale = transform.localScale;
-    }
+    [SerializeField]
+    AnimationCurve curveOut;
 
     public override void Beat()
     {
-        Sequence seq = DOTween.Sequence();
-        seq.Append(transform.DOScale(coeff, SequenceDuration));
-        seq.Append(transform.DOScale(1, SequenceDuration));
-        seq.Play();
+        
     }
 }
