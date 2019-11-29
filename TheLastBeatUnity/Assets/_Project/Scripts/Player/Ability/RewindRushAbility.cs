@@ -49,7 +49,6 @@ public class RewindRushAbility : Ability
         base.Update(deltaTime);
         if (chainedEnemies.Count > 0 && !player.Status.Dashing && currentCooldown == 0)
         {
-            currentCooldown = cooldown;
             rushChainTimer -= Time.deltaTime;
 
             if (rushChainTimer < 0)

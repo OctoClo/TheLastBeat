@@ -61,7 +61,6 @@ public class BlinkAbility : Ability
             player.Status.StartBlink();
             if (BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT))
             {
-                Debug.Log("gratuit");
                 BeatManager.Instance.ValidateLastBeat(BeatManager.TypeBeat.BEAT);
             }
             else

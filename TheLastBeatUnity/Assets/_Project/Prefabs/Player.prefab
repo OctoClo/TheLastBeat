@@ -338,7 +338,7 @@ MonoBehaviour:
     AttachedPlayer: {fileID: 0}
     Speed: 20
     PulseCost: 4
-    Cooldown: 5
+    Cooldown: 0
     Particles: {fileID: 7874518215433590455}
     Sound:
       idInternal: 0
@@ -347,7 +347,7 @@ MonoBehaviour:
         type: 2}
   rushParameters:
     AttachedPlayer: {fileID: 0}
-    RushDuration: 0.5
+    RushDuration: 0.2
     PulseCost: 5
     OnBeatSound:
       idInternal: 0
@@ -359,10 +359,10 @@ MonoBehaviour:
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 4a18d2dc5f5984f409d9ea8765209507,
         type: 2}
-    Cooldown: 5
+    Cooldown: 0.5
   rushRewindParameters:
     AttachedPlayer: {fileID: 0}
-    Duration: 2
+    Duration: 0.2
     PulseCost: 5
     Cooldown: 5
     MaxTimeBeforeResetMarks: 3
@@ -383,7 +383,7 @@ MonoBehaviour:
   Anim: {fileID: 0}
   ColliderObject: {fileID: 0}
   healthSystem: {fileID: 0}
-  visualPart: {fileID: 0}
+  visualPart: {fileID: 2086426542783193144}
   FocusZone: {fileID: 0}
   beatManager: {fileID: 0}
 --- !u!114 &75586183539498471
