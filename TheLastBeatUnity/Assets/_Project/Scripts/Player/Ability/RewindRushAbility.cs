@@ -8,7 +8,7 @@ public class RewindRushParameters : AbilityParams
 {
     public float Duration = 0;
     public float PulseCost = 0;
-    public int BeatCooldown = 0;
+    public float Cooldown = 0;
     public float MaxTimeBeforeResetMarks = 0;
     public AK.Wwise.State RewindState = null;
     public AK.Wwise.State NormalState = null;
@@ -18,8 +18,8 @@ public class RewindRushAbility : Ability
 {
     float duration = 0;
     float pulseCost = 0;
-    int cooldown = 0;
-    int currentCooldown = 0;
+    float cooldown = 0;
+    float currentCooldown = 0;
 
     List<Enemy> chainedEnemies = new List<Enemy>();
     float maxTimeBeforeResetMarks = 0;
@@ -35,18 +35,7 @@ public class RewindRushAbility : Ability
         maxTimeBeforeResetMarks = rrp.MaxTimeBeforeResetMarks;
         rewindState = rrp.RewindState;
         normalState = rrp.NormalState;
-        cooldown = rrp.BeatCooldown;
-
-        if (player.BeatManager)
-            player.BeatManager.OnBeatTriggered += OnBeat;
-    }
-
-    public void OnBeat(BeatManager.TypeBeat tb)
-    {
-        if (tb == BeatManager.TypeBeat.BEAT && currentCooldown > 0)
-        {
-            currentCooldown--;
-        }
+        cooldown = rrp.Cooldown;
     }
 
     public override void Launch()
@@ -58,12 +47,18 @@ public class RewindRushAbility : Ability
     public override void Update(float deltaTime)
     {
         base.Update(deltaTime);
-        if (chainedEnemies.Count > 0 && !player.Status.Dashing)
+        if (chainedEnemies.Count > 0 && !player.Status.Dashing && currentCooldown == 0)
         {
+            currentCooldown = cooldown;
             rushChainTimer -= Time.deltaTime;
 
             if (rushChainTimer < 0)
                 chainedEnemies.Clear();
+        }
+
+        if (currentCooldown > 0)
+        {
+            currentCooldown = Mathf.Max(currentCooldown - deltaTime, 0.0f);
         }
     }
 
@@ -81,8 +76,16 @@ public class RewindRushAbility : Ability
         player.FocusZone.overrideControl = true;
         player.ColliderObject.layer = LayerMask.NameToLayer("Player Dashing");
 
+        if (BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT))
+        {
+            BeatManager.Instance.ValidateLastBeat(BeatManager.TypeBeat.BEAT);
+        }
+        else
+        {
+            player.Health.ModifyPulseValue(pulseCost);
+        }
+
         Sequence seq = DOTween.Sequence();
-        seq.AppendCallback(() => player.Health.ModifyPulseValue(pulseCost));
         Vector3 direction;
         Vector3 goalPosition = player.transform.position;
 

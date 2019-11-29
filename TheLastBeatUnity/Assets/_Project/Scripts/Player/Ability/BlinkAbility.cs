@@ -8,7 +8,7 @@ public class BlinkParams : AbilityParams
 {
     public float Speed = 0;
     public float PulseCost = 0;
-    public int BeatCooldown = 0;
+    public float Cooldown = 0;
     public ParticleSystem Particles = null;
     public AK.Wwise.Event Sound = null;
 }
@@ -18,8 +18,8 @@ public class BlinkAbility : Ability
     float speed = 5;
     float pulseCost = 0;
 
-    int currentCooldown = 0;
-    int cooldownBeat = 0;
+    float currentCooldown = 0;
+    float cooldown = 0;
 
     ParticleSystem particles = null;
     AK.Wwise.Event soundBlink = null;
@@ -32,17 +32,7 @@ public class BlinkAbility : Ability
         particles = bp.Particles;
         pulseCost = bp.PulseCost;
         soundBlink = bp.Sound;
-        cooldownBeat = bp.BeatCooldown;
-        if (player.BeatManager)
-            player.BeatManager.OnBeatTriggered += OnBeat;
-    }
-
-    public void OnBeat(BeatManager.TypeBeat tb)
-    {
-        if (tb == BeatManager.TypeBeat.BEAT && currentCooldown > 0)
-        {
-            currentCooldown--;
-        }
+        cooldown = bp.Cooldown;
     }
 
     public override void Launch()
@@ -51,38 +41,42 @@ public class BlinkAbility : Ability
             Blink();
     }
 
+    public override void Update(float deltaTime)
+    {
+        if (currentCooldown > 0)
+        {
+            currentCooldown = Mathf.Max(0, currentCooldown - deltaTime);
+        }
+    }
+
     private void Blink()
     {
-        Vector3 startSize = player.Model.localScale;
+        Vector3 startSize = player.VisualPart.localScale;
         Vector3 newPosition = player.transform.position + player.CurrentDirection * speed;
 
         currentSequence = DOTween.Sequence();
         currentSequence.AppendCallback(() =>
         {
-            currentCooldown = cooldownBeat;
+            currentCooldown = cooldown;
             player.Status.StartBlink();
             if (BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT))
             {
+                Debug.Log("gratuit");
                 BeatManager.Instance.ValidateLastBeat(BeatManager.TypeBeat.BEAT);
             }
-            player.Health.ModifyPulseValue(pulseCost);
+            else
+            {
+                player.Health.ModifyPulseValue(pulseCost);
+            }
             soundBlink.Post(player.gameObject);
         });
-        currentSequence.Append(player.Model.DOScale(Vector3.zero, 0.05f));
+        currentSequence.Append(player.VisualPart.DOScale(Vector3.zero, 0.05f));
         currentSequence.Append(player.transform.DOMove(newPosition, 0.2f));
-        currentSequence.Append(player.Model.DOScale(startSize, 0.05f));
+        currentSequence.Append(player.VisualPart.DOScale(startSize, 0.05f));
         currentSequence.AppendCallback(() =>
         {
             player.Status.StopBlink();
         });
         currentSequence.Play();
-    }
-
-    public override void End()
-    {
-        if (BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT))
-        {
-            BeatManager.Instance.ValidateLastBeat(BeatManager.TypeBeat.BEAT);
-        }
     }
 }

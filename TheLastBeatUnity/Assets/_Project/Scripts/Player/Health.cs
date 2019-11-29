@@ -193,14 +193,6 @@ public class Health : Beatable
         }
     }
 
-    public override void MissedBeat()
-    {
-        if (IsBerserkZone && dieAtMissInputBerserk)
-        {
-            Die();
-        }
-    }
-
     void OnZoneChanged(PulseZone previous)
     {
         if (!CurrentZone)

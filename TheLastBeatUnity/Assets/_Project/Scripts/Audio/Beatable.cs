@@ -12,8 +12,6 @@ public abstract class Beatable : MonoBehaviour
     bool pause;
 
     public abstract void Beat();
-    public virtual void ValidateBeat() { }
-    public virtual void MissedBeat() { }
 
     private void OnEnable()
     {

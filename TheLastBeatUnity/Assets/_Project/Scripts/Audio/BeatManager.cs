@@ -29,7 +29,7 @@ public class BeatManager : MonoBehaviour
     public event beatParams OnBeatTriggered;
 
     //Used to identify
-    int countBeat = 0;
+    int currentBeat = 0;
     int lastBeatValidated = 0;
     bool isPausing = false;
 
@@ -44,14 +44,14 @@ public class BeatManager : MonoBehaviour
     {
         if (layer == TypeBeat.BAR)
         {
-            if (sampleTime - LastBar.lastTimeBeat > 0 && sampleTime - LastBar.lastTimeBeat < tolerance && countBeat > lastBeatValidated)
+            if (sampleTime - LastBar.lastTimeBeat > 0 && sampleTime - LastBar.lastTimeBeat < tolerance && currentBeat > lastBeatValidated)
             {
                 return true;
             }
 
             float nextBeat = LastBar.lastTimeBeat + LastBar.beatInterval;
             //A bit early
-            if (sampleTime - nextBeat < 0 && sampleTime - nextBeat > -tolerance && countBeat + 1 > lastBeatValidated)
+            if (sampleTime - nextBeat < 0 && sampleTime - nextBeat > -tolerance && currentBeat + 1 > lastBeatValidated)
             {
                 return true;
             }
@@ -59,17 +59,17 @@ public class BeatManager : MonoBehaviour
         else
         {
             //A bit late
-            if (sampleTime - LastBeat.lastTimeBeat > 0 && sampleTime - LastBeat.lastTimeBeat < tolerance && countBeat > lastBeatValidated)
+            if (sampleTime - LastBeat.lastTimeBeat > 0 && sampleTime - LastBeat.lastTimeBeat < tolerance && currentBeat > lastBeatValidated)
             {
-                lastBeatValidated = countBeat;
+                lastBeatValidated = currentBeat;
                 return true;
             }
 
             float nextBeat = LastBeat.lastTimeBeat + LastBeat.beatInterval;
             //A bit early
-            if (sampleTime - nextBeat < 0 && sampleTime - nextBeat > -tolerance && countBeat + 1 > lastBeatValidated)
+            if (sampleTime - nextBeat < 0 && sampleTime - nextBeat > -tolerance && currentBeat + 1 > lastBeatValidated)
             {
-                lastBeatValidated = countBeat + 1;
+                lastBeatValidated = currentBeat + 1;
                 return true;
             }
         }
@@ -77,14 +77,9 @@ public class BeatManager : MonoBehaviour
         return false;
     }
 
-    //One made the action in the right time , flag it as validated
     public void ValidateLastBeat(TypeBeat tb)
     {
         StopAllCoroutines();
-        foreach (Beatable beat in (tb == TypeBeat.BAR ? Bar : Beats))
-        {
-            beat.ValidateBeat();
-        }
     }
 
     public void BeatAll(float timeBetweenBeat, TypeBeat tb)
@@ -99,11 +94,10 @@ public class BeatManager : MonoBehaviour
             LastBar = bd;
         else
         {
-            countBeat++;
+            currentBeat++;
             LastBeat = bd;
         }
 
-        StartCoroutine(BeatCoundown(tb));
         StartCoroutine(DelayedBeat(tb));      
     }
 
@@ -115,19 +109,7 @@ public class BeatManager : MonoBehaviour
             beat.Beat();
         }
 
-        if (OnBeatTriggered != null)
-        {
-            OnBeatTriggered(tb);
-        }
-    }
-
-    IEnumerator BeatCoundown(TypeBeat tb)
-    {
-        yield return new WaitForSeconds(tolerance);
-        foreach (Beatable beat in (tb == TypeBeat.BAR ? Bar : Beats))
-        {
-            beat.MissedBeat();
-        }        
+        OnBeatTriggered?.Invoke(tb);
     }
 
     private void OnEnable()
