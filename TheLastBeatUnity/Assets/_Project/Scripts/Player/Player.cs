@@ -9,10 +9,14 @@ using UnityEngine.SceneManagement;
 
 public class Player : Inputable
 {
-    [TabGroup("Movement")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
+    [TabGroup("Movement")] [SerializeField]
     float speed = 7.5f;
-    [TabGroup("Movement")] [SerializeField] [ValidateInput("CheckPositive", "This value must be > 0")]
+    [TabGroup("Movement")] [SerializeField]
     float maxRotationPerFrame = 30;
+
+    [TabGroup("Movement")] [SerializeField]
+    Transform groundRotationReference;
+
     public Vector3 CurrentDirection { get; set; }
 
     //If you are doing something (dash , attack animation, etc...) or if game paused, temporary block input
@@ -119,7 +123,26 @@ public class Player : Inputable
 
     public void Die()
     {
+        DOTween.KillAll();
         blockInput = true;
+        StartCoroutine(DieCoroutine());
+    }
+
+    IEnumerator DieCoroutine()
+    {
+        float objective = 90;
+        float duration = 0.5f;
+        float cursor = 0;
+        Anim.SetMovement(Vector3.zero);
+
+        while (cursor < objective)
+        {
+            float tempValue = (objective * Time.deltaTime / duration);
+            cursor += tempValue;
+            transform.Rotate(Vector3.right * tempValue, Space.Self);
+            yield return null;
+        }
+
         SceneHelper.Instance.StartFade(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name), 3, Color.black);
     }
 
@@ -129,9 +152,7 @@ public class Player : Inputable
             abilityPair.Value.Update(Time.deltaTime);
 
         if (Input.GetKeyDown(KeyCode.K))
-        {
             Die();
-        }
     }
 
     public Enemy GetCurrentTarget()

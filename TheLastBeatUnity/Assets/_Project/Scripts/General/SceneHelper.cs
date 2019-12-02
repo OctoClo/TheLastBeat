@@ -32,4 +32,9 @@ public class SceneHelper : MonoBehaviour
     {
         DOTween.KillAll();
     }
+
+    public Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, Vector3 angles)
+    {
+        return Quaternion.Euler(angles) * (point - pivot) + pivot;
+    }
 }

@@ -66,6 +66,10 @@ public class BlinkAbility : Ability
             else
             {
                 player.Health.ModifyPulseValue(pulseCost);
+                if (player.Health.InBerserkZone)
+                {
+                    player.Die();
+                }
             }
             soundBlink.Post(player.gameObject);
         });

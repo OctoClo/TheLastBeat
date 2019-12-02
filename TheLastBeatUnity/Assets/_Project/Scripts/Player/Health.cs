@@ -129,7 +129,7 @@ public class Health : Beatable
     }
 
     PulseZone CurrentZone => Sample(currentPulse);
-    bool IsBerserkZone => CurrentZone == allZones[allZones.Count - 1];
+    public bool InBerserkZone => CurrentZone == allZones[allZones.Count - 1];
     float ratioPulse = 0;
     Color colorDuringBerserk;
 
@@ -140,7 +140,7 @@ public class Health : Beatable
 
     public void BeatSequence()
     {
-        if (!CurrentZone || IsBerserkZone)
+        if (!CurrentZone || InBerserkZone)
             return;
 
         seq = DOTween.Sequence();
@@ -174,7 +174,7 @@ public class Health : Beatable
             OnZoneChanged(previousZone);
         }
 
-        if (IsBerserkZone && countAsAction)
+        if (InBerserkZone && countAsAction)
         {
             //Not in rythm
             if (BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime() , BeatManager.TypeBeat.BEAT))
@@ -208,7 +208,7 @@ public class Health : Beatable
         }
 
         //Entered berserk mode
-        if (IsBerserkZone)
+        if (InBerserkZone)
         {
             healthBackgroundRect.DOScale(temporarySize * CurrentZone.ScaleModifier, 0.1f);
             colorDuringBerserk = CurrentZone.colorRepr;
