@@ -10,15 +10,8 @@ public abstract class Beatable : MonoBehaviour
     public float SequenceDuration => sequenceDuration;
 
     bool pause;
-    Coroutine beatCoroutine;
 
     public abstract void Beat();
-
-    public void BeatDelayed(float timeBetweenBeat)
-    {
-        if (!pause)
-            beatCoroutine = StartCoroutine(CoroutineBeat(timeBetweenBeat));
-    }
 
     private void OnEnable()
     {
@@ -33,14 +26,5 @@ public abstract class Beatable : MonoBehaviour
     private void OnPauseEvent(PauseEvent e)
     {
         pause = e.pause;
-
-        if (pause)
-            StopCoroutine(beatCoroutine);
-    }
-
-    IEnumerator CoroutineBeat(float delayBeat)
-    {
-        yield return new WaitForSeconds(delayBeat - (SequenceDuration / 2));
-        Beat();
     }
 }

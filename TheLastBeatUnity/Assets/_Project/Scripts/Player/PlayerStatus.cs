@@ -12,6 +12,7 @@ public class PlayerStatus : MonoBehaviour
     [TabGroup("Status")]
     bool dashing => Dashing;
     public bool Dashing { get; private set; }
+    public bool Blinking { get; private set; }
 
     [TabGroup("Stun")] [SerializeField]
     float stunDuration = 0.5f;
@@ -19,25 +20,29 @@ public class PlayerStatus : MonoBehaviour
     [TabGroup("Stun")] [SerializeField]
     Color stunColor = Color.blue;
     Color normalColor = Color.white;
-
-    Material material = null;
-
-    private void Start()
-    {
-        material = GetComponent<MeshRenderer>().material;
-        normalColor = material.color;
-    }
+    [TabGroup("Stun")] [SerializeField]
+    AK.Wwise.Event stunMusicSXF = null;
 
     public void Stun()
     {
         Stunned = true;
-        material.color = stunColor;
+        stunMusicSXF.Post(gameObject);
         stunTimer = stunDuration;
     }
 
     public void StartDashing()
     {
         Dashing = true;
+    }
+
+    public void StartBlink()
+    {
+        Blinking = true;
+    }
+
+    public void StopBlink()
+    {
+        Blinking = false;
     }
 
     public void StopDashing()
@@ -54,7 +59,6 @@ public class PlayerStatus : MonoBehaviour
             if (stunTimer <= 0)
             {
                 Stunned = false;
-                material.color = normalColor;
             }
         }
     }
