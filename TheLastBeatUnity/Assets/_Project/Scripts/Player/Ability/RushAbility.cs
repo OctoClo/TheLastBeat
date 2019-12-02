@@ -64,6 +64,11 @@ public class RushAbility : Ability
         {
             soundOffBeat.Post(player.gameObject);
             player.Health.ModifyPulseValue(pulseCost);
+
+            if (player.Health.InBerserkZone)
+            {
+                player.Die();
+            }
         }
 
         currentCooldown = cooldown;

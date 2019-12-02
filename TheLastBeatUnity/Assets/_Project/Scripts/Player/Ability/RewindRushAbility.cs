@@ -82,6 +82,10 @@ public class RewindRushAbility : Ability
         else
         {
             player.Health.ModifyPulseValue(pulseCost);
+            if (player.Health.InBerserkZone)
+            {
+                player.Die();
+            }
         }
 
         Sequence seq = DOTween.Sequence();
