@@ -39,9 +39,10 @@ namespace AK
 
             namespace STATE
             {
-                static const AkUniqueID CALM = 3753286132U;
-                static const AkUniqueID EXPLO = 3814499265U;
-                static const AkUniqueID LIMIT = 2523672974U;
+                static const AkUniqueID COMBAT_CALM = 2894236345U;
+                static const AkUniqueID COMBAT_LIMIT = 2902872313U;
+                static const AkUniqueID EXPLO_CALM = 314074733U;
+                static const AkUniqueID EXPLO_RHYTM = 1899308558U;
             } // namespace STATE
         } // namespace MUSICSWITCH
 
