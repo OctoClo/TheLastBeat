@@ -14,6 +14,9 @@ public class SoundManager : MonoBehaviour
     AK.Wwise.State musStateStart = null;
 
     [SerializeField]
+    AK.Wwise.Event stopEvent;
+
+    [SerializeField]
     BeatManager bm = null;
 
     void Start()
@@ -49,6 +52,11 @@ public class SoundManager : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    private void OnDestroy()
+    {
+        stopEvent.Post(gameObject);
     }
 
 }

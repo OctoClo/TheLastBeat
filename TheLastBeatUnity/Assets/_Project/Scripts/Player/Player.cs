@@ -138,7 +138,6 @@ public class Player : Inputable
         while (cursor < objective)
         {
             float tempValue = (objective * Time.deltaTime / duration);
-            Debug.Log(cursor);
             cursor += tempValue;
             transform.Rotate(Vector3.right * tempValue, Space.Self);
             yield return null;
