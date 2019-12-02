@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 53f38f5348f7094493a66f9c8647d632
     GuidInternal: 
-    m_lastTime: -8586271766883788404
+    m_lastTime: -8586267444680909115
     List:
     - name: MFXRewindVerb
       guid: 82a1ed093669ee4f84717f8fd1429698
@@ -44,7 +44,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 00607f23f4bb1c4ba4ba719fd5871f3f
     GuidInternal: 
-    m_lastTime: -8586271766877156143
+    m_lastTime: -8586263259905806496
     List:
     - name: TheLastBank
       guid: ba44c042ce392242af9fd5c1beb6de48
@@ -60,7 +60,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 8758d50e9a0ca842a9ceccd260c5af42
     GuidInternal: 
-    m_lastTime: -8586271766883928031
+    m_lastTime: -8586263259964610451
     List:
     - name: Play_AmbDesert
       guid: 4385c76f7ea2514d8d08d372b433eb9f
@@ -226,6 +226,18 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: Stop_All
+      guid: 409572278565a7488d306c5160c2d643
+      id: 452547817
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Stop_All
+        ObjectType: 3
+      Path: Default Work Unit\Stop_All
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Stop_Amb
       guid: aa5cbde83aa17f45a352282eccff51d7
       id: 435770000
@@ -269,13 +281,13 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: f33de71626d113469ad3450a44be09c2
     GuidInternal: 
-    m_lastTime: -8586271766883938007
+    m_lastTime: -8586267444681138503
     List: []
   - PhysicalPath: Game Parameters\TheLastBeat.wwu
     ParentPhysicalPath: 
     guid: 0e2ba2ef49d7a9468a71f885a9d96179
     GuidInternal: 
-    m_lastTime: -8586271766883928031
+    m_lastTime: -8586267444681148483
     List:
     - name: CriticLevel
       guid: 87f33496c2dc294a8d7777c67f712f73
@@ -324,7 +336,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: f97624b2970aec4088365c8371d57a2e
     GuidInternal: 
-    m_lastTime: -8586271766877106274
+    m_lastTime: -8586267444675767650
     List:
     - name: MusicSwitch
       guid: cfa89c524c09c849b1e78caac8c6afb2
@@ -436,26 +448,26 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: c97f274d2e04f9479151d59a4293b701
     GuidInternal: 
-    m_lastTime: -8586271766877086327
+    m_lastTime: -8586267444675747705
     List: []
   - PhysicalPath: Switches\TheLastBeat.wwu
     ParentPhysicalPath: 
     guid: 3af7dc8d80519e43aa87a0e9a3e8afdb
     GuidInternal: 
-    m_lastTime: -8586271766877076355
+    m_lastTime: -8586267444675697828
     List: []
   TriggerWwu:
   - PhysicalPath: Triggers\Default Work Unit.wwu
     ParentPhysicalPath: 
     guid: ae2e44bc844a96409b3f2bc980076559
     GuidInternal: 
-    m_lastTime: -8586271766877036464
+    m_lastTime: -8586267444675647972
     List: []
   - PhysicalPath: Triggers\TheLastBeat.wwu
     ParentPhysicalPath: 
     guid: 1ac71c4bbb8fbe4aab71adce22d346fd
     GuidInternal: 
-    m_lastTime: -8586271766877016511
+    m_lastTime: -8586267444675647972
     List:
     - name: OnBeat
       guid: ffd3cb5f60b62441a39d20e0b0da27d8

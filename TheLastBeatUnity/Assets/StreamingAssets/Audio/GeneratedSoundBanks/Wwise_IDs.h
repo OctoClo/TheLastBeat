@@ -26,6 +26,7 @@ namespace AK
         static const AkUniqueID SETREWIND_LOOPB = 4276712659U;
         static const AkUniqueID SETREWIND_LOOPC = 4276712658U;
         static const AkUniqueID SLOMOMUSICFX = 996118318U;
+        static const AkUniqueID STOP_ALL = 452547817U;
         static const AkUniqueID STOP_AMB = 435770000U;
         static const AkUniqueID STOP_REWIND = 564679353U;
     } // namespace EVENTS
