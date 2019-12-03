@@ -4729,6 +4729,7 @@ MonoBehaviour:
   healthBackgroundRect: {fileID: 1881639238}
   currentPulse: 12
   colorChange: {fileID: 1881639240}
+  riftAnimation: {fileID: 4503622671163791453}
   inLimit:
     idInternal: 0
     valueGuidInternal: 
@@ -19009,11 +19010,33 @@ PrefabInstance:
       propertyPath: m_Name
       value: FlammeImage
       objectReference: {fileID: 0}
+    - target: {fileID: 1391686422100890679, guid: a8349b01b25f1614ea9c0f1631c84bb8,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e51331fda1302ca4a8529a9648f71fbd,
+        type: 3}
+    - target: {fileID: 1391686422100890679, guid: a8349b01b25f1614ea9c0f1631c84bb8,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1391686422100890679, guid: a8349b01b25f1614ea9c0f1631c84bb8,
+        type: 3}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a8349b01b25f1614ea9c0f1631c84bb8, type: 3}
 --- !u!224 &4503622671163791452 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3883799905682184486, guid: a8349b01b25f1614ea9c0f1631c84bb8,
+    type: 3}
+  m_PrefabInstance: {fileID: 4503622671163791451}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &4503622671163791453 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5435799166871086845, guid: a8349b01b25f1614ea9c0f1631c84bb8,
     type: 3}
   m_PrefabInstance: {fileID: 4503622671163791451}
   m_PrefabAsset: {fileID: 0}
