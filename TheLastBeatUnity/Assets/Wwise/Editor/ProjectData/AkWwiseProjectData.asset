@@ -17,7 +17,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 89a5a54c247e7f4ca0b1b045a68caa67
     GuidInternal: 
-    m_lastTime: -8586297625736583280
+    m_lastTime: -8586274333095446727
     List: []
   AuxBusWwu:
   - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
@@ -271,48 +271,6 @@ MonoBehaviour:
     GuidInternal: 
     m_lastTime: -8586271766883938007
     List: []
-  - PhysicalPath: Game Parameters\TheLastBeat.wwu
-    ParentPhysicalPath: 
-    guid: 0e2ba2ef49d7a9468a71f885a9d96179
-    GuidInternal: 
-    m_lastTime: -8586271766883928031
-    List:
-    - name: CriticLevel
-      guid: 87f33496c2dc294a8d7777c67f712f73
-      id: 887277441
-      PathAndIcons:
-      - ElementName: TheLastBeat
-        ObjectType: 12
-      - ElementName: CriticLevel
-        ObjectType: 13
-      Path: TheLastBeat\CriticLevel
-    - name: MusicCrusher
-      guid: 5d683a5f3806e94c9fe29471a79b243a
-      id: 3946755902
-      PathAndIcons:
-      - ElementName: TheLastBeat
-        ObjectType: 12
-      - ElementName: MusicCrusher
-        ObjectType: 13
-      Path: TheLastBeat\MusicCrusher
-    - name: MusicSlowMo
-      guid: 263d0783e83c6f4398acb9a0393994a2
-      id: 4098383957
-      PathAndIcons:
-      - ElementName: TheLastBeat
-        ObjectType: 12
-      - ElementName: MusicSlowMo
-        ObjectType: 13
-      Path: TheLastBeat\MusicSlowMo
-    - name: SyncDucking
-      guid: 4bee6aa48b02614998e75a7dcc105556
-      id: 4060985797
-      PathAndIcons:
-      - ElementName: TheLastBeat
-        ObjectType: 12
-      - ElementName: SyncDucking
-        ObjectType: 13
-      Path: TheLastBeat\SyncDucking
   StateWwu:
   - PhysicalPath: States\Default Work Unit.wwu
     ParentPhysicalPath: 
@@ -320,129 +278,12 @@ MonoBehaviour:
     GuidInternal: 
     m_lastTime: -8586273454327738878
     List: []
-  - PhysicalPath: States\TheLastBeat.wwu
-    ParentPhysicalPath: 
-    guid: f97624b2970aec4088365c8371d57a2e
-    GuidInternal: 
-    m_lastTime: -8586271766877106274
-    List:
-    - name: MusicSwitch
-      guid: cfa89c524c09c849b1e78caac8c6afb2
-      id: 1445037870
-      PathAndIcons:
-      - ElementName: TheLastBeat
-        ObjectType: 12
-      - ElementName: MusicSwitch
-        ObjectType: 9
-      Path: TheLastBeat\MusicSwitch
-      values:
-      - name: Calm
-        guid: 1315de352d8e944e9322ec89914ae87b
-        id: 3753286132
-        PathAndIcons:
-        - ElementName: Calm
-          ObjectType: 8
-      - name: Explo
-        guid: ae62f0c55322e54594316c61695afc7c
-        id: 3814499265
-        PathAndIcons:
-        - ElementName: Explo
-          ObjectType: 8
-      - name: Limit
-        guid: 1250f8a5470aec46980179f2a843d505
-        id: 2523672974
-        PathAndIcons:
-        - ElementName: Limit
-          ObjectType: 8
-      - name: None
-        guid: b8bd67f9fd53f14ca9be32222e84d807
-        id: 748895195
-        PathAndIcons:
-        - ElementName: None
-          ObjectType: 8
-      ValueGuids: []
-      ValueIcons: []
-      valuesInternal: []
-    - name: Rewind
-      guid: 7ee8c1577e4b7947839fefdbbd4510e8
-      id: 1673109572
-      PathAndIcons:
-      - ElementName: TheLastBeat
-        ObjectType: 12
-      - ElementName: Rewind
-        ObjectType: 9
-      Path: TheLastBeat\Rewind
-      values:
-      - name: None
-        guid: f4f04d6111b644458a7ca45b570a3e0b
-        id: 748895195
-        PathAndIcons:
-        - ElementName: None
-          ObjectType: 8
-      - name: Normal
-        guid: 86fe1233d1280947846e24f51cf5b8dd
-        id: 1160234136
-        PathAndIcons:
-        - ElementName: Normal
-          ObjectType: 8
-      - name: Rewind
-        guid: d4ea08054659974b85bc01228336570c
-        id: 1673109572
-        PathAndIcons:
-        - ElementName: Rewind
-          ObjectType: 8
-      ValueGuids: []
-      ValueIcons: []
-      valuesInternal: []
-    - name: RewindSwitch
-      guid: c07ecd409c1ea9409220e3c18b25b534
-      id: 1439182312
-      PathAndIcons:
-      - ElementName: TheLastBeat
-        ObjectType: 12
-      - ElementName: RewindSwitch
-        ObjectType: 9
-      Path: TheLastBeat\RewindSwitch
-      values:
-      - name: LoopA
-        guid: b4571515d19d124e9300ef175cf6c815
-        id: 225293556
-        PathAndIcons:
-        - ElementName: LoopA
-          ObjectType: 8
-      - name: LoopB
-        guid: 9066b40f65cfde49adcaa9e06c1a2f63
-        id: 225293559
-        PathAndIcons:
-        - ElementName: LoopB
-          ObjectType: 8
-      - name: LoopC
-        guid: deb5f8da8d01d949bf60ee11f839b852
-        id: 225293558
-        PathAndIcons:
-        - ElementName: LoopC
-          ObjectType: 8
-      - name: None
-        guid: dd1ac1a30c8a53409cdde609630991b4
-        id: 748895195
-        PathAndIcons:
-        - ElementName: None
-          ObjectType: 8
-      ValueGuids: []
-      ValueIcons: []
-      valuesInternal: []
   SwitchWwu:
   - PhysicalPath: Switches\Default Work Unit.wwu
     ParentPhysicalPath: 
     guid: c97f274d2e04f9479151d59a4293b701
     GuidInternal: 
     m_lastTime: -8586271766877086327
-    List: []
-  - PhysicalPath: Switches\TheLastBeat.wwu
-    ParentPhysicalPath: 
-    guid: 3af7dc8d80519e43aa87a0e9a3e8afdb
-    GuidInternal: 
-    m_lastTime: -8586271766877076355
     List: []
   TriggerWwu:
   - PhysicalPath: Triggers\Default Work Unit.wwu
@@ -451,24 +292,7 @@ MonoBehaviour:
     GuidInternal: 
     m_lastTime: -8586271766877036464
     List: []
-  - PhysicalPath: Triggers\TheLastBeat.wwu
-    ParentPhysicalPath: 
-    guid: 1ac71c4bbb8fbe4aab71adce22d346fd
-    GuidInternal: 
-    m_lastTime: -8586271766877016511
-    List:
-    - name: OnBeat
-      guid: ffd3cb5f60b62441a39d20e0b0da27d8
-      id: 1813808854
-      PathAndIcons:
-      - ElementName: TheLastBeat
-        ObjectType: 12
-      - ElementName: OnBeat
-        ObjectType: 14
-      Path: TheLastBeat\OnBeat
   ExpandedItems:
   - /TheLastBeatAudio
-  - /TheLastBeatAudio/Events
-  - /TheLastBeatAudio/Events/Default Work Unit
   autoPopulateEnabled: 1
   CurrentPluginConfig: 
