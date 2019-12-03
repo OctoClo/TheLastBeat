@@ -25,6 +25,9 @@ public class Health : Beatable
     Image colorChange = null;
 
     [SerializeField] [TabGroup("Visual")]
+    Animator riftAnimation = null;
+
+    [SerializeField] [TabGroup("Visual")]
     AK.Wwise.State inLimit = null;
 
     [SerializeField] [TabGroup("Visual")]
@@ -217,11 +220,25 @@ public class Health : Beatable
             berserkSeq.Append(DOTween.To(() => colorChange.color, x => colorChange.color = x, colorDuringBerserk, 0.1f));
             berserkSeq.SetLoops(-1);
             berserkSeq.Play();
+            riftAnimation.SetInteger("indexState", 3);
         }
 
         if (previous == allZones[allZones.Count - 1] && berserkSeq != null)
         {
             berserkSeq.Kill();
+        }
+
+        if (allZones.IndexOf(CurrentZone) == allZones.Count - 2)
+        {
+            riftAnimation.SetInteger("indexState", 2);
+        }
+        else if (allZones.IndexOf(CurrentZone) == allZones.Count - 3)
+        {
+            riftAnimation.SetInteger("indexState", 1);
+        }
+        else
+        {
+            riftAnimation.SetInteger("indexState", 0);
         }
 
         TransitionColor(CurrentZone.colorRepr);
