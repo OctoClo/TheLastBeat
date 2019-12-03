@@ -9,7 +9,6 @@ public class BlinkParams : AbilityParams
     public float Speed = 0;
     public float PulseCost = 0;
     public float Cooldown = 0;
-    public ParticleSystem Particles = null;
     public AK.Wwise.Event Sound = null;
 }
 
@@ -20,8 +19,6 @@ public class BlinkAbility : Ability
 
     float currentCooldown = 0;
     float cooldown = 0;
-
-    ParticleSystem particles = null;
     AK.Wwise.Event soundBlink = null;
 
     Sequence currentSequence = null;
@@ -29,7 +26,6 @@ public class BlinkAbility : Ability
     public BlinkAbility(BlinkParams bp) : base(bp.AttachedPlayer)
     {
         speed = bp.Speed;
-        particles = bp.Particles;
         pulseCost = bp.PulseCost;
         soundBlink = bp.Sound;
         cooldown = bp.Cooldown;
