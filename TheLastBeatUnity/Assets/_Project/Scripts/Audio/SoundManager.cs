@@ -5,13 +5,16 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     [SerializeField]
-    AK.Wwise.Event ambStart;
+    AK.Wwise.Event ambStart = null;
 
     [SerializeField]
-    AK.Wwise.Event musStart;
+    AK.Wwise.Event musStart = null;
 
     [SerializeField]
-    AK.Wwise.State musStateStart;
+    AK.Wwise.State musStateStart = null;
+
+    [SerializeField]
+    AK.Wwise.Event stopEvent;
 
     [SerializeField]
     BeatManager bm = null;
@@ -25,6 +28,8 @@ public class SoundManager : MonoBehaviour
 
     void SyncReference(object in_cookie, AkCallbackType in_type, object in_info)
     {
+        if (bm == null) return;
+
         AkMusicSyncCallbackInfo musicInfo = in_info as AkMusicSyncCallbackInfo;
         switch (in_type)
         {
@@ -33,7 +38,7 @@ public class SoundManager : MonoBehaviour
 
             case AkCallbackType.AK_MusicSyncBeat:
                 float beatDuration = musicInfo.segmentInfo_fBeatDuration;
-                bm.BeatDelayed(beatDuration, BeatManager.TypeBeat.BEAT);
+                bm.BeatAll(beatDuration, BeatManager.TypeBeat.BEAT);
                 break;
 
             case AkCallbackType.AK_MusicSyncGrid:
@@ -41,12 +46,17 @@ public class SoundManager : MonoBehaviour
 
             case AkCallbackType.AK_MusicSyncBar:
                 float barDuration = musicInfo.segmentInfo_fBarDuration;
-                bm.BeatDelayed(barDuration, BeatManager.TypeBeat.BAR);
+                bm.BeatAll(barDuration, BeatManager.TypeBeat.BAR);
                 break;
 
             default:
                 break;
         }
+    }
+
+    private void OnDestroy()
+    {
+        stopEvent.Post(gameObject);
     }
 
 }

@@ -15,26 +15,23 @@ public class Health : Beatable
     Rect debugWindowRect = new Rect(20, 20, 240, 180 );
 
     [SerializeField] [TabGroup("Visual")]
-    RectTransform healthBackgroundRect;
-
-    [SerializeField] [Range(1, 5)] [TabGroup("Visual")]
-    float healthBackgroundNewScale = 0;
+    RectTransform healthBackgroundRect = null;
 
     [SerializeField] [TabGroup("Gameplay")] 
     float currentPulse = 50;
-    Vector3 temporarySize;
+    Vector3 temporarySize = Vector3.zero;
 
     [SerializeField] [TabGroup("Visual")]
-    Image colorChange;
+    Image colorChange = null;
 
     [SerializeField] [TabGroup("Visual")]
-    AK.Wwise.State inLimit;
+    Animator riftAnimation = null;
 
     [SerializeField] [TabGroup("Visual")]
-    AK.Wwise.State outLimit;
+    AK.Wwise.State inLimit = null;
 
-    [SerializeField] [TabGroup("Gameplay")] [InfoBox("Cela inclus l'action qui a fait passé en berserk, n'importe quel valeur en negatif pour infini", InfoMessageType.None)]
-    int actionBeforeDeath = 3;
+    [SerializeField] [TabGroup("Visual")]
+    AK.Wwise.State outLimit = null;
 
     [SerializeField] [TabGroup("Gameplay")] 
     bool dieAtMissInputBerserk = false;
@@ -52,23 +49,24 @@ public class Health : Beatable
     AnimationCurve pulseMultiplier = null;
 
     [SerializeField] [TabGroup("Zone generation")]
-    Color colorZone;
+    Color colorZone = Color.black;
 
     [SerializeField] [TabGroup("Zone generation")]
-    float lengthZone;
+    float lengthZone = 0;
 
     [SerializeField] [TabGroup("Zone generation")]
-    string labelZone;
+    string labelZone = "";
 
     [SerializeField]
     List<PulseZone> allZones = new List<PulseZone>();
 
     [SerializeField][TabGroup("Zone generation")][Range(0,10)]
-    float scaleUI;
+    float scaleUI = 0;
 
     [SerializeField][TabGroup("Zone generation")][FolderPath]
-    string path;
-    
+    string path = "";
+
+#if UNITY_EDITOR
     [Button][TabGroup("Zone generation")]
     void Generate()
     {
@@ -82,18 +80,10 @@ public class Health : Beatable
 
         AssetDatabase.CreateAsset(pz , path + "/" + labelZone + ".asset");
     }
+#endif
 
-    Sequence seq;
-    Sequence colorseq;
-    Sequence berserkSeq;
-
-    CombatState currentState = CombatState.InCombat;
-
-    enum CombatState
-    {
-        InCombat,
-        OutOfCombat
-    }
+    Sequence seq = null;
+    Sequence berserkSeq = null;
 
     public void Start()
     {
@@ -144,7 +134,7 @@ public class Health : Beatable
     }
 
     PulseZone CurrentZone => Sample(currentPulse);
-    bool IsBerserkZone => CurrentZone == allZones[allZones.Count - 1];
+    public bool InBerserkZone => CurrentZone == allZones[allZones.Count - 1];
     float ratioPulse = 0;
     Color colorDuringBerserk;
 
@@ -155,7 +145,7 @@ public class Health : Beatable
 
     public void BeatSequence()
     {
-        if (!CurrentZone || IsBerserkZone)
+        if (!CurrentZone || InBerserkZone)
             return;
 
         seq = DOTween.Sequence();
@@ -189,7 +179,7 @@ public class Health : Beatable
             OnZoneChanged(previousZone);
         }
 
-        if (IsBerserkZone && countAsAction)
+        if (InBerserkZone && countAsAction)
         {
             //Not in rythm
             if (BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime() , BeatManager.TypeBeat.BEAT))
@@ -208,14 +198,6 @@ public class Health : Beatable
         }
     }
 
-    public override void MissedBeat()
-    {
-        if (IsBerserkZone && dieAtMissInputBerserk)
-        {
-            Die();
-        }
-    }
-
     void OnZoneChanged(PulseZone previous)
     {
         if (!CurrentZone)
@@ -231,7 +213,7 @@ public class Health : Beatable
         }
 
         //Entered berserk mode
-        if (IsBerserkZone)
+        if (InBerserkZone)
         {
             healthBackgroundRect.DOScale(temporarySize * CurrentZone.ScaleModifier, 0.1f);
             colorDuringBerserk = CurrentZone.colorRepr;
@@ -240,6 +222,7 @@ public class Health : Beatable
             berserkSeq.Append(DOTween.To(() => colorChange.color, x => colorChange.color = x, colorDuringBerserk, 0.1f));
             berserkSeq.SetLoops(-1);
             berserkSeq.Play();
+            riftAnimation.SetInteger("indexState", 3);
         }
 
         if (previous == allZones[allZones.Count - 1] && berserkSeq != null)
@@ -247,14 +230,24 @@ public class Health : Beatable
             berserkSeq.Kill();
         }
 
+        if (allZones.IndexOf(CurrentZone) == allZones.Count - 2)
+        {
+            riftAnimation.SetInteger("indexState", 2);
+        }
+        else if (allZones.IndexOf(CurrentZone) == allZones.Count - 3)
+        {
+            riftAnimation.SetInteger("indexState", 1);
+        }
+        else
+        {
+            riftAnimation.SetInteger("indexState", 0);
+        }
+
         TransitionColor(CurrentZone.colorRepr);
     }
 
     void TransitionColor(Color newColor)
     {
-        if (colorseq != null && colorseq.IsPlaying())
-            colorseq.Kill();
-
         DOTween.To(() => colorChange.color, x => colorChange.color = x, newColor, 0.5f);
     }
 

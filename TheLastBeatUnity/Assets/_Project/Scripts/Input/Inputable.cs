@@ -10,6 +10,11 @@ public abstract class Inputable : MonoBehaviour
     protected bool blockInput = false;
     public virtual bool BlockInput => blockInput;
 
+    public void SetBlockInput(bool value)
+    {
+        blockInput = value;
+    }
+
     private void OnEnable()
     {
         EventManager.Instance.AddListener<PauseEvent>(OnPauseEvent);

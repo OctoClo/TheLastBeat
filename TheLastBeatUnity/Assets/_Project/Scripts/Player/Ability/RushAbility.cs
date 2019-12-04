@@ -3,56 +3,53 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
+[System.Serializable]
+public class RushParams : AbilityParams
+{
+    public float RushDuration = 0;
+    public float PulseCost = 0;
+    public AK.Wwise.Event OnBeatSound = null;
+    public AK.Wwise.Event OffBeatSound = null;
+    public float Cooldown = 0;
+}
+
 public class RushAbility : Ability
 {
     float duration = 0;
+    float pulseCost = 0;
+    float cooldown = 0;
+    float currentCooldown = 0;
 
-    float zoomDuration = 0;
-    float zoomValue = 0;
-
-    float slowMoDuration = 0;
-    float slowMoTimer = 0;
-
-    float impactBeatDelay = 0;
-
-    float pulsationCost;
-
-    Enemy target = null;
     bool obstacleAhead = false;
     RaycastHit obstacle;
+
     AK.Wwise.Event soundOffBeat = null;
     AK.Wwise.Event soundOnBeat = null;
+    
+    public RewindRushAbility RewindRush { get; set; }
 
-    public RushAbility(Player newPlayer, float rushDuration, float newZoomDuration, float newZoomValue,
-                    float newSlowMoDuration, float newImpactBeatDelay, float newCost, AK.Wwise.Event onBeat , AK.Wwise.Event offBeat) : base(newPlayer)
+    public RushAbility(RushParams rp) : base(rp.AttachedPlayer)
     {
-        duration = rushDuration;
-        impactBeatDelay = newImpactBeatDelay;
-        zoomDuration = newZoomDuration;
-        zoomValue = newZoomValue;
-        slowMoDuration = newSlowMoDuration;
-        pulsationCost = newCost;
-        soundOffBeat = offBeat;
-        soundOnBeat = onBeat;
+        duration = rp.RushDuration;
+        pulseCost = rp.PulseCost;
+        soundOffBeat = rp.OffBeatSound;
+        soundOnBeat = rp.OnBeatSound;
+        cooldown = rp.Cooldown;
     }
 
     public override void Launch()
     {
-        target = player.GetCurrentTarget();
-        if (target)
+        if (!player.Status.Dashing && currentCooldown == 0 && player.CurrentTarget != null)
+        {
             Rush();
+        }
     }
 
     public override void Update(float deltaTime)
     {
-        if (slowMoTimer > 0)
+        if (currentCooldown > 0)
         {
-            slowMoTimer -= deltaTime;
-
-            if (slowMoTimer < 0)
-            {
-                slowMoTimer = 0;
-            }
+            currentCooldown = Mathf.Max(0, currentCooldown - deltaTime);
         }
     }
 
@@ -60,20 +57,26 @@ public class RushAbility : Ability
     {
         if (BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime() , BeatManager.TypeBeat.BEAT))
         {
-            BeatManager.Instance.ValidateLastBeat(BeatManager.TypeBeat.BEAT);
             soundOnBeat.Post(player.gameObject);
         }
+        //Only cost if off-rythm
         else
         {
             soundOffBeat.Post(player.gameObject);
+            player.Health.ModifyPulseValue(pulseCost);
+
+            if (player.Health.InBerserkZone)
+            {
+                player.Die();
+            }
         }
 
-
+        currentCooldown = cooldown;
         player.Status.StartDashing();
         player.Anim.LaunchAnim(EPlayerAnim.RUSHING);
 
         Sequence seq = DOTween.Sequence();
-        Vector3 direction = new Vector3(target.transform.position.x, player.transform.position.y, target.transform.position.z) - player.transform.position;
+        Vector3 direction = new Vector3(player.CurrentTarget.transform.position.x, player.transform.position.y, player.CurrentTarget.transform.position.z) - player.transform.position;
         GetObstacleOnDash(direction);
 
         // Dash towards the target
@@ -88,7 +91,6 @@ public class RushAbility : Ability
         }
 
         Vector3 goalPosition = direction + player.transform.position;
-        seq.AppendCallback(() => player.Health.ModifyPulseValue(pulsationCost));
         seq.Append(player.transform.DOMove(goalPosition, duration));
 
         if (obstacleAhead)
@@ -110,7 +112,6 @@ public class RushAbility : Ability
         {
             if (hit.collider.gameObject.layer != LayerMask.NameToLayer("Enemies") && !hit.collider.isTrigger)
             {
-                Debug.Log(hit.collider.gameObject.name, hit.collider.gameObject);
                 obstacleAhead = true;
                 obstacle = hit;
                 return;
@@ -128,10 +129,12 @@ public class RushAbility : Ability
             player.Status.Stun();
         else
         {
-            target.GetAttacked();
-            player.AddChainedEnemy(target);
+            player.CurrentTarget.GetAttacked();
+            if (RewindRush != null)
+            {
+                RewindRush.AddChainEnemy(player.CurrentTarget);
+            }
             player.ColliderObject.layer = LayerMask.NameToLayer("Default");
-            slowMoTimer = slowMoDuration;
         }
     }
 }

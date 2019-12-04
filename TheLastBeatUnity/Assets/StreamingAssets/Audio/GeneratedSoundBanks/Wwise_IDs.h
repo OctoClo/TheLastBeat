@@ -26,6 +26,7 @@ namespace AK
         static const AkUniqueID SETREWIND_LOOPB = 4276712659U;
         static const AkUniqueID SETREWIND_LOOPC = 4276712658U;
         static const AkUniqueID SLOMOMUSICFX = 996118318U;
+        static const AkUniqueID STOP_ALL = 452547817U;
         static const AkUniqueID STOP_AMB = 435770000U;
         static const AkUniqueID STOP_REWIND = 564679353U;
     } // namespace EVENTS
@@ -38,9 +39,10 @@ namespace AK
 
             namespace STATE
             {
-                static const AkUniqueID CALM = 3753286132U;
-                static const AkUniqueID EXPLO = 3814499265U;
-                static const AkUniqueID LIMIT = 2523672974U;
+                static const AkUniqueID COMBAT_CALM = 2894236345U;
+                static const AkUniqueID COMBAT_LIMIT = 2902872313U;
+                static const AkUniqueID EXPLO_CALM = 314074733U;
+                static const AkUniqueID EXPLO_RHYTM = 1899308558U;
             } // namespace STATE
         } // namespace MUSICSWITCH
 
