@@ -262,7 +262,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.55
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3489716976359924725
 MonoBehaviour:
@@ -361,7 +361,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e3ebe26f6cfcb4b9aecfd8c68daa25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7.5
+  speed: 12
   maxRotationPerFrame: 30
   groundRotationReference: {fileID: 6257483788149977950}
   blinkParameters:
@@ -372,8 +372,7 @@ MonoBehaviour:
     Sound:
       idInternal: 0
       valueGuidInternal: 
-      WwiseObjectReference: {fileID: 11400000, guid: a310b7a7eea90554f8500d2f68b2f277,
-        type: 2}
+      WwiseObjectReference: {fileID: 0}
   rushParameters:
     AttachedPlayer: {fileID: 0}
     RushDuration: 0.2
@@ -484,6 +483,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2086426542783193144}
     m_Modifications:
+    - target: {fileID: -927199367670048503, guid: ad89ffa1a5e3a214a91c25c225df1a88,
+        type: 3}
+      propertyPath: m_Name
+      value: Character
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: ad89ffa1a5e3a214a91c25c225df1a88,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -538,11 +542,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: ad89ffa1a5e3a214a91c25c225df1a88,
-        type: 3}
-      propertyPath: m_Name
-      value: Character
       objectReference: {fileID: 0}
     - target: {fileID: 4803256113787784250, guid: ad89ffa1a5e3a214a91c25c225df1a88,
         type: 3}
