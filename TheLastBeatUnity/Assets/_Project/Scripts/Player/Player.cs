@@ -86,16 +86,10 @@ public class Player : Inputable
         Anim.SetMovement(direction);
 
         // Look at
-        CurrentTarget = FocusZone.GetCurrentTarget();
-        Vector3 lookVector;
-        if (CurrentTarget)
+        LookAtCurrentTarget();
+        if (!CurrentTarget && direction != Vector3.zero)
         {
-            lookVector = new Vector3(CurrentTarget.transform.position.x, transform.position.y, CurrentTarget.transform.position.z) - transform.position;
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(lookVector), maxRotationPerFrame);
-        }
-        else if (direction != Vector3.zero)
-        {
-            lookVector = direction;
+            Vector3 lookVector = direction;
             lookVector.Normalize();
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(lookVector), maxRotationPerFrame);
         }
@@ -118,6 +112,16 @@ public class Player : Inputable
                 Vector3 movement = direction * Time.deltaTime * speed;
                 transform.Translate(movement, Space.World);
             }
+        }
+    }
+
+    public void LookAtCurrentTarget()
+    {
+        CurrentTarget = FocusZone.GetCurrentTarget();
+        if (CurrentTarget)
+        {
+            Vector3 lookVector = new Vector3(CurrentTarget.transform.position.x, transform.position.y, CurrentTarget.transform.position.z) - transform.position;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(lookVector), 360);
         }
     }
 
