@@ -65,7 +65,8 @@ public class Health : Beatable
 
     [SerializeField][TabGroup("Zone generation")][FolderPath]
     string path = "";
-    
+
+#if UNITY_EDITOR
     [Button][TabGroup("Zone generation")]
     void Generate()
     {
@@ -79,6 +80,7 @@ public class Health : Beatable
 
         AssetDatabase.CreateAsset(pz , path + "/" + labelZone + ".asset");
     }
+#endif
 
     Sequence seq = null;
     Sequence berserkSeq = null;
