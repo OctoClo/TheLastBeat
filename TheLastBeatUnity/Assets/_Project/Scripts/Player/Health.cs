@@ -34,16 +34,12 @@ public class Health : Beatable
     AK.Wwise.State outLimit = null;
 
     [SerializeField] [TabGroup("Gameplay")] 
-    bool dieAtMissInputBerserk = false;
-
-    [SerializeField] [TabGroup("Gameplay")] 
     float minimalPulse = 0;
 
     [SerializeField] [TabGroup("Gameplay")] 
     float maximalPulse = 100;
 
     int currentActionCountdownHealth;
-    bool died = false;
 
     [SerializeField] [TabGroup("Zone generation")]
     AnimationCurve pulseMultiplier = null;
@@ -93,11 +89,6 @@ public class Health : Beatable
             OnZoneChanged(CurrentZone);
         }
         temporarySize = healthBackgroundRect.transform.localScale;
-    }
-
-    void Die()
-    {
-        died = true;
     }
 
     PulseZone Sample(float pulseValue)
@@ -178,24 +169,6 @@ public class Health : Beatable
         {
             OnZoneChanged(previousZone);
         }
-
-        if (InBerserkZone && countAsAction)
-        {
-            //Not in rythm
-            if (BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime() , BeatManager.TypeBeat.BEAT))
-            {
-                currentActionCountdownHealth--;
-                if (currentActionCountdownHealth == 0)
-                {
-                    Die();
-                }
-            }
-            else
-            {
-                if (dieAtMissInputBerserk)
-                    Die();
-            }
-        }
     }
 
     void OnZoneChanged(PulseZone previous)
@@ -267,9 +240,6 @@ public class Health : Beatable
 
         if (CurrentZone)
             GUI.Label(new Rect(20, 95, 100, 25), CurrentZone.name);
-
-        if (died)
-            GUI.Label(new Rect(20, 160, 100, 25), "Died");
 
         float startX = 20;
         float startY = 130;

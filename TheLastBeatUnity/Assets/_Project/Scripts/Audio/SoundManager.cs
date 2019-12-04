@@ -14,7 +14,7 @@ public class SoundManager : MonoBehaviour
     AK.Wwise.State musStateStart = null;
 
     [SerializeField]
-    AK.Wwise.Event stopEvent;
+    AK.Wwise.Event stopEvent = null;
 
     [SerializeField]
     BeatManager bm = null;

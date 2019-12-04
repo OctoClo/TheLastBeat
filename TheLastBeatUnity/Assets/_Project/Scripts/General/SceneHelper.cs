@@ -10,14 +10,25 @@ public class SceneHelper : MonoBehaviour
     public static SceneHelper Instance { get; private set; }
 
     [SerializeField]
-    Image img;
+    Image img = null;
 
     Sequence seq;
+    public static Vector3 LastDeathPosition = Vector3.zero;
+    public static int DeathCount = 0;
 
     private void Start()
     {
         if (Instance == null)
+        {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+    
+    public void RecordDeath(Vector3 position)
+    {
+        DeathCount++;
+        LastDeathPosition = position;
     }
 
     public void StartFade(UnityAction lambda, float duration , Color color)
