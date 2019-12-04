@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 using DG.Tweening;
 using System;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class Player : Inputable
 {
@@ -40,6 +41,7 @@ public class Player : Inputable
 
     [SerializeField]
     Health healthSystem = null;
+
     public Health Health => healthSystem;
 
     [SerializeField]
@@ -77,6 +79,39 @@ public class Player : Inputable
         abilities.Add(EInputAction.REWINDRUSH, rewindRush);
 
         rush.RewindRush = rewindRush;
+
+        if (SceneHelper.DeathCount > 0)
+        {
+            Respawn();
+        }
+    }
+
+    void Respawn()
+    {
+        IOrderedEnumerable<GameObject> possiblesRespawn = GameObject.FindGameObjectsWithTag("PotentialRespawn")
+            .OrderBy(x => Vector3.Distance(SceneHelper.LastDeathPosition, x.transform.position));
+
+        //There is at least one possible respawn
+        if (possiblesRespawn.Count() > 0)
+        {
+            Transform respawn = possiblesRespawn.First().transform;
+            transform.position = respawn.position + Vector3.up;
+            transform.forward = respawn.forward;
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        IOrderedEnumerable<GameObject> possiblesRespawn = GameObject.FindGameObjectsWithTag("PotentialRespawn")
+        .OrderBy(x => Vector3.Distance(transform.position, x.transform.position));
+
+        //There is at least one possible respawn
+        if (possiblesRespawn.Count() > 0)
+        {
+            Gizmos.color = Color.blue;
+            Transform respawn = possiblesRespawn.First().transform;
+            Gizmos.DrawCube(respawn.position, new Vector3(0.5f, 100, 0.5f));
+        }
     }
 
     public override void ProcessInput(Rewired.Player player)
@@ -125,6 +160,7 @@ public class Player : Inputable
     {
         DOTween.KillAll();
         blockInput = true;
+        SceneHelper.Instance.RecordDeath(transform.position);
         StartCoroutine(DieCoroutine());
     }
 
@@ -143,6 +179,7 @@ public class Player : Inputable
             yield return null;
         }
 
+        SceneHelper.Instance.RecordDeath(transform.position);
         SceneHelper.Instance.StartFade(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name), 3, Color.black);
     }
 
