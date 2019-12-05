@@ -21,6 +21,7 @@ public class RushAbility : Ability
     float currentCooldown = 0;
 
     bool obstacleAhead = false;
+    bool attackOnRythm = false;
     RaycastHit obstacle;
 
     AK.Wwise.Event soundOffBeat = null;
@@ -55,7 +56,9 @@ public class RushAbility : Ability
 
     void Rush()
     {
-        if (BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime() , BeatManager.TypeBeat.BEAT))
+        attackOnRythm = BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT);
+
+        if (attackOnRythm)
         {
             soundOnBeat.Post(player.gameObject);
         }
@@ -129,7 +132,7 @@ public class RushAbility : Ability
             player.Status.Stun();
         else
         {
-            player.CurrentTarget.GetAttacked();
+            player.CurrentTarget.GetAttacked(attackOnRythm);
             if (RewindRush != null)
             {
                 RewindRush.AddChainEnemy(player.CurrentTarget);
