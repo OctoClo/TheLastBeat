@@ -17,14 +17,14 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 89a5a54c247e7f4ca0b1b045a68caa67
     GuidInternal: 
-    m_lastTime: -8586274333095446727
+    m_lastTime: -8586261317261962387
     List: []
   AuxBusWwu:
   - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
     ParentPhysicalPath: 
     guid: 53f38f5348f7094493a66f9c8647d632
     GuidInternal: 
-    m_lastTime: -8586263026168104044
+    m_lastTime: -8586260625586479153
     List:
     - name: MFXRewindVerb
       guid: 82a1ed093669ee4f84717f8fd1429698
@@ -44,7 +44,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 00607f23f4bb1c4ba4ba719fd5871f3f
     GuidInternal: 
-    m_lastTime: -8586262189717165146
+    m_lastTime: -8586260625586319579
     List:
     - name: TheLastBank
       guid: ba44c042ce392242af9fd5c1beb6de48
@@ -60,7 +60,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 8758d50e9a0ca842a9ceccd260c5af42
     GuidInternal: 
-    m_lastTime: -8586262189717364375
+    m_lastTime: -8586260625586758404
     List:
     - name: Play_AmbDesert
       guid: 4385c76f7ea2514d8d08d372b433eb9f
@@ -264,49 +264,46 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Test_HitSwitch
-      guid: e4e9c358efb73c45b239ccb8dc88c1fd
-      id: 1402087903
-      PathAndIcons:
-      - ElementName: Default Work Unit
-        ObjectType: 12
-      - ElementName: Test_HitSwitch
-        ObjectType: 3
-      Path: Default Work Unit\Test_HitSwitch
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
   RtpcWwu:
   - PhysicalPath: Game Parameters\Default Work Unit.wwu
     ParentPhysicalPath: 
     guid: f33de71626d113469ad3450a44be09c2
     GuidInternal: 
-    m_lastTime: -8586267444681138503
+    m_lastTime: -8586261317282104428
     List: []
   - PhysicalPath: Game Parameters\TheLastBeat.wwu
     ParentPhysicalPath: 
     guid: 0e2ba2ef49d7a9468a71f885a9d96179
     GuidInternal: 
-    m_lastTime: -8586262375713929229
+    m_lastTime: -8586260625586768378
     List:
-    - name: CriticLevel
-      guid: 87f33496c2dc294a8d7777c67f712f73
-      id: 887277441
-      PathAndIcons:
-      - ElementName: TheLastBeat
-        ObjectType: 12
-      - ElementName: CriticLevel
-        ObjectType: 13
-      Path: TheLastBeat\CriticLevel
-    - name: MusicCrusher
+    - name: Int_MusicCrusher
       guid: 5d683a5f3806e94c9fe29471a79b243a
-      id: 3946755902
+      id: 807022328
       PathAndIcons:
       - ElementName: TheLastBeat
         ObjectType: 12
-      - ElementName: MusicCrusher
+      - ElementName: Int_MusicCrusher
         ObjectType: 13
-      Path: TheLastBeat\MusicCrusher
+      Path: TheLastBeat\Int_MusicCrusher
+    - name: Int_MusicSloMo
+      guid: c78511a00da7ac4b8ad6c83ef9dd161f
+      id: 1326134596
+      PathAndIcons:
+      - ElementName: TheLastBeat
+        ObjectType: 12
+      - ElementName: Int_MusicSloMo
+        ObjectType: 13
+      Path: TheLastBeat\Int_MusicSloMo
+    - name: Int_SyncDucking
+      guid: 4bee6aa48b02614998e75a7dcc105556
+      id: 758808735
+      PathAndIcons:
+      - ElementName: TheLastBeat
+        ObjectType: 12
+      - ElementName: Int_SyncDucking
+        ObjectType: 13
+      Path: TheLastBeat\Int_SyncDucking
     - name: MusicPosition
       guid: 958fb29dc1781a4bb6073c42dbdafa7c
       id: 3149782607
@@ -316,37 +313,50 @@ MonoBehaviour:
       - ElementName: MusicPosition
         ObjectType: 13
       Path: TheLastBeat\MusicPosition
-    - name: MusicSlowMo
-      guid: 263d0783e83c6f4398acb9a0393994a2
-      id: 4098383957
-      PathAndIcons:
-      - ElementName: TheLastBeat
-        ObjectType: 12
-      - ElementName: MusicSlowMo
-        ObjectType: 13
-      Path: TheLastBeat\MusicSlowMo
-    - name: SyncDucking
-      guid: 4bee6aa48b02614998e75a7dcc105556
-      id: 4060985797
-      PathAndIcons:
-      - ElementName: TheLastBeat
-        ObjectType: 12
-      - ElementName: SyncDucking
-        ObjectType: 13
-      Path: TheLastBeat\SyncDucking
   StateWwu:
   - PhysicalPath: States\Default Work Unit.wwu
     ParentPhysicalPath: 
     guid: f09f6be2ab58d1428efb69308717a5d4
     GuidInternal: 
-    m_lastTime: -8586273454327738878
+    m_lastTime: -8586261317262057280
     List: []
   - PhysicalPath: States\TheLastBeat.wwu
     ParentPhysicalPath: 
     guid: f97624b2970aec4088365c8371d57a2e
     GuidInternal: 
-    m_lastTime: -8586262218410228364
+    m_lastTime: -8586260625586229809
     List:
+    - name: CriticLevel
+      guid: e0881fa885fafe4eadc3070962111216
+      id: 887277441
+      PathAndIcons:
+      - ElementName: TheLastBeat
+        ObjectType: 12
+      - ElementName: CriticLevel
+        ObjectType: 9
+      Path: TheLastBeat\CriticLevel
+      values:
+      - name: Critic
+        guid: e2f66f6ee82ec842933480ac3fac41ee
+        id: 2938985745
+        PathAndIcons:
+        - ElementName: Critic
+          ObjectType: 8
+      - name: None
+        guid: 03c5a0f2c42f0f45a65f539c23cc0b88
+        id: 748895195
+        PathAndIcons:
+        - ElementName: None
+          ObjectType: 8
+      - name: NotCritic
+        guid: 76bbddf46b9c6f4f933fc30513d7bf66
+        id: 3922556052
+        PathAndIcons:
+        - ElementName: NotCritic
+          ObjectType: 8
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
     - name: MusicCombatSwitch
       guid: c9b72d2b1ecb37459c8b6d2d7e8d30f6
       id: 2511127250
@@ -513,26 +523,26 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: c97f274d2e04f9479151d59a4293b701
     GuidInternal: 
-    m_lastTime: -8586267444675747705
+    m_lastTime: -8586261317262047309
     List: []
   - PhysicalPath: Switches\TheLastBeat.wwu
     ParentPhysicalPath: 
     guid: 3af7dc8d80519e43aa87a0e9a3e8afdb
     GuidInternal: 
-    m_lastTime: -8586267444675697828
+    m_lastTime: -8586261317262047309
     List: []
   TriggerWwu:
   - PhysicalPath: Triggers\Default Work Unit.wwu
     ParentPhysicalPath: 
     guid: ae2e44bc844a96409b3f2bc980076559
     GuidInternal: 
-    m_lastTime: -8586267444675647972
+    m_lastTime: -8586261317261972313
     List: []
   - PhysicalPath: Triggers\TheLastBeat.wwu
     ParentPhysicalPath: 
     guid: 1ac71c4bbb8fbe4aab71adce22d346fd
     GuidInternal: 
-    m_lastTime: -8586267444675647972
+    m_lastTime: -8586261317261972313
     List:
     - name: OnBeat
       guid: ffd3cb5f60b62441a39d20e0b0da27d8
@@ -545,5 +555,6 @@ MonoBehaviour:
       Path: TheLastBeat\OnBeat
   ExpandedItems:
   - /TheLastBeatAudio
+  - /TheLastBeatAudio/States
   autoPopulateEnabled: 1
   CurrentPluginConfig: 

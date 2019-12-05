@@ -4799,22 +4799,36 @@ MonoBehaviour:
   currentPulse: 12
   colorChange: {fileID: 1881639240}
   riftAnimation: {fileID: 4503622671163791453}
+  minimalPulse: 0
+  maximalPulse: 100
   inLimit:
     idInternal: 0
     valueGuidInternal: 
     groupIdInternal: 0
     groupGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 0c0347ef66123c543b3310a8142e5425,
+    WwiseObjectReference: {fileID: 11400000, guid: 3f240493eb2328e4689afb6ea0fb5287,
       type: 2}
   outLimit:
     idInternal: 0
     valueGuidInternal: 
     groupIdInternal: 0
     groupGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 81e26d6fc04561245ae9338106588908,
+    WwiseObjectReference: {fileID: 11400000, guid: 24203d3c76030cb42a77308d726be0e7,
       type: 2}
-  minimalPulse: 0
-  maximalPulse: 100
+  inCritic:
+    idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: e0a3856970b02874187c8e3f034b3eff,
+      type: 2}
+  outCritic:
+    idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: c43206be12ebb8c44acdf0bfcd87596e,
+      type: 2}
   pulseMultiplier:
     serializedVersion: 2
     m_Curve:
@@ -7169,6 +7183,16 @@ PrefabInstance:
       propertyPath: groupTarget
       value: 
       objectReference: {fileID: 1035569839}
+    - target: {fileID: 634673040, guid: 07801b51c158daf499d145da957e6459, type: 3}
+      propertyPath: inCombat.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: 81e26d6fc04561245ae9338106588908,
+        type: 2}
+    - target: {fileID: 634673040, guid: 07801b51c158daf499d145da957e6459, type: 3}
+      propertyPath: outCombat.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: 485d3efe6fa37b543a7f28c1980f3514,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07801b51c158daf499d145da957e6459, type: 3}
 --- !u!4 &911424943 stripped
@@ -12837,6 +12861,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 742687188}
     m_Modifications:
+    - target: {fileID: 2074740812224498319, guid: 9eb9653ab25b75544a501fde67374bed,
+        type: 3}
+      propertyPath: m_Name
+      value: StateDriven Cameras
+      objectReference: {fileID: 0}
     - target: {fileID: 2074740812224498353, guid: 9eb9653ab25b75544a501fde67374bed,
         type: 3}
       propertyPath: m_ChildCameras.Array.size
@@ -12871,11 +12900,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ParentHash.Array.data[1].m_ParentHash
       value: 756556552
-      objectReference: {fileID: 0}
-    - target: {fileID: 2074740812224498319, guid: 9eb9653ab25b75544a501fde67374bed,
-        type: 3}
-      propertyPath: m_Name
-      value: StateDriven Cameras
       objectReference: {fileID: 0}
     - target: {fileID: 2074740812224498352, guid: 9eb9653ab25b75544a501fde67374bed,
         type: 3}
