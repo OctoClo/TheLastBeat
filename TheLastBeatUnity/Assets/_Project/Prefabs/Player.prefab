@@ -380,7 +380,7 @@ MonoBehaviour:
   groundRotationReference: {fileID: 6257483788149977950}
   blinkParameters:
     AttachedPlayer: {fileID: 0}
-    Speed: 20
+    Speed: 12
     PulseCost: 4
     Cooldown: 0
     Sound:
@@ -390,7 +390,7 @@ MonoBehaviour:
         type: 2}
   rushParameters:
     AttachedPlayer: {fileID: 0}
-    RushDuration: 0.2
+    RushDuration: 0.4
     PulseCost: 5
     OnBeatSound:
       idInternal: 0
@@ -423,6 +423,11 @@ MonoBehaviour:
       groupGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: a958b6c151689af4b88c97f8bed9154c,
         type: 2}
+  stopEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: ac3b8fbc0fe772648b82afa61a8728aa,
+      type: 2}
   Anim: {fileID: 0}
   ColliderObject: {fileID: 0}
   healthSystem: {fileID: 0}
