@@ -96,7 +96,7 @@ public class Enemy : MonoBehaviour
                 stunned = true;
                 stunCounter++;
                 stunTimer = stunDuration;
-                material.color = Color.blue;
+                //material.color = Color.blue;
             }
         }
     }

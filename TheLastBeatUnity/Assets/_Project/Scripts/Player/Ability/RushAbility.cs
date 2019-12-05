@@ -62,6 +62,7 @@ public class RushAbility : Ability
         //Only cost if off-rythm
         else
         {
+
             soundOffBeat.Post(player.gameObject);
             if (player.Health.InCriticMode)
             {

@@ -142,7 +142,7 @@ public class Health : Beatable
 
     public void BeatSequence()
     {
-        if (!CurrentZone || InCriticMode)
+        if (InCriticMode)
             return;
 
         seq = DOTween.Sequence();
