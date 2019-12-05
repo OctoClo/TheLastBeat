@@ -48,7 +48,9 @@ public class BlinkAbility : Ability
     private void Blink()
     {
         Vector3 startSize = player.VisualPart.localScale;
-        Vector3 newPosition = player.transform.position + player.CurrentDirection * speed;
+        Vector3 direction = player.CurrentDirection;
+        direction.Normalize();
+        Vector3 newPosition = player.transform.position + direction * speed;
 
         currentSequence = DOTween.Sequence();
         currentSequence.AppendCallback(() =>
