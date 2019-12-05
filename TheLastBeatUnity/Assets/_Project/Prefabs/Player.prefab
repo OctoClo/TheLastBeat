@@ -262,7 +262,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.55
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3489716976359924725
 MonoBehaviour:
@@ -361,7 +361,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e3ebe26f6cfcb4b9aecfd8c68daa25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7.5
+  speed: 12
   maxRotationPerFrame: 30
   groundRotationReference: {fileID: 6257483788149977950}
   blinkParameters:
@@ -372,8 +372,7 @@ MonoBehaviour:
     Sound:
       idInternal: 0
       valueGuidInternal: 
-      WwiseObjectReference: {fileID: 11400000, guid: a310b7a7eea90554f8500d2f68b2f277,
-        type: 2}
+      WwiseObjectReference: {fileID: 0}
   rushParameters:
     AttachedPlayer: {fileID: 0}
     RushDuration: 0.2

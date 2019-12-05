@@ -98,13 +98,16 @@ public class RewindRushAbility : Ability
         {
             if (enemy)
             {
-                player.FocusZone.OverrideCurrentEnemy(enemy);
-
                 direction = new Vector3(enemy.transform.position.x, goalPosition.y, enemy.transform.position.z) - goalPosition;
                 direction *= 1.3f;
 
                 goalPosition += direction;
-                seq.AppendCallback(() => player.Anim.LaunchAnim(EPlayerAnim.RUSHING));
+                seq.AppendCallback(() =>
+                {
+                    player.FocusZone.OverrideCurrentEnemy(enemy);
+                    player.LookAtCurrentTarget();
+                    player.Anim.LaunchAnim(EPlayerAnim.RUSHING);
+                });
                 seq.Append(player.transform.DOMove(goalPosition, duration));
                 seq.AppendCallback(() => { enemy.GetAttacked(); });
             }
