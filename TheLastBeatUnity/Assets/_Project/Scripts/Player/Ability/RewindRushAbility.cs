@@ -81,11 +81,11 @@ public class RewindRushAbility : Ability
         }
         else
         {
-            player.Health.ModifyPulseValue(pulseCost);
             if (player.Health.InCriticMode)
             {
                 player.Die();
             }
+            player.Health.ModifyPulseValue(pulseCost);
         }
 
         Sequence seq = DOTween.Sequence();

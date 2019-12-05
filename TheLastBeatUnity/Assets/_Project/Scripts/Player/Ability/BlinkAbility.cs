@@ -61,11 +61,11 @@ public class BlinkAbility : Ability
             }
             else
             {
-                player.Health.ModifyPulseValue(pulseCost);
                 if (player.Health.InCriticMode)
                 {
                     player.Die();
                 }
+                player.Health.ModifyPulseValue(pulseCost);
             }
             soundBlink.Post(player.gameObject);
         });
