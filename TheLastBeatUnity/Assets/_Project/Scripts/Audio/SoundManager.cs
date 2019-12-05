@@ -19,11 +19,13 @@ public class SoundManager : MonoBehaviour
     [SerializeField]
     BeatManager bm = null;
 
+    private int musicPosition;
+
     void Start()
     {
         musStateStart.SetValue();
         ambStart.Post(gameObject);
-        musStart.Post(gameObject, (uint)AkCallbackType.AK_MusicSyncAll, SyncReference, this);
+        musStart.Post(gameObject, (uint)AkCallbackType.AK_MusicSyncAll, SyncReference, (uint)AkCallbackType.AK_EnableGetMusicPlayPosition);
     }
 
     void SyncReference(object in_cookie, AkCallbackType in_type, object in_info)
@@ -42,6 +44,8 @@ public class SoundManager : MonoBehaviour
                 break;
 
             case AkCallbackType.AK_MusicSyncGrid:
+                musicPosition = musicInfo.segmentInfo_iCurrentPosition;            
+                AkSoundEngine.SetRTPCValue("musicPosition", musicPosition / 1000f, gameObject);
                 break;
 
             case AkCallbackType.AK_MusicSyncBar:

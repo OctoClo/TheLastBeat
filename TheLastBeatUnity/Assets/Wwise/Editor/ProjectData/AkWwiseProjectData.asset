@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 53f38f5348f7094493a66f9c8647d632
     GuidInternal: 
-    m_lastTime: -8586267444680909115
+    m_lastTime: -8586263026168104044
     List:
     - name: MFXRewindVerb
       guid: 82a1ed093669ee4f84717f8fd1429698
@@ -44,7 +44,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 00607f23f4bb1c4ba4ba719fd5871f3f
     GuidInternal: 
-    m_lastTime: -8586263259905806496
+    m_lastTime: -8586262189717165146
     List:
     - name: TheLastBank
       guid: ba44c042ce392242af9fd5c1beb6de48
@@ -60,7 +60,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 8758d50e9a0ca842a9ceccd260c5af42
     GuidInternal: 
-    m_lastTime: -8586263259964610451
+    m_lastTime: -8586262189717364375
     List:
     - name: Play_AmbDesert
       guid: 4385c76f7ea2514d8d08d372b433eb9f
@@ -83,30 +83,6 @@ MonoBehaviour:
       - ElementName: Play_Blink
         ObjectType: 3
       Path: Default Work Unit\Play_Blink
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
-    - name: Play_DashFXOffBeat
-      guid: 2ff54b16913df94c9315546f884b8f0f
-      id: 228228455
-      PathAndIcons:
-      - ElementName: Default Work Unit
-        ObjectType: 12
-      - ElementName: Play_DashFXOffBeat
-        ObjectType: 3
-      Path: Default Work Unit\Play_DashFXOffBeat
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
-    - name: Play_DashFXOnBeat
-      guid: 085c5b252ae25a40a1d306bcd171b283
-      id: 1840739059
-      PathAndIcons:
-      - ElementName: Default Work Unit
-        ObjectType: 12
-      - ElementName: Play_DashFXOnBeat
-        ObjectType: 3
-      Path: Default Work Unit\Play_DashFXOnBeat
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -145,6 +121,30 @@ MonoBehaviour:
       - ElementName: Play_Rewind
         ObjectType: 3
       Path: Default Work Unit\Internal_RewindState\Play_Rewind
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_RushFXOffBeat
+      guid: 2ff54b16913df94c9315546f884b8f0f
+      id: 3852757989
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Play_RushFXOffBeat
+        ObjectType: 3
+      Path: Default Work Unit\Play_RushFXOffBeat
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_RushFXOnBeat
+      guid: 085c5b252ae25a40a1d306bcd171b283
+      id: 2567002569
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Play_RushFXOnBeat
+        ObjectType: 3
+      Path: Default Work Unit\Play_RushFXOnBeat
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -287,7 +287,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 0e2ba2ef49d7a9468a71f885a9d96179
     GuidInternal: 
-    m_lastTime: -8586267444681148483
+    m_lastTime: -8586262375713929229
     List:
     - name: CriticLevel
       guid: 87f33496c2dc294a8d7777c67f712f73
@@ -307,6 +307,15 @@ MonoBehaviour:
       - ElementName: MusicCrusher
         ObjectType: 13
       Path: TheLastBeat\MusicCrusher
+    - name: MusicPosition
+      guid: 958fb29dc1781a4bb6073c42dbdafa7c
+      id: 3149782607
+      PathAndIcons:
+      - ElementName: TheLastBeat
+        ObjectType: 12
+      - ElementName: MusicPosition
+        ObjectType: 13
+      Path: TheLastBeat\MusicPosition
     - name: MusicSlowMo
       guid: 263d0783e83c6f4398acb9a0393994a2
       id: 4098383957
@@ -336,8 +345,70 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: f97624b2970aec4088365c8371d57a2e
     GuidInternal: 
-    m_lastTime: -8586267444675767650
+    m_lastTime: -8586262218410228364
     List:
+    - name: MusicCombatSwitch
+      guid: c9b72d2b1ecb37459c8b6d2d7e8d30f6
+      id: 2511127250
+      PathAndIcons:
+      - ElementName: TheLastBeat
+        ObjectType: 12
+      - ElementName: MusicCombatSwitch
+        ObjectType: 9
+      Path: TheLastBeat\MusicCombatSwitch
+      values:
+      - name: Combat_Calm
+        guid: c746a11293c409488faa53cd9f4692cb
+        id: 2894236345
+        PathAndIcons:
+        - ElementName: Combat_Calm
+          ObjectType: 8
+      - name: Combat_Limit
+        guid: 670d350ac682774883782e97760b729f
+        id: 2902872313
+        PathAndIcons:
+        - ElementName: Combat_Limit
+          ObjectType: 8
+      - name: None
+        guid: 46b2aa1700316b4f9705cd1a133a1e2f
+        id: 748895195
+        PathAndIcons:
+        - ElementName: None
+          ObjectType: 8
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
+    - name: MusicExploSwitch
+      guid: 1a7f56f2a62c1940980555d30e042150
+      id: 426116888
+      PathAndIcons:
+      - ElementName: TheLastBeat
+        ObjectType: 12
+      - ElementName: MusicExploSwitch
+        ObjectType: 9
+      Path: TheLastBeat\MusicExploSwitch
+      values:
+      - name: Explo_Calm
+        guid: bda2cf949ae40542903bec5975cf90be
+        id: 314074733
+        PathAndIcons:
+        - ElementName: Explo_Calm
+          ObjectType: 8
+      - name: Explo_Rhytm
+        guid: 20baf73a85098e4b94bc22785717a772
+        id: 1899308558
+        PathAndIcons:
+        - ElementName: Explo_Rhytm
+          ObjectType: 8
+      - name: None
+        guid: 0e41cec6e5837d4a94ec7b743fc16d68
+        id: 748895195
+        PathAndIcons:
+        - ElementName: None
+          ObjectType: 8
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
     - name: MusicSwitch
       guid: cfa89c524c09c849b1e78caac8c6afb2
       id: 1445037870
@@ -348,23 +419,17 @@ MonoBehaviour:
         ObjectType: 9
       Path: TheLastBeat\MusicSwitch
       values:
-      - name: Calm
+      - name: Combat
         guid: 1315de352d8e944e9322ec89914ae87b
-        id: 3753286132
+        id: 2764240573
         PathAndIcons:
-        - ElementName: Calm
+        - ElementName: Combat
           ObjectType: 8
       - name: Explo
-        guid: ae62f0c55322e54594316c61695afc7c
+        guid: 5d6c4327016695458978127e7759c22e
         id: 3814499265
         PathAndIcons:
         - ElementName: Explo
-          ObjectType: 8
-      - name: Limit
-        guid: 1250f8a5470aec46980179f2a843d505
-        id: 2523672974
-        PathAndIcons:
-        - ElementName: Limit
           ObjectType: 8
       - name: None
         guid: b8bd67f9fd53f14ca9be32222e84d807
