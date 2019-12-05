@@ -82,7 +82,7 @@ public class RewindRushAbility : Ability
         else
         {
             player.Health.ModifyPulseValue(pulseCost);
-            if (player.Health.InBerserkZone)
+            if (player.Health.InCriticMode)
             {
                 player.Die();
             }
