@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 634673037}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -6.17}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3489716977114045590}
@@ -47,6 +47,20 @@ MonoBehaviour:
   groupTarget: {fileID: 0}
   maxWeight: 0.3
   timeTransition: 1
+  inCombat:
+    idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 81e26d6fc04561245ae9338106588908,
+      type: 2}
+  outCombat:
+    idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 485d3efe6fa37b543a7f28c1980f3514,
+      type: 2}
 --- !u!135 &634673039
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -372,7 +386,8 @@ MonoBehaviour:
     Sound:
       idInternal: 0
       valueGuidInternal: 
-      WwiseObjectReference: {fileID: 0}
+      WwiseObjectReference: {fileID: 11400000, guid: 3a35a5d593c9a0e469bead9a32b70bd3,
+        type: 2}
   rushParameters:
     AttachedPlayer: {fileID: 0}
     RushDuration: 0.2

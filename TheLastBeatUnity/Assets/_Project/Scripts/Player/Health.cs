@@ -27,23 +27,25 @@ public class Health : Beatable
     [SerializeField] [TabGroup("Visual")]
     Animator riftAnimation = null;
 
-    [SerializeField] [TabGroup("Visual")]
-    AK.Wwise.State inLimit = null;
-
-    [SerializeField] [TabGroup("Visual")]
-    AK.Wwise.State outLimit = null;
-
-    [SerializeField] [TabGroup("Gameplay")] 
-    bool dieAtMissInputBerserk = false;
-
     [SerializeField] [TabGroup("Gameplay")] 
     float minimalPulse = 0;
 
     [SerializeField] [TabGroup("Gameplay")] 
     float maximalPulse = 100;
 
+    [SerializeField][TabGroup("Sound")]
+    AK.Wwise.State inLimit = null;
+
+    [SerializeField] [TabGroup("Sound")]
+    AK.Wwise.State outLimit = null;
+
+    [SerializeField] [TabGroup("Sound")]
+    AK.Wwise.State inCritic = null;
+
+    [SerializeField] [TabGroup("Sound")]
+    AK.Wwise.State outCritic = null;
+
     int currentActionCountdownHealth;
-    bool died = false;
 
     [SerializeField] [TabGroup("Zone generation")]
     AnimationCurve pulseMultiplier = null;
@@ -95,11 +97,6 @@ public class Health : Beatable
         temporarySize = healthBackgroundRect.transform.localScale;
     }
 
-    void Die()
-    {
-        died = true;
-    }
-
     PulseZone Sample(float pulseValue)
     {
         if (allZones.Count == 0)
@@ -134,7 +131,7 @@ public class Health : Beatable
     }
 
     PulseZone CurrentZone => Sample(currentPulse);
-    public bool InBerserkZone => CurrentZone == allZones[allZones.Count - 1];
+    public bool InCriticMode => CurrentZone == allZones[allZones.Count - 1];
     float ratioPulse = 0;
     Color colorDuringBerserk;
 
@@ -145,7 +142,7 @@ public class Health : Beatable
 
     public void BeatSequence()
     {
-        if (!CurrentZone || InBerserkZone)
+        if (!CurrentZone || InCriticMode)
             return;
 
         seq = DOTween.Sequence();
@@ -178,24 +175,6 @@ public class Health : Beatable
         {
             OnZoneChanged(previousZone);
         }
-
-        if (InBerserkZone && countAsAction)
-        {
-            //Not in rythm
-            if (BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime() , BeatManager.TypeBeat.BEAT))
-            {
-                currentActionCountdownHealth--;
-                if (currentActionCountdownHealth == 0)
-                {
-                    Die();
-                }
-            }
-            else
-            {
-                if (dieAtMissInputBerserk)
-                    Die();
-            }
-        }
     }
 
     void OnZoneChanged(PulseZone previous)
@@ -203,17 +182,23 @@ public class Health : Beatable
         if (!CurrentZone)
             return;
 
+        if (previous == allZones[allZones.Count - 1])
+            outCritic.SetValue();
+
         if (allZones.FindIndex(x => x == CurrentZone) < allZones.Count - 2)
         {
             outLimit.SetValue();
         }
         else
         {
-            inLimit.SetValue();
+            if (InCriticMode)
+                inCritic.SetValue();
+            else
+                inLimit.SetValue();
         }
 
         //Entered berserk mode
-        if (InBerserkZone)
+        if (InCriticMode)
         {
             healthBackgroundRect.DOScale(temporarySize * CurrentZone.ScaleModifier, 0.1f);
             colorDuringBerserk = CurrentZone.colorRepr;
@@ -267,9 +252,6 @@ public class Health : Beatable
 
         if (CurrentZone)
             GUI.Label(new Rect(20, 95, 100, 25), CurrentZone.name);
-
-        if (died)
-            GUI.Label(new Rect(20, 160, 100, 25), "Died");
 
         float startX = 20;
         float startY = 130;
