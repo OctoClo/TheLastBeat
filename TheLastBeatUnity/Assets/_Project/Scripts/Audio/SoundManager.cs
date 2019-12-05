@@ -11,10 +11,7 @@ public class SoundManager : MonoBehaviour
     AK.Wwise.Event musStart = null;
 
     [SerializeField]
-    AK.Wwise.State musStateStart = null;
-
-    [SerializeField]
-    AK.Wwise.Event stopEvent = null;
+    List<AK.Wwise.State> allInitializeState = new List<AK.Wwise.State>();
 
     [SerializeField]
     BeatManager bm = null;
@@ -23,7 +20,11 @@ public class SoundManager : MonoBehaviour
 
     void Start()
     {
-        musStateStart.SetValue();
+        foreach(AK.Wwise.State state in allInitializeState)
+        {
+            state.SetValue();
+        }
+
         ambStart.Post(gameObject);
         musStart.Post(gameObject, (uint)AkCallbackType.AK_MusicSyncAll, SyncReference, (uint)AkCallbackType.AK_EnableGetMusicPlayPosition);
     }
@@ -57,10 +58,4 @@ public class SoundManager : MonoBehaviour
                 break;
         }
     }
-
-    private void OnDestroy()
-    {
-        stopEvent.Post(gameObject);
-    }
-
 }

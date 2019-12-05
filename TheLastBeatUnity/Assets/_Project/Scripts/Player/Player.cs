@@ -32,6 +32,9 @@ public class Player : Inputable
     [TabGroup("Rush")][SerializeField]
     RewindRushParameters rushRewindParameters = null;
 
+    [SerializeField]
+    AK.Wwise.Event stopEvent = null;
+
     [HideInInspector]
     public PlayerStatus Status { get; private set; }
     [HideInInspector]
@@ -165,6 +168,7 @@ public class Player : Inputable
         DOTween.KillAll();
         blockInput = true;
         SceneHelper.Instance.RecordDeath(transform.position);
+        stopEvent.Post(gameObject);
         StartCoroutine(DieCoroutine());
     }
 
@@ -184,7 +188,7 @@ public class Player : Inputable
         }
 
         SceneHelper.Instance.RecordDeath(transform.position);
-        SceneHelper.Instance.StartFade(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name), 3, Color.black);
+        SceneHelper.Instance.StartFade(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name), 10, Color.black);
     }
 
     private void Update()
