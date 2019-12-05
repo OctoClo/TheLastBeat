@@ -35,10 +35,12 @@ public class Enemy : MonoBehaviour
     [SerializeField] [Required]
     Transform player = null;
 
+    [SerializeField]
+    float maxRotationPerFrame = 10;
+
     bool isTarget = false;
     FocusZone focusZone = null;
-
-    Material material = null ;
+    Material material = null;
 
     private void Start()
     {
@@ -51,8 +53,6 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        transform.DOLookAt(player.position, 1, AxisConstraint.Y);
-
         stunTimer -= Time.deltaTime;
 
         if (stunTimer <= 0 && stunned)
@@ -60,6 +60,10 @@ public class Enemy : MonoBehaviour
             material.color = isTarget ? Color.green : Color.red;
             stunned = false;
         }
+
+        Vector3 toPlayer = player.position - transform.position;
+        toPlayer = new Vector3(toPlayer.x, 0, toPlayer.z);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(toPlayer), maxRotationPerFrame);
     }
 
     void FixedUpdate()

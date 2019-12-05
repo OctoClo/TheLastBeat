@@ -27,17 +27,23 @@ public class Health : Beatable
     [SerializeField] [TabGroup("Visual")]
     Animator riftAnimation = null;
 
-    [SerializeField] [TabGroup("Visual")]
-    AK.Wwise.State inLimit = null;
-
-    [SerializeField] [TabGroup("Visual")]
-    AK.Wwise.State outLimit = null;
-
     [SerializeField] [TabGroup("Gameplay")] 
     float minimalPulse = 0;
 
     [SerializeField] [TabGroup("Gameplay")] 
     float maximalPulse = 100;
+
+    [SerializeField][TabGroup("Sound")]
+    AK.Wwise.State inLimit = null;
+
+    [SerializeField] [TabGroup("Sound")]
+    AK.Wwise.State outLimit = null;
+
+    [SerializeField] [TabGroup("Sound")]
+    AK.Wwise.State inCritic = null;
+
+    [SerializeField] [TabGroup("Sound")]
+    AK.Wwise.State outCritic = null;
 
     int currentActionCountdownHealth;
 
@@ -125,7 +131,7 @@ public class Health : Beatable
     }
 
     PulseZone CurrentZone => Sample(currentPulse);
-    public bool InBerserkZone => CurrentZone == allZones[allZones.Count - 1];
+    public bool InCriticMode => CurrentZone == allZones[allZones.Count - 1];
     float ratioPulse = 0;
     Color colorDuringBerserk;
 
@@ -136,7 +142,7 @@ public class Health : Beatable
 
     public void BeatSequence()
     {
-        if (!CurrentZone || InBerserkZone)
+        if (!CurrentZone || InCriticMode)
             return;
 
         seq = DOTween.Sequence();
@@ -176,17 +182,23 @@ public class Health : Beatable
         if (!CurrentZone)
             return;
 
+        if (previous == allZones[allZones.Count - 1])
+            outCritic.SetValue();
+
         if (allZones.FindIndex(x => x == CurrentZone) < allZones.Count - 2)
         {
             outLimit.SetValue();
         }
         else
         {
-            inLimit.SetValue();
+            if (InCriticMode)
+                inCritic.SetValue();
+            else
+                inLimit.SetValue();
         }
 
         //Entered berserk mode
-        if (InBerserkZone)
+        if (InCriticMode)
         {
             healthBackgroundRect.DOScale(temporarySize * CurrentZone.ScaleModifier, 0.1f);
             colorDuringBerserk = CurrentZone.colorRepr;
