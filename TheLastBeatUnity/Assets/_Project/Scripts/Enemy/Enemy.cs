@@ -31,10 +31,9 @@ public class Enemy : MonoBehaviour
     [TabGroup("Stun")] [SerializeField] [Range(0.0f, 1.0f)]
     float[] chancesToGetStunned = new float[5];
     int stunCounter = 0;
+
     Material material = null;
-
     Transform player = null;
-
     bool isTarget = false;
 
     Dictionary<EEnemyState, EnemyState> states;
@@ -88,11 +87,6 @@ public class Enemy : MonoBehaviour
                 stunned = false;
             }
         }*/
-    }
-
-    private void FixedUpdate()
-    {
-        currentState.FixedUpdateState();
     }
 
     public void GetAttacked(bool onRythm)

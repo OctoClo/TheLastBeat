@@ -5,10 +5,10 @@ using UnityEngine;
 public class EnemyZone : MonoBehaviour
 {
     [SerializeField]
-    Transform player;
+    Transform player = null;
 
     [SerializeField]
-    List<Enemy> enemies;
+    List<Enemy> enemies = new List<Enemy>();
 
     EnemyWanderZone wanderZone = null;
     EnemyDetectionZone detectionZone = null;

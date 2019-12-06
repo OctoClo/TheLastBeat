@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 
 public class EnemyStateChase : EnemyState
 {
@@ -25,28 +24,21 @@ public class EnemyStateChase : EnemyState
 
     public override EEnemyState UpdateState(float deltaTime)
     {
-        enemy.transform.DOLookAt(player.position, 1, AxisConstraint.Y);
-
-        if (playerInHitbox)
-            return EEnemyState.PREPARE_ATTACK;
-        
-        return stateEnum;
-    }
-
-    public override void FixedUpdateState()
-    {
-        Vector3 movement = (player.position - enemy.transform.position);
-        movement.y = 0;
+        Vector3 toPlayer = player.position - enemy.transform.position;
+        toPlayer.y = 0;
+        toPlayer.Normalize();
+        enemy.transform.rotation = Quaternion.RotateTowards(enemy.transform.rotation, Quaternion.LookRotation(toPlayer), 10);
 
         if (!enemy.WeaponHitbox.PlayerInHitbox)
         {
-            movement.Normalize();
-            rb.velocity = movement * enemy.Speed;
+            enemy.transform.position += toPlayer * deltaTime * enemy.Speed;
         }
         else
         {
-            playerInHitbox = true;
+            return EEnemyState.PREPARE_ATTACK;
         }
+        
+        return stateEnum;
     }
 
     public override void Exit()
