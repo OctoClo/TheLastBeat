@@ -71,13 +71,13 @@ public class Enemy : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector3 movement = (player.position - transform.position);
+        //Vector3 movement = (player.position - transform.position);
 
-        if (movement.sqrMagnitude > 10)
-        {
-            movement.Normalize();
-            rb.velocity = movement * speed;
-        }
+        //if (movement.sqrMagnitude > 10)
+        //{
+        //    //movement.Normalize();
+        //    rb.velocity = movement * speed;
+        //}
     }
 
     public void GetAttacked(bool onRythm)
