@@ -5,13 +5,11 @@ using UnityEngine;
 public class EnemyStateChase : EnemyState
 {
     Transform player = null;
-    Rigidbody rb = null;
     bool playerInHitbox = false;
 
     public EnemyStateChase(Enemy newEnemy, Transform newPlayer) : base(newEnemy)
     {
         player = newPlayer;
-        rb = enemy.GetComponent<Rigidbody>();
         stateEnum = EEnemyState.CHASE;
     }
 
@@ -39,10 +37,5 @@ public class EnemyStateChase : EnemyState
         }
         
         return stateEnum;
-    }
-
-    public override void Exit()
-    {
-        rb.velocity = Vector3.zero;
     }
 }

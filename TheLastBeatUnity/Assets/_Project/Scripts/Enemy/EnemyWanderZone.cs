@@ -11,7 +11,7 @@ public class EnemyWanderZone : MonoBehaviour
         zoneRadius = GetComponent<SphereCollider>().radius;
     }
 
-    public void RandomPosition(out Vector3 position, float y)
+    public void GetRandomPosition(out Vector3 position, float y)
     {
         position = transform.position + UnityEngine.Random.insideUnitSphere * zoneRadius;
         position.y = y;

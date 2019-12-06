@@ -6,10 +6,8 @@ public class EnemyZone : MonoBehaviour
 {
     [SerializeField]
     Transform player = null;
-
-    [SerializeField]
+    
     List<Enemy> enemies = new List<Enemy>();
-
     EnemyWanderZone wanderZone = null;
     EnemyDetectionZone detectionZone = null;
 
@@ -18,6 +16,7 @@ public class EnemyZone : MonoBehaviour
         wanderZone = GetComponentInChildren<EnemyWanderZone>();
         detectionZone = GetComponentInChildren<EnemyDetectionZone>();
 
+        GetComponentsInChildren(false, enemies);
         foreach (Enemy enemy in enemies)
         {
             enemy.ZoneInitialize(wanderZone, detectionZone, player);

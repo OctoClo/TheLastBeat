@@ -32,16 +32,14 @@ public class EnemyStateWander : EnemyState
         base.Enter();
 
         currentMove = null;
-        waitTimer = 0;
         playerInZone = false;
-
-        StartNewMove();
+        waitTimer = UnityEngine.Random.Range(waitDurationMinMax.x, waitDurationMinMax.y);
     }
 
     void StartNewMove()
     {
         currentMove = DOTween.Sequence();
-        wanderZone.RandomPosition(out nextPosition, enemy.transform.position.y);
+        wanderZone.GetRandomPosition(out nextPosition, enemy.transform.position.y);
         currentMove.Append(enemy.transform.DOLookAt(nextPosition, 1, AxisConstraint.Y));
         currentMove.Append(enemy.transform.DOMove(nextPosition, Vector3.Distance(enemy.transform.position, nextPosition) / enemy.Speed));
         currentMove.AppendCallback(() =>
@@ -59,10 +57,7 @@ public class EnemyStateWander : EnemyState
             waitTimer -= deltaTime;
 
             if (waitTimer <= 0)
-            {
-                waitTimer = 0;
                 StartNewMove();
-            }
         }
 
         if (playerInZone)
