@@ -6,17 +6,18 @@ using DG.Tweening;
 public class Rock : Beatable
 {
     [SerializeField]
-    AnimationCurve curve;
+    AnimationCurve curve = null;
 
     [SerializeField]
-    float targeValue;
-    float originValue;
+    float targeValue = 0;
+    float originValue = 0;
 
     Sequence currentSequence;
     Material mat;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         mat = GetComponent<MeshRenderer>().material;
         originValue = mat.GetFloat("_Bias");
     }

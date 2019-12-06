@@ -77,13 +77,16 @@ public class Enemy : MonoBehaviour
             currentState = newState;
             currentState.Enter();
         }
-        
-        /*stunTimer -= Time.deltaTime;
 
-        if (stunTimer <= 0 && stunned)
+        /*if (stunTimer > 0)
         {
-            material.color = isTarget ? Color.green : Color.red;
-            stunned = false;
+            stunTimer -= Time.deltaTime;
+
+            if (stunTimer <= 0 && stunned)
+            {
+                UpdateColor();
+                stunned = false;
+            }
         }*/
     }
 
@@ -92,7 +95,7 @@ public class Enemy : MonoBehaviour
         currentState.FixedUpdateState();
     }
 
-    public void GetAttacked()
+    public void GetAttacked(bool onRythm)
     {
         lives--;
         if (lives == 0)
@@ -103,6 +106,9 @@ public class Enemy : MonoBehaviour
         }
 
         lifeText.text = lives.ToString() + " PV";
+
+        if (onRythm)
+            StartCoroutine(BlinkBlue());
         
         /*if (stunCounter < chancesToGetStunned.Length)
         {
@@ -117,9 +123,22 @@ public class Enemy : MonoBehaviour
         }*/
     }
 
+    IEnumerator BlinkBlue()
+    {
+        material.color = Color.blue;
+        yield return new WaitForSecondsRealtime(0.3f);
+        UpdateColor();
+    }
+
     public void SetSelected(bool selected)
     {
-        if (selected)
+        isTarget = selected;
+        UpdateColor();
+    }
+
+    private void UpdateColor()
+    {
+        if (isTarget)
             material.color = Color.green;
         else
             material.color = Color.red;

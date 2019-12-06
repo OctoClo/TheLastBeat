@@ -135,6 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7634679184f77ec4593b034bfccd520b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInHitbox: 0
 --- !u!1 &2774357177467219729
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,7 +194,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25abf0bdcd66ab94fbb17e2c4d41c5cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 0}
 --- !u!114 &5702991526914210722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,7 +362,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25abf0bdcd66ab94fbb17e2c4d41c5cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 0}
 --- !u!114 &7527763480712231296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -484,7 +483,6 @@ GameObject:
   - component: {fileID: 8144842508294378855}
   - component: {fileID: 7780893308518383053}
   - component: {fileID: 725213043602545955}
-  - component: {fileID: 859019788151849111}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -556,23 +554,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!114 &859019788151849111
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4530586894534398780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 1847
 --- !u!1 &5823600917476266691
 GameObject:
   m_ObjectHideFlags: 0
@@ -762,7 +743,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7484901647461563443}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd6a10ab5b49c2c479ba838f3051437d, type: 3}
+  m_Script: {fileID: 11500000, guid: e047a9a15e32c19469369946a981b86c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
@@ -772,9 +753,10 @@ MonoBehaviour:
   stateText: {fileID: 7527763480712231296}
   stunDuration: 1
   chancesToGetStunned:
-  - 0.5
-  - 0.3
-  - 0.15
+  - 0
+  - 0
+  - 0
+  - 0
   - 0
 --- !u!65 &2197232650288863714
 BoxCollider:

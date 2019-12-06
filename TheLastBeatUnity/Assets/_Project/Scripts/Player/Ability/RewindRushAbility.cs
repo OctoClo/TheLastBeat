@@ -28,6 +28,8 @@ public class RewindRushAbility : Ability
     AK.Wwise.State rewindState = null;
     AK.Wwise.State normalState = null;
 
+    bool attackOnRythm = false;
+
     public RewindRushAbility(RewindRushParameters rrp) : base(rrp.AttachedPlayer)
     {
         duration = rrp.Duration;
@@ -75,17 +77,18 @@ public class RewindRushAbility : Ability
         player.FocusZone.overrideControl = true;
         player.ColliderObject.layer = LayerMask.NameToLayer("Player Dashing");
 
-        if (BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT))
+        attackOnRythm = BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT);
+        if (attackOnRythm)
         {
             BeatManager.Instance.ValidateLastBeat(BeatManager.TypeBeat.BEAT);
         }
         else
         {
-            player.Health.ModifyPulseValue(pulseCost);
-            if (player.Health.InBerserkZone)
+            if (player.Health.InCriticMode)
             {
                 player.Die();
             }
+            player.Health.ModifyPulseValue(pulseCost);
         }
 
         Sequence seq = DOTween.Sequence();
@@ -98,15 +101,18 @@ public class RewindRushAbility : Ability
         {
             if (enemy)
             {
-                player.FocusZone.OverrideCurrentEnemy(enemy);
-
                 direction = new Vector3(enemy.transform.position.x, goalPosition.y, enemy.transform.position.z) - goalPosition;
                 direction *= 1.3f;
 
                 goalPosition += direction;
-                seq.AppendCallback(() => player.Anim.LaunchAnim(EPlayerAnim.RUSHING));
+                seq.AppendCallback(() =>
+                {
+                    player.FocusZone.OverrideCurrentEnemy(enemy);
+                    player.LookAtCurrentTarget();
+                    player.Anim.LaunchAnim(EPlayerAnim.RUSHING);
+                });
                 seq.Append(player.transform.DOMove(goalPosition, duration));
-                seq.AppendCallback(() => { enemy.GetAttacked(); });
+                seq.AppendCallback(() => { enemy.GetAttacked(attackOnRythm); });
             }
         }
 

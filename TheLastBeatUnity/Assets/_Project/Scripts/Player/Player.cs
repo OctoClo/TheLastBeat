@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 using DG.Tweening;
 using System;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class Player : Inputable
 {
@@ -31,6 +32,9 @@ public class Player : Inputable
     [TabGroup("Rush")][SerializeField]
     RewindRushParameters rushRewindParameters = null;
 
+    [SerializeField]
+    AK.Wwise.Event stopEvent = null;
+
     [HideInInspector]
     public PlayerStatus Status { get; private set; }
     [HideInInspector]
@@ -40,6 +44,7 @@ public class Player : Inputable
 
     [SerializeField]
     Health healthSystem = null;
+
     public Health Health => healthSystem;
 
     [SerializeField]
@@ -77,6 +82,39 @@ public class Player : Inputable
         abilities.Add(EInputAction.REWINDRUSH, rewindRush);
 
         rush.RewindRush = rewindRush;
+
+        if (SceneHelper.DeathCount > 0)
+        {
+            Respawn();
+        }
+    }
+
+    void Respawn()
+    {
+        IOrderedEnumerable<GameObject> possiblesRespawn = GameObject.FindGameObjectsWithTag("PotentialRespawn")
+            .OrderBy(x => Vector3.Distance(SceneHelper.LastDeathPosition, x.transform.position));
+
+        //There is at least one possible respawn
+        if (possiblesRespawn.Count() > 0)
+        {
+            Transform respawn = possiblesRespawn.First().transform;
+            transform.position = respawn.position + Vector3.up;
+            transform.forward = respawn.forward;
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        IOrderedEnumerable<GameObject> possiblesRespawn = GameObject.FindGameObjectsWithTag("PotentialRespawn")
+        .OrderBy(x => Vector3.Distance(transform.position, x.transform.position));
+
+        //There is at least one possible respawn
+        if (possiblesRespawn.Count() > 0)
+        {
+            Gizmos.color = Color.blue;
+            Transform respawn = possiblesRespawn.First().transform;
+            Gizmos.DrawCube(respawn.position, new Vector3(0.5f, 100, 0.5f));
+        }
     }
 
     public override void ProcessInput(Rewired.Player player)
@@ -86,16 +124,10 @@ public class Player : Inputable
         Anim.SetMovement(direction);
 
         // Look at
-        CurrentTarget = FocusZone.GetCurrentTarget();
-        Vector3 lookVector;
-        if (CurrentTarget)
+        LookAtCurrentTarget();
+        if (!CurrentTarget && direction != Vector3.zero)
         {
-            lookVector = new Vector3(CurrentTarget.transform.position.x, transform.position.y, CurrentTarget.transform.position.z) - transform.position;
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(lookVector), maxRotationPerFrame);
-        }
-        else if (direction != Vector3.zero)
-        {
-            lookVector = direction;
+            Vector3 lookVector = direction;
             lookVector.Normalize();
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(lookVector), maxRotationPerFrame);
         }
@@ -121,10 +153,22 @@ public class Player : Inputable
         }
     }
 
+    public void LookAtCurrentTarget()
+    {
+        CurrentTarget = FocusZone.GetCurrentTarget();
+        if (CurrentTarget)
+        {
+            Vector3 lookVector = new Vector3(CurrentTarget.transform.position.x, transform.position.y, CurrentTarget.transform.position.z) - transform.position;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(lookVector), 360);
+        }
+    }
+
     public void Die()
     {
         DOTween.KillAll();
         blockInput = true;
+        SceneHelper.Instance.RecordDeath(transform.position);
+        stopEvent.Post(gameObject);
         StartCoroutine(DieCoroutine());
     }
 
@@ -143,7 +187,8 @@ public class Player : Inputable
             yield return null;
         }
 
-        SceneHelper.Instance.StartFade(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name), 3, Color.black);
+        SceneHelper.Instance.RecordDeath(transform.position);
+        SceneHelper.Instance.StartFade(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name), 2, Color.black);
     }
 
     private void Update()

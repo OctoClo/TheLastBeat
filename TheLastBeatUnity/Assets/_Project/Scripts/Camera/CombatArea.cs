@@ -16,6 +16,15 @@ public class CombatArea : MonoBehaviour
     [SerializeField]
     float timeTransition = 0;
 
+    [SerializeField]
+    AK.Wwise.State inCombat;
+
+    [SerializeField]
+    AK.Wwise.State outCombat;
+
+    int nbTargetsAtThisMoment = 0;
+    bool pipelineLock = false;
+
     Dictionary<Transform, Sequence> runningSequences = new Dictionary<Transform, Sequence>();
 
     void SetWeight(float weight, Transform trsf)
@@ -45,8 +54,24 @@ public class CombatArea : MonoBehaviour
                 runningSequences[coll.transform] = null;
             }
             Sequence seq = DOTween.Sequence();
-            seq.AppendCallback(() => groupTarget.AddMember(coll.transform, 0, 8));
+            seq.AppendCallback(() =>
+            {
+                groupTarget.AddMember(coll.transform, 0, 8);
+                if (!pipelineLock)
+                {
+                    nbTargetsAtThisMoment = groupTarget.m_Targets.Count();
+                    pipelineLock = true;
+                }
+            });
             seq.Append(DOTween.To(() => GetWeight(coll.transform, 0), x => SetWeight(x, coll.transform), maxWeight, timeTransition));
+            seq.AppendCallback(() =>
+            {
+                if (nbTargetsAtThisMoment == 2)
+                {
+                    EnterCombat();
+                }
+                pipelineLock = false;
+            });
             seq.Play();
             runningSequences[coll.transform] = seq;
         }
@@ -65,7 +90,24 @@ public class CombatArea : MonoBehaviour
             seq.Append(DOTween.To(() => GetWeight(coll.transform, maxWeight), x => SetWeight(x, coll.transform), 0, timeTransition));
             seq.AppendCallback(() => runningSequences.Remove(coll.transform));
             seq.AppendCallback(() => groupTarget.RemoveMember(coll.transform));
+            seq.AppendCallback(() =>
+            {
+                if (groupTarget.m_Targets.Count() == 1)
+                {
+                    ExitCombat();
+                }
+            });
             seq.Play();
         }
+    }
+
+    void EnterCombat()
+    {
+        inCombat.SetValue();
+    }
+
+    void ExitCombat()
+    {
+        outCombat.SetValue();
     }
 }
