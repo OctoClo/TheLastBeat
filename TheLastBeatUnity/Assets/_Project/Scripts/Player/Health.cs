@@ -87,8 +87,9 @@ public class Health : Beatable
     Sequence seq = null;
     Sequence berserkSeq = null;
 
-    public void Start()
+    protected override void Start()
     {
+        base.Start();
         Debug.Assert(allZones.Count > 0, "No segment");
         if (CurrentZone)
         {

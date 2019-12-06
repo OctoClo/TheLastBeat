@@ -4,10 +4,7 @@ using UnityEngine;
 
 public class BeatManager : MonoBehaviour
 {
-    [SerializeField]
     List<Beatable> Beats = new List<Beatable>();
-
-    [SerializeField]
     List<Beatable> Bar = new List<Beatable>();
 
     [SerializeField]
@@ -39,6 +36,11 @@ public class BeatManager : MonoBehaviour
         public float beatInterval;
     }
     public static BeatManager Instance => GameObject.FindObjectOfType<BeatManager>();
+    
+    public void Add(Beatable target , TypeBeat tb)
+    {
+        (tb == TypeBeat.BAR ? Bar : Beats).Add(target);
+    }
 
     public bool IsInRythm(float sampleTime , TypeBeat layer)
     {
