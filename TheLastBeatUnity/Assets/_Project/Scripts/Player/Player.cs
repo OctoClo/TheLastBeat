@@ -85,35 +85,7 @@ public class Player : Inputable
 
         if (SceneHelper.DeathCount > 0)
         {
-            Respawn();
-        }
-    }
-
-    void Respawn()
-    {
-        IOrderedEnumerable<GameObject> possiblesRespawn = GameObject.FindGameObjectsWithTag("PotentialRespawn")
-            .OrderBy(x => Vector3.Distance(SceneHelper.LastDeathPosition, x.transform.position));
-
-        //There is at least one possible respawn
-        if (possiblesRespawn.Count() > 0)
-        {
-            Transform respawn = possiblesRespawn.First().transform;
-            transform.position = respawn.position + Vector3.up;
-            transform.forward = respawn.forward;
-        }
-    }
-
-    private void OnDrawGizmos()
-    {
-        IOrderedEnumerable<GameObject> possiblesRespawn = GameObject.FindGameObjectsWithTag("PotentialRespawn")
-        .OrderBy(x => Vector3.Distance(transform.position, x.transform.position));
-
-        //There is at least one possible respawn
-        if (possiblesRespawn.Count() > 0)
-        {
-            Gizmos.color = Color.blue;
-            Transform respawn = possiblesRespawn.First().transform;
-            Gizmos.DrawCube(respawn.position, new Vector3(0.5f, 100, 0.5f));
+            SceneHelper.Instance.Respawn(transform);
         }
     }
 
@@ -196,6 +168,8 @@ public class Player : Inputable
         foreach (KeyValuePair<EInputAction, Ability> abilityPair in abilities)
             abilityPair.Value.Update(Time.deltaTime);
 
+
+        //Need remove
         if (Input.GetKeyDown(KeyCode.K))
             Die();
     }
