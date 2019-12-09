@@ -10,6 +10,7 @@ public class BlinkParams : AbilityParams
     public float PulseCost = 0;
     public float Cooldown = 0;
     public AK.Wwise.Event Sound = null;
+    public GameObject prefabMark;
 }
 
 public class BlinkAbility : Ability
@@ -22,6 +23,7 @@ public class BlinkAbility : Ability
     AK.Wwise.Event soundBlink = null;
 
     Sequence currentSequence = null;
+    GameObject prefabMark;
 
     public BlinkAbility(BlinkParams bp) : base(bp.AttachedPlayer)
     {
@@ -29,6 +31,7 @@ public class BlinkAbility : Ability
         pulseCost = bp.PulseCost;
         soundBlink = bp.Sound;
         cooldown = bp.Cooldown;
+        this.prefabMark = bp.prefabMark;
     }
 
     public override void Launch()
@@ -47,6 +50,7 @@ public class BlinkAbility : Ability
 
     private void Blink()
     {
+        CreateMark();
         Vector3 startSize = player.VisualPart.localScale;
         Vector3 direction = player.CurrentDirection;
         direction.Normalize();
@@ -77,7 +81,33 @@ public class BlinkAbility : Ability
         currentSequence.AppendCallback(() =>
         {
             player.Status.StopBlink();
+            CreateMark();
         });
         currentSequence.Play();
+    }
+
+    void CreateMark()
+    {
+        RaycastHit hit;
+        //Find nearest ground + can be created on steep
+        if (Physics.Raycast(player.transform.position , Vector3.down, out hit))
+        {
+            GameObject markInstanciated = GameObject.Instantiate(prefabMark);
+            markInstanciated.transform.position = hit.point + (hit.normal * 0.1f);
+            markInstanciated.transform.up = hit.normal;
+            Material mat = markInstanciated.GetComponent<MeshRenderer>().material;
+            Sequence seq = DOTween.Sequence();
+            seq.Append(DOTween.To(() => mat.GetFloat("_CoeffDissolve"), x => mat.SetFloat("_CoeffDissolve", x), 1, 0.1f));
+            seq.AppendInterval(0.5f);
+            seq.Append(DOTween.To(() => mat.GetFloat("_CoeffDissolve"), x => mat.SetFloat("_CoeffDissolve", x), 0, 0.5f));
+            seq.AppendCallback(() => GameObject.Destroy(markInstanciated));
+            seq.Play();
+        }
+
+    }
+
+    void MarkAnimation(bool reversed)
+    {
+
     }
 }
