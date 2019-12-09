@@ -50,11 +50,12 @@ public class BlinkAbility : Ability
 
     private void Blink()
     {
-        CreateMark();
         Vector3 startSize = player.VisualPart.localScale;
         Vector3 direction = player.CurrentDirection;
         direction.Normalize();
         Vector3 newPosition = player.transform.position + direction * speed;
+        CreateMark(player.transform.position);
+        CreateMark(newPosition);
 
         currentSequence = DOTween.Sequence();
         currentSequence.AppendCallback(() =>
@@ -81,23 +82,22 @@ public class BlinkAbility : Ability
         currentSequence.AppendCallback(() =>
         {
             player.Status.StopBlink();
-            CreateMark();
         });
         currentSequence.Play();
     }
 
-    void CreateMark()
+    void CreateMark(Vector3 positionCast)
     {
         RaycastHit hit;
         //Find nearest ground + can be created on steep
-        if (Physics.Raycast(player.transform.position , Vector3.down, out hit))
+        if (Physics.Raycast(positionCast , Vector3.down, out hit))
         {
             GameObject markInstanciated = GameObject.Instantiate(prefabMark);
             markInstanciated.transform.position = hit.point + (hit.normal * 0.1f);
             markInstanciated.transform.up = hit.normal;
             Material mat = markInstanciated.GetComponent<MeshRenderer>().material;
             Sequence seq = DOTween.Sequence();
-            seq.Append(DOTween.To(() => mat.GetFloat("_CoeffDissolve"), x => mat.SetFloat("_CoeffDissolve", x), 1, 0.1f));
+            seq.Append(DOTween.To(() => mat.GetFloat("_CoeffDissolve"), x => mat.SetFloat("_CoeffDissolve", x), 1, 0.5f));
             seq.AppendInterval(0.5f);
             seq.Append(DOTween.To(() => mat.GetFloat("_CoeffDissolve"), x => mat.SetFloat("_CoeffDissolve", x), 0, 0.5f));
             seq.AppendCallback(() => GameObject.Destroy(markInstanciated));
