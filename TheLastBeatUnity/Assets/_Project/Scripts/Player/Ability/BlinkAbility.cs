@@ -10,13 +10,14 @@ public class BlinkParams : AbilityParams
     public float PulseCost = 0;
     public float Cooldown = 0;
     public AK.Wwise.Event Sound = null;
+    public float timeWait = 0;
 }
 
 public class BlinkAbility : Ability
 {
     float speed = 5;
     float pulseCost = 0;
-
+    float timeMomentum = 0;
     float currentCooldown = 0;
     float cooldown = 0;
     AK.Wwise.Event soundBlink = null;
@@ -29,6 +30,7 @@ public class BlinkAbility : Ability
         pulseCost = bp.PulseCost;
         soundBlink = bp.Sound;
         cooldown = bp.Cooldown;
+        timeMomentum = bp.timeWait;
     }
 
     public override void Launch()
@@ -71,6 +73,7 @@ public class BlinkAbility : Ability
             }
             soundBlink.Post(player.gameObject);
         });
+        currentSequence.AppendInterval(timeMomentum);
         currentSequence.Append(player.VisualPart.DOScale(Vector3.zero, 0.05f));
         currentSequence.Append(player.transform.DOMove(newPosition, 0.2f));
         currentSequence.Append(player.VisualPart.DOScale(startSize, 0.05f));
