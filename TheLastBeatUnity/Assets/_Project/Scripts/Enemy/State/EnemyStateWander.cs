@@ -5,7 +5,6 @@ using DG.Tweening;
 
 public class EnemyStateWander : EnemyState
 {
-    Sequence currentMove = null;
     Vector3 nextPosition = Vector3.zero;
 
     Vector2 waitDurationMinMax = Vector2.zero;
@@ -21,22 +20,17 @@ public class EnemyStateWander : EnemyState
     {
         base.Enter();
 
-        currentMove = null;
-        waitTimer = RandomHelper.GetRandom(waitDurationMinMax.x, waitDurationMinMax.y);
+        waitTimer = 0;
     }
 
     void StartNewMove()
     {
-        currentMove = DOTween.Sequence();
+        enemy.CurrentMove = DOTween.Sequence();
         enemy.WanderZone.GetRandomPosition(out nextPosition, enemy.transform.position.y);
-        currentMove.Append(enemy.transform.DOLookAt(nextPosition, 1, AxisConstraint.Y));
-        currentMove.Append(enemy.transform.DOMove(nextPosition, Vector3.Distance(enemy.transform.position, nextPosition) / enemy.Speed));
-        currentMove.AppendCallback(() =>
-        {
-            waitTimer = RandomHelper.GetRandom(waitDurationMinMax.x, waitDurationMinMax.y);
-            currentMove = null;
-        });
-        currentMove.Play();
+        enemy.CurrentMove.Append(enemy.transform.DOLookAt(nextPosition, 1, AxisConstraint.Y));
+        enemy.CurrentMove.Append(enemy.transform.DOMove(nextPosition, Vector3.Distance(enemy.transform.position, nextPosition) / enemy.Speed));
+        enemy.CurrentMove.AppendCallback(() => { enemy.CurrentMove = null; });
+        enemy.CurrentMove.Play();
     }
 
     public override EEnemyState UpdateState(float deltaTime)
@@ -49,11 +43,14 @@ public class EnemyStateWander : EnemyState
                 StartNewMove();
         }
 
+        if (waitTimer <= 0 && enemy.CurrentMove == null)
+        {
+            waitTimer = RandomHelper.GetRandom(waitDurationMinMax.x, waitDurationMinMax.y);
+        }
+
         if (enemy.DetectionZone.PlayerInZone)
         {
-            if (currentMove != null)
-                currentMove.Kill();
-
+            enemy.KillCurrentTween();
             return EEnemyState.CHASE;
         }
         

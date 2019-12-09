@@ -5,7 +5,6 @@ using DG.Tweening;
 
 public class EnemyStateAttack : EnemyState
 {
-    Transform player = null;
     Vector3 scaleEndValues = Vector3.zero;
     bool animationFinished = false;
 
@@ -20,17 +19,19 @@ public class EnemyStateAttack : EnemyState
         base.Enter();
 
         animationFinished = false;
-        Sequence seq = DOTween.Sequence();
 
-        seq.AppendInterval(0.5f);
-        seq.Append(enemy.transform.DOScale(scaleEndValues, 0.75f).SetEase(Ease.OutBounce));
-        seq.AppendCallback(() =>
+        enemy.CurrentMove = DOTween.Sequence();
+
+        enemy.CurrentMove.AppendInterval(0.5f);
+        enemy.CurrentMove.Append(enemy.transform.DOScale(scaleEndValues, 0.75f).SetEase(Ease.OutBounce));
+        enemy.CurrentMove.AppendCallback(() =>
         {
             animationFinished = true;
+            enemy.CurrentMove = null;
             // TODO: Modify player pulse
         });
 
-        seq.Play();
+        enemy.CurrentMove.Play();
     }
 
     public override EEnemyState UpdateState(float deltaTime)
@@ -40,6 +41,4 @@ public class EnemyStateAttack : EnemyState
 
         return stateEnum;
     }
-    
-    
 }

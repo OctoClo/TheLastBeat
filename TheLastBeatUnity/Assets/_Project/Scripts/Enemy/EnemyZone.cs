@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+enum ECheckPlayerPosition
+{
+    TOO_CLOSE,
+    TOO_FAR
+}
+
 public class EnemyZone : MonoBehaviour
 {
     [SerializeField]
@@ -15,6 +21,7 @@ public class EnemyZone : MonoBehaviour
     EnemyDetectionZone detectionZone = null;
 
     bool chasing = false;
+    bool comingBack = false;
 
     private void Start()
     {
@@ -41,49 +48,106 @@ public class EnemyZone : MonoBehaviour
 
     private void Update()
     {
-        if (!chasing)
+        if (comingBack)
         {
-            if (detectionZone.PlayerInZone)
+            if (IsEveryoneBack())
             {
-                chasing = true;
+                comingBack = false;
             }
-        }        
-        else
+            
+            if (CheckPlayerPosition(ECheckPlayerPosition.TOO_CLOSE))
+            {
+                TellEnemiesToChaseAgain();
+            }
+        }
+        else if (chasing)
         {
-            if (PlayerTooFar() && !detectionZone.PlayerInZone)
+            if (CheckPlayerPosition(ECheckPlayerPosition.TOO_FAR) && !detectionZone.PlayerInZone)
             {
                 CallEnemiesBack();
             }
         }
+        else
+        {
+            if (enemies.Count > 0 && enemies[0].CurrentStateEnum == EEnemyState.CHASE && detectionZone.PlayerInZone)
+            {
+                Debug.Log("The chase begins");
+                chasing = true;
+            }
+        }
     }
 
-    private bool PlayerTooFar()
+    private bool CheckPlayerPosition(ECheckPlayerPosition type)
     {
         float currentDistance = 0;
+        float minDistance = 9999;
 
         foreach (Enemy enemy in enemies)
         {
             currentDistance = (enemy.transform.position - player.position).sqrMagnitude;
 
-            if (currentDistance >= sqrMaxDistanceChase)
+            if (currentDistance < minDistance)
             {
-                return true;
+                minDistance = currentDistance;
             }
         }
 
+        if (type == ECheckPlayerPosition.TOO_CLOSE && PlayerTooClose(minDistance))
+            return true;
+
+        if (type == ECheckPlayerPosition.TOO_FAR && PlayerTooFar(minDistance))
+            return true;
+
         return false;
+    }
+
+    private bool PlayerTooClose(float distance)
+    {
+        return (distance < sqrMaxDistanceChase);
+    }
+
+    private bool PlayerTooFar(float distance)
+    {
+        return (distance > sqrMaxDistanceChase);
     }
 
     private void CallEnemiesBack()
     {
         Debug.Log("Back to me!");
-        
+
         foreach (Enemy enemy in enemies)
         {
             enemy.ComeBack = true;
         }
 
         chasing = false;
+        comingBack = true;
+    }
+
+    private void TellEnemiesToChaseAgain()
+    {
+        Debug.Log("Chase again!");
+
+        foreach (Enemy enemy in enemies)
+        {
+            enemy.ChaseAgain = true;
+        }
+
+        comingBack = false;
+        chasing = true;
+    }
+
+    private bool IsEveryoneBack()
+    {
+        foreach (Enemy enemy in enemies)
+        {
+            if (enemy.CurrentStateEnum != EEnemyState.WANDER)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private void OnEnemyDeadEvent(EnemyDeadEvent e)

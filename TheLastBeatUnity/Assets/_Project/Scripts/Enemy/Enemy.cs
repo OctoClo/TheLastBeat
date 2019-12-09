@@ -36,11 +36,15 @@ public class Enemy : MonoBehaviour
     Material material = null;
 
     Dictionary<EEnemyState, EnemyState> states;
-    EEnemyState currentStateEnum;
+    public EEnemyState CurrentStateEnum { get; private set; }
     EnemyState currentState;
 
     [HideInInspector]
     public bool ComeBack = false;
+    [HideInInspector]
+    public bool ChaseAgain = false;
+    [HideInInspector]
+    public Sequence CurrentMove = null;
 
     public EnemyDetectionZone DetectionZone { get; private set; }
     public EnemyWanderZone WanderZone { get; private set; }
@@ -69,8 +73,8 @@ public class Enemy : MonoBehaviour
         states.Add(EEnemyState.RECOVER_ATTACK, new EnemyStateRecoverAttack(this));
         states.Add(EEnemyState.COME_BACK, new EnemyStateComeBack(this));
 
-        currentStateEnum = EEnemyState.WANDER;
-        states.TryGetValue(currentStateEnum, out currentState);
+        CurrentStateEnum = EEnemyState.WANDER;
+        states.TryGetValue(CurrentStateEnum, out currentState);
         currentState.Enter();
     }
 
@@ -78,10 +82,10 @@ public class Enemy : MonoBehaviour
     {
         EEnemyState newStateEnum = currentState.UpdateState(Time.deltaTime);
         EnemyState newState;
-        if (newStateEnum != currentStateEnum && states.TryGetValue(newStateEnum, out newState))
+        if (newStateEnum != CurrentStateEnum && states.TryGetValue(newStateEnum, out newState))
         {
             currentState.Exit();
-            currentStateEnum = newStateEnum;
+            CurrentStateEnum = newStateEnum;
             currentState = newState;
             currentState.Enter();
         }
@@ -150,5 +154,14 @@ public class Enemy : MonoBehaviour
     public void SetStateText(string text)
     {
         stateText.text = text;
+    }
+
+    public void KillCurrentTween()
+    {
+        if (CurrentMove != null)
+        {
+            CurrentMove.Kill();
+            CurrentMove = null;
+        }
     }
 }
