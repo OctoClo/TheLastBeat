@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EEnemyType
+{
+    STATIONARY,
+    DEFAULT
+}
+
 enum ECheckPlayerPosition
 {
     TOO_CLOSE,
@@ -10,6 +16,8 @@ enum ECheckPlayerPosition
 
 public class EnemyZone : MonoBehaviour
 {
+    [SerializeField]
+    EEnemyType enemiesType = EEnemyType.DEFAULT;
     [SerializeField]
     Transform player = null;
     [SerializeField]
@@ -32,7 +40,7 @@ public class EnemyZone : MonoBehaviour
         GetComponentsInChildren(false, enemies);
         foreach (Enemy enemy in enemies)
         {
-            enemy.ZoneInitialize(wanderZone, detectionZone, player);
+            enemy.ZoneInitialize(enemiesType, wanderZone, detectionZone, player);
         }
     }
 

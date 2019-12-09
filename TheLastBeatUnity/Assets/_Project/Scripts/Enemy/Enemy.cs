@@ -12,7 +12,6 @@ public class Enemy : MonoBehaviour
     [TabGroup("General")] [SerializeField]
     float speed = 5;
     public float Speed => speed;
-
     [TabGroup("General")] [SerializeField]
     int maxLives = 10;
     int lives = 10;
@@ -32,6 +31,7 @@ public class Enemy : MonoBehaviour
     float[] chancesToGetStunned = new float[5];
     int stunCounter = 0;
 
+    EEnemyType type = EEnemyType.DEFAULT;
     bool isTarget = false;
     Material material = null;
 
@@ -59,35 +59,42 @@ public class Enemy : MonoBehaviour
         lifeText.text = lives.ToString();
     }
 
-    public void ZoneInitialize(EnemyWanderZone newWanderZone, EnemyDetectionZone newDetectionZone, Transform newPlayer)
+    public void ZoneInitialize(EEnemyType newType, EnemyWanderZone newWanderZone, EnemyDetectionZone newDetectionZone, Transform newPlayer)
     {
+        type = newType;
         DetectionZone = newDetectionZone;
         WanderZone = newWanderZone;
         Player = newPlayer;
 
-        states = new Dictionary<EEnemyState, EnemyState>();
-        states.Add(EEnemyState.WANDER, new EnemyStateWander(this));
-        states.Add(EEnemyState.CHASE, new EnemyStateChase(this));
-        states.Add(EEnemyState.PREPARE_ATTACK, new EnemyStatePrepareAttack(this));
-        states.Add(EEnemyState.ATTACK, new EnemyStateAttack(this));
-        states.Add(EEnemyState.RECOVER_ATTACK, new EnemyStateRecoverAttack(this));
-        states.Add(EEnemyState.COME_BACK, new EnemyStateComeBack(this));
+        if (type == EEnemyType.DEFAULT)
+        {
+            states = new Dictionary<EEnemyState, EnemyState>();
+            states.Add(EEnemyState.WANDER, new EnemyStateWander(this));
+            states.Add(EEnemyState.CHASE, new EnemyStateChase(this));
+            states.Add(EEnemyState.PREPARE_ATTACK, new EnemyStatePrepareAttack(this));
+            states.Add(EEnemyState.ATTACK, new EnemyStateAttack(this));
+            states.Add(EEnemyState.RECOVER_ATTACK, new EnemyStateRecoverAttack(this));
+            states.Add(EEnemyState.COME_BACK, new EnemyStateComeBack(this));
 
-        CurrentStateEnum = EEnemyState.WANDER;
-        states.TryGetValue(CurrentStateEnum, out currentState);
-        currentState.Enter();
+            CurrentStateEnum = EEnemyState.WANDER;
+            states.TryGetValue(CurrentStateEnum, out currentState);
+            currentState.Enter();
+        }
     }
 
     private void Update()
     {
-        EEnemyState newStateEnum = currentState.UpdateState(Time.deltaTime);
-        EnemyState newState;
-        if (newStateEnum != CurrentStateEnum && states.TryGetValue(newStateEnum, out newState))
+        if (type == EEnemyType.DEFAULT)
         {
-            currentState.Exit();
-            CurrentStateEnum = newStateEnum;
-            currentState = newState;
-            currentState.Enter();
+            EEnemyState newStateEnum = currentState.UpdateState(Time.deltaTime);
+            EnemyState newState;
+            if (newStateEnum != CurrentStateEnum && states.TryGetValue(newStateEnum, out newState))
+            {
+                currentState.Exit();
+                CurrentStateEnum = newStateEnum;
+                currentState = newState;
+                currentState.Enter();
+            }
         }
 
         /*if (stunTimer > 0)
