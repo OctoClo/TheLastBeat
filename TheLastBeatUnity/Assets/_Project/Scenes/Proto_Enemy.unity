@@ -1208,6 +1208,18 @@ Transform:
   m_Father: {fileID: 925849653}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &154777000 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8765324147976415590, guid: e0b5776d33d81194499f12bbaf555111,
+    type: 3}
+  m_PrefabInstance: {fileID: 378885430}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37f76dd2d852beb4b8f117f37dcfa082, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &156194913
 GameObject:
   m_ObjectHideFlags: 0
@@ -3032,6 +3044,11 @@ PrefabInstance:
       propertyPath: riftAnimator
       value: 
       objectReference: {fileID: 4503622671163791453}
+    - target: {fileID: 1855074841851943534, guid: e0b5776d33d81194499f12bbaf555111,
+        type: 3}
+      propertyPath: debugMode
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e0b5776d33d81194499f12bbaf555111, type: 3}
 --- !u!1 &390955839
@@ -6532,12 +6549,12 @@ PrefabInstance:
         type: 3}
       propertyPath: healthSystem
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2002506059}
     - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
         type: 3}
       propertyPath: beatManager
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 154777000}
     - target: {fileID: 3489716977114045590, guid: 07801b51c158daf499d145da957e6459,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -12281,12 +12298,12 @@ PrefabInstance:
     - target: {fileID: 2074740811440087053, guid: 9eb9653ab25b75544a501fde67374bed,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.0134778
+      value: 3.0088825
       objectReference: {fileID: 0}
     - target: {fileID: 2074740811440087053, guid: 9eb9653ab25b75544a501fde67374bed,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -49.635674
+      value: -49.618523
       objectReference: {fileID: 0}
     - target: {fileID: 2074740811440087053, guid: 9eb9653ab25b75544a501fde67374bed,
         type: 3}
@@ -14814,7 +14831,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemiesType: 1
-  player: {fileID: 911424943}
+  player: {fileID: 368058109}
   maxDistanceChase: 20
 --- !u!1 &1830795538
 GameObject:
@@ -16308,6 +16325,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2002506059 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1855074841851943534, guid: e0b5776d33d81194499f12bbaf555111,
+    type: 3}
+  m_PrefabInstance: {fileID: 378885430}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76741f76a58b15c4ebf6b4591efca074, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2009675925
 GameObject:
   m_ObjectHideFlags: 0

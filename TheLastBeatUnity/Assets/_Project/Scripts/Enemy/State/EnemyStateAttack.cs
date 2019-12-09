@@ -22,13 +22,21 @@ public class EnemyStateAttack : EnemyState
 
         enemy.CurrentMove = DOTween.Sequence();
 
-        enemy.CurrentMove.AppendInterval(0.5f);
-        enemy.CurrentMove.Append(enemy.transform.DOScale(scaleEndValues, 0.75f).SetEase(Ease.OutBounce));
+        enemy.CurrentMove.AppendInterval(0.25f);
+        enemy.CurrentMove.Append(enemy.transform.DOScale(scaleEndValues, 0.5f).SetEase(Ease.OutBounce));
         enemy.CurrentMove.AppendCallback(() =>
         {
+            if (enemy.WeaponHitbox.PlayerInHitbox)
+            {
+                if (enemy.Player.Health.InCriticMode)
+                {
+                    enemy.Player.Die();
+                }
+                enemy.Player.Health.ModifyPulseValue(enemy.PulseDamage);
+            }
+            
             animationFinished = true;
             enemy.CurrentMove = null;
-            // TODO: Modify player pulse
         });
 
         enemy.CurrentMove.Play();

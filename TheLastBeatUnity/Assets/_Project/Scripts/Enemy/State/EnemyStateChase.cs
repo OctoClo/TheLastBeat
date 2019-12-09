@@ -20,7 +20,7 @@ public class EnemyStateChase : EnemyState
 
     public override EEnemyState UpdateState(float deltaTime)
     {
-        Vector3 toPlayer = enemy.Player.position - enemy.transform.position;
+        Vector3 toPlayer = enemy.Player.transform.position - enemy.transform.position;
         toPlayer.y = 0;
         toPlayer.Normalize();
         enemy.transform.rotation = Quaternion.RotateTowards(enemy.transform.rotation, Quaternion.LookRotation(toPlayer), 10);

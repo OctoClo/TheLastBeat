@@ -16,9 +16,6 @@ public class Enemy : MonoBehaviour
     int maxLives = 10;
     int lives = 10;
     [TabGroup("General")] [SerializeField]
-    int pulseDamage = 5;
-    public EnemyWeaponHitbox WeaponHitbox { get; private set; }
-    [TabGroup("General")] [SerializeField]
     TextMeshProUGUI lifeText = null;
     [TabGroup("General")] [SerializeField]
     TextMeshProUGUI stateText = null;
@@ -35,6 +32,9 @@ public class Enemy : MonoBehaviour
     bool isTarget = false;
     Material material = null;
 
+    public int PulseDamage = 5;
+    public EnemyWeaponHitbox WeaponHitbox { get; private set; }
+
     Dictionary<EEnemyState, EnemyState> states;
     public EEnemyState CurrentStateEnum { get; private set; }
     EnemyState currentState;
@@ -48,7 +48,7 @@ public class Enemy : MonoBehaviour
 
     public EnemyDetectionZone DetectionZone { get; private set; }
     public EnemyWanderZone WanderZone { get; private set; }
-    public Transform Player { get; private set; }
+    public Player Player { get; private set; }
 
     private void Start()
     {
@@ -59,7 +59,7 @@ public class Enemy : MonoBehaviour
         lifeText.text = lives.ToString();
     }
 
-    public void ZoneInitialize(EEnemyType newType, EnemyWanderZone newWanderZone, EnemyDetectionZone newDetectionZone, Transform newPlayer)
+    public void ZoneInitialize(EEnemyType newType, EnemyWanderZone newWanderZone, EnemyDetectionZone newDetectionZone, Player newPlayer)
     {
         type = newType;
         DetectionZone = newDetectionZone;

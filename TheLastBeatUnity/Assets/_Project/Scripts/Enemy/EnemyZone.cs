@@ -19,7 +19,7 @@ public class EnemyZone : MonoBehaviour
     [SerializeField]
     EEnemyType enemiesType = EEnemyType.DEFAULT;
     [SerializeField]
-    Transform player = null;
+    Player player = null;
     [SerializeField]
     float maxDistanceChase = 6;
     float sqrMaxDistanceChase = 0;
@@ -92,7 +92,7 @@ public class EnemyZone : MonoBehaviour
 
         foreach (Enemy enemy in enemies)
         {
-            currentDistance = (enemy.transform.position - player.position).sqrMagnitude;
+            currentDistance = (enemy.transform.position - player.transform.position).sqrMagnitude;
 
             if (currentDistance < minDistance)
             {
