@@ -12,6 +12,9 @@ public class SceneHelper : MonoBehaviour
     [SerializeField]
     Image img = null;
 
+    [SerializeField]
+    Transform respawnPlace;
+
     Sequence seq;
     public static Vector3 LastDeathPosition = Vector3.zero;
     public static int DeathCount = 0;
@@ -29,6 +32,12 @@ public class SceneHelper : MonoBehaviour
     {
         DeathCount++;
         LastDeathPosition = position;
+    }
+
+    public void Respawn(Transform target)
+    {
+        target.forward = respawnPlace.forward;
+        target.position = respawnPlace.position + Vector3.up;
     }
 
     public void StartFade(UnityAction lambda, float duration , Color color)

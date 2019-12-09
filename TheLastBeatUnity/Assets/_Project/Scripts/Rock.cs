@@ -15,8 +15,9 @@ public class Rock : Beatable
     Sequence currentSequence;
     Material mat;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         mat = GetComponent<MeshRenderer>().material;
         originValue = mat.GetFloat("_Bias");
     }

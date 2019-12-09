@@ -28,6 +28,8 @@ public class RewindRushAbility : Ability
     AK.Wwise.State rewindState = null;
     AK.Wwise.State normalState = null;
 
+    bool attackOnRythm = false;
+
     public RewindRushAbility(RewindRushParameters rrp) : base(rrp.AttachedPlayer)
     {
         duration = rrp.Duration;
@@ -75,7 +77,8 @@ public class RewindRushAbility : Ability
         player.FocusZone.overrideControl = true;
         player.ColliderObject.layer = LayerMask.NameToLayer("Player Dashing");
 
-        if (BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT))
+        attackOnRythm = BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT);
+        if (attackOnRythm)
         {
             BeatManager.Instance.ValidateLastBeat(BeatManager.TypeBeat.BEAT);
         }
@@ -109,7 +112,7 @@ public class RewindRushAbility : Ability
                     player.Anim.LaunchAnim(EPlayerAnim.RUSHING);
                 });
                 seq.Append(player.transform.DOMove(goalPosition, duration));
-                seq.AppendCallback(() => { enemy.GetAttacked(); });
+                seq.AppendCallback(() => { enemy.GetAttacked(attackOnRythm); });
             }
         }
 

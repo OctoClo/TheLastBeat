@@ -15,11 +15,23 @@ public class SoundManager : MonoBehaviour
 
     [SerializeField]
     BeatManager bm = null;
+    public BeatManager BeatManager => bm;
+
+    public static SoundManager Instance { get; private set; } 
 
     private int musicPosition;
 
-    void Start()
+    void Awake()
     {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         foreach(AK.Wwise.State state in allInitializeState)
         {
             state.SetValue();

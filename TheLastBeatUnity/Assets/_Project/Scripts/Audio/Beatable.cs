@@ -10,8 +10,15 @@ public abstract class Beatable : MonoBehaviour
     public float SequenceDuration => sequenceDuration;
 
     bool pause;
+    [SerializeField]
+    BeatManager.TypeBeat recordAs = BeatManager.TypeBeat.BEAT;
 
     public abstract void Beat();
+
+    protected virtual void Start()
+    {
+        SoundManager.Instance.BeatManager.Add(this, recordAs);
+    }
 
     private void OnEnable()
     {

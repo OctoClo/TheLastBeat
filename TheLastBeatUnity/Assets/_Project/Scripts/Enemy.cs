@@ -53,12 +53,15 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        stunTimer -= Time.deltaTime;
-
-        if (stunTimer <= 0 && stunned)
+        if (stunTimer > 0)
         {
-            material.color = isTarget ? Color.green : Color.red;
-            stunned = false;
+            stunTimer -= Time.deltaTime;
+
+            if (stunTimer <= 0 && stunned)
+            {
+                material.color = isTarget ? Color.green : Color.red;
+                stunned = false;
+            }
         }
 
         Vector3 toPlayer = player.position - transform.position;
@@ -77,7 +80,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void GetAttacked()
+    public void GetAttacked(bool onRythm)
     {
         lives--;
         if (lives == 0)
@@ -85,6 +88,11 @@ public class Enemy : MonoBehaviour
             EventManager.Instance.Raise(new EnemyDeadEvent { enemy = this });
             Destroy(gameObject);
             return;
+        }
+
+        if (onRythm)
+        {
+            StartCoroutine(BlinkForOnRythmAttack());
         }
 
         lifeText.text = lives.ToString();
@@ -96,9 +104,15 @@ public class Enemy : MonoBehaviour
                 stunned = true;
                 stunCounter++;
                 stunTimer = stunDuration;
-                material.color = Color.blue;
             }
         }
+    }
+
+    IEnumerator BlinkForOnRythmAttack()
+    {
+        material.color = Color.blue;
+        yield return new WaitForSecondsRealtime(0.3f);
+        UpdateColor();
     }
 
     public void SetFocusZone(FocusZone newFocusZone)
@@ -108,7 +122,13 @@ public class Enemy : MonoBehaviour
 
     public void SetSelected(bool selected)
     {
-        if (selected)
+        isTarget = selected;
+        UpdateColor();
+    }
+
+    void UpdateColor()
+    {
+        if (isTarget)
             material.color = Color.green;
         else
             material.color = Color.red;
