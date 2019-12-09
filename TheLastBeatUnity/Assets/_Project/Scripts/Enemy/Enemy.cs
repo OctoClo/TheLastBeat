@@ -5,7 +5,7 @@ using Sirenix.OdinInspector;
 using TMPro;
 using DG.Tweening;
 
-public class EnemyDeadEvent : GameEvent { public Enemy enemy; }
+public class EnemyDeadEvent : GameEvent { public Enemy enemy = null; }
 
 public class Enemy : MonoBehaviour
 {
@@ -32,13 +32,19 @@ public class Enemy : MonoBehaviour
     float[] chancesToGetStunned = new float[5];
     int stunCounter = 0;
 
-    Material material = null;
-    Transform player = null;
     bool isTarget = false;
+    Material material = null;
 
     Dictionary<EEnemyState, EnemyState> states;
     EEnemyState currentStateEnum;
     EnemyState currentState;
+
+    [HideInInspector]
+    public bool ComeBack = false;
+
+    public EnemyDetectionZone DetectionZone { get; private set; }
+    public EnemyWanderZone WanderZone { get; private set; }
+    public Transform Player { get; private set; }
 
     private void Start()
     {
@@ -51,14 +57,17 @@ public class Enemy : MonoBehaviour
 
     public void ZoneInitialize(EnemyWanderZone newWanderZone, EnemyDetectionZone newDetectionZone, Transform newPlayer)
     {
-        player = newPlayer;
+        DetectionZone = newDetectionZone;
+        WanderZone = newWanderZone;
+        Player = newPlayer;
 
         states = new Dictionary<EEnemyState, EnemyState>();
-        states.Add(EEnemyState.WANDER, new EnemyStateWander(this, newWanderZone, newDetectionZone));
-        states.Add(EEnemyState.CHASE, new EnemyStateChase(this, player));
+        states.Add(EEnemyState.WANDER, new EnemyStateWander(this));
+        states.Add(EEnemyState.CHASE, new EnemyStateChase(this));
         states.Add(EEnemyState.PREPARE_ATTACK, new EnemyStatePrepareAttack(this));
         states.Add(EEnemyState.ATTACK, new EnemyStateAttack(this));
         states.Add(EEnemyState.RECOVER_ATTACK, new EnemyStateRecoverAttack(this));
+        states.Add(EEnemyState.COME_BACK, new EnemyStateComeBack(this));
 
         currentStateEnum = EEnemyState.WANDER;
         states.TryGetValue(currentStateEnum, out currentState);
@@ -106,7 +115,7 @@ public class Enemy : MonoBehaviour
         
         /*if (stunCounter < chancesToGetStunned.Length)
         {
-            float stunPercentage = Random.value;
+            float stunPercentage = RandomHelper.GetRandom();
             if (stunPercentage < chancesToGetStunned[stunCounter])
             {
                 stunned = true;

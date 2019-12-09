@@ -5,26 +5,16 @@ using DG.Tweening;
 
 public class EnemyStateWander : EnemyState
 {
-    EnemyWanderZone wanderZone = null;
-    EnemyDetectionZone detectionZone = null;
-
     Sequence currentMove = null;
     Vector3 nextPosition = Vector3.zero;
 
     Vector2 waitDurationMinMax = Vector2.zero;
     float waitTimer = 0;
 
-    bool playerInZone = false;
-
-    public EnemyStateWander(Enemy newEnemy, EnemyWanderZone newWanderZone, EnemyDetectionZone newDetectionZone) : base(newEnemy)
+    public EnemyStateWander(Enemy newEnemy) : base(newEnemy)
     {
-        EventManager.Instance.AddListener<PlayerInEnemyZoneEvent>(OnPlayerInEnemyZoneEvent);
-
         stateEnum = EEnemyState.WANDER;
         waitDurationMinMax = new Vector2(2, 5);
-
-        wanderZone = newWanderZone;
-        detectionZone = newDetectionZone;
     }
 
     public override void Enter()
@@ -32,19 +22,18 @@ public class EnemyStateWander : EnemyState
         base.Enter();
 
         currentMove = null;
-        playerInZone = false;
-        waitTimer = UnityEngine.Random.Range(waitDurationMinMax.x, waitDurationMinMax.y);
+        waitTimer = RandomHelper.GetRandom(waitDurationMinMax.x, waitDurationMinMax.y);
     }
 
     void StartNewMove()
     {
         currentMove = DOTween.Sequence();
-        wanderZone.GetRandomPosition(out nextPosition, enemy.transform.position.y);
+        enemy.WanderZone.GetRandomPosition(out nextPosition, enemy.transform.position.y);
         currentMove.Append(enemy.transform.DOLookAt(nextPosition, 1, AxisConstraint.Y));
         currentMove.Append(enemy.transform.DOMove(nextPosition, Vector3.Distance(enemy.transform.position, nextPosition) / enemy.Speed));
         currentMove.AppendCallback(() =>
         {
-            waitTimer = UnityEngine.Random.Range(waitDurationMinMax.x, waitDurationMinMax.y);
+            waitTimer = RandomHelper.GetRandom(waitDurationMinMax.x, waitDurationMinMax.y);
             currentMove = null;
         });
         currentMove.Play();
@@ -60,25 +49,14 @@ public class EnemyStateWander : EnemyState
                 StartNewMove();
         }
 
-        if (playerInZone)
-            return EEnemyState.CHASE;
-        
-        return stateEnum;
-    }
-
-    private void OnPlayerInEnemyZoneEvent(PlayerInEnemyZoneEvent e)
-    {
-        if (e.zone == detectionZone)
+        if (enemy.DetectionZone.PlayerInZone)
         {
             if (currentMove != null)
                 currentMove.Kill();
-            
-            playerInZone = true;
-        }
-    }
 
-    ~EnemyStateWander()
-    {
-        EventManager.Instance.RemoveListener<PlayerInEnemyZoneEvent>(OnPlayerInEnemyZoneEvent);
+            return EEnemyState.CHASE;
+        }
+        
+        return stateEnum;
     }
 }
