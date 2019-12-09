@@ -11,6 +11,7 @@ public class BlinkParams : AbilityParams
     public float Cooldown = 0;
     public AK.Wwise.Event Sound = null;
     public float timeWait = 0;
+    public GameObject prefabMark;
 }
 
 public class BlinkAbility : Ability
@@ -23,6 +24,7 @@ public class BlinkAbility : Ability
     AK.Wwise.Event soundBlink = null;
 
     Sequence currentSequence = null;
+    GameObject prefabMark;
 
     public BlinkAbility(BlinkParams bp) : base(bp.AttachedPlayer)
     {
@@ -31,6 +33,7 @@ public class BlinkAbility : Ability
         soundBlink = bp.Sound;
         cooldown = bp.Cooldown;
         timeMomentum = bp.timeWait;
+        this.prefabMark = bp.prefabMark;
     }
 
     public override void Launch()
@@ -53,6 +56,8 @@ public class BlinkAbility : Ability
         Vector3 direction = player.CurrentDirection;
         direction.Normalize();
         Vector3 newPosition = player.transform.position + direction * speed;
+        CreateMark(player.transform.position);
+        CreateMark(newPosition);
 
         currentSequence = DOTween.Sequence();
         currentSequence.AppendCallback(() =>
@@ -82,5 +87,30 @@ public class BlinkAbility : Ability
             player.Status.StopBlink();
         });
         currentSequence.Play();
+    }
+
+    void CreateMark(Vector3 positionCast)
+    {
+        RaycastHit hit;
+        //Find nearest ground + can be created on steep
+        if (Physics.Raycast(positionCast , Vector3.down, out hit))
+        {
+            GameObject markInstanciated = GameObject.Instantiate(prefabMark);
+            markInstanciated.transform.position = hit.point + (hit.normal * 0.1f);
+            markInstanciated.transform.up = hit.normal;
+            Material mat = markInstanciated.GetComponent<MeshRenderer>().material;
+            Sequence seq = DOTween.Sequence();
+            seq.Append(DOTween.To(() => mat.GetFloat("_CoeffDissolve"), x => mat.SetFloat("_CoeffDissolve", x), 1, 0.5f));
+            seq.AppendInterval(0.5f);
+            seq.Append(DOTween.To(() => mat.GetFloat("_CoeffDissolve"), x => mat.SetFloat("_CoeffDissolve", x), 0, 0.5f));
+            seq.AppendCallback(() => GameObject.Destroy(markInstanciated));
+            seq.Play();
+        }
+
+    }
+
+    void MarkAnimation(bool reversed)
+    {
+
     }
 }
