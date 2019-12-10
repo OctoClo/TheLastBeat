@@ -100,9 +100,9 @@ public class BlinkAbility : Ability
             markInstanciated.transform.up = hit.normal;
             Material mat = markInstanciated.GetComponent<MeshRenderer>().material;
             Sequence seq = DOTween.Sequence();
-            seq.Append(DOTween.To(() => mat.GetFloat("_CoeffDissolve"), x => mat.SetFloat("_CoeffDissolve", x), 1, 0.5f));
+            seq.Append(DOTween.To(() => mat.GetFloat("_CoeffDissolve"), x => mat.SetFloat("_CoeffDissolve", x), 0, 1f));
             seq.AppendInterval(0.5f);
-            seq.Append(DOTween.To(() => mat.GetFloat("_CoeffDissolve"), x => mat.SetFloat("_CoeffDissolve", x), 0, 0.5f));
+            seq.Append(DOTween.To(() => mat.GetFloat("_CoeffDissolve"), x => mat.SetFloat("_CoeffDissolve", x), 1, 1f));
             seq.AppendCallback(() => GameObject.Destroy(markInstanciated));
             seq.Play();
         }

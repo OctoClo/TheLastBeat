@@ -48,7 +48,7 @@
             o.Smoothness = 0;
             float dist = (distance(float2(0.5, 0.5), IN.uv_MainTex) / distance(float2(0.5, 0.5), float2(0, 0)));
             o.Alpha = c.a;
-            if (dist > _CoeffDissolve)
+            if (dist < _CoeffDissolve)
             {
                 discard;
             }
