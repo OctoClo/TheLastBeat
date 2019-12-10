@@ -175,6 +175,58 @@ public class Player : Inputable
             Die();
     }
 
+    IEnumerator currentHurt;
+    Dictionary<Material, Color> allColors = new Dictionary<Material, Color>();
+    public void HurtAnimation(float timeScale, int nbLoop)
+    {
+        if (currentHurt != null)
+        {
+            StopCoroutine(currentHurt);
+
+            //Get back colors
+            foreach (Material mat in visualPart.GetComponentInChildren<SkinnedMeshRenderer>().materials)
+            {
+                mat.color = allColors[mat];
+            }
+        }
+
+
+        currentHurt = HurtCoroutine(timeScale, nbLoop);
+        StartCoroutine(currentHurt);
+    }
+
+    IEnumerator HurtCoroutine(float timeScale, int nbLoop)
+    {
+        foreach (Material mat in visualPart.GetComponentInChildren<SkinnedMeshRenderer>().materials)
+        {
+            allColors[mat] = mat.color;
+        }
+        float cursorTime = 0;
+
+        for (int i = 0; i < nbLoop; i++)
+        {
+            while (cursorTime < 1)
+            {
+                cursorTime += Time.deltaTime / timeScale;
+                foreach (Material mat in allColors.Keys)
+                {
+                    mat.color = Color.Lerp(allColors[mat], Color.red, cursorTime);
+                }
+                yield return null;
+            }
+
+            while (cursorTime > 0)
+            {
+                cursorTime -= Time.deltaTime / timeScale;
+                foreach (Material mat in allColors.Keys)
+                {
+                    mat.color = Color.Lerp(allColors[mat], Color.red, cursorTime);
+                }
+                yield return null;
+            }
+        }
+    }
+
     public Enemy GetCurrentTarget()
     {
         return FocusZone.GetCurrentTarget();

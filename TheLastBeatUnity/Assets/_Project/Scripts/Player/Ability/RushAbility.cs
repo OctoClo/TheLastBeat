@@ -77,6 +77,10 @@ public class RushAbility : Ability
             {
                 player.Die();
             }
+            else
+            {
+                player.HurtAnimation(0.25f, 3);
+            }
             player.Health.ModifyPulseValue(pulseCost);
         }
 
