@@ -66,6 +66,8 @@ public class Health : Beatable
     [SerializeField][TabGroup("Zone generation")][FolderPath]
     string path = "";
 
+    public Player Player { get; set; }
+
 #if UNITY_EDITOR
     [Button][TabGroup("Zone generation")]
     void Generate()
@@ -172,6 +174,11 @@ public class Health : Beatable
         if (CurrentZone != previousZone)
         {
             OnZoneChanged(previousZone);
+        }
+
+        if (deltaValue > 0)
+        {
+            Player.HurtAnimation(0.25f, 3);
         }
     }
 
