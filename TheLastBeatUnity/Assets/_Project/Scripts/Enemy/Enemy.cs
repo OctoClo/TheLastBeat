@@ -15,34 +15,46 @@ public class Enemy : MonoBehaviour
     [TabGroup("General")] [SerializeField]
     int maxLives = 10;
     int lives = 10;
-    [TabGroup("General")] [SerializeField]
-    TextMeshProUGUI lifeText = null;
-    [TabGroup("General")] [SerializeField]
-    TextMeshProUGUI stateText = null;
 
-    [TabGroup("Stun")] [SerializeField] [Range(0.0f, 1.0f)]
+    [TabGroup("Behaviour")] [Header("Wander")] [SerializeField] [Tooltip("How much time the enemy will wait before going to another spot (random in [x, y]")]
+    Vector2 waitBeforeNextMove = new Vector2(2, 5);
+    [TabGroup("Behaviour")] [Header("Prepare Attack")] [SerializeField] [Tooltip("How much time the enemy will wait between chasing and prepare attack animation")]
+    float waitBeforePrepareAnim = 0.5f;
+    [TabGroup("Behaviour")] [SerializeField] [Tooltip("How long the prepare attack animation will be")]
+    float prepareAnimDuration = 2;
+    [TabGroup("Behaviour")] [Header("Attack")] [SerializeField] [Tooltip("How much time the enemy will wait between preparing attack animation and attacking animation")]
+    float waitBeforeAttackAnim = 0.25f;
+    [TabGroup("Behaviour")] [SerializeField] [Tooltip("How long the attack animation will be")]
+    float attackAnimDuration = 0.5f;
+    [TabGroup("Behaviour")] [SerializeField] [Tooltip("How much the enemy will dive towards the player")]
+    float attackForce = 4;
+    [TabGroup("Behaviour")] [SerializeField] [Tooltip("How many pulse intensity the player will lose if hit")]
+    int attackDamage = 5;
+    [TabGroup("Behaviour")] [Header("Recover")] [SerializeField] [Tooltip("How much time the enemy will wait after an attack")]
+    float recoverAnimDuration = 2;
+    [TabGroup("Behaviour")] [Header("Stun")] [SerializeField] [Range(0.0f, 1.0f)]
     float[] chancesToGetStunned = new float[5];
     int stunCounter = 0;
-    [TabGroup("Stun")] [SerializeField]
-    GameObject stunElements = null;
-    [TabGroup("Stun")] [SerializeField]
-    GameObject notStunElements = null;
 
-    EEnemyType type = EEnemyType.DEFAULT;
-    bool isTarget = false;
+    [TabGroup("References")] [SerializeField]
+    TextMeshProUGUI lifeText = null;
+    [TabGroup("References")] [SerializeField]
+    TextMeshProUGUI stateText = null;
+    [TabGroup("References")] [SerializeField]
+    GameObject stunElements = null;
+    [TabGroup("References")] [SerializeField]
+    GameObject notStunElements = null;
     public Material Material { get; private set; }
     Collider collid;
-
-    [TabGroup("General")] [SerializeField]
-    int pulseDamage = 5;
     public EnemyWeaponHitbox WeaponHitbox { get; private set; }
-    bool isAttacking = false;
-    bool hasAlreadyAttacked = false;
+    public EnemyDetectionZone DetectionZone { get; private set; }
+    public EnemyWanderZone WanderZone { get; private set; }
+    public Player Player { get; private set; }
 
+    // States
     Dictionary<EEnemyState, EnemyState> states;
     public EEnemyState CurrentStateEnum { get; private set; }
     EnemyState currentState;
-
     [HideInInspector]
     public bool ComeBack = false;
     [HideInInspector]
@@ -52,9 +64,11 @@ public class Enemy : MonoBehaviour
     [HideInInspector]
     public bool InWanderZone = false;
 
-    public EnemyDetectionZone DetectionZone { get; private set; }
-    public EnemyWanderZone WanderZone { get; private set; }
-    public Player Player { get; private set; }
+    // Misc
+    EEnemyType type = EEnemyType.DEFAULT;
+    bool isTarget = false;
+    bool isAttacking = false;
+    bool hasAlreadyAttacked = false;
 
     private void Start()
     {
@@ -76,11 +90,11 @@ public class Enemy : MonoBehaviour
         if (type == EEnemyType.DEFAULT)
         {
             states = new Dictionary<EEnemyState, EnemyState>();
-            states.Add(EEnemyState.WANDER, new EnemyStateWander(this));
+            states.Add(EEnemyState.WANDER, new EnemyStateWander(this, waitBeforeNextMove));
             states.Add(EEnemyState.CHASE, new EnemyStateChase(this));
-            states.Add(EEnemyState.PREPARE_ATTACK, new EnemyStatePrepareAttack(this));
-            states.Add(EEnemyState.ATTACK, new EnemyStateAttack(this));
-            states.Add(EEnemyState.RECOVER_ATTACK, new EnemyStateRecoverAttack(this));
+            states.Add(EEnemyState.PREPARE_ATTACK, new EnemyStatePrepareAttack(this, waitBeforePrepareAnim, prepareAnimDuration));
+            states.Add(EEnemyState.ATTACK, new EnemyStateAttack(this, waitBeforeAttackAnim, attackAnimDuration, attackForce));
+            states.Add(EEnemyState.RECOVER_ATTACK, new EnemyStateRecoverAttack(this, recoverAnimDuration));
             states.Add(EEnemyState.COME_BACK, new EnemyStateComeBack(this));
             states.Add(EEnemyState.STUN, new EnemyStateStun(this));
 
@@ -206,7 +220,7 @@ public class Enemy : MonoBehaviour
                 Player.Die();
             }
 
-            Player.Health.ModifyPulseValue(pulseDamage);
+            Player.Health.ModifyPulseValue(attackDamage);
             hasAlreadyAttacked = true;
         }
     }

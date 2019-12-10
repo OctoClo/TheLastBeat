@@ -9,13 +9,15 @@ public class EnemyStateAttack : EnemyState
     bool animationFinished = false;
     float waitBeforeAnimDuration = 0;
     float animDuration = 0;
+    float impulseForce = 0;
 
-    public EnemyStateAttack(Enemy newEnemy) : base(newEnemy)
+    public EnemyStateAttack(Enemy newEnemy, float waitBefore, float duration, float impulse) : base(newEnemy)
     {
         stateEnum = EEnemyState.ATTACK;
         scaleEndValues = new Vector3(1, 1, 1);
-        waitBeforeAnimDuration = 0.25f;
-        animDuration = 0.5f;
+        waitBeforeAnimDuration = waitBefore;
+        animDuration = duration;
+        impulseForce = impulse;
     }
 
     public override void Enter()
@@ -28,7 +30,7 @@ public class EnemyStateAttack : EnemyState
         Vector3 goalPos = enemy.Player.transform.position - enemy.transform.position;
         goalPos.y = 0;
         goalPos.Normalize();
-        goalPos *= 4;
+        goalPos *= impulseForce;
         goalPos += enemy.transform.position;
 
         enemy.CurrentMove = DOTween.Sequence();

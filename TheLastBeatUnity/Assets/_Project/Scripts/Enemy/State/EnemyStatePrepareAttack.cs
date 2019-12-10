@@ -10,12 +10,12 @@ public class EnemyStatePrepareAttack : EnemyState
     float waitBeforeAnimDuration = 0;
     float animDuration = 0;
 
-    public EnemyStatePrepareAttack(Enemy newEnemy) : base(newEnemy)
+    public EnemyStatePrepareAttack(Enemy newEnemy, float waitBefore, float duration) : base(newEnemy)
     {
         stateEnum = EEnemyState.PREPARE_ATTACK;
         scaleEndValues = new Vector3(1.5f, 1.5f, 1.5f);
-        waitBeforeAnimDuration = 0.5f;
-        animDuration = 2;
+        waitBeforeAnimDuration = waitBefore;
+        animDuration = duration;
     }
 
     public override void Enter()

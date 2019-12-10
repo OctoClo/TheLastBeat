@@ -7,10 +7,10 @@ public class EnemyStateRecoverAttack : EnemyState
     float recoverDuration = 0;
     float recoverTimer = 0;
 
-    public EnemyStateRecoverAttack(Enemy newEnemy) : base(newEnemy)
+    public EnemyStateRecoverAttack(Enemy newEnemy, float duration) : base(newEnemy)
     {
         stateEnum = EEnemyState.RECOVER_ATTACK;
-        recoverDuration = 2;
+        recoverDuration = duration;
     }
 
     public override void Enter()

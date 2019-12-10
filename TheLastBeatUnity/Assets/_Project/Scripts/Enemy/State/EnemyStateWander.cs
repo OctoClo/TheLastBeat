@@ -9,10 +9,10 @@ public class EnemyStateWander : EnemyState
     Vector2 waitDurationMinMax = Vector2.zero;
     float waitTimer = 0;
 
-    public EnemyStateWander(Enemy newEnemy) : base(newEnemy)
+    public EnemyStateWander(Enemy newEnemy, Vector2 waitMinMax) : base(newEnemy)
     {
         stateEnum = EEnemyState.WANDER;
-        waitDurationMinMax = new Vector2(2, 5);
+        waitDurationMinMax = waitMinMax;
     }
 
     public override void Enter()
