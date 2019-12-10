@@ -13,12 +13,14 @@ public class SoundManager : MonoBehaviour
     [SerializeField]
     List<AK.Wwise.State> allInitializeState = new List<AK.Wwise.State>();
 
+    public float TimePerBeat { get; private set; }
+    public float TimePerBar { get; private set; }
+
     [SerializeField]
     BeatManager bm = null;
     public BeatManager BeatManager => bm;
 
     public static SoundManager Instance { get; private set; } 
-
     private int musicPosition;
 
     void Awake()
@@ -53,6 +55,7 @@ public class SoundManager : MonoBehaviour
 
             case AkCallbackType.AK_MusicSyncBeat:
                 float beatDuration = musicInfo.segmentInfo_fBeatDuration;
+                TimePerBeat = beatDuration;
                 bm.BeatAll(beatDuration, BeatManager.TypeBeat.BEAT);
                 break;
 
@@ -63,6 +66,7 @@ public class SoundManager : MonoBehaviour
 
             case AkCallbackType.AK_MusicSyncBar:
                 float barDuration = musicInfo.segmentInfo_fBarDuration;
+                TimePerBar = barDuration;
                 bm.BeatAll(barDuration, BeatManager.TypeBeat.BAR);
                 break;
 
