@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class EnemyStateChase : EnemyState
 {
-    bool playerInHitbox = false;
-
     public EnemyStateChase(Enemy newEnemy) : base(newEnemy)
     {
         stateEnum = EEnemyState.CHASE;
@@ -14,8 +12,6 @@ public class EnemyStateChase : EnemyState
     public override void Enter()
     {
         base.Enter();
-
-        playerInHitbox = false;
     }
 
     public override EEnemyState UpdateState(float deltaTime)

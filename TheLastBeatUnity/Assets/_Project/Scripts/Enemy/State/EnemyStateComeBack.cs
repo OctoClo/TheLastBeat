@@ -6,18 +6,15 @@ using DG.Tweening;
 public class EnemyStateComeBack : EnemyState
 {
     Vector3 goal = Vector3.zero;
-    bool backInWanderZone = false;
 
     public EnemyStateComeBack(Enemy newEnemy) : base(newEnemy)
     {
-        EventManager.Instance.AddListener<EnemyBackInWanderZone>(OnEnemyBackInWanderZone);
         stateEnum = EEnemyState.COME_BACK;
     }
 
     public override void Enter()
     {
         base.Enter();
-        backInWanderZone = false;
 
         enemy.CurrentMove = DOTween.Sequence();
         enemy.WanderZone.GetRandomPosition(out goal, enemy.transform.position.y);
@@ -36,24 +33,11 @@ public class EnemyStateComeBack : EnemyState
             return EEnemyState.CHASE;
         }
 
-        if (backInWanderZone)
+        if (enemy.InWanderZone)
         {
             return EEnemyState.WANDER;
         }
 
         return stateEnum;
-    }
-
-    private void OnEnemyBackInWanderZone(EnemyBackInWanderZone e)
-    {
-        if (e.wanderZone == enemy.WanderZone && e.enemy == enemy.gameObject)
-        {
-            backInWanderZone = true;
-        }
-    }
-
-    ~EnemyStateComeBack()
-    {
-        EventManager.Instance.RemoveListener<EnemyBackInWanderZone>(OnEnemyBackInWanderZone);
     }
 }

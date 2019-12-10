@@ -49,6 +49,8 @@ public class Enemy : MonoBehaviour
     public bool ChaseAgain = false;
     [HideInInspector]
     public Sequence CurrentMove = null;
+    [HideInInspector]
+    public bool InWanderZone = false;
 
     public EnemyDetectionZone DetectionZone { get; private set; }
     public EnemyWanderZone WanderZone { get; private set; }
@@ -181,21 +183,18 @@ public class Enemy : MonoBehaviour
         isAttacking = true;
         hasAlreadyAttacked = false;
         collid.isTrigger = true;
-        Debug.Log("Attack begins");
     }
 
     public void StopAttacking()
     {
         isAttacking = false;
         collid.isTrigger = false;
-        Debug.Log("Attack stops");
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (isAttacking && !hasAlreadyAttacked && other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Player hit!");
             if (Player.Health.InCriticMode)
             {
                 Player.Die();

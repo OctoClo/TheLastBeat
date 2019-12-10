@@ -47,11 +47,15 @@ public class EnemyZone : MonoBehaviour
     private void OnEnable()
     {
         EventManager.Instance.AddListener<EnemyDeadEvent>(OnEnemyDeadEvent);
+        EventManager.Instance.AddListener<EnemyInWanderZone>(OnEnemyInWanderZone);
+        EventManager.Instance.AddListener<EnemyOutOfWanderZone>(OnEnemyOutOfWanderZone);
     }
 
     private void OnDisable()
     {
         EventManager.Instance.RemoveListener<EnemyDeadEvent>(OnEnemyDeadEvent);
+        EventManager.Instance.RemoveListener<EnemyInWanderZone>(OnEnemyInWanderZone);
+        EventManager.Instance.RemoveListener<EnemyOutOfWanderZone>(OnEnemyOutOfWanderZone);
     }
 
     private void Update()
@@ -158,6 +162,24 @@ public class EnemyZone : MonoBehaviour
         if (enemies.Contains(e.enemy))
         {
             enemies.Remove(e.enemy);
+        }
+    }
+
+    private void OnEnemyInWanderZone(EnemyInWanderZone e)
+    {
+        Enemy enemy = enemies.Find(x => x.gameObject == e.enemy);
+        if (enemy)
+        {
+            enemy.InWanderZone = true;
+        }
+    }
+
+    private void OnEnemyOutOfWanderZone(EnemyOutOfWanderZone e)
+    {
+        Enemy enemy = enemies.Find(x => x.gameObject == e.enemy);
+        if (enemy)
+        {
+            enemy.InWanderZone = false;
         }
     }
 }

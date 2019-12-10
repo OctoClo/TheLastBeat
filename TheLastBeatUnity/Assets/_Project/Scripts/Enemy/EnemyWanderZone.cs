@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyBackInWanderZone : GameEvent { public EnemyWanderZone wanderZone = null; public GameObject enemy = null; }
+public class EnemyInWanderZone : GameEvent { public EnemyWanderZone wanderZone = null; public GameObject enemy = null; }
+public class EnemyOutOfWanderZone : GameEvent { public EnemyWanderZone wanderZone = null; public GameObject enemy = null; }
 
 public class EnemyWanderZone : MonoBehaviour
 {
@@ -23,7 +24,15 @@ public class EnemyWanderZone : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            EventManager.Instance.Raise(new EnemyBackInWanderZone() { wanderZone = this, enemy = other.gameObject });
+            EventManager.Instance.Raise(new EnemyInWanderZone() { wanderZone = this, enemy = other.gameObject });
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            EventManager.Instance.Raise(new EnemyOutOfWanderZone() { wanderZone = this, enemy = other.gameObject });
         }
     }
 }

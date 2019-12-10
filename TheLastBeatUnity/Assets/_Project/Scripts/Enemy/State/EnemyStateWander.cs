@@ -35,6 +35,13 @@ public class EnemyStateWander : EnemyState
 
     public override EEnemyState UpdateState(float deltaTime)
     {
+        if (enemy.ChaseAgain)
+        {
+            enemy.KillCurrentTween();
+            enemy.ChaseAgain = false;
+            return EEnemyState.CHASE;
+        }
+        
         if (waitTimer > 0)
         {
             waitTimer -= deltaTime;
