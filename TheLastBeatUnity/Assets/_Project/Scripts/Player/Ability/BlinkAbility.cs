@@ -75,10 +75,6 @@ public class BlinkAbility : Ability
                 {
                     player.Die();
                 }
-                else
-                {
-                    player.HurtAnimation(0.25f, 3);
-                }
                 player.Health.ModifyPulseValue(pulseCost);
             }
             soundBlink.Post(player.gameObject);

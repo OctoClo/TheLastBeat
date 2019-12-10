@@ -83,6 +83,7 @@ public class Player : Inputable
         abilities.Add(EInputAction.REWINDRUSH, rewindRush);
 
         rush.RewindRush = rewindRush;
+        healthSystem.Player = this;
 
         if (SceneHelper.DeathCount > 0)
         {
