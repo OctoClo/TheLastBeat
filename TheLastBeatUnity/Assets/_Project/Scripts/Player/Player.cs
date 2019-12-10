@@ -83,7 +83,6 @@ public class Player : Inputable
         abilities.Add(EInputAction.REWINDRUSH, rewindRush);
 
         rush.RewindRush = rewindRush;
-
         if (SceneHelper.DeathCount > 0)
         {
             SceneHelper.Instance.Respawn(transform);

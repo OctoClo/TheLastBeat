@@ -18,8 +18,11 @@ public class RewindRushAbility : Ability
 {
     float duration = 0;
     float pulseCost = 0;
+    int missedInput = 0;
 
     List<Enemy> chainedEnemies = new List<Enemy>();
+    public bool IsInCombo => chainedEnemies.Count > 0;
+
     float maxTimeBeforeResetMarks = 0;
     float rushChainTimer = 0;
 
@@ -39,6 +42,22 @@ public class RewindRushAbility : Ability
         healCorrectBeat = rrp.HealPerCorrectBeat;
     }
 
+    public void ResetCombo()
+    {
+        Debug.Log("Reset");
+        chainedEnemies.Clear();
+        missedInput = 0;
+    }
+
+    public void MissInput()
+    {
+        missedInput++;
+        if (missedInput >= 2)
+        {
+            ResetCombo();
+        }
+    }
+
     public override void Launch()
     {
         if (chainedEnemies.Count > 0 && currentCooldown == 0)
@@ -53,7 +72,7 @@ public class RewindRushAbility : Ability
             rushChainTimer -= Time.deltaTime;
 
             if (rushChainTimer < 0)
-                chainedEnemies.Clear();
+                ResetCombo();
         }
 
         if (currentCooldown > 0)
@@ -126,7 +145,7 @@ public class RewindRushAbility : Ability
         player.Status.StopDashing();
         player.FocusZone.overrideControl = false;
         player.gameObject.layer = LayerMask.NameToLayer("Default");
-        chainedEnemies.Clear();
+        ResetCombo();
         normalState.SetValue();
     }
 }
