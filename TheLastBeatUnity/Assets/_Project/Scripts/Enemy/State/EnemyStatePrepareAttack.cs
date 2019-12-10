@@ -27,11 +27,7 @@ public class EnemyStatePrepareAttack : EnemyState
 
         enemy.CurrentMove.Insert(waitBeforeAnimDuration, enemy.transform.DOShakePosition(animDuration, 0.5f, 100));
         enemy.CurrentMove.Insert(waitBeforeAnimDuration, enemy.transform.DOScale(scaleEndValues, animDuration));
-        enemy.CurrentMove.AppendCallback(() =>
-        {
-            animationFinished = true;
-            enemy.CurrentMove = null;
-        });
+        enemy.CurrentMove.AppendCallback(() => animationFinished = true);
 
         enemy.CurrentMove.Play();
     }
@@ -42,5 +38,10 @@ public class EnemyStatePrepareAttack : EnemyState
             return EEnemyState.ATTACK;
         
         return stateEnum;
+    }
+
+    public override void Exit()
+    {
+        enemy.KillCurrentTween();
     }
 }

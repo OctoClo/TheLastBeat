@@ -9,7 +9,8 @@ public enum EEnemyState
     PREPARE_ATTACK,
     ATTACK,
     RECOVER_ATTACK,
-    COME_BACK
+    COME_BACK,
+    STUN
 }
 
 public abstract class EnemyState

@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class EnemyStateRecoverAttack : EnemyState
 {
-    float recoverDuration = 2;
+    float recoverDuration = 0;
     float recoverTimer = 0;
 
     public EnemyStateRecoverAttack(Enemy newEnemy) : base(newEnemy)
     {
         stateEnum = EEnemyState.RECOVER_ATTACK;
+        recoverDuration = 2;
     }
 
     public override void Enter()

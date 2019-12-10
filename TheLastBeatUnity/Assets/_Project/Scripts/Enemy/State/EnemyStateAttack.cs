@@ -35,12 +35,7 @@ public class EnemyStateAttack : EnemyState
 
         enemy.CurrentMove.Insert(waitBeforeAnimDuration, enemy.transform.DOScale(scaleEndValues, animDuration).SetEase(Ease.OutBounce));
         enemy.CurrentMove.Insert(waitBeforeAnimDuration, enemy.transform.DOMove(goalPos, animDuration).SetEase(Ease.OutBounce));
-        enemy.CurrentMove.AppendCallback(() =>
-        {
-            animationFinished = true;
-            enemy.CurrentMove = null;
-            enemy.StopAttacking();
-        });
+        enemy.CurrentMove.AppendCallback(() => animationFinished = true);
 
         enemy.CurrentMove.Play();
     }
@@ -51,5 +46,11 @@ public class EnemyStateAttack : EnemyState
             return EEnemyState.RECOVER_ATTACK;
 
         return stateEnum;
+    }
+
+    public override void Exit()
+    {
+        enemy.CurrentMove = null;
+        enemy.StopAttacking();
     }
 }

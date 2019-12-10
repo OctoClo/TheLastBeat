@@ -6,7 +6,6 @@ using DG.Tweening;
 public class EnemyStateWander : EnemyState
 {
     Vector3 nextPosition = Vector3.zero;
-
     Vector2 waitDurationMinMax = Vector2.zero;
     float waitTimer = 0;
 

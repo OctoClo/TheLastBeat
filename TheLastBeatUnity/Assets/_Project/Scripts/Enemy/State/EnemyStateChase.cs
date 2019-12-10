@@ -9,11 +9,6 @@ public class EnemyStateChase : EnemyState
         stateEnum = EEnemyState.CHASE;
     }
 
-    public override void Enter()
-    {
-        base.Enter();
-    }
-
     public override EEnemyState UpdateState(float deltaTime)
     {
         Vector3 toPlayer = enemy.Player.transform.position - enemy.transform.position;
