@@ -101,7 +101,6 @@ public class FocusZone : MonoBehaviour
         if (enemy && !potentialTargets.Contains(enemy))
         {
             // Add new enemy to potential targets and sort the list based on x position
-            enemy.SetFocusZone(this);
             potentialTargets.Add(enemy);
             potentialTargets.Sort((enemy1, enemy2) => enemy1.transform.position.x.CompareTo(enemy2.transform.position.x));
 
