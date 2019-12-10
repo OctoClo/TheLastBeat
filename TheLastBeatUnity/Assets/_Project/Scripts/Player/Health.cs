@@ -72,7 +72,6 @@ public class Health : Beatable
     {
         PulseZone pz = ScriptableObject.CreateInstance<PulseZone>();
         pz.Length = lengthZone;
-        pz.ModifierInZone = pulseMultiplier;
         pz.colorRepr = colorZone;
         pz.name = labelZone;
         pz.ScaleModifier = scaleUI;
@@ -163,13 +162,11 @@ public class Health : Beatable
     public void ModifyPulseValue(float deltaValue, bool countAsAction = true)
     {
         PulseZone previousZone = CurrentZone;
+        currentPulse += deltaValue;
         if (!CurrentZone)
         {
-            currentPulse += deltaValue;
             return;
         }
-            
-        currentPulse += previousZone.ModifierInZone.Evaluate(ratioPulse) * deltaValue;
         currentPulse = Mathf.Clamp(currentPulse, minimalPulse, maximalPulse);
 
         if (CurrentZone != previousZone)

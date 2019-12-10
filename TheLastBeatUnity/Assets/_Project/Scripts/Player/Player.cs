@@ -75,6 +75,7 @@ public class Player : Inputable
         BlinkAbility blink = new BlinkAbility(blinkParameters);
         abilities.Add(EInputAction.BLINK, blink);
 
+        rushParameters.blinkAbility = blink;
         RushAbility rush = new RushAbility(rushParameters);
         abilities.Add(EInputAction.RUSH, rush);
 

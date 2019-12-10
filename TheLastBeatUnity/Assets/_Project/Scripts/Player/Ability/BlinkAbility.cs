@@ -8,7 +8,6 @@ public class BlinkParams : AbilityParams
 {
     public float Speed = 0;
     public float PulseCost = 0;
-    public float Cooldown = 0;
     public AK.Wwise.Event Sound = null;
     public float timeWait = 0;
     public GameObject prefabMark;
@@ -19,8 +18,6 @@ public class BlinkAbility : Ability
     float speed = 5;
     float pulseCost = 0;
     float timeMomentum = 0;
-    float currentCooldown = 0;
-    float cooldown = 0;
     AK.Wwise.Event soundBlink = null;
 
     Sequence currentSequence = null;
@@ -31,9 +28,12 @@ public class BlinkAbility : Ability
         speed = bp.Speed;
         pulseCost = bp.PulseCost;
         soundBlink = bp.Sound;
-        cooldown = bp.Cooldown;
+
+        //Because we can't know the delta time at first beat
+        cooldown = 3.6f;
         timeMomentum = bp.timeWait;
         this.prefabMark = bp.prefabMark;
+        healCorrectBeat = bp.HealPerCorrectBeat;
     }
 
     public override void Launch()
@@ -62,11 +62,12 @@ public class BlinkAbility : Ability
         currentSequence = DOTween.Sequence();
         currentSequence.AppendCallback(() =>
         {
-            currentCooldown = cooldown;
+            currentCooldown = SoundManager.Instance.TimePerBar;
             player.Status.StartBlink();
             if (BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT))
             {
                 BeatManager.Instance.ValidateLastBeat(BeatManager.TypeBeat.BEAT);
+                player.Health.ModifyPulseValue(-healCorrectBeat);
             }
             else
             {
