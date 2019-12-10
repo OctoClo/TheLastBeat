@@ -215,12 +215,7 @@ public class Enemy : MonoBehaviour
     {
         if (isAttacking && !hasAlreadyAttacked && other.gameObject.CompareTag("Player"))
         {
-            if (Player.Health.InCriticMode)
-            {
-                Player.Die();
-            }
-
-            Player.Health.ModifyPulseValue(attackDamage);
+            Player.ModifyPulseValue(attackDamage, true);
             hasAlreadyAttacked = true;
         }
     }

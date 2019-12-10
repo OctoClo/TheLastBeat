@@ -45,8 +45,6 @@ public class Player : Inputable
     [SerializeField]
     Health healthSystem = null;
 
-    public Health Health => healthSystem;
-
     [SerializeField]
     Transform visualPart = null;
     public Transform VisualPart => visualPart;
@@ -137,7 +135,25 @@ public class Player : Inputable
         }
     }
 
-    public void Die()
+    public void ModifyPulseValue(float value, bool fromEnemy = false)
+    {
+        if (healthSystem.InCriticMode)
+        {
+            Die();
+        }
+        else
+        {
+            healthSystem.ModifyPulseValue(value);
+            if (fromEnemy)
+            {
+                Ability rewindRush;
+                if (abilities.TryGetValue(EInputAction.REWINDRUSH, out rewindRush))
+                    ((RewindRushAbility)rewindRush).ResetCooldown();
+            }
+        }
+    }
+
+    void Die()
     {
         DOTween.KillAll();
         blockInput = true;

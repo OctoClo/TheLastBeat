@@ -131,18 +131,13 @@ public class RushAbility : Ability
         if (attackOnRythm)
         {
             soundOnBeat.Post(player.gameObject);
-            //Heal a bit when success
-            player.Health.ModifyPulseValue(-healCorrectBeat);
+            player.ModifyPulseValue(-healCorrectBeat);
         }
         else
         {
             RewindRush.MissInput();
             soundOffBeat.Post(player.gameObject);
-            if (player.Health.InCriticMode)
-            {
-                player.Die();
-            }
-            player.Health.ModifyPulseValue(pulseCost);
+            player.ModifyPulseValue(pulseCost);
         }
     }
 }

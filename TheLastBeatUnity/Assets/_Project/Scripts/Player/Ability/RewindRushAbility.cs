@@ -42,27 +42,6 @@ public class RewindRushAbility : Ability
         maxChained = rrp.MaxChained;
     }
 
-    public void ResetCombo()
-    {
-        chainedEnemies.Clear();
-        missedInput = 0;
-    }
-
-    public void MissInput()
-    {
-        missedInput++;
-        if (missedInput >= 2)
-        {
-            ResetCombo();
-        }
-    }
-
-    public override void Launch()
-    {
-        if (chainedEnemies.Count > 0 && currentCooldown == 0)
-            RewindRush();
-    }
-
     public override void Update(float deltaTime)
     {
         base.Update(deltaTime);
@@ -90,6 +69,27 @@ public class RewindRushAbility : Ability
         chainedEnemies.Enqueue(enn);
     }
 
+    public void MissInput()
+    {
+        missedInput++;
+        if (missedInput >= 2)
+        {
+            ResetCombo();
+        }
+    }
+
+    public void ResetCombo()
+    {
+        chainedEnemies.Clear();
+        missedInput = 0;
+    }
+
+    public override void Launch()
+    {
+        if (chainedEnemies.Count > 0 && currentCooldown == 0)
+            RewindRush();
+    }
+
     void RewindRush()
     {
         currentCooldown = cooldown;
@@ -101,16 +101,12 @@ public class RewindRushAbility : Ability
         attackOnRythm = BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT);
         if (attackOnRythm)
         {
-            player.Health.ModifyPulseValue(-healCorrectBeat);
+            player.ModifyPulseValue(-healCorrectBeat);
             BeatManager.Instance.ValidateLastBeat(BeatManager.TypeBeat.BEAT);
         }
         else
         {
-            if (player.Health.InCriticMode)
-            {
-                player.Die();
-            }
-            player.Health.ModifyPulseValue(pulseCost);
+            player.ModifyPulseValue(pulseCost);
         }
 
         Sequence seq = DOTween.Sequence();

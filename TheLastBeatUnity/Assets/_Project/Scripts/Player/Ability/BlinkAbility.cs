@@ -67,15 +67,11 @@ public class BlinkAbility : Ability
             if (BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT))
             {
                 BeatManager.Instance.ValidateLastBeat(BeatManager.TypeBeat.BEAT);
-                player.Health.ModifyPulseValue(-healCorrectBeat);
+                player.ModifyPulseValue(-healCorrectBeat);
             }
             else
             {
-                if (player.Health.InCriticMode)
-                {
-                    player.Die();
-                }
-                player.Health.ModifyPulseValue(pulseCost);
+                player.ModifyPulseValue(pulseCost);
             }
             soundBlink.Post(player.gameObject);
         });
