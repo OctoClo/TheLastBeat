@@ -11,14 +11,15 @@ public class RushParams : AbilityParams
     public AK.Wwise.Event OnBeatSound = null;
     public AK.Wwise.Event OffBeatSound = null;
     public float Cooldown = 0;
+
+    [HideInInspector]
+    public BlinkAbility blinkAbility;
 }
 
 public class RushAbility : Ability
 {
     float duration = 0;
     float pulseCost = 0;
-    float cooldown = 0;
-    float currentCooldown = 0;
 
     bool obstacleAhead = false;
     bool attackOnRythm = false;
@@ -26,6 +27,7 @@ public class RushAbility : Ability
 
     AK.Wwise.Event soundOffBeat = null;
     AK.Wwise.Event soundOnBeat = null;
+    BlinkAbility blinkAbility;
     
     public RewindRushAbility RewindRush { get; set; }
 
@@ -36,6 +38,8 @@ public class RushAbility : Ability
         soundOffBeat = rp.OffBeatSound;
         soundOnBeat = rp.OnBeatSound;
         cooldown = rp.Cooldown;
+        blinkAbility = rp.blinkAbility;
+        healCorrectBeat = rp.HealPerCorrectBeat;
     }
 
     public override void Launch()
@@ -57,10 +61,12 @@ public class RushAbility : Ability
     void Rush()
     {
         attackOnRythm = BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT);
+        blinkAbility.ResetCooldown();
 
         if (attackOnRythm)
         {
             soundOnBeat.Post(player.gameObject);
+            player.Health.ModifyPulseValue(-healCorrectBeat);
         }
         //Only cost if off-rythm
         else

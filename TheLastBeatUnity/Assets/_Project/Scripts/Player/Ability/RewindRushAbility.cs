@@ -18,8 +18,6 @@ public class RewindRushAbility : Ability
 {
     float duration = 0;
     float pulseCost = 0;
-    float cooldown = 0;
-    float currentCooldown = 0;
 
     List<Enemy> chainedEnemies = new List<Enemy>();
     float maxTimeBeforeResetMarks = 0;
@@ -38,6 +36,7 @@ public class RewindRushAbility : Ability
         rewindState = rrp.RewindState;
         normalState = rrp.NormalState;
         cooldown = rrp.Cooldown;
+        healCorrectBeat = rrp.HealPerCorrectBeat;
     }
 
     public override void Launch()
@@ -80,6 +79,7 @@ public class RewindRushAbility : Ability
         attackOnRythm = BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT);
         if (attackOnRythm)
         {
+            player.Health.ModifyPulseValue(-healCorrectBeat);
             BeatManager.Instance.ValidateLastBeat(BeatManager.TypeBeat.BEAT);
         }
         else
