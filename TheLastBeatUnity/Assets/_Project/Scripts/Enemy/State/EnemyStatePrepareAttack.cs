@@ -7,11 +7,15 @@ public class EnemyStatePrepareAttack : EnemyState
 {
     Vector3 scaleEndValues = Vector3.zero;
     bool animationFinished = false;
+    float waitBeforeAnimDuration = 0;
+    float animDuration = 0;
 
     public EnemyStatePrepareAttack(Enemy newEnemy) : base(newEnemy)
     {
         stateEnum = EEnemyState.PREPARE_ATTACK;
         scaleEndValues = new Vector3(1.5f, 1.5f, 1.5f);
+        waitBeforeAnimDuration = 0.5f;
+        animDuration = 2;
     }
 
     public override void Enter()
@@ -21,8 +25,8 @@ public class EnemyStatePrepareAttack : EnemyState
         animationFinished = false;
         enemy.CurrentMove = DOTween.Sequence();
 
-        enemy.CurrentMove.AppendInterval(0.5f);
-        enemy.CurrentMove.Append(enemy.transform.DOScale(scaleEndValues, 2));
+        enemy.CurrentMove.Insert(waitBeforeAnimDuration, enemy.transform.DOShakePosition(animDuration, 0.5f, 100));
+        enemy.CurrentMove.Insert(waitBeforeAnimDuration, enemy.transform.DOScale(scaleEndValues, animDuration));
         enemy.CurrentMove.AppendCallback(() =>
         {
             animationFinished = true;

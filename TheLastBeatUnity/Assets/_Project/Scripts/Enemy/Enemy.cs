@@ -30,7 +30,7 @@ public class Enemy : MonoBehaviour
 
     EEnemyType type = EEnemyType.DEFAULT;
     bool isTarget = false;
-    Material material = null;
+    public Material Material { get; private set; }
 
     public int PulseDamage = 5;
     public EnemyWeaponHitbox WeaponHitbox { get; private set; }
@@ -52,7 +52,7 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        material = GetComponent<MeshRenderer>().material;
+        Material = GetComponent<MeshRenderer>().material;
         WeaponHitbox = GetComponentInChildren<EnemyWeaponHitbox>();
 
         lives = maxLives;
@@ -132,14 +132,13 @@ public class Enemy : MonoBehaviour
                 stunned = true;
                 stunCounter++;
                 stunTimer = stunDuration;
-                material.color = Color.blue;
             }
         }*/
     }
 
     IEnumerator BlinkBlue()
     {
-        material.color = Color.blue;
+        Material.color = Color.blue;
         yield return new WaitForSecondsRealtime(0.3f);
         UpdateColor();
     }
@@ -153,9 +152,9 @@ public class Enemy : MonoBehaviour
     private void UpdateColor()
     {
         if (isTarget)
-            material.color = Color.green;
+            Material.color = Color.green;
         else
-            material.color = Color.red;
+            Material.color = Color.yellow;
     }
 
     public void SetStateText(string text)
@@ -169,6 +168,21 @@ public class Enemy : MonoBehaviour
         {
             CurrentMove.Kill();
             CurrentMove = null;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (type == EEnemyType.DEFAULT)
+        {
+            EnemyState state;
+            foreach (EEnemyState stateEnum in states.Keys)
+            {
+                if (states.TryGetValue(stateEnum, out state))
+                {
+                    state = null;
+                }
+            }
         }
     }
 }
