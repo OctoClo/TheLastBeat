@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System.Linq;
 
 [System.Serializable]
 public class RewindRushParameters : AbilityParams
@@ -12,20 +13,21 @@ public class RewindRushParameters : AbilityParams
     public float MaxTimeBeforeResetMarks = 0;
     public AK.Wwise.State RewindState = null;
     public AK.Wwise.State NormalState = null;
+    public int MaxChained = 5;
 }
 
 public class RewindRushAbility : Ability
 {
     float duration = 0;
     float pulseCost = 0;
-
-    List<Enemy> chainedEnemies = new List<Enemy>();
+    int missedInput = 0;
+    int maxChained = 0;
+    Queue<Enemy> chainedEnemies = new Queue<Enemy>();
+    public bool IsInCombo => chainedEnemies.Count > 0;
     float maxTimeBeforeResetMarks = 0;
     float rushChainTimer = 0;
-
     AK.Wwise.State rewindState = null;
     AK.Wwise.State normalState = null;
-
     bool attackOnRythm = false;
 
     public RewindRushAbility(RewindRushParameters rrp) : base(rrp.AttachedPlayer)
@@ -37,6 +39,22 @@ public class RewindRushAbility : Ability
         normalState = rrp.NormalState;
         cooldown = rrp.Cooldown;
         healCorrectBeat = rrp.HealPerCorrectBeat;
+        maxChained = rrp.MaxChained;
+    }
+
+    public void ResetCombo()
+    {
+        chainedEnemies.Clear();
+        missedInput = 0;
+    }
+
+    public void MissInput()
+    {
+        missedInput++;
+        if (missedInput >= 2)
+        {
+            ResetCombo();
+        }
     }
 
     public override void Launch()
@@ -53,7 +71,7 @@ public class RewindRushAbility : Ability
             rushChainTimer -= Time.deltaTime;
 
             if (rushChainTimer < 0)
-                chainedEnemies.Clear();
+                ResetCombo();
         }
 
         if (currentCooldown > 0)
@@ -65,7 +83,11 @@ public class RewindRushAbility : Ability
     public void AddChainEnemy(Enemy enn)
     {
         rushChainTimer = maxTimeBeforeResetMarks;
-        chainedEnemies.Add(enn);
+        if (chainedEnemies.Count >= maxChained)
+        {
+            chainedEnemies.Dequeue();
+        }
+        chainedEnemies.Enqueue(enn);
     }
 
     void RewindRush()
@@ -95,9 +117,7 @@ public class RewindRushAbility : Ability
         Vector3 direction;
         Vector3 goalPosition = player.transform.position;
 
-        chainedEnemies.Reverse();
-
-        foreach (Enemy enemy in chainedEnemies)
+        foreach (Enemy enemy in chainedEnemies.Reverse())
         {
             if (enemy)
             {
@@ -126,7 +146,7 @@ public class RewindRushAbility : Ability
         player.Status.StopDashing();
         player.FocusZone.overrideControl = false;
         player.gameObject.layer = LayerMask.NameToLayer("Default");
-        chainedEnemies.Clear();
+        ResetCombo();
         normalState.SetValue();
     }
 }

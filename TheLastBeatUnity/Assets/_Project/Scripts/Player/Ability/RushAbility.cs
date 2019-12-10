@@ -62,24 +62,6 @@ public class RushAbility : Ability
     {
         attackOnRythm = BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT);
         blinkAbility.ResetCooldown();
-
-        if (attackOnRythm)
-        {
-            soundOnBeat.Post(player.gameObject);
-            player.Health.ModifyPulseValue(-healCorrectBeat);
-        }
-        //Only cost if off-rythm
-        else
-        {
-
-            soundOffBeat.Post(player.gameObject);
-            if (player.Health.InCriticMode)
-            {
-                player.Die();
-            }
-            player.Health.ModifyPulseValue(pulseCost);
-        }
-
         currentCooldown = cooldown;
         player.Status.StartDashing();
         player.Anim.LaunchAnim(EPlayerAnim.RUSHING);
@@ -144,6 +126,23 @@ public class RushAbility : Ability
                 RewindRush.AddChainEnemy(player.CurrentTarget);
             }
             player.ColliderObject.layer = LayerMask.NameToLayer("Default");
+        }
+
+        if (attackOnRythm)
+        {
+            soundOnBeat.Post(player.gameObject);
+            //Heal a bit when success
+            player.Health.ModifyPulseValue(-healCorrectBeat);
+        }
+        else
+        {
+            RewindRush.MissInput();
+            soundOffBeat.Post(player.gameObject);
+            if (player.Health.InCriticMode)
+            {
+                player.Die();
+            }
+            player.Health.ModifyPulseValue(pulseCost);
         }
     }
 }
