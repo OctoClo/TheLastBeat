@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 5046161126818934118}
   - component: {fileID: 5046161126818934117}
   - component: {fileID: 5046161126818934106}
+  - component: {fileID: 563426617}
   m_Layer: 0
   m_Name: InCombat Cam
   m_TagString: Untagged
@@ -110,7 +111,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5046161126818934104}
   m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
-  m_LocalPosition: {x: -7.641016, y: 3.0088825, z: -49.618523}
+  m_LocalPosition: {x: 10.758984, y: -3.1322513, z: -3.3797863}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5046161127291984608}
@@ -226,6 +227,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Offset: {x: 0, y: 0, z: 0}
   m_ApplyAfter: 3
+--- !u!114 &563426617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5046161126818934104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52130b1b684c6a545a5906f37b6518b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 0
+  player: {fileID: 0}
+  transparentMaterial: {fileID: 2100000, guid: 0310e0cf2795a994c84b131015b64da4, type: 2}
+  fadeInTimeout: 0.2
+  fadeOutTimeout: 0.2
+  targetTransparency: 0.2
 --- !u!1 &5046161127085458069
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,6 +359,7 @@ GameObject:
   - component: {fileID: 5046161127219819081}
   - component: {fileID: 5046161127219819080}
   - component: {fileID: 5046161127219819086}
+  - component: {fileID: 1123956443}
   m_Layer: 0
   m_Name: OutOfCombat Cam
   m_TagString: Untagged
@@ -471,6 +491,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Offset: {x: 0, y: 0, z: 0}
   m_ApplyAfter: 0
+--- !u!114 &1123956443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5046161127219819084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52130b1b684c6a545a5906f37b6518b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 0
+  player: {fileID: 0}
+  transparentMaterial: {fileID: 2100000, guid: 0310e0cf2795a994c84b131015b64da4, type: 2}
+  fadeInTimeout: 0.2
+  fadeOutTimeout: 0.2
+  targetTransparency: 0.2
 --- !u!1 &5046161127291984615
 GameObject:
   m_ObjectHideFlags: 0

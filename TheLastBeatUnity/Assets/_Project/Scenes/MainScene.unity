@@ -2470,6 +2470,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: = Managers =
       objectReference: {fileID: 0}
+    - target: {fileID: 8765324147976415590, guid: e0b5776d33d81194499f12bbaf555111,
+        type: 3}
+      propertyPath: tolerance
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 1855074841365596955, guid: e0b5776d33d81194499f12bbaf555111,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2549,11 +2554,6 @@ PrefabInstance:
         type: 3}
       propertyPath: debugMode
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8765324147976415590, guid: e0b5776d33d81194499f12bbaf555111,
-        type: 3}
-      propertyPath: tolerance
-      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e0b5776d33d81194499f12bbaf555111, type: 3}
@@ -2987,6 +2987,14 @@ PrefabInstance:
     - target: {fileID: 6542996926331179194, guid: 89c43181726305d40be5e6617086673b,
         type: 3}
       propertyPath: m_Targets.Array.data[0].target
+      value: 
+      objectReference: {fileID: 911424943}
+    - target: {fileID: 1123956443, guid: 89c43181726305d40be5e6617086673b, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 911424943}
+    - target: {fileID: 563426617, guid: 89c43181726305d40be5e6617086673b, type: 3}
+      propertyPath: player
       value: 
       objectReference: {fileID: 911424943}
     m_RemovedComponents: []
