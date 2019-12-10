@@ -22,6 +22,7 @@ public class EnemyStateAttack : EnemyState
     {
         base.Enter();
 
+        enemy.StartAttacking();
         animationFinished = false;
 
         Vector3 goalPos = enemy.Player.transform.position - enemy.transform.position;
@@ -36,17 +37,9 @@ public class EnemyStateAttack : EnemyState
         enemy.CurrentMove.Insert(waitBeforeAnimDuration, enemy.transform.DOMove(goalPos, animDuration).SetEase(Ease.OutBounce));
         enemy.CurrentMove.AppendCallback(() =>
         {
-            if (enemy.WeaponHitbox.PlayerInHitbox)
-            {
-                if (enemy.Player.Health.InCriticMode)
-                {
-                    enemy.Player.Die();
-                }
-                enemy.Player.Health.ModifyPulseValue(enemy.PulseDamage);
-            }
-            
             animationFinished = true;
             enemy.CurrentMove = null;
+            enemy.StopAttacking();
         });
 
         enemy.CurrentMove.Play();

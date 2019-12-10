@@ -31,9 +31,13 @@ public class Enemy : MonoBehaviour
     EEnemyType type = EEnemyType.DEFAULT;
     bool isTarget = false;
     public Material Material { get; private set; }
+    Collider collid;
 
-    public int PulseDamage = 5;
+    [SerializeField]
+    int pulseDamage = 5;
     public EnemyWeaponHitbox WeaponHitbox { get; private set; }
+    bool isAttacking = false;
+    bool hasAlreadyAttacked = false;
 
     Dictionary<EEnemyState, EnemyState> states;
     public EEnemyState CurrentStateEnum { get; private set; }
@@ -54,6 +58,7 @@ public class Enemy : MonoBehaviour
     {
         Material = GetComponent<MeshRenderer>().material;
         WeaponHitbox = GetComponentInChildren<EnemyWeaponHitbox>();
+        collid = GetComponent<Collider>();
 
         lives = maxLives;
         lifeText.text = lives.ToString();
@@ -168,6 +173,36 @@ public class Enemy : MonoBehaviour
         {
             CurrentMove.Kill();
             CurrentMove = null;
+        }
+    }
+
+    public void StartAttacking()
+    {
+        isAttacking = true;
+        hasAlreadyAttacked = false;
+        collid.isTrigger = true;
+        Debug.Log("Attack begins");
+    }
+
+    public void StopAttacking()
+    {
+        isAttacking = false;
+        collid.isTrigger = false;
+        Debug.Log("Attack stops");
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (isAttacking && !hasAlreadyAttacked && other.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Player hit!");
+            if (Player.Health.InCriticMode)
+            {
+                Player.Die();
+            }
+
+            Player.Health.ModifyPulseValue(pulseDamage);
+            hasAlreadyAttacked = true;
         }
     }
 

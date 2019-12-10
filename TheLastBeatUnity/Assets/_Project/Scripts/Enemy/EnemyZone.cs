@@ -79,7 +79,6 @@ public class EnemyZone : MonoBehaviour
         {
             if (enemies.Count > 0 && enemies[0].CurrentStateEnum == EEnemyState.CHASE && detectionZone.PlayerInZone)
             {
-                Debug.Log("The chase begins");
                 chasing = true;
             }
         }
@@ -121,8 +120,6 @@ public class EnemyZone : MonoBehaviour
 
     private void CallEnemiesBack()
     {
-        Debug.Log("Back to me!");
-
         foreach (Enemy enemy in enemies)
         {
             enemy.ComeBack = true;
@@ -134,8 +131,6 @@ public class EnemyZone : MonoBehaviour
 
     private void TellEnemiesToChaseAgain()
     {
-        Debug.Log("Chase again!");
-
         foreach (Enemy enemy in enemies)
         {
             enemy.ChaseAgain = true;
