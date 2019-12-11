@@ -45,8 +45,6 @@ public class Player : Inputable
     [SerializeField]
     Health healthSystem = null;
 
-    public Health Health => healthSystem;
-
     [SerializeField]
     Transform visualPart = null;
     public Transform VisualPart => visualPart;
@@ -75,6 +73,7 @@ public class Player : Inputable
         BlinkAbility blink = new BlinkAbility(blinkParameters);
         abilities.Add(EInputAction.BLINK, blink);
 
+        rushParameters.blinkAbility = blink;
         RushAbility rush = new RushAbility(rushParameters);
         abilities.Add(EInputAction.RUSH, rush);
 
@@ -82,6 +81,7 @@ public class Player : Inputable
         abilities.Add(EInputAction.REWINDRUSH, rewindRush);
 
         rush.RewindRush = rewindRush;
+        healthSystem.Player = this;
 
         if (SceneHelper.DeathCount > 0)
         {
@@ -135,7 +135,25 @@ public class Player : Inputable
         }
     }
 
-    public void Die()
+    public void ModifyPulseValue(float value, bool fromEnemy = false)
+    {
+        if (healthSystem.InCriticMode)
+        {
+            Die();
+        }
+        else
+        {
+            healthSystem.ModifyPulseValue(value);
+            if (fromEnemy)
+            {
+                Ability rewindRush;
+                if (abilities.TryGetValue(EInputAction.REWINDRUSH, out rewindRush))
+                    ((RewindRushAbility)rewindRush).ResetCooldown();
+            }
+        }
+    }
+
+    void Die()
     {
         DOTween.KillAll();
         blockInput = true;
@@ -172,6 +190,58 @@ public class Player : Inputable
         //Need remove
         if (Input.GetKeyDown(KeyCode.K))
             Die();
+    }
+
+    IEnumerator currentHurt;
+    Dictionary<Material, Color> allColors = new Dictionary<Material, Color>();
+    public void HurtAnimation(float timeScale, int nbLoop)
+    {
+        if (currentHurt != null)
+        {
+            StopCoroutine(currentHurt);
+
+            //Get back colors
+            foreach (Material mat in visualPart.GetComponentInChildren<SkinnedMeshRenderer>().materials)
+            {
+                mat.color = allColors[mat];
+            }
+        }
+
+
+        currentHurt = HurtCoroutine(timeScale, nbLoop);
+        StartCoroutine(currentHurt);
+    }
+
+    IEnumerator HurtCoroutine(float timeScale, int nbLoop)
+    {
+        foreach (Material mat in visualPart.GetComponentInChildren<SkinnedMeshRenderer>().materials)
+        {
+            allColors[mat] = mat.color;
+        }
+        float cursorTime = 0;
+
+        for (int i = 0; i < nbLoop; i++)
+        {
+            while (cursorTime < 1)
+            {
+                cursorTime += Time.deltaTime / timeScale;
+                foreach (Material mat in allColors.Keys)
+                {
+                    mat.color = Color.Lerp(allColors[mat], Color.red, cursorTime);
+                }
+                yield return null;
+            }
+
+            while (cursorTime > 0)
+            {
+                cursorTime -= Time.deltaTime / timeScale;
+                foreach (Material mat in allColors.Keys)
+                {
+                    mat.color = Color.Lerp(allColors[mat], Color.red, cursorTime);
+                }
+                yield return null;
+            }
+        }
     }
 
     public Enemy GetCurrentTarget()

@@ -66,13 +66,14 @@ public class Health : Beatable
     [SerializeField][TabGroup("Zone generation")][FolderPath]
     string path = "";
 
+    public Player Player { get; set; }
+
 #if UNITY_EDITOR
     [Button][TabGroup("Zone generation")]
     void Generate()
     {
         PulseZone pz = ScriptableObject.CreateInstance<PulseZone>();
         pz.Length = lengthZone;
-        pz.ModifierInZone = pulseMultiplier;
         pz.colorRepr = colorZone;
         pz.name = labelZone;
         pz.ScaleModifier = scaleUI;
@@ -163,18 +164,21 @@ public class Health : Beatable
     public void ModifyPulseValue(float deltaValue, bool countAsAction = true)
     {
         PulseZone previousZone = CurrentZone;
+        currentPulse += deltaValue;
         if (!CurrentZone)
         {
-            currentPulse += deltaValue;
             return;
         }
-            
-        currentPulse += previousZone.ModifierInZone.Evaluate(ratioPulse) * deltaValue;
         currentPulse = Mathf.Clamp(currentPulse, minimalPulse, maximalPulse);
 
         if (CurrentZone != previousZone)
         {
             OnZoneChanged(previousZone);
+        }
+
+        if (deltaValue > 0)
+        {
+            Player.HurtAnimation(0.25f, 3);
         }
     }
 

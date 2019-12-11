@@ -11,31 +11,23 @@ public class RushParams : AbilityParams
     public AK.Wwise.Event OnBeatSound = null;
     public AK.Wwise.Event OffBeatSound = null;
     public float Cooldown = 0;
+
+    [HideInInspector]
+    public BlinkAbility blinkAbility;
 }
 
 public class RushAbility : Ability
 {
-    float duration = 0;
-    float pulseCost = 0;
-    float cooldown = 0;
-    float currentCooldown = 0;
-
     bool obstacleAhead = false;
     bool attackOnRythm = false;
     RaycastHit obstacle;
-
-    AK.Wwise.Event soundOffBeat = null;
-    AK.Wwise.Event soundOnBeat = null;
+    RushParams parameters;
     
     public RewindRushAbility RewindRush { get; set; }
 
     public RushAbility(RushParams rp) : base(rp.AttachedPlayer)
     {
-        duration = rp.RushDuration;
-        pulseCost = rp.PulseCost;
-        soundOffBeat = rp.OffBeatSound;
-        soundOnBeat = rp.OnBeatSound;
-        cooldown = rp.Cooldown;
+        parameters = rp;
     }
 
     public override void Launch()
@@ -57,23 +49,7 @@ public class RushAbility : Ability
     void Rush()
     {
         attackOnRythm = BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT);
-
-        if (attackOnRythm)
-        {
-            soundOnBeat.Post(player.gameObject);
-        }
-        //Only cost if off-rythm
-        else
-        {
-
-            soundOffBeat.Post(player.gameObject);
-            if (player.Health.InCriticMode)
-            {
-                player.Die();
-            }
-            player.Health.ModifyPulseValue(pulseCost);
-        }
-
+        parameters.blinkAbility.ResetCooldown();
         currentCooldown = cooldown;
         player.Status.StartDashing();
         player.Anim.LaunchAnim(EPlayerAnim.RUSHING);
@@ -94,13 +70,13 @@ public class RushAbility : Ability
         }
 
         Vector3 goalPosition = direction + player.transform.position;
-        seq.Append(player.transform.DOMove(goalPosition, duration));
+        seq.Append(player.transform.DOMove(goalPosition, parameters.RushDuration));
 
         if (obstacleAhead)
         {
             direction *= -0.5f;
             goalPosition += direction;
-            seq.Append(player.transform.DOMove(goalPosition, duration / 2.0f));
+            seq.Append(player.transform.DOMove(goalPosition, parameters.RushDuration / 2.0f));
         }
 
         seq.AppendCallback(() => End());
@@ -138,6 +114,18 @@ public class RushAbility : Ability
                 RewindRush.AddChainEnemy(player.CurrentTarget);
             }
             player.ColliderObject.layer = LayerMask.NameToLayer("Default");
+        }
+
+        if (attackOnRythm)
+        {
+            parameters.OnBeatSound.Post(player.gameObject);
+            player.ModifyPulseValue(-healCorrectBeat);
+        }
+        else
+        {
+            RewindRush.MissInput();
+            parameters.OffBeatSound.Post(player.gameObject);
+            player.ModifyPulseValue(parameters.PulseCost);
         }
     }
 }

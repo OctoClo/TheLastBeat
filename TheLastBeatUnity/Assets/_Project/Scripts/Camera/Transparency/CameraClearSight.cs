@@ -25,7 +25,7 @@ public class CameraClearSight : MonoBehaviour
     {
         transposer = GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineFramingTransposer>();
         distanceToPlayer = transposer.m_CameraDistance;
-        playerCapsule = player.gameObject.GetComponentInChildren<CapsuleCollider>();
+        playerCapsule = player.gameObject.GetComponent<CapsuleCollider>();
     }
 
     private void Update()

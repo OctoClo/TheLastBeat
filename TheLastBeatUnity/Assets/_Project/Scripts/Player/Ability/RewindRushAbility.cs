@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System.Linq;
 
 [System.Serializable]
 public class RewindRushParameters : AbilityParams
@@ -12,38 +13,21 @@ public class RewindRushParameters : AbilityParams
     public float MaxTimeBeforeResetMarks = 0;
     public AK.Wwise.State RewindState = null;
     public AK.Wwise.State NormalState = null;
+    public int MaxChained = 5;
 }
 
 public class RewindRushAbility : Ability
 {
-    float duration = 0;
-    float pulseCost = 0;
-    float cooldown = 0;
-    float currentCooldown = 0;
-
-    List<Enemy> chainedEnemies = new List<Enemy>();
-    float maxTimeBeforeResetMarks = 0;
+    int missedInput = 0;
+    Queue<Enemy> chainedEnemies = new Queue<Enemy>();
+    public bool IsInCombo => chainedEnemies.Count > 0;
     float rushChainTimer = 0;
-
-    AK.Wwise.State rewindState = null;
-    AK.Wwise.State normalState = null;
-
     bool attackOnRythm = false;
+    RewindRushParameters parameters;
 
     public RewindRushAbility(RewindRushParameters rrp) : base(rrp.AttachedPlayer)
     {
-        duration = rrp.Duration;
-        pulseCost = rrp.PulseCost;
-        maxTimeBeforeResetMarks = rrp.MaxTimeBeforeResetMarks;
-        rewindState = rrp.RewindState;
-        normalState = rrp.NormalState;
-        cooldown = rrp.Cooldown;
-    }
-
-    public override void Launch()
-    {
-        if (chainedEnemies.Count > 0 && currentCooldown == 0)
-            RewindRush();
+        parameters = rrp;
     }
 
     public override void Update(float deltaTime)
@@ -54,7 +38,7 @@ public class RewindRushAbility : Ability
             rushChainTimer -= Time.deltaTime;
 
             if (rushChainTimer < 0)
-                chainedEnemies.Clear();
+                ResetCombo();
         }
 
         if (currentCooldown > 0)
@@ -65,14 +49,39 @@ public class RewindRushAbility : Ability
 
     public void AddChainEnemy(Enemy enn)
     {
-        rushChainTimer = maxTimeBeforeResetMarks;
-        chainedEnemies.Add(enn);
+        rushChainTimer = parameters.MaxTimeBeforeResetMarks;
+        if (chainedEnemies.Count >= parameters.MaxChained)
+        {
+            chainedEnemies.Dequeue();
+        }
+        chainedEnemies.Enqueue(enn);
+    }
+
+    public void MissInput()
+    {
+        missedInput++;
+        if (missedInput >= 2)
+        {
+            ResetCombo();
+        }
+    }
+
+    public void ResetCombo()
+    {
+        chainedEnemies.Clear();
+        missedInput = 0;
+    }
+
+    public override void Launch()
+    {
+        if (chainedEnemies.Count > 0 && currentCooldown == 0)
+            RewindRush();
     }
 
     void RewindRush()
     {
         currentCooldown = cooldown;
-        rewindState.SetValue();
+        parameters.RewindState.SetValue();
         player.Status.StartDashing();
         player.FocusZone.overrideControl = true;
         player.ColliderObject.layer = LayerMask.NameToLayer("Player Dashing");
@@ -80,24 +89,19 @@ public class RewindRushAbility : Ability
         attackOnRythm = BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT);
         if (attackOnRythm)
         {
+            player.ModifyPulseValue(-healCorrectBeat);
             BeatManager.Instance.ValidateLastBeat(BeatManager.TypeBeat.BEAT);
         }
         else
         {
-            if (player.Health.InCriticMode)
-            {
-                player.Die();
-            }
-            player.Health.ModifyPulseValue(pulseCost);
+            player.ModifyPulseValue(parameters.PulseCost);
         }
 
         Sequence seq = DOTween.Sequence();
         Vector3 direction;
         Vector3 goalPosition = player.transform.position;
 
-        chainedEnemies.Reverse();
-
-        foreach (Enemy enemy in chainedEnemies)
+        foreach (Enemy enemy in chainedEnemies.Reverse())
         {
             if (enemy)
             {
@@ -111,7 +115,7 @@ public class RewindRushAbility : Ability
                     player.LookAtCurrentTarget();
                     player.Anim.LaunchAnim(EPlayerAnim.RUSHING);
                 });
-                seq.Append(player.transform.DOMove(goalPosition, duration));
+                seq.Append(player.transform.DOMove(goalPosition, parameters.Duration));
                 seq.AppendCallback(() => { enemy.GetAttacked(attackOnRythm); });
             }
         }
@@ -126,7 +130,7 @@ public class RewindRushAbility : Ability
         player.Status.StopDashing();
         player.FocusZone.overrideControl = false;
         player.gameObject.layer = LayerMask.NameToLayer("Default");
-        chainedEnemies.Clear();
-        normalState.SetValue();
+        ResetCombo();
+        parameters.NormalState.SetValue();
     }
 }
