@@ -462,18 +462,22 @@ MonoBehaviour:
   groundRotationReference: {fileID: 6257483788149977950}
   blinkParameters:
     AttachedPlayer: {fileID: 0}
-    Speed: 12
+    HealPerCorrectBeat: 1
+    Speed: 9
     PulseCost: 4
-    Cooldown: 0
     Sound:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 3a35a5d593c9a0e469bead9a32b70bd3,
         type: 2}
+    timeWait: 0.1
     prefabMark: {fileID: 4225803668478646523, guid: dc51799e9e7f1f54ba8a8cb12df0a069,
+      type: 3}
+    prefabTrail: {fileID: 4225803668478646523, guid: 1948b9177b3dc8047b146b1dc1c44973,
       type: 3}
   rushParameters:
     AttachedPlayer: {fileID: 0}
+    HealPerCorrectBeat: 1
     RushDuration: 0.4
     PulseCost: 5
     OnBeatSound:
@@ -489,6 +493,7 @@ MonoBehaviour:
     Cooldown: 0.5
   rushRewindParameters:
     AttachedPlayer: {fileID: 0}
+    HealPerCorrectBeat: 1
     Duration: 0.2
     PulseCost: 5
     Cooldown: 5
