@@ -18,28 +18,16 @@ public class RewindRushParameters : AbilityParams
 
 public class RewindRushAbility : Ability
 {
-    float duration = 0;
-    float pulseCost = 0;
     int missedInput = 0;
-    int maxChained = 0;
     Queue<Enemy> chainedEnemies = new Queue<Enemy>();
     public bool IsInCombo => chainedEnemies.Count > 0;
-    float maxTimeBeforeResetMarks = 0;
     float rushChainTimer = 0;
-    AK.Wwise.State rewindState = null;
-    AK.Wwise.State normalState = null;
     bool attackOnRythm = false;
+    RewindRushParameters parameters;
 
     public RewindRushAbility(RewindRushParameters rrp) : base(rrp.AttachedPlayer)
     {
-        duration = rrp.Duration;
-        pulseCost = rrp.PulseCost;
-        maxTimeBeforeResetMarks = rrp.MaxTimeBeforeResetMarks;
-        rewindState = rrp.RewindState;
-        normalState = rrp.NormalState;
-        cooldown = rrp.Cooldown;
-        healCorrectBeat = rrp.HealPerCorrectBeat;
-        maxChained = rrp.MaxChained;
+        parameters = rrp;
     }
 
     public override void Update(float deltaTime)
@@ -61,8 +49,8 @@ public class RewindRushAbility : Ability
 
     public void AddChainEnemy(Enemy enn)
     {
-        rushChainTimer = maxTimeBeforeResetMarks;
-        if (chainedEnemies.Count >= maxChained)
+        rushChainTimer = parameters.MaxTimeBeforeResetMarks;
+        if (chainedEnemies.Count >= parameters.MaxChained)
         {
             chainedEnemies.Dequeue();
         }
@@ -93,7 +81,7 @@ public class RewindRushAbility : Ability
     void RewindRush()
     {
         currentCooldown = cooldown;
-        rewindState.SetValue();
+        parameters.RewindState.SetValue();
         player.Status.StartDashing();
         player.FocusZone.overrideControl = true;
         player.ColliderObject.layer = LayerMask.NameToLayer("Player Dashing");
@@ -106,7 +94,7 @@ public class RewindRushAbility : Ability
         }
         else
         {
-            player.ModifyPulseValue(pulseCost);
+            player.ModifyPulseValue(parameters.PulseCost);
         }
 
         Sequence seq = DOTween.Sequence();
@@ -127,7 +115,7 @@ public class RewindRushAbility : Ability
                     player.LookAtCurrentTarget();
                     player.Anim.LaunchAnim(EPlayerAnim.RUSHING);
                 });
-                seq.Append(player.transform.DOMove(goalPosition, duration));
+                seq.Append(player.transform.DOMove(goalPosition, parameters.Duration));
                 seq.AppendCallback(() => { enemy.GetAttacked(attackOnRythm); });
             }
         }
@@ -143,6 +131,6 @@ public class RewindRushAbility : Ability
         player.FocusZone.overrideControl = false;
         player.gameObject.layer = LayerMask.NameToLayer("Default");
         ResetCombo();
-        normalState.SetValue();
+        parameters.NormalState.SetValue();
     }
 }

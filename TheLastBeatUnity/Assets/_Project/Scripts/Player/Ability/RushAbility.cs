@@ -18,28 +18,16 @@ public class RushParams : AbilityParams
 
 public class RushAbility : Ability
 {
-    float duration = 0;
-    float pulseCost = 0;
-
     bool obstacleAhead = false;
     bool attackOnRythm = false;
     RaycastHit obstacle;
-
-    AK.Wwise.Event soundOffBeat = null;
-    AK.Wwise.Event soundOnBeat = null;
-    BlinkAbility blinkAbility;
+    RushParams parameters;
     
     public RewindRushAbility RewindRush { get; set; }
 
     public RushAbility(RushParams rp) : base(rp.AttachedPlayer)
     {
-        duration = rp.RushDuration;
-        pulseCost = rp.PulseCost;
-        soundOffBeat = rp.OffBeatSound;
-        soundOnBeat = rp.OnBeatSound;
-        cooldown = rp.Cooldown;
-        blinkAbility = rp.blinkAbility;
-        healCorrectBeat = rp.HealPerCorrectBeat;
+        parameters = rp;
     }
 
     public override void Launch()
@@ -61,7 +49,7 @@ public class RushAbility : Ability
     void Rush()
     {
         attackOnRythm = BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT);
-        blinkAbility.ResetCooldown();
+        parameters.blinkAbility.ResetCooldown();
         currentCooldown = cooldown;
         player.Status.StartDashing();
         player.Anim.LaunchAnim(EPlayerAnim.RUSHING);
@@ -82,13 +70,13 @@ public class RushAbility : Ability
         }
 
         Vector3 goalPosition = direction + player.transform.position;
-        seq.Append(player.transform.DOMove(goalPosition, duration));
+        seq.Append(player.transform.DOMove(goalPosition, parameters.RushDuration));
 
         if (obstacleAhead)
         {
             direction *= -0.5f;
             goalPosition += direction;
-            seq.Append(player.transform.DOMove(goalPosition, duration / 2.0f));
+            seq.Append(player.transform.DOMove(goalPosition, parameters.RushDuration / 2.0f));
         }
 
         seq.AppendCallback(() => End());
@@ -130,14 +118,14 @@ public class RushAbility : Ability
 
         if (attackOnRythm)
         {
-            soundOnBeat.Post(player.gameObject);
+            parameters.OnBeatSound.Post(player.gameObject);
             player.ModifyPulseValue(-healCorrectBeat);
         }
         else
         {
             RewindRush.MissInput();
-            soundOffBeat.Post(player.gameObject);
-            player.ModifyPulseValue(pulseCost);
+            parameters.OffBeatSound.Post(player.gameObject);
+            player.ModifyPulseValue(parameters.PulseCost);
         }
     }
 }
