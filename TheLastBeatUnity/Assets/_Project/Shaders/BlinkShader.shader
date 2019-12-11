@@ -7,6 +7,7 @@
         _Glossiness("Smoothness", Range(0,1)) = 0.5
         _Metallic("Metallic", Range(0,1)) = 0.0
         _CoeffDissolve("Dissolve", Range(0,1)) = 0
+        [MaterialToggle] _ExtToInt("extToInt", Float) = 0
     }
     SubShader
     {
@@ -31,6 +32,7 @@
         half _Metallic;
         fixed4 _Color;
         float _CoeffDissolve;
+        float _ExtToInt;
 
         // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
         // See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
@@ -48,10 +50,16 @@
             o.Smoothness = 0;
             float dist = (distance(float2(0.5, 0.5), IN.uv_MainTex) / distance(float2(0.5, 0.5), float2(0, 0)));
             o.Alpha = c.a;
-            if (dist < _CoeffDissolve)
+            if (_ExtToInt != 0 && dist < _CoeffDissolve)
             {
                 discard;
             }
+
+            if (_ExtToInt == 0 && dist > _CoeffDissolve)
+            {
+                discard;
+            }
+
             o.Emission = float3(1, 1, 1) * 0.0125;
         }
         ENDCG

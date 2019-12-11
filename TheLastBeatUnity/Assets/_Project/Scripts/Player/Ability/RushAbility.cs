@@ -14,6 +14,8 @@ public class RushParams : AbilityParams
 
     [HideInInspector]
     public BlinkAbility blinkAbility;
+    public GameObject RushMark;
+    public Texture Texture;
 }
 
 public class RushAbility : Ability
@@ -53,6 +55,7 @@ public class RushAbility : Ability
         currentCooldown = cooldown;
         player.Status.StartDashing();
         player.Anim.LaunchAnim(EPlayerAnim.RUSHING);
+        CreateStartMark(player.transform.forward);
 
         Sequence seq = DOTween.Sequence();
         Vector3 direction = new Vector3(player.CurrentTarget.transform.position.x, player.transform.position.y, player.CurrentTarget.transform.position.z) - player.transform.position;
@@ -81,6 +84,30 @@ public class RushAbility : Ability
 
         seq.AppendCallback(() => End());
         seq.Play();
+    }
+
+    void CreateStartMark(Vector3 direction)
+    {
+        RaycastHit hit;
+        //Find nearest ground + can be created on steep
+        if (Physics.Raycast(player.transform.position, Vector3.down, out hit))
+        {
+            Vector3 finalPos = hit.point + (hit.normal * 0.001f);
+
+            GameObject instanciatedTrail = GameObject.Instantiate(parameters.RushMark);
+            instanciatedTrail.transform.forward = player.transform.forward;
+            instanciatedTrail.transform.position = finalPos;
+            Material mat = instanciatedTrail.GetComponent<MeshRenderer>().material;
+            mat.SetFloat("_SwitchY", 1);
+            mat.SetTexture("_MainTex", parameters.Texture);
+            Sequence seq = DOTween.Sequence();
+            seq.Append(DOTween.To(() => mat.GetFloat("_DistanceX"), x => mat.SetFloat("_DistanceX", x), 1, 0.5f));
+            seq.AppendInterval(0.25f);
+            seq.AppendCallback(() => mat.SetFloat("_ReferenceX", 1));
+            seq.Append(DOTween.To(() => mat.GetFloat("_DistanceX"), x => mat.SetFloat("_DistanceX", x), 0, 0.5f));
+            seq.AppendCallback(() => GameObject.Destroy(instanciatedTrail));
+            seq.Play();
+        }
     }
 
     void GetObstacleOnDash(Vector3 direction)

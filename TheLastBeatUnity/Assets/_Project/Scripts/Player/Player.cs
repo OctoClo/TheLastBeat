@@ -48,6 +48,7 @@ public class Player : Inputable
     [SerializeField]
     Transform visualPart = null;
     public Transform VisualPart => visualPart;
+    public Transform CurrentFootOnGround { get; private set; }
 
     Dictionary<EInputAction, Ability> abilities = new Dictionary<EInputAction, Ability>();
     IReadOnlyDictionary<EInputAction, Ability> Abilities => abilities;
