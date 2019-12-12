@@ -89,6 +89,7 @@ public class BlinkAbility : Ability
             markInstanciated.transform.position = hit.point + (hit.normal * 0.1f);
             markInstanciated.transform.up = hit.normal;
             Material mat = markInstanciated.GetComponent<MeshRenderer>().material;
+            mat.SetFloat("_ExtToInt", 1);
             Sequence seq = DOTween.Sequence();
             seq.Append(DOTween.To(() => mat.GetFloat("_CoeffDissolve"), x => mat.SetFloat("_CoeffDissolve", x), 0, parameters.marksSpeedAnimation));
             seq.AppendInterval(parameters.markPersist);

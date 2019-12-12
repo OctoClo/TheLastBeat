@@ -997,7 +997,7 @@ PrefabInstance:
         type: 3}
       propertyPath: rushParameters.RushMark
       value: 
-      objectReference: {fileID: 1575971668209390284, guid: e7d217562121b4b4a835a68d1c74c513,
+      objectReference: {fileID: 3234649817364588464, guid: 8c3de31bc6b9f0e46ae2cb9e67a8d733,
         type: 3}
     - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
         type: 3}
@@ -1008,6 +1008,16 @@ PrefabInstance:
         type: 3}
       propertyPath: blinkParameters.marksSpeedAnimation
       value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: rushParameters.speedAnimMark
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: rushParameters.markPersistDuration
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3489716977114045590, guid: 07801b51c158daf499d145da957e6459,
         type: 3}
@@ -2602,7 +2612,7 @@ PrefabInstance:
     - target: {fileID: 1855074841851943534, guid: e0b5776d33d81194499f12bbaf555111,
         type: 3}
       propertyPath: debugMode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8765324147976415590, guid: e0b5776d33d81194499f12bbaf555111,
         type: 3}

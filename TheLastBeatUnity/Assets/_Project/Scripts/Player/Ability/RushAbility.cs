@@ -14,8 +14,10 @@ public class RushParams : AbilityParams
 
     [HideInInspector]
     public BlinkAbility blinkAbility;
-    public GameObject RushMark;
-    public Texture Texture;
+    public GameObject RushMark = null;
+    public Texture Texture = null;
+    public float speedAnimMark = 0;
+    public float markPersistDuration = 0;
 }
 
 public class RushAbility : Ability
@@ -98,13 +100,16 @@ public class RushAbility : Ability
             instanciatedTrail.transform.forward = player.transform.forward;
             instanciatedTrail.transform.position = finalPos;
             Material mat = instanciatedTrail.GetComponent<MeshRenderer>().material;
-            mat.SetFloat("_SwitchY", 1);
+            mat.SetFloat("_CoeffDissolve", 0);
+            mat.SetFloat("_ExtToInt", 0);
             mat.SetTexture("_MainTex", parameters.Texture);
+            mat.SetFloat("_BlurRatio", 0.25f);
+            mat.SetVector("_CenterUV", new Vector4(0.5f, 0, 0, 0));
+            mat.SetVector("_ToBorder", new Vector4(0.5f, 1, 0, 0));
             Sequence seq = DOTween.Sequence();
-            seq.Append(DOTween.To(() => mat.GetFloat("_DistanceX"), x => mat.SetFloat("_DistanceX", x), 1, 0.25f));
-            seq.AppendInterval(0.25f);
-            seq.AppendCallback(() => mat.SetFloat("_ReferenceX", 1));
-            seq.Append(DOTween.To(() => mat.GetFloat("_DistanceX"), x => mat.SetFloat("_DistanceX", x), 0, 0.25f));
+            seq.Append(DOTween.To(() => mat.GetFloat("_CoeffDissolve"), x => mat.SetFloat("_CoeffDissolve", x), 1, parameters.speedAnimMark));
+            seq.AppendInterval(parameters.markPersistDuration);
+            seq.Append(DOTween.To(() => mat.GetFloat("_CoeffDissolve"), x => mat.SetFloat("_CoeffDissolve", x), 0, parameters.speedAnimMark));
             seq.AppendCallback(() => GameObject.Destroy(instanciatedTrail));
             seq.Play();
         }
