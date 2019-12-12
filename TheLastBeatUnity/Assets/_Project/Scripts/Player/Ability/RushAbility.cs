@@ -90,7 +90,7 @@ public class RushAbility : Ability
     {
         RaycastHit hit;
         //Find nearest ground + can be created on steep
-        if (Physics.Raycast(player.transform.position, Vector3.down, out hit))
+        if (Physics.Raycast(player.CurrentFootOnGround.position, Vector3.down, out hit))
         {
             Vector3 finalPos = hit.point + (hit.normal * 0.001f);
 
@@ -101,10 +101,10 @@ public class RushAbility : Ability
             mat.SetFloat("_SwitchY", 1);
             mat.SetTexture("_MainTex", parameters.Texture);
             Sequence seq = DOTween.Sequence();
-            seq.Append(DOTween.To(() => mat.GetFloat("_DistanceX"), x => mat.SetFloat("_DistanceX", x), 1, 0.5f));
+            seq.Append(DOTween.To(() => mat.GetFloat("_DistanceX"), x => mat.SetFloat("_DistanceX", x), 1, 0.25f));
             seq.AppendInterval(0.25f);
             seq.AppendCallback(() => mat.SetFloat("_ReferenceX", 1));
-            seq.Append(DOTween.To(() => mat.GetFloat("_DistanceX"), x => mat.SetFloat("_DistanceX", x), 0, 0.5f));
+            seq.Append(DOTween.To(() => mat.GetFloat("_DistanceX"), x => mat.SetFloat("_DistanceX", x), 0, 0.25f));
             seq.AppendCallback(() => GameObject.Destroy(instanciatedTrail));
             seq.Play();
         }

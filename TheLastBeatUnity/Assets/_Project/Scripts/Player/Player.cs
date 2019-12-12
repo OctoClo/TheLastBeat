@@ -62,6 +62,11 @@ public class Player : Inputable
 
     public Enemy CurrentTarget { get; private set; }
 
+    public void SetFoot(Transform trsf)
+    {
+        CurrentFootOnGround = trsf;
+    }
+
     private void Start()
     {
         blinkParameters.AttachedPlayer = rushParameters.AttachedPlayer = rushRewindParameters.AttachedPlayer = this;
