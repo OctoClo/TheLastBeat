@@ -993,6 +993,32 @@ PrefabInstance:
       propertyPath: blinkParameters.SpeedAnimShrink
       value: 0.05
       objectReference: {fileID: 0}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: rushParameters.RushMark
+      value: 
+      objectReference: {fileID: 3234649817364588464, guid: 8c3de31bc6b9f0e46ae2cb9e67a8d733,
+        type: 3}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: rushParameters.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 97eeddb52758ddd4a815079d8d938243, type: 3}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: blinkParameters.marksSpeedAnimation
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: rushParameters.speedAnimMark
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: rushParameters.markPersistDuration
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3489716977114045590, guid: 07801b51c158daf499d145da957e6459,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1105,6 +1131,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1006650738 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 938978441505910661, guid: 07801b51c158daf499d145da957e6459,
+    type: 3}
+  m_PrefabInstance: {fileID: 911424942}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1006650741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1006650738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 019facea8f24cff4da0188d94c899464, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  plyr: {fileID: 368058109}
+  leftFoot: {fileID: 2053477493}
+  rightFoot: {fileID: 1296237356}
 --- !u!114 &1035569839 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6542996926331179194, guid: 89c43181726305d40be5e6617086673b,
@@ -1856,6 +1903,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8839441464641126159}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1296237356 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6270997722281639568, guid: 07801b51c158daf499d145da957e6459,
+    type: 3}
+  m_PrefabInstance: {fileID: 911424942}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1381583574
 GameObject:
   m_ObjectHideFlags: 0
@@ -2559,7 +2612,7 @@ PrefabInstance:
     - target: {fileID: 1855074841851943534, guid: e0b5776d33d81194499f12bbaf555111,
         type: 3}
       propertyPath: debugMode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8765324147976415590, guid: e0b5776d33d81194499f12bbaf555111,
         type: 3}
@@ -2787,6 +2840,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &2053477493 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7532224865984800750, guid: 07801b51c158daf499d145da957e6459,
+    type: 3}
+  m_PrefabInstance: {fileID: 911424942}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4503622671163791451
 PrefabInstance:
   m_ObjectHideFlags: 0

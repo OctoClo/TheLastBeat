@@ -6,6 +6,7 @@
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
         _DistanceX("Distance X", Range(0,1)) = 0.0
         _ReferenceX("Reference X", Range(0,1)) = 0.0
+        [MaterialToggle] _SwitchY("Switch to Y", Float) = 0
     }
     SubShader
     {
@@ -28,6 +29,7 @@
         fixed4 _Color;
         float _DistanceX;
         float _ReferenceX;
+        float _SwitchY;
 
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
@@ -36,7 +38,7 @@
             o.Albedo = c.rgb;
             o.Alpha = c.a;
             o.Emission = float3(1, 1, 1) * 0.0125;
-            if (abs(IN.uv_MainTex.x - _ReferenceX) > _DistanceX)
+            if (abs((_SwitchY == 0 ? IN.uv_MainTex.x : IN.uv_MainTex.y) - _ReferenceX) > _DistanceX)
             {
                 discard;
             }

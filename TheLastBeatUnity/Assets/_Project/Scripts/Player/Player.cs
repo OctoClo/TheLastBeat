@@ -48,6 +48,7 @@ public class Player : Inputable
     [SerializeField]
     Transform visualPart = null;
     public Transform VisualPart => visualPart;
+    public Transform CurrentFootOnGround { get; private set; }
 
     Dictionary<EInputAction, Ability> abilities = new Dictionary<EInputAction, Ability>();
     IReadOnlyDictionary<EInputAction, Ability> Abilities => abilities;
@@ -60,6 +61,11 @@ public class Player : Inputable
     public BeatManager BeatManager => beatManager;
 
     public Enemy CurrentTarget { get; private set; }
+
+    public void SetFoot(Transform trsf)
+    {
+        CurrentFootOnGround = trsf;
+    }
 
     private void Start()
     {
