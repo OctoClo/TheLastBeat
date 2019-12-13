@@ -57,4 +57,10 @@ public class SceneHelper : MonoBehaviour
     {
         return Quaternion.Euler(angles) * (point - pivot) + pivot;
     }
+
+    [RuntimeInitializeOnLoadMethod]
+    public static void Init()
+    {
+        DOTween.Init();
+    }
 }
