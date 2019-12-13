@@ -83,12 +83,13 @@ public class BlinkAbility : Ability
     {
         RaycastHit hit;
         //Find nearest ground + can be created on steep
-        if (Physics.Raycast(positionCast , Vector3.down, out hit))
+        if (Physics.Raycast(positionCast, Vector3.down, out hit))
         {
             GameObject markInstanciated = GameObject.Instantiate(parameters.prefabMark);
             markInstanciated.transform.position = hit.point + (hit.normal * 0.1f);
             markInstanciated.transform.up = hit.normal;
             Material mat = markInstanciated.GetComponent<MeshRenderer>().material;
+            mat.SetFloat("_ExtToInt", 1);
             Sequence seq = DOTween.Sequence();
             seq.Append(DOTween.To(() => mat.GetFloat("_CoeffDissolve"), x => mat.SetFloat("_CoeffDissolve", x), 0, parameters.marksSpeedAnimation));
             seq.AppendInterval(parameters.markPersist);
@@ -96,7 +97,6 @@ public class BlinkAbility : Ability
             seq.AppendCallback(() => GameObject.Destroy(markInstanciated));
             seq.Play();
         }
-
     }
 
     void CreateTrail(Vector3 pos1 , Vector3 pos2)

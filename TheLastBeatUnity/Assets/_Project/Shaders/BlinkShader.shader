@@ -4,9 +4,11 @@
     {
         _Color ("Color", Color) = (1,1,1,1)
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
-        _Glossiness("Smoothness", Range(0,1)) = 0.5
-        _Metallic("Metallic", Range(0,1)) = 0.0
         _CoeffDissolve("Dissolve", Range(0,1)) = 0
+        _CenterUV("CenterUV", Vector) = (0,0,0, 0)
+        _ToBorder("ToBorderUV" , Vector) = (0.5 , 0.5, 0, 0)
+        _BlurRatio("BlurRatio", Range(0,1)) = 0.25
+        [MaterialToggle] _ExtToInt("extToInt", Float) = 0
     }
     SubShader
     {
@@ -27,17 +29,12 @@
             float2 uv_MainTex;
         };
 
-        half _Glossiness;
-        half _Metallic;
         fixed4 _Color;
         float _CoeffDissolve;
-
-        // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
-        // See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
-        // #pragma instancing_options assumeuniformscaling
-        UNITY_INSTANCING_BUFFER_START(Props)
-            // put more per-instance properties here
-        UNITY_INSTANCING_BUFFER_END(Props)
+        float _ExtToInt;
+        float2 _CenterUV;
+        float2 _ToBorder;
+        float _BlurRatio;
 
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
@@ -46,12 +43,39 @@
             o.Albedo = c.rgb;
             o.Metallic = 0;
             o.Smoothness = 0;
-            float dist = (distance(float2(0.5, 0.5), IN.uv_MainTex) / distance(float2(0.5, 0.5), float2(0, 0)));
+            float dist = distance(_CenterUV, IN.uv_MainTex) / distance(_CenterUV, _CenterUV + _ToBorder);
             o.Alpha = c.a;
-            if (dist < _CoeffDissolve)
+
+            float minusBlurRatio = 1 - _BlurRatio;
+
+            if (_ExtToInt != 0)
             {
-                discard;
+                if (dist < _CoeffDissolve && dist > _CoeffDissolve * minusBlurRatio)
+                {
+                    o.Alpha = lerp(0, o.Alpha, (dist - (_CoeffDissolve * minusBlurRatio)) / (_CoeffDissolve * _BlurRatio));
+                }
+                else
+                {
+                    if (dist < _CoeffDissolve * minusBlurRatio)
+                        discard;
+                }      
             }
+
+            if (_ExtToInt == 0)
+            {
+                if (dist > _CoeffDissolve && dist < _CoeffDissolve + _BlurRatio)
+                {
+                    o.Alpha = lerp(o.Alpha,0, (dist - _CoeffDissolve) / _BlurRatio);
+                }
+                else
+                {
+                    if (dist > _CoeffDissolve + _BlurRatio)
+                    {
+                        discard;
+                    }
+                }            
+            }
+
             o.Emission = float3(1, 1, 1) * 0.0125;
         }
         ENDCG
