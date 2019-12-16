@@ -448,7 +448,7 @@ MonoBehaviour:
   m_version: 1
   m_description: 
   m_id: f0a88120-e5c7-4cc8-822f-d35880f2af75
-  m_lastModified: 132170007064012639
+  m_lastModified: 132199396432847457
 --- !u!114 &2186754372028318758
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -473,6 +473,13 @@ MonoBehaviour:
       m_inputSocketId: 38fc262e-cda7-4546-9c86-5ea5633d43af
       m_outputNodeId: d42f53ca-75bc-4a38-bda5-2c7f627067d6
       m_outputSocketId: f9823d15-ac41-4d59-805c-a1334fb8d71c
+    - m_inputConnectionPoint: {x: 202, y: 4}
+      m_outputConnectionPoint: {x: -2, y: 4}
+      m_id: 14bbeb22-d0f7-4491-80d3-8cbccc55c508
+      m_inputNodeId: 7118cd8a-a5c5-4c13-86f8-4c7c6689fa37
+      m_inputSocketId: 38fc262e-cda7-4546-9c86-5ea5633d43af
+      m_outputNodeId: d42f53ca-75bc-4a38-bda5-2c7f627067d6
+      m_outputSocketId: c099f655-f71a-44e5-910c-672f4ff317af
     m_connectionPoints:
     - {x: -2, y: 4}
     - {x: 202, y: 4}
@@ -958,6 +965,32 @@ MonoBehaviour:
     m_value: '{"ButtonCategory":"TheLastBeat","ButtonName":"Quit","GameEvent":"","TimeDelay":3.0,"Trigger":0}'
     m_valueTypeQualifiedName: Doozy.Engine.UI.Connections.UIConnection, Assembly-CSharp,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  - m_connectionMode: 0
+    m_connections:
+    - m_inputConnectionPoint: {x: 202, y: 4}
+      m_outputConnectionPoint: {x: -2, y: 4}
+      m_id: 14bbeb22-d0f7-4491-80d3-8cbccc55c508
+      m_inputNodeId: 7118cd8a-a5c5-4c13-86f8-4c7c6689fa37
+      m_inputSocketId: 38fc262e-cda7-4546-9c86-5ea5633d43af
+      m_outputNodeId: d42f53ca-75bc-4a38-bda5-2c7f627067d6
+      m_outputSocketId: c099f655-f71a-44e5-910c-672f4ff317af
+    m_connectionPoints:
+    - {x: -2, y: 4}
+    - {x: 202, y: 4}
+    m_direction: 1
+    m_canBeDeleted: 1
+    m_canBeReordered: 1
+    m_curveModifier: 0
+    m_height: 24
+    m_width: 216
+    m_x: 0
+    m_y: 206
+    m_id: c099f655-f71a-44e5-910c-672f4ff317af
+    m_nodeId: d42f53ca-75bc-4a38-bda5-2c7f627067d6
+    m_socketName: OutputSocket_6
+    m_value: '{"ButtonCategory":"General","ButtonName":"Unnamed","GameEvent":"PauseMenu","TimeDelay":3.0,"Trigger":3}'
+    m_valueTypeQualifiedName: Doozy.Engine.UI.Connections.UIConnection, Assembly-CSharp,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   m_nodeType: 4
   m_allowDuplicateNodeName: 0
   m_allowEmptyNodeName: 0
@@ -966,7 +999,7 @@ MonoBehaviour:
   m_useFixedUpdate: 0
   m_useLateUpdate: 0
   m_useUpdate: 0
-  m_height: 248
+  m_height: 272
   m_width: 216
   m_x: 372
   m_y: -24

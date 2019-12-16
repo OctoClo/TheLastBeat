@@ -11,16 +11,36 @@ public class SoundManager : MonoBehaviour
     AK.Wwise.Event musStart = null;
 
     [SerializeField]
-    AK.Wwise.State musStateStart = null;
+    List<AK.Wwise.State> allInitializeState = new List<AK.Wwise.State>();
+
+    public float TimePerBeat { get; private set; }
+    public float TimePerBar { get; private set; }
 
     [SerializeField]
     BeatManager bm = null;
+    public BeatManager BeatManager => bm;
 
-    void Start()
+    public static SoundManager Instance { get; private set; } 
+    private int musicPosition;
+
+    void Awake()
     {
-        musStateStart.SetValue();
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+        foreach(AK.Wwise.State state in allInitializeState)
+        {
+            state.SetValue();
+        }
+
         ambStart.Post(gameObject);
-        musStart.Post(gameObject, (uint)AkCallbackType.AK_MusicSyncAll, SyncReference, this);
+        musStart.Post(gameObject, (uint)AkCallbackType.AK_MusicSyncAll, SyncReference, (uint)AkCallbackType.AK_EnableGetMusicPlayPosition);
     }
 
     void SyncReference(object in_cookie, AkCallbackType in_type, object in_info)
@@ -35,14 +55,18 @@ public class SoundManager : MonoBehaviour
 
             case AkCallbackType.AK_MusicSyncBeat:
                 float beatDuration = musicInfo.segmentInfo_fBeatDuration;
+                TimePerBeat = beatDuration;
                 bm.BeatAll(beatDuration, BeatManager.TypeBeat.BEAT);
                 break;
 
             case AkCallbackType.AK_MusicSyncGrid:
+                musicPosition = musicInfo.segmentInfo_iCurrentPosition;            
+                AkSoundEngine.SetRTPCValue("musicPosition", musicPosition / 1000f, gameObject);
                 break;
 
             case AkCallbackType.AK_MusicSyncBar:
                 float barDuration = musicInfo.segmentInfo_fBarDuration;
+                TimePerBar = barDuration;
                 bm.BeatAll(barDuration, BeatManager.TypeBeat.BAR);
                 break;
 
@@ -50,5 +74,4 @@ public class SoundManager : MonoBehaviour
                 break;
         }
     }
-
 }

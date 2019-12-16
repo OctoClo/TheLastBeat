@@ -5,7 +5,7 @@ using Rewired;
 using Doozy.Engine;
 using DG.Tweening;
 
-public class PauseEvent : GameEvent { public bool pause; }
+public class PauseEvent : GameEvent { public bool pause = false; }
 
 public class GameManager : MonoBehaviour
 {
