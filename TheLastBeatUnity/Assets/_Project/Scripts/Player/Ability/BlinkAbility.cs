@@ -57,9 +57,8 @@ public class BlinkAbility : Ability
         {
             currentCooldown = SoundManager.Instance.TimePerBar;
             player.Status.StartBlink();
-            if (BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT))
+            if (SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT))
             {
-                BeatManager.Instance.ValidateLastBeat(BeatManager.TypeBeat.BEAT);
                 player.ModifyPulseValue(-healCorrectBeat);
             }
             else

@@ -12,7 +12,7 @@ public class Health : Beatable
     Rect debugWindowRect = new Rect(20, 20, 240, 180 );
 
     [SerializeField] [TabGroup("Visual")]
-    VisualParams visualParams;
+    VisualParams visualParams = null;
 
     [SerializeField] [TabGroup("Gameplay")] 
     float currentPulse = 50;

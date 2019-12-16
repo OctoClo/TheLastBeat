@@ -54,7 +54,7 @@ public class RushAbility : Ability
 
     void Rush()
     {
-        attackOnRythm = BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT);
+        attackOnRythm = SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT);
         parameters.blinkAbility.ResetCooldown();
         currentCooldown = cooldown;
         player.Status.StartDashing();
