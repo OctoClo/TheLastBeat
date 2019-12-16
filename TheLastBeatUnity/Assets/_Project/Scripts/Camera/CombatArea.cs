@@ -17,10 +17,10 @@ public class CombatArea : MonoBehaviour
     float timeTransition = 0;
 
     [SerializeField]
-    AK.Wwise.State inCombat;
+    AK.Wwise.State inCombat = null;
 
     [SerializeField]
-    AK.Wwise.State outCombat;
+    AK.Wwise.State outCombat = null;
 
     int nbTargetsAtThisMoment = 0;
     bool pipelineLock = false;

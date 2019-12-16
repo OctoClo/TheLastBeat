@@ -86,11 +86,10 @@ public class RewindRushAbility : Ability
         player.FocusZone.overrideControl = true;
         player.ColliderObject.layer = LayerMask.NameToLayer("Player Dashing");
 
-        attackOnRythm = BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT);
+        attackOnRythm = SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT);
         if (attackOnRythm)
         {
             player.ModifyPulseValue(-healCorrectBeat);
-            BeatManager.Instance.ValidateLastBeat(BeatManager.TypeBeat.BEAT);
         }
         else
         {

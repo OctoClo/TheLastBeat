@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1555807509382408532}
   - component: {fileID: 1555807509382408533}
-  - component: {fileID: 8765324147976415590}
   m_Layer: 0
   m_Name: SoundManager
   m_TagString: Untagged
@@ -79,19 +78,6 @@ MonoBehaviour:
     groupGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 485d3efe6fa37b543a7f28c1980f3514,
       type: 2}
-  bm: {fileID: 8765324147976415590}
---- !u!114 &8765324147976415590
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1555807509382408535}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37f76dd2d852beb4b8f117f37dcfa082, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   tolerance: 0.2
   visualDelay: 0
 --- !u!1 &1855074839938678579
@@ -194,6 +180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   img: {fileID: 0}
+  respawnPlace: {fileID: 0}
 --- !u!1 &1855074840310519056
 GameObject:
   m_ObjectHideFlags: 0
@@ -968,11 +955,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sequenceDuration: 0.1
   recordAs: 0
-  debugMode: 0
-  healthBackgroundRect: {fileID: 0}
+  debugMode: 1
+  visualParams:
+    flameImage: {fileID: 0}
+    flameTransform: {fileID: 0}
+    riftAnimator: {fileID: 0}
+    sequenceDuration: 0.1
   currentPulse: 12
-  colorChange: {fileID: 0}
-  riftAnimation: {fileID: 0}
   minimalPulse: 0
   maximalPulse: 100
   inLimit:
@@ -1003,30 +992,6 @@ MonoBehaviour:
     groupGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: c43206be12ebb8c44acdf0bfcd87596e,
       type: 2}
-  pulseMultiplier:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   colorZone: {r: 1, g: 0.066404626, b: 0, a: 1}
   lengthZone: 6
   labelZone: Berserk

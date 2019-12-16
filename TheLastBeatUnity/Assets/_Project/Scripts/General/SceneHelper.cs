@@ -13,7 +13,7 @@ public class SceneHelper : MonoBehaviour
     Image img = null;
 
     [SerializeField]
-    Transform respawnPlace;
+    Transform respawnPlace = null;
 
     Sequence seq;
     public static Vector3 LastDeathPosition = Vector3.zero;

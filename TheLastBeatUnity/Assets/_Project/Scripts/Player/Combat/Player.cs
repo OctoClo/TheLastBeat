@@ -56,10 +56,6 @@ public class Player : Inputable
     [HideInInspector]
     public FocusZone FocusZone = null;
 
-    [SerializeField]
-    BeatManager beatManager = null;
-    public BeatManager BeatManager => beatManager;
-
     public Enemy CurrentTarget { get; private set; }
 
     public void SetFoot(Transform trsf)
