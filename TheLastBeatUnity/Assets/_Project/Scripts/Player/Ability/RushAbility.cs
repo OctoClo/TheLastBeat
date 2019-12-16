@@ -20,6 +20,7 @@ public class RushParams : AbilityParams
     public float markPersistDuration = 0;
     public Texture turnVariante1 = null;
     public Texture turnVariante2 = null;
+    public float distanceAfterDash = 0;
 }
 
 public class RushAbility : Ability
@@ -88,7 +89,7 @@ public class RushAbility : Ability
         }
         else
         {
-            direction *= 1.3f;
+            direction += (direction.normalized * parameters.distanceAfterDash);
             player.ColliderObject.layer = LayerMask.NameToLayer("Player Dashing");
         }
 
