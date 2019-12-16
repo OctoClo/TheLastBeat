@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Sirenix.OdinInspector;
-using DG.Tweening;
-using TMPro;
 using System.Linq;
 using UnityEditor;
 
@@ -15,15 +12,10 @@ public class Health : Beatable
     Rect debugWindowRect = new Rect(20, 20, 240, 180 );
 
     [SerializeField] [TabGroup("Visual")]
-    RectTransform flameTransform = null;
-    Image flameImage = null;
-
-    [SerializeField][TabGroup("Visual")]
-    Animator riftAnimator = null;
+    VisualParams visualParams;
 
     [SerializeField] [TabGroup("Gameplay")] 
     float currentPulse = 50;
-    Vector3 temporarySize = Vector3.zero;
 
     [SerializeField] [TabGroup("Gameplay")] 
     float minimalPulse = 0;
@@ -42,11 +34,6 @@ public class Health : Beatable
 
     [SerializeField] [TabGroup("Sound")]
     AK.Wwise.State outCritic = null;
-
-    int currentActionCountdownHealth;
-
-    [SerializeField] [TabGroup("Zone generation")]
-    AnimationCurve pulseMultiplier = null;
 
     [SerializeField] [TabGroup("Zone generation")]
     Color colorZone = Color.black;
@@ -78,25 +65,20 @@ public class Health : Beatable
         pz.name = labelZone;
         pz.ScaleModifier = scaleUI;
         allZones.Add(pz);
-
         AssetDatabase.CreateAsset(pz , path + "/" + labelZone + ".asset");
     }
 #endif
 
-    Sequence seq = null;
-    Sequence berserkSeq = null;
+    HealthVisual visual;
 
     protected override void Start()
     {
         base.Start();
-        Debug.Assert(allZones.Count > 0, "No segment");
+        visual = new HealthVisual(visualParams);
         if (CurrentZone)
         {
             OnZoneChanged(CurrentZone);
         }
-
-        flameImage = flameTransform.GetComponent<Image>();
-        temporarySize = flameTransform.transform.localScale;
     }
 
     PulseZone Sample(float pulseValue)
@@ -106,13 +88,11 @@ public class Health : Beatable
 
         if (pulseValue < 0)
         {
-            ratioPulse = 0;
             return allZones[0];
         }
 
         if (allZones.Sum(x => x.Length) < pulseValue)
         {
-            ratioPulse = 1;
             return allZones[allZones.Count() - 1];
         }
 
@@ -121,7 +101,6 @@ public class Health : Beatable
         {
             if (pulseValue <= cursor + pz.Length && pulseValue >= cursor)
             {
-                ratioPulse = (pulseValue - cursor) / (pz.Length);
                 return pz;
             }
             else
@@ -134,8 +113,6 @@ public class Health : Beatable
 
     PulseZone CurrentZone => Sample(currentPulse);
     public bool InCriticMode => CurrentZone == allZones[allZones.Count - 1];
-    float ratioPulse = 0;
-    Color colorDuringBerserk;
 
     public override void Beat()
     {
@@ -147,10 +124,7 @@ public class Health : Beatable
         if (InCriticMode)
             return;
 
-        seq = DOTween.Sequence();
-        seq.Append(flameTransform.DOScale(temporarySize * CurrentZone.ScaleModifier, sequenceDuration));
-        seq.Append(flameTransform.DOScale(temporarySize, sequenceDuration));
-        seq.Play();
+        visual.RegularBeat(CurrentZone);
     }
 
     private void OnGUI()
@@ -187,9 +161,14 @@ public class Health : Beatable
         if (!CurrentZone)
             return;
 
+        //Exited critical
         if (previous == allZones[allZones.Count - 1])
+        {
             outCritic.SetValue();
+            visual.ExitCriticState();
+        }
 
+        //Below limit
         if (allZones.FindIndex(x => x == CurrentZone) < allZones.Count - 2)
         {
             outLimit.SetValue();
@@ -205,40 +184,11 @@ public class Health : Beatable
         //Entered berserk mode
         if (InCriticMode)
         {
-            flameTransform.DOScale(temporarySize * CurrentZone.ScaleModifier, 0.1f);
-            colorDuringBerserk = CurrentZone.colorRepr;
-            berserkSeq = DOTween.Sequence();
-            berserkSeq.Append(DOTween.To(() => flameImage.color, x => flameImage.color = x, Color.white, 0.1f));
-            berserkSeq.Append(DOTween.To(() => flameImage.color, x => flameImage.color = x, colorDuringBerserk, 0.1f));
-            berserkSeq.SetLoops(-1);
-            berserkSeq.Play();
-            riftAnimator.SetInteger("indexState", 3);
+            visual.EnterCriticState(CurrentZone);
         }
 
-        if (previous == allZones[allZones.Count - 1] && berserkSeq != null)
-        {
-            berserkSeq.Kill();
-        }
-
-        if (allZones.IndexOf(CurrentZone) == allZones.Count - 2)
-        {
-            riftAnimator.SetInteger("indexState", 2);
-        }
-        else if (allZones.IndexOf(CurrentZone) == allZones.Count - 3)
-        {
-            riftAnimator.SetInteger("indexState", 1);
-        }
-        else
-        {
-            riftAnimator.SetInteger("indexState", 0);
-        }
-
-        TransitionColor(CurrentZone.colorRepr);
-    }
-
-    void TransitionColor(Color newColor)
-    {
-        DOTween.To(() => flameImage.color, x => flameImage.color = x, newColor, 0.5f);
+        visual.SetRiftAnimation(allZones.IndexOf(CurrentZone), allZones.Count);
+        visual.TransitionColor(CurrentZone.colorRepr);
     }
 
     void DebugWindow(int windowID)
