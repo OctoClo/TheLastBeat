@@ -13,6 +13,7 @@ public enum EPlayerAnim
 public class PlayerAnim : MonoBehaviour
 {
     Animator animator = null;
+    public Animator Animator => animator;
 
     private void Start()
     {
@@ -31,6 +32,6 @@ public class PlayerAnim : MonoBehaviour
 
     public void SetMovement(Vector3 movement)
     {
-        animator.SetBool("moving", (movement != Vector3.zero));
+        animator.SetBool("moving", (movement != Vector3.zero));    
     }
 }
