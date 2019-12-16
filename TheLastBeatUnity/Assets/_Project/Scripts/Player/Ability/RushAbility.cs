@@ -54,7 +54,19 @@ public class RushAbility : Ability
 
     void Rush()
     {
-        attackOnRythm = SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT);
+        if (SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT))
+        {
+            parameters.OnBeatSound.Post(player.gameObject);
+            player.ModifyPulseValue(-healCorrectBeat);
+        }
+        else
+        {
+            //Reset CDA
+            RewindRush.MissInput();
+            parameters.OffBeatSound.Post(player.gameObject);
+            player.ModifyPulseValue(parameters.PulseCost);
+        }
+
         parameters.blinkAbility.ResetCooldown();
         currentCooldown = cooldown;
         player.Status.StartDashing();
@@ -180,18 +192,6 @@ public class RushAbility : Ability
                 RewindRush.AddChainEnemy(player.CurrentTarget);
             }
             player.ColliderObject.layer = LayerMask.NameToLayer("Default");
-        }
-
-        if (attackOnRythm)
-        {
-            parameters.OnBeatSound.Post(player.gameObject);
-            player.ModifyPulseValue(-healCorrectBeat);
-        }
-        else
-        {
-            RewindRush.MissInput();
-            parameters.OffBeatSound.Post(player.gameObject);
-            player.ModifyPulseValue(parameters.PulseCost);
         }
     }
 }
