@@ -71,7 +71,7 @@ public class RushAbility : Ability
         parameters.blinkAbility.ResetCooldown();
         currentCooldown = cooldown;
         player.Status.StartDashing();
-        player.Anim.LaunchAnim(EPlayerAnim.RUSHING);
+        player.Anim.SetRushing(true);
 
         if (RewindRush.IsInCombo)
             CreateTurnMark(player.transform.forward);
@@ -182,6 +182,7 @@ public class RushAbility : Ability
     public override void End()
     {
         player.Status.StopDashing();
+        player.Anim.SetRushing(false);
 
         if (obstacleAhead && obstacle.collider.gameObject.layer == LayerMask.NameToLayer("Stun"))
             player.Status.Stun();
