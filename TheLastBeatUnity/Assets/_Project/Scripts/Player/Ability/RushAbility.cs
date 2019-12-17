@@ -79,7 +79,7 @@ public class RushAbility : Ability
         }
 
         //To remove after
-        CameraManager.Instance.LiveCamera.GetComponent<CameraEffect>().StartScreenShake(0.3f, 10);
+        CameraManager.Instance.LiveCamera.GetComponent<CameraEffect>().StartScreenShake(parameters.durationScreenShake, parameters.intensityScreenShake);
 
         parameters.blinkAbility.ResetCooldown();
         currentCooldown = cooldown;
