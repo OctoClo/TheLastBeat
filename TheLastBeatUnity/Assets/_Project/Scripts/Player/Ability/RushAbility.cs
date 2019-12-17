@@ -21,6 +21,8 @@ public class RushParams : AbilityParams
     public Texture turnVariante1 = null;
     public Texture turnVariante2 = null;
     public float distanceAfterDash = 0;
+    public GameObject frontDash = null;
+    public GameObject backDash = null;
 }
 
 public class RushAbility : Ability
@@ -62,11 +64,14 @@ public class RushAbility : Ability
         }
         else
         {
-            //Reset CDA
+            //Reset CDA cooldown
             RewindRush.MissInput();
             parameters.OffBeatSound.Post(player.gameObject);
             player.ModifyPulseValue(parameters.PulseCost);
         }
+
+        //To remove after
+        CameraManager.Instance.LiveCamera.GetComponent<CameraEffect>().StartScreenShake(0.3f, 10);
 
         parameters.blinkAbility.ResetCooldown();
         currentCooldown = cooldown;
@@ -81,6 +86,25 @@ public class RushAbility : Ability
         Sequence seq = DOTween.Sequence();
         Vector3 direction = new Vector3(player.CurrentTarget.transform.position.x, player.transform.position.y, player.CurrentTarget.transform.position.z) - player.transform.position;
         GetObstacleOnDash(direction);
+
+        //VFX
+        List<Vector3> frontAndBack = SceneHelper.Instance.GetCollisions(player.CurrentTarget.GetComponent<Collider>(), player.transform.position, direction, direction.magnitude);
+        if (frontAndBack.Count >= 2)
+        {
+            GameObject front = GameObject.Instantiate(parameters.frontDash, frontAndBack[0], Quaternion.identity);
+            front.transform.forward = -direction;
+            GameObject.Destroy(front, 2);
+
+            Sequence seqSpawn = DOTween.Sequence();
+            seqSpawn.AppendInterval(0.1f);
+            seqSpawn.AppendCallback(() =>
+            {
+                GameObject back = GameObject.Instantiate(parameters.backDash, frontAndBack[1], Quaternion.identity);
+                back.transform.forward = direction;
+                GameObject.Destroy(back, 2);
+            });
+            seqSpawn.Play();
+        }
 
         // Dash towards the target
         if (obstacleAhead)
