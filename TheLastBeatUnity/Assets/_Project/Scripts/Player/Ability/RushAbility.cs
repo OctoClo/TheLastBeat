@@ -7,20 +7,30 @@ using DG.Tweening;
 public class RushParams : AbilityParams
 {
     public float RushDuration = 0;
+    public float distanceAfterDash = 0;
     public float PulseCost = 0;
+
+    [Header("Sound")]
     public AK.Wwise.Event OnBeatSound = null;
     public AK.Wwise.Event OffBeatSound = null;
     public float Cooldown = 0;
 
     [HideInInspector]
     public BlinkAbility blinkAbility;
-    public GameObject RushMark = null;
+
+    [Header("Rush mark")]
+    public GameObject RushMarkPrefab = null;
     public Texture Texture = null;
     public float speedAnimMark = 0;
     public float markPersistDuration = 0;
     public Texture turnVariante1 = null;
     public Texture turnVariante2 = null;
-    public float distanceAfterDash = 0;
+
+    [Header("Impact")]
+    public GameObject frontDash = null;
+    public GameObject backDash = null;
+    public float intensityScreenShake = 1;
+    public float durationScreenShake = 0;
 }
 
 public class RushAbility : Ability
@@ -62,11 +72,14 @@ public class RushAbility : Ability
         }
         else
         {
-            //Reset CDA
+            //Reset CDA cooldown
             RewindRush.MissInput();
             parameters.OffBeatSound.Post(player.gameObject);
             player.ModifyPulseValue(parameters.PulseCost);
         }
+
+        //To remove after
+        CameraManager.Instance.LiveCamera.GetComponent<CameraEffect>().StartScreenShake(0.3f, 10);
 
         parameters.blinkAbility.ResetCooldown();
         currentCooldown = cooldown;
@@ -81,6 +94,25 @@ public class RushAbility : Ability
         Sequence seq = DOTween.Sequence();
         Vector3 direction = new Vector3(player.CurrentTarget.transform.position.x, player.transform.position.y, player.CurrentTarget.transform.position.z) - player.transform.position;
         GetObstacleOnDash(direction);
+
+        //VFX
+        List<Vector3> frontAndBack = SceneHelper.Instance.GetCollisions(player.CurrentTarget.GetComponent<Collider>(), player.transform.position, direction, direction.magnitude);
+        if (frontAndBack.Count >= 2)
+        {
+            GameObject front = GameObject.Instantiate(parameters.frontDash, frontAndBack[0], Quaternion.identity);
+            front.transform.forward = -direction;
+            GameObject.Destroy(front, 2);
+
+            Sequence seqSpawn = DOTween.Sequence();
+            seqSpawn.AppendInterval(0.1f);
+            seqSpawn.AppendCallback(() =>
+            {
+                GameObject back = GameObject.Instantiate(parameters.backDash, frontAndBack[1], Quaternion.identity);
+                back.transform.forward = direction;
+                GameObject.Destroy(back, 2);
+            });
+            seqSpawn.Play();
+        }
 
         // Dash towards the target
         if (obstacleAhead)
@@ -115,7 +147,7 @@ public class RushAbility : Ability
         {
             Vector3 finalPos = hit.point + (hit.normal * 0.001f);
 
-            GameObject instanciatedTrail = GameObject.Instantiate(parameters.RushMark);
+            GameObject instanciatedTrail = GameObject.Instantiate(parameters.RushMarkPrefab);
             instanciatedTrail.transform.forward = player.transform.forward;
             instanciatedTrail.transform.position = finalPos;
             Material mat = instanciatedTrail.GetComponent<MeshRenderer>().material;
@@ -142,7 +174,7 @@ public class RushAbility : Ability
         {
             Vector3 finalPos = hit.point + (hit.normal * 0.001f);
 
-            GameObject instanciatedTrail = GameObject.Instantiate(parameters.RushMark);
+            GameObject instanciatedTrail = GameObject.Instantiate(parameters.RushMarkPrefab);
             instanciatedTrail.transform.localScale *= 0.7f;
             instanciatedTrail.transform.forward = player.transform.forward;
             instanciatedTrail.transform.position = finalPos;

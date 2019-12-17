@@ -184,6 +184,21 @@ Transform:
   m_Father: {fileID: 3489716977114045590}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1914734992382870252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938978441505910661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 019facea8f24cff4da0188d94c899464, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  plyr: {fileID: 3489716977114045609}
+  leftFoot: {fileID: 7532224865984800750}
+  rightFoot: {fileID: 6270997722281639568}
 --- !u!114 &3607540681257090445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -474,7 +489,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 12
   maxRotationPerFrame: 30
-  groundRotationReference: {fileID: 6257483788149977950}
   blinkParameters:
     AttachedPlayer: {fileID: 0}
     HealPerCorrectBeat: 1
@@ -497,6 +511,7 @@ MonoBehaviour:
     AttachedPlayer: {fileID: 0}
     HealPerCorrectBeat: 1
     RushDuration: 0.4
+    distanceAfterDash: 4
     PulseCost: 5
     OnBeatSound:
       idInternal: 0
@@ -509,14 +524,19 @@ MonoBehaviour:
       WwiseObjectReference: {fileID: 11400000, guid: 4a18d2dc5f5984f409d9ea8765209507,
         type: 2}
     Cooldown: 0.5
-    RushMark: {fileID: 3234649817364588464, guid: 8c3de31bc6b9f0e46ae2cb9e67a8d733,
+    RushMarkPrefab: {fileID: 3234649817364588464, guid: 8c3de31bc6b9f0e46ae2cb9e67a8d733,
       type: 3}
     Texture: {fileID: 2800000, guid: 97eeddb52758ddd4a815079d8d938243, type: 3}
     speedAnimMark: 0.3
     markPersistDuration: 0.5
     turnVariante1: {fileID: 2800000, guid: aa01cd2bb6f936945ab99513fefcd6e7, type: 3}
     turnVariante2: {fileID: 2800000, guid: dbebe3c2f72e8a744a77261428d775f0, type: 3}
-    distanceAfterDash: 4
+    frontDash: {fileID: 413854280675568538, guid: 065ba0c6826f1ab43a367ec1aaaa7be5,
+      type: 3}
+    backDash: {fileID: 6164344051203446620, guid: 90f3a3b4e889c484d9ee87fee8635d32,
+      type: 3}
+    intensityScreenShake: 10
+    durationScreenShake: 0.3
   rushRewindParameters:
     AttachedPlayer: {fileID: 0}
     HealPerCorrectBeat: 1
