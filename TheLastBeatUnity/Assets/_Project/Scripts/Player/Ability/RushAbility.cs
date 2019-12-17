@@ -7,22 +7,30 @@ using DG.Tweening;
 public class RushParams : AbilityParams
 {
     public float RushDuration = 0;
+    public float distanceAfterDash = 0;
     public float PulseCost = 0;
+
+    [Header("Sound")]
     public AK.Wwise.Event OnBeatSound = null;
     public AK.Wwise.Event OffBeatSound = null;
     public float Cooldown = 0;
 
     [HideInInspector]
     public BlinkAbility blinkAbility;
-    public GameObject RushMark = null;
+
+    [Header("Rush mark")]
+    public GameObject RushMarkPrefab = null;
     public Texture Texture = null;
     public float speedAnimMark = 0;
     public float markPersistDuration = 0;
     public Texture turnVariante1 = null;
     public Texture turnVariante2 = null;
-    public float distanceAfterDash = 0;
+
+    [Header("Impact")]
     public GameObject frontDash = null;
     public GameObject backDash = null;
+    public float intensityScreenShake = 1;
+    public float durationScreenShake = 0;
 }
 
 public class RushAbility : Ability
@@ -139,7 +147,7 @@ public class RushAbility : Ability
         {
             Vector3 finalPos = hit.point + (hit.normal * 0.001f);
 
-            GameObject instanciatedTrail = GameObject.Instantiate(parameters.RushMark);
+            GameObject instanciatedTrail = GameObject.Instantiate(parameters.RushMarkPrefab);
             instanciatedTrail.transform.forward = player.transform.forward;
             instanciatedTrail.transform.position = finalPos;
             Material mat = instanciatedTrail.GetComponent<MeshRenderer>().material;
@@ -166,7 +174,7 @@ public class RushAbility : Ability
         {
             Vector3 finalPos = hit.point + (hit.normal * 0.001f);
 
-            GameObject instanciatedTrail = GameObject.Instantiate(parameters.RushMark);
+            GameObject instanciatedTrail = GameObject.Instantiate(parameters.RushMarkPrefab);
             instanciatedTrail.transform.localScale *= 0.7f;
             instanciatedTrail.transform.forward = player.transform.forward;
             instanciatedTrail.transform.position = finalPos;

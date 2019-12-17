@@ -12,7 +12,7 @@ public enum EInputAction
 [System.Serializable]
 public class AbilityParams
 {
-    [HideInInspector]
+    [HideInInspector][Header("Gameplay")]
     public Player AttachedPlayer;
     public float HealPerCorrectBeat;
 }

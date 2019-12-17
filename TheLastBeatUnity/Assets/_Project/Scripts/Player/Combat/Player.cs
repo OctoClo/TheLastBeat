@@ -15,9 +15,6 @@ public class Player : Inputable
     [TabGroup("Movement")] [SerializeField]
     float maxRotationPerFrame = 30;
 
-    [TabGroup("Movement")] [SerializeField]
-    Transform groundRotationReference;
-
     public Vector3 CurrentDirection { get; set; }
 
     //If you are doing something (dash , attack animation, etc...) or if game paused, temporary block input
