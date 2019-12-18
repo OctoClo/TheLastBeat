@@ -15,6 +15,8 @@ namespace AK
     {
         static const AkUniqueID PLAY_AMBDESERT = 3681445093U;
         static const AkUniqueID PLAY_BLINK = 3106918468U;
+        static const AkUniqueID PLAY_HIT_MC = 2556472188U;
+        static const AkUniqueID PLAY_HIT_NME = 1378886504U;
         static const AkUniqueID PLAY_HITMUSICFX = 4266628140U;
         static const AkUniqueID PLAY_MUSIC = 2932040671U;
         static const AkUniqueID PLAY_REWIND = 869704911U;

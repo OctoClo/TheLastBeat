@@ -206,7 +206,7 @@ public class Player : Inputable
             }
         }
 
-
+        AkSoundEngine.PostEvent("Play_Hit_MC", gameObject);
         currentHurt = HurtCoroutine(timeScale, nbLoop);
         StartCoroutine(currentHurt);
     }
