@@ -92,4 +92,9 @@ public class SceneHelper : MonoBehaviour
         
         return output;
     }
+
+    public void ComputeTimeScale(Sequence sequence , float mustFinishIn)
+    {
+
+    }
 }
