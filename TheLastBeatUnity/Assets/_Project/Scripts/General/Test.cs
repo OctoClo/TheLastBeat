@@ -12,12 +12,14 @@ public class Test : MonoBehaviour
         DOTween.Init();
         seq = DOTween.Sequence();
         seq.Append(transform.DOMove(Vector3.one, 1));
-        seq.Append(transform.DOMove(Vector3.zero *100, 1));
+        seq.Append(transform.DOMove(Vector3.zero * 100, 1));
         seq.SetLoops(-1);
+        StartCoroutine(TestCor());
     }
 
-    private void Update()
+    IEnumerator TestCor()
     {
-        Debug.Log(seq.Elapsed(false));
+        yield return new WaitForSeconds(Random.Range(0, 1.9f));
+        SceneHelper.Instance.ComputeTimeScale(seq, 0.25f);
     }
 }

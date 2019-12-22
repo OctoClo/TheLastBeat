@@ -95,6 +95,15 @@ public class SceneHelper : MonoBehaviour
 
     public void ComputeTimeScale(Sequence sequence , float mustFinishIn)
     {
+        float timeLeft = sequence.Duration(false) - sequence.Elapsed(false);
+        float newCoeff = (sequence.timeScale * mustFinishIn) / timeLeft;
+        sequence.timeScale = 1 / newCoeff;
+        StartCoroutine(VerifTest(sequence, mustFinishIn));
+    }
 
+    IEnumerator VerifTest(Sequence seq, float wait)
+    {
+        yield return new WaitForSeconds(wait);
+        Debug.Log("End " + seq.ElapsedPercentage(false));
     }
 }
