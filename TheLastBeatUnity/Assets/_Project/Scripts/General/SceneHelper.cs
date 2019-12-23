@@ -93,17 +93,17 @@ public class SceneHelper : MonoBehaviour
         return output;
     }
 
-    public void ComputeTimeScale(Sequence sequence , float mustFinishIn)
+    public float ComputeTimeScale(Sequence sequence , float mustFinishIn)
     {
         float timeLeft = sequence.Duration(false) - sequence.Elapsed(false);
-        float newCoeff = (sequence.timeScale * mustFinishIn) / timeLeft;
-        sequence.timeScale = 1 / newCoeff;
-        StartCoroutine(VerifTest(sequence, mustFinishIn));
+        return timeLeft / mustFinishIn;
     }
 
-    IEnumerator VerifTest(Sequence seq, float wait)
+    public float ComputeTimeScale(Animator animator, float mustFinishIn)
     {
-        yield return new WaitForSeconds(wait);
-        Debug.Log("End " + seq.ElapsedPercentage(false));
+        AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
+        float elapsedTime = (state.normalizedTime % 1.0f) * state.length;
+        float timeLeft = state.length - elapsedTime;
+        return timeLeft / mustFinishIn;
     }
 }

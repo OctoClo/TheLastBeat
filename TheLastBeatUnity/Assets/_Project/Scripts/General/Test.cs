@@ -3,23 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class Test : MonoBehaviour
-{
-    Sequence seq; 
+public class Test : Slowable
+{ 
+    Sequence seq;
     // Start is called before the first frame update
     void Start()
     {
         DOTween.Init();
-        seq = DOTween.Sequence();
-        seq.Append(transform.DOMove(Vector3.one, 1));
-        seq.Append(transform.DOMove(Vector3.zero * 100, 1));
+        seq = BuildSequence();
+        seq.Append(transform.DOScaleX(10, 0.5f));
+        seq.Append(transform.DOScaleX(5, 0.5f));
         seq.SetLoops(-1);
-        StartCoroutine(TestCor());
     }
 
-    IEnumerator TestCor()
+    void Update()
     {
-        yield return new WaitForSeconds(Random.Range(0, 1.9f));
-        SceneHelper.Instance.ComputeTimeScale(seq, 0.25f);
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            PersonalTimeScale = 0.4f;
+        }
     }
 }
