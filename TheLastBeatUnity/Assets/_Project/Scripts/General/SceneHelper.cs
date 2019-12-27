@@ -106,4 +106,12 @@ public class SceneHelper : MonoBehaviour
         float timeLeft = state.length - elapsedTime;
         return timeLeft / mustFinishIn;
     }
+
+    public void FinishAll(float endAt)
+    {
+        foreach(Slowable slow in GameObject.FindObjectsOfType<Slowable>())
+        {
+            slow.FinishAllSequencesAt(endAt);
+        }
+    }
 }
