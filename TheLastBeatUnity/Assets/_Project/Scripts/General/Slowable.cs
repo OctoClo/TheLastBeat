@@ -12,8 +12,7 @@ public class Slowable : MonoBehaviour
 
     [SerializeField]
     float maximalTimeScale = 10;
-
-    private float personalTimeScale = 1;
+    float personalTimeScale = 1;
     public float PersonalTimeScale
     {
         get
@@ -36,15 +35,33 @@ public class Slowable : MonoBehaviour
         }
     }
 
+    float endAt = 0;
+    public float EndAt
+    {
+        get
+        {
+            return endAt;
+        }
+        set
+        {
+            endAt = Mathf.Max(0, value);
+        }
+    }
+
     protected virtual Sequence BuildSequence()
     {
         Sequence output = DOTween.Sequence();
         allSequences.Add(output);
-        output.OnStart(() => output.timeScale = personalTimeScale);
+
+        if (endAt == 0)
+            output.OnStart(() => output.timeScale = personalTimeScale);
+        else
+            output.OnStart(() => output.timeScale = SceneHelper.Instance.ComputeTimeScale(output, endAt));
+
         return output;
     }
 
-    protected virtual void FinishAllSequencesAt(float finishAt, bool forceMinMax = true)
+    public virtual void FinishAllSequencesAt(float finishAt, bool forceMinMax = true)
     {
         foreach (Sequence seq in allSequences)
         {

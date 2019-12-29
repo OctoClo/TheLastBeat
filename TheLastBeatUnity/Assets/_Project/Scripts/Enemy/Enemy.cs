@@ -224,14 +224,7 @@ public class Enemy : MonoBehaviour
     {
         if (type == EEnemyType.DEFAULT)
         {
-            EnemyState state;
-            foreach (EEnemyState stateEnum in states.Keys)
-            {
-                if (states.TryGetValue(stateEnum, out state))
-                {
-                    state = null;
-                }
-            }
+            states.Clear();
         }
     }
 }
