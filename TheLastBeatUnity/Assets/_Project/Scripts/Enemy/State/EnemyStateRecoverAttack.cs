@@ -17,22 +17,19 @@ public class EnemyStateRecoverAttack : EnemyState
     {
         enemy.SetStateText("recover");
 
-        //recoverTimer = recoverDuration;
-        float timeLeft = (SoundManager.Instance.LastBeat.lastTimeBeat + SoundManager.Instance.LastBeat.beatInterval) - TimeManager.Instance.SampleCurrentTime();
-        recoverTimer = timeLeft;
+        recoverTimer = recoverDuration;
     }
 
     public override EEnemyState UpdateState(float deltaTime)
     {
-        recoverTimer -= deltaTime;    
-        if (recoverTimer <= 0)
-        {
-            if (!enemy.WeaponHitbox.PlayerInHitbox)
-                return EEnemyState.CHASE;
-            else
-                return EEnemyState.PREPARE_ATTACK;
-        }
+        recoverTimer -= deltaTime;
 
+        if (recoverTimer <= 0)
+            return EEnemyState.PREPARE_ATTACK;
+        
+        if (!enemy.WeaponHitbox.PlayerInHitbox)
+            return EEnemyState.CHASE;
+        
         return stateEnum;
     }
 }
