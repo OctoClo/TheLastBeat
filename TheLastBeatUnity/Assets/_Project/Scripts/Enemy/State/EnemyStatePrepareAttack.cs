@@ -29,7 +29,9 @@ public class EnemyStatePrepareAttack : EnemyState
         enemy.CurrentMove.Insert(waitBeforeAnimDuration, enemy.transform.DOScale(scaleEndValues, animDuration));
         enemy.CurrentMove.AppendCallback(() => animationFinished = true);
 
-        enemy.CurrentMove.timeScale = SceneHelper.Instance.ComputeTimeScale(enemy.CurrentMove, SoundManager.Instance.LastBeat.beatInterval);
+        SoundManager.BeatDetection bd = SoundManager.Instance.LastBeat;
+        float timeLeft = (bd.lastTimeBeat + bd.beatInterval) - TimeManager.Instance.SampleCurrentTime();
+        enemy.CurrentMove.timeScale = SceneHelper.Instance.ComputeTimeScale(enemy.CurrentMove, timeLeft);
         enemy.CurrentMove.Play();
     }
 

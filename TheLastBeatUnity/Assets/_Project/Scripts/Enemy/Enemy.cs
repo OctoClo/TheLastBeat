@@ -144,6 +144,8 @@ public class Enemy : MonoBehaviour
         EnemyState newState;
         if (newStateEnum != CurrentStateEnum && states.TryGetValue(newStateEnum, out newState))
         {
+            SoundManager.BeatDetection bd = SoundManager.Instance.LastBeat;
+            Debug.LogFormat("{0} to {1} : {2}s error, interval {3}", CurrentStateEnum, newStateEnum, (bd.lastTimeBeat + bd.beatInterval) - TimeManager.Instance.SampleCurrentTime(), bd.beatInterval);
             currentState.Exit();
             CurrentStateEnum = newStateEnum;
             currentState = newState;

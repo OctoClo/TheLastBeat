@@ -35,10 +35,8 @@ public class EnemyStateAttack : EnemyState
 
         enemy.CurrentMove = DOTween.Sequence();
 
-        //enemy.CurrentMove.Insert(waitBeforeAnimDuration, enemy.transform.DOScale(scaleEndValues, animDuration).SetEase(Ease.OutBounce));
-        //enemy.CurrentMove.Insert(waitBeforeAnimDuration, enemy.transform.DOMove(goalPos, animDuration).SetEase(Ease.OutBounce));
-        enemy.CurrentMove.Insert(waitBeforeAnimDuration, enemy.transform.DOScale(scaleEndValues, animDuration));
-        enemy.CurrentMove.Insert(waitBeforeAnimDuration, enemy.transform.DOMove(goalPos, animDuration));
+        enemy.CurrentMove.Insert(waitBeforeAnimDuration, enemy.transform.DOScale(scaleEndValues, animDuration).SetEase(Ease.OutBounce));
+        enemy.CurrentMove.Insert(waitBeforeAnimDuration, enemy.transform.DOMove(goalPos, animDuration).SetEase(Ease.OutBounce));
         enemy.CurrentMove.AppendCallback(() => animationFinished = true);
 
         enemy.CurrentMove.timeScale = SceneHelper.Instance.ComputeTimeScale(enemy.CurrentMove , SoundManager.Instance.LastBeat.beatInterval);

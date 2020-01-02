@@ -18,7 +18,7 @@ public class EnemyStateRecoverAttack : EnemyState
         enemy.SetStateText("recover");
 
         //recoverTimer = recoverDuration;
-        float timeLeft = (SoundManager.Instance.LastBeat.lastTimeBeat + SoundManager.Instance.LastBeat.beatInterval) - TimeManager.Instance.SampleCurrentTime();
+        float timeLeft = SoundManager.Instance.LastBeat.beatInterval;
         recoverTimer = timeLeft;
     }
 
