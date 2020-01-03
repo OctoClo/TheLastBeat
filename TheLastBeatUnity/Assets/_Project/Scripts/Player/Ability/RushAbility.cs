@@ -78,6 +78,8 @@ public class RushAbility : Ability
             player.ModifyPulseValue(parameters.PulseCost);
         }
 
+        SceneHelper.Instance.FreezeFrame(0.06f);
+
         //To remove after
         CameraManager.Instance.LiveCamera.GetComponent<CameraEffect>().StartScreenShake(parameters.durationScreenShake, parameters.intensityScreenShake);
 
@@ -96,7 +98,7 @@ public class RushAbility : Ability
         GetObstacleOnDash(direction);
 
         //VFX
-        List<Vector3> frontAndBack = SceneHelper.Instance.GetCollisions(player.CurrentTarget.GetComponent<Collider>(), player.transform.position, direction, direction.magnitude);
+        List<Vector3> frontAndBack = SceneHelper.Instance.RayCastBackAndForth(player.CurrentTarget.GetComponent<Collider>(), player.transform.position, direction, direction.magnitude);
         if (frontAndBack.Count >= 2)
         {
             GameObject front = GameObject.Instantiate(parameters.frontDash, frontAndBack[0], Quaternion.identity);

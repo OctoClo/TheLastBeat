@@ -9,8 +9,12 @@ public class VisualParams
 {
     public Image flameImage;
     public RectTransform flameTransform;
-    public Animator riftAnimator;
-    public float sequenceDuration;
+    public Animator riftAnimator = null;
+    public float sequenceDuration = 0;
+    public float screenShakeDuration = 0;
+    public float screenShakeIntensity = 0;
+    public float screenShakeDurationUI = 0;
+    public float screenShakeIntensityUI = 0;
 }
 
 public class HealthVisual
@@ -32,6 +36,16 @@ public class HealthVisual
         seq.Append(visualParams.flameTransform.DOScale(normalSize * zone.ScaleModifier, visualParams.sequenceDuration));
         seq.Append(visualParams.flameTransform.DOScale(normalSize,  visualParams.sequenceDuration));
         seq.Play();
+    }
+
+    public void ScreenShake()
+    {
+        CameraManager.Instance.LiveCamera.GetComponent<CameraEffect>().StartScreenShake(visualParams.screenShakeDuration, visualParams.screenShakeIntensity);
+    }
+
+    public void UIScreenShake()
+    {
+        SceneHelper.Instance.ScreenshakeGameObject(visualParams.flameImage.transform, visualParams.screenShakeDurationUI, visualParams.screenShakeIntensityUI);
     }
 
     public void EnterCriticState(PulseZone zone)

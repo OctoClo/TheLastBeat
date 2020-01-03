@@ -181,6 +181,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   img: {fileID: 0}
   respawnPlace: {fileID: 0}
+  defaultAnimationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.08827781
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -2.5955205
+      outSlope: -2.5955205
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.05532676
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1855074840310519056
 GameObject:
   m_ObjectHideFlags: 0
@@ -960,7 +984,11 @@ MonoBehaviour:
     flameImage: {fileID: 0}
     flameTransform: {fileID: 0}
     riftAnimator: {fileID: 0}
-    sequenceDuration: 0.1
+    sequenceDuration: 0.2
+    screenShakeDuration: 0.2
+    screenShakeIntensity: 1
+    screenShakeDurationUI: 0.25
+    screenShakeIntensityUI: 10
   currentPulse: 12
   minimalPulse: 0
   maximalPulse: 100

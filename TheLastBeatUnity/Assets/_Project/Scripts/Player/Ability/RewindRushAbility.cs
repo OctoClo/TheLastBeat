@@ -14,6 +14,8 @@ public class RewindRushParameters : AbilityParams
     public AK.Wwise.State RewindState = null;
     public AK.Wwise.State NormalState = null;
     public int MaxChained = 5;
+    public float screenShakeDuration = 0;
+    public float screenShakeIntensity = 0;
 }
 
 public class RewindRushAbility : Ability
@@ -126,6 +128,7 @@ public class RewindRushAbility : Ability
 
     public override void End()
     {
+        CameraManager.Instance.LiveCamera.GetComponent<CameraEffect>().StartScreenShake(parameters.screenShakeDuration, parameters.screenShakeIntensity);
         player.Anim.SetRushing(false);
         player.Status.StopDashing();
         player.FocusZone.overrideControl = false;

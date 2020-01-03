@@ -15,6 +15,9 @@ public class SceneHelper : MonoBehaviour
     [SerializeField]
     Transform respawnPlace = null;
 
+    [SerializeField]
+    AnimationCurve defaultAnimationCurve = null;
+
     Sequence seq;
     public static Vector3 LastDeathPosition = Vector3.zero;
     public static int DeathCount = 0;
@@ -64,7 +67,7 @@ public class SceneHelper : MonoBehaviour
         DOTween.Init();
     }
 
-    public List<Vector3> GetCollisions(Collider coll, Vector3 origin, Vector3 direction, float maxDistance)
+    public List<Vector3> RayCastBackAndForth(Collider coll, Vector3 origin, Vector3 direction, float maxDistance)
     {
         List<Vector3> output = new List<Vector3>();
         origin += Vector3.up * 0.3f;
@@ -91,5 +94,36 @@ public class SceneHelper : MonoBehaviour
         }
         
         return output;
+    }
+
+    public void ScreenshakeGameObject(Transform trsf , float duration , float intensity , AnimationCurve curve = null)
+    {
+        StopAllCoroutines();
+        StartCoroutine(ScreenShakeCoroutine(trsf, duration, intensity, curve == null ? defaultAnimationCurve : curve));
+    }
+
+    IEnumerator ScreenShakeCoroutine(Transform trsf, float duration, float intensity, AnimationCurve curve)
+    {
+        Vector3 origin = trsf.position;
+        float normalizedTime = 0;
+        while (normalizedTime < 1)
+        {
+            Vector2 random = Random.insideUnitCircle.normalized;
+            float currentIntensity = curve.Evaluate(normalizedTime) * intensity;
+            trsf.position = origin + new Vector3(random.x * currentIntensity, random.y * currentIntensity, 0);
+            normalizedTime += Time.deltaTime / duration;
+            yield return null;
+        }
+        trsf.position = origin;
+    }
+
+    public void FreezeFrame(float duration)
+    {
+        Sequence seq = DOTween.Sequence();
+        seq.AppendCallback(() => Time.timeScale = 0);
+        seq.AppendInterval(duration);
+        seq.AppendCallback(() => Time.timeScale = 1);
+        seq.SetUpdate(true);
+        seq.Play();
     }
 }

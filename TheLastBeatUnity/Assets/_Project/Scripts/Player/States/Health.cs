@@ -69,7 +69,7 @@ public class Health : Beatable
     }
 #endif
 
-    HealthVisual visual;
+    public HealthVisual visual { get; private set; }
 
     protected override void Start()
     {
@@ -122,7 +122,7 @@ public class Health : Beatable
     public void BeatSequence()
     {
         if (InCriticMode)
-            return;
+            visual.ScreenShake();
 
         visual.RegularBeat(CurrentZone);
     }
@@ -152,7 +152,9 @@ public class Health : Beatable
 
         if (deltaValue > 0)
         {
+            visual.ScreenShake();
             Player.HurtAnimation(0.25f, 3);
+            visual.UIScreenShake();
         }
     }
 
