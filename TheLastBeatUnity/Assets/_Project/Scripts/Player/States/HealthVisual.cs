@@ -46,9 +46,11 @@ public class HealthVisual
         {
             isChangingColor = true;
             Sequence seq = DOTween.Sequence();
-            seq.Append(visualParams.flameImage.DOColor(visualParams.hurtColor, 0.25f).SetEase(Ease.InOutSine));
-            seq.Append(visualParams.flameImage.DOColor(flameColor, 0.25f).SetEase(Ease.InOutSine));
-            seq.SetLoops(3);
+            seq.AppendCallback(() => visualParams.flameImage.color = visualParams.hurtColor);
+            seq.AppendInterval(0.05f);
+            seq.AppendCallback(() => visualParams.flameImage.color = flameColor);
+            seq.AppendInterval(0.05f);
+            seq.SetLoops(10);
             seq.AppendCallback(() => isChangingColor = false);
         }       
     }
