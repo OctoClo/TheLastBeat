@@ -44,7 +44,7 @@ public class Slowable : MonoBehaviour
         return output;
     }
 
-    protected virtual void FinishAllSequencesAt(float finishAt, bool forceMinMax = true)
+    public virtual void FinishAllSequencesAt(float finishAt, bool forceMinMax = true)
     {
         foreach (Sequence seq in allSequences)
         {
