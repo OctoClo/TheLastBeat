@@ -21,6 +21,7 @@ public class VisualParams
     public float sizeCritic = 1.15f;
     public Color hurtColor = Color.clear;
     public AnimationCurve curveTransition;
+    public float timeLifeTransition = 0.25f;
 }
 
 public class HealthVisual
@@ -88,7 +89,7 @@ public class HealthVisual
     {
         Color currentColor = Color.Lerp(visualParams.leftMostColor, visualParams.rightMostColor, ratio);
         visualParams.barImage.DOColor(currentColor, 0.25f);
-        DOTween.To(() => visualParams.barImage.fillAmount, x => visualParams.barImage.fillAmount = x, ratio, 0.1f).SetEase(visualParams.curveTransition);
+        DOTween.To(() => visualParams.barImage.fillAmount, x => visualParams.barImage.fillAmount = x, ratio, visualParams.timeLifeTransition).SetEase(visualParams.curveTransition);
 
         if (ratio < visualParams.ratioRiftStep1 && ratio > visualParams.ratioRiftStep2)
             SetRiftAnimation(1);
