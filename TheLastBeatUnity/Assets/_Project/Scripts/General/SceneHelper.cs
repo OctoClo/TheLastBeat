@@ -92,4 +92,26 @@ public class SceneHelper : MonoBehaviour
         
         return output;
     }
+
+    public float ComputeTimeScale(Sequence sequence , float mustFinishIn)
+    {
+        float timeLeft = sequence.Duration(false) - sequence.Elapsed(false);
+        return timeLeft / mustFinishIn;
+    }
+
+    public float ComputeTimeScale(Animator animator, float mustFinishIn)
+    {
+        AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
+        float elapsedTime = (state.normalizedTime % 1.0f) * state.length;
+        float timeLeft = state.length - elapsedTime;
+        return timeLeft / mustFinishIn;
+    }
+
+    public void FinishAll(float endAt)
+    {
+        foreach(Slowable slow in GameObject.FindObjectsOfType<Slowable>())
+        {
+            slow.FinishAllSequencesAt(endAt);
+        }
+    }
 }
