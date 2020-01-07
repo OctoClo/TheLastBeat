@@ -20,23 +20,19 @@ public class EnemyStateWander : EnemyState
         base.Enter();
 
         waitTimer = 0;
+        nextPosition = enemy.transform.position;
     }
 
     void StartNewMove()
     {
-        enemy.CurrentMove = DOTween.Sequence();
         enemy.WanderZone.GetRandomPosition(out nextPosition, enemy.transform.position.y);
-        enemy.CurrentMove.Append(enemy.transform.DOLookAt(nextPosition, 1, AxisConstraint.Y));
-        enemy.CurrentMove.Append(enemy.transform.DOMove(nextPosition, Vector3.Distance(enemy.transform.position, nextPosition) / enemy.Speed));
-        enemy.CurrentMove.AppendCallback(() => { enemy.CurrentMove = null; });
-        enemy.CurrentMove.Play();
+        enemy.Agent.SetDestination(nextPosition);
     }
 
     public override EEnemyState UpdateState(float deltaTime)
     {
         if (enemy.ChaseAgain)
         {
-            enemy.KillCurrentTween();
             enemy.ChaseAgain = false;
             return EEnemyState.CHASE;
         }
@@ -49,14 +45,14 @@ public class EnemyStateWander : EnemyState
                 StartNewMove();
         }
 
-        if (waitTimer <= 0 && enemy.CurrentMove == null)
+        if (waitTimer <= 0 && Vector3.Distance(enemy.transform.position, nextPosition) < 2.5f)
         {
+            enemy.Agent.ResetPath();
             waitTimer = RandomHelper.GetRandom(waitDurationMinMax.x, waitDurationMinMax.y);
         }
 
         if (enemy.DetectionZone.PlayerInZone)
         {
-            enemy.KillCurrentTween();
             return EEnemyState.CHASE;
         }
         
