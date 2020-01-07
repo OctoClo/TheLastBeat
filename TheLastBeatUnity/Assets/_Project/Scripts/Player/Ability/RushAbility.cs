@@ -39,7 +39,9 @@ public class RushAbility : Ability
     bool attackOnRythm = false;
     RaycastHit obstacle;
     RushParams parameters;
-    
+    Vector3 direction;
+
+
     public RewindRushAbility RewindRush { get; set; }
 
     public RushAbility(RushParams rp) : base(rp.AttachedPlayer)
@@ -63,6 +65,40 @@ public class RushAbility : Ability
         }
     }
 
+    void ImpactEffect(Collider coll)
+    {
+        if (coll.gameObject == player.CurrentTarget.gameObject)
+        {
+            SceneHelper.Instance.FreezeFrame(0.05f);
+            CameraManager.Instance.LiveCamera.GetComponent<CameraEffect>().StartScreenShake(parameters.durationScreenShake, parameters.intensityScreenShake);
+
+            player.CurrentTarget.GetAttacked(attackOnRythm);
+            if (RewindRush != null)
+            {
+                RewindRush.AddChainEnemy(player.CurrentTarget);
+            }
+
+            //VFX
+            List<Vector3> frontAndBack = SceneHelper.Instance.RayCastBackAndForth(player.CurrentTarget.GetComponent<Collider>(), player.transform.position, direction, direction.magnitude);
+            if (frontAndBack.Count >= 2)
+            {
+                GameObject front = GameObject.Instantiate(parameters.frontDash, frontAndBack[0], Quaternion.identity);
+                front.transform.forward = -direction;
+                GameObject.Destroy(front, 2);
+
+                Sequence seqSpawn = DOTween.Sequence();
+                seqSpawn.AppendInterval(0.1f);
+                seqSpawn.AppendCallback(() =>
+                {
+                    GameObject back = GameObject.Instantiate(parameters.backDash, frontAndBack[1], Quaternion.identity);
+                    back.transform.forward = direction;
+                    GameObject.Destroy(back, 2);
+                });
+                seqSpawn.Play();
+            }
+        }
+    }
+
     void Rush()
     {
         if (SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT))
@@ -78,11 +114,6 @@ public class RushAbility : Ability
             player.ModifyPulseValue(parameters.PulseCost);
         }
 
-        SceneHelper.Instance.FreezeFrame(0.06f);
-
-        //To remove after
-        CameraManager.Instance.LiveCamera.GetComponent<CameraEffect>().StartScreenShake(parameters.durationScreenShake, parameters.intensityScreenShake);
-
         parameters.blinkAbility.ResetCooldown();
         currentCooldown = cooldown;
         player.Status.StartDashing();
@@ -94,27 +125,8 @@ public class RushAbility : Ability
             CreateStartMark(player.transform.forward);
 
         Sequence seq = DOTween.Sequence();
-        Vector3 direction = new Vector3(player.CurrentTarget.transform.position.x, player.transform.position.y, player.CurrentTarget.transform.position.z) - player.transform.position;
+        direction = new Vector3(player.CurrentTarget.transform.position.x, player.transform.position.y, player.CurrentTarget.transform.position.z) - player.transform.position;
         GetObstacleOnDash(direction);
-
-        //VFX
-        List<Vector3> frontAndBack = SceneHelper.Instance.RayCastBackAndForth(player.CurrentTarget.GetComponent<Collider>(), player.transform.position, direction, direction.magnitude);
-        if (frontAndBack.Count >= 2)
-        {
-            GameObject front = GameObject.Instantiate(parameters.frontDash, frontAndBack[0], Quaternion.identity);
-            front.transform.forward = -direction;
-            GameObject.Destroy(front, 2);
-
-            Sequence seqSpawn = DOTween.Sequence();
-            seqSpawn.AppendInterval(0.1f);
-            seqSpawn.AppendCallback(() =>
-            {
-                GameObject back = GameObject.Instantiate(parameters.backDash, frontAndBack[1], Quaternion.identity);
-                back.transform.forward = direction;
-                GameObject.Destroy(back, 2);
-            });
-            seqSpawn.Play();
-        }
 
         // Dash towards the target
         if (obstacleAhead)
@@ -137,6 +149,7 @@ public class RushAbility : Ability
             seq.Append(player.transform.DOMove(goalPosition, parameters.RushDuration / 2.0f));
         }
 
+        player.DelegateColl.OnTriggerEnterDelegate += ImpactEffect;
         seq.AppendCallback(() => End());
         seq.Play();
     }
@@ -215,6 +228,7 @@ public class RushAbility : Ability
 
     public override void End()
     {
+        player.DelegateColl.OnTriggerEnterDelegate -= ImpactEffect;
         player.Status.StopDashing();
         player.Anim.SetRushing(false);
 
@@ -222,11 +236,6 @@ public class RushAbility : Ability
             player.Status.Stun();
         else
         {
-            player.CurrentTarget.GetAttacked(attackOnRythm);
-            if (RewindRush != null)
-            {
-                RewindRush.AddChainEnemy(player.CurrentTarget);
-            }
             player.ColliderObject.layer = LayerMask.NameToLayer("Default");
         }
     }

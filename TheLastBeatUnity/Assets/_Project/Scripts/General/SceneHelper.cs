@@ -69,26 +69,26 @@ public class SceneHelper : MonoBehaviour
 
     public List<Vector3> RayCastBackAndForth(Collider coll, Vector3 origin, Vector3 direction, float maxDistance)
     {
+        direction.Normalize();
         List<Vector3> output = new List<Vector3>();
         origin += Vector3.up * 0.3f;
-        Ray ray = new Ray(origin, direction);
-        Ray reverted = new Ray(RotatePointAroundPivot(origin, coll.transform.position, Vector3.up * 180), -direction);
-        foreach(RaycastHit hit in Physics.RaycastAll(ray , maxDistance))
+        Ray ray = new Ray(origin - (direction * 2) + (Vector3.up * 0.01f), direction * 10);
+        Ray reverted = new Ray(RotatePointAroundPivot(origin - (direction * 2), coll.transform.position, Vector3.up * 180), -direction * 10);
+
+        foreach(RaycastHit hit in Physics.RaycastAll(ray , maxDistance * 2))
         {
             if (hit.collider == coll)
             {
                 output.Add(hit.point);
-                Debug.DrawLine(hit.point, origin, Color.red,1);
                 break;
             }
         }
 
-        foreach (RaycastHit hit in Physics.RaycastAll(reverted, maxDistance))
+        foreach (RaycastHit hit in Physics.RaycastAll(reverted, maxDistance * 2))
         {
             if (hit.collider == coll)
             {
                 output.Add(hit.point);
-                Debug.DrawLine(hit.point, RotatePointAroundPivot(origin, coll.transform.position, Vector3.up * 180), Color.blue, 1);
                 break;
             }
         }

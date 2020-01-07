@@ -16,6 +16,8 @@ public class CameraClearSight : MonoBehaviour
     float fadeOutTimeout = 0.2f;
     [SerializeField]
     float targetTransparency = 0.3f;
+    [SerializeField]
+    CapsuleCollider caps;
     
 
     CinemachineFramingTransposer transposer = null;
@@ -25,7 +27,7 @@ public class CameraClearSight : MonoBehaviour
     {
         transposer = GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineFramingTransposer>();
         distanceToPlayer = transposer.m_CameraDistance;
-        playerCapsule = player.gameObject.GetComponent<CapsuleCollider>();
+        playerCapsule = caps;
     }
 
     private void Update()

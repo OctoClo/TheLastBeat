@@ -29,6 +29,10 @@ public class Player : Inputable
     [TabGroup("Rush")][SerializeField]
     RewindRushParameters rushRewindParameters = null;
 
+    [TabGroup("Other")][SerializeField]
+    DelegateCollider delegateColl =null;
+    public DelegateCollider DelegateColl => delegateColl;
+
     [SerializeField]
     AK.Wwise.Event stopEvent = null;
 
@@ -67,7 +71,7 @@ public class Player : Inputable
         Anim = GetComponent<PlayerAnim>();
         FocusZone = GetComponentInChildren<FocusZone>();
         FocusZone.playerStatus = Status;
-        ColliderObject = GetComponentInChildren<CapsuleCollider>().gameObject;
+        ColliderObject = GetComponent<CapsuleCollider>().gameObject;
 
         BlinkAbility blink = new BlinkAbility(blinkParameters);
         abilities.Add(EInputAction.BLINK, blink);
