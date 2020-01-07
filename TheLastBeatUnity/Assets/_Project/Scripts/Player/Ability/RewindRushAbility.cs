@@ -86,11 +86,10 @@ public class RewindRushAbility : Ability
         player.FocusZone.overrideControl = true;
         player.ColliderObject.layer = LayerMask.NameToLayer("Player Dashing");
 
-        attackOnRythm = BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT);
+        attackOnRythm = SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT);
         if (attackOnRythm)
         {
             player.ModifyPulseValue(-healCorrectBeat);
-            BeatManager.Instance.ValidateLastBeat(BeatManager.TypeBeat.BEAT);
         }
         else
         {
@@ -113,7 +112,7 @@ public class RewindRushAbility : Ability
                 {
                     player.FocusZone.OverrideCurrentEnemy(enemy);
                     player.LookAtCurrentTarget();
-                    player.Anim.LaunchAnim(EPlayerAnim.RUSHING);
+                    player.Anim.SetRushing(true);
                 });
                 seq.Append(player.transform.DOMove(goalPosition, parameters.Duration));
                 seq.AppendCallback(() => { enemy.GetAttacked(attackOnRythm); });
@@ -127,6 +126,7 @@ public class RewindRushAbility : Ability
 
     public override void End()
     {
+        player.Anim.SetRushing(false);
         player.Status.StopDashing();
         player.FocusZone.overrideControl = false;
         player.gameObject.layer = LayerMask.NameToLayer("Default");

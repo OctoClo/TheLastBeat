@@ -13,24 +13,20 @@ public enum EPlayerAnim
 public class PlayerAnim : MonoBehaviour
 {
     Animator animator = null;
+    public Animator Animator => animator;
 
     private void Start()
     {
         animator = GetComponentInChildren<Animator>();
     }
 
-    public void LaunchAnim(EPlayerAnim anim)
+    public void SetRushing(bool value)
     {
-        switch (anim)
-        {
-            case EPlayerAnim.RUSHING:
-                animator.SetTrigger("rush");
-                break;
-        }
+        animator.SetBool("rush", value);
     }
 
     public void SetMovement(Vector3 movement)
     {
-        animator.SetBool("moving", (movement != Vector3.zero));
+        animator.SetBool("moving", (movement != Vector3.zero));    
     }
 }

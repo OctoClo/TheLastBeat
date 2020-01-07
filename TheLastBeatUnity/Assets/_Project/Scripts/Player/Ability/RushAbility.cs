@@ -7,13 +7,30 @@ using DG.Tweening;
 public class RushParams : AbilityParams
 {
     public float RushDuration = 0;
+    public float distanceAfterDash = 0;
     public float PulseCost = 0;
+
+    [Header("Sound")]
     public AK.Wwise.Event OnBeatSound = null;
     public AK.Wwise.Event OffBeatSound = null;
     public float Cooldown = 0;
 
     [HideInInspector]
     public BlinkAbility blinkAbility;
+
+    [Header("Rush mark")]
+    public GameObject RushMarkPrefab = null;
+    public Texture Texture = null;
+    public float speedAnimMark = 0;
+    public float markPersistDuration = 0;
+    public Texture turnVariante1 = null;
+    public Texture turnVariante2 = null;
+
+    [Header("Impact")]
+    public GameObject frontDash = null;
+    public GameObject backDash = null;
+    public float intensityScreenShake = 1;
+    public float durationScreenShake = 0;
 }
 
 public class RushAbility : Ability
@@ -48,15 +65,54 @@ public class RushAbility : Ability
 
     void Rush()
     {
-        attackOnRythm = BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT);
+        if (SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT))
+        {
+            parameters.OnBeatSound.Post(player.gameObject);
+            player.ModifyPulseValue(-healCorrectBeat);
+        }
+        else
+        {
+            //Reset CDA cooldown
+            RewindRush.MissInput();
+            parameters.OffBeatSound.Post(player.gameObject);
+            player.ModifyPulseValue(parameters.PulseCost);
+        }
+
+        //To remove after
+        CameraManager.Instance.LiveCamera.GetComponent<CameraEffect>().StartScreenShake(parameters.durationScreenShake, parameters.intensityScreenShake);
+
         parameters.blinkAbility.ResetCooldown();
         currentCooldown = cooldown;
         player.Status.StartDashing();
-        player.Anim.LaunchAnim(EPlayerAnim.RUSHING);
+        player.Anim.SetRushing(true);
+
+        if (RewindRush.IsInCombo)
+            CreateTurnMark(player.transform.forward);
+        else
+            CreateStartMark(player.transform.forward);
 
         Sequence seq = DOTween.Sequence();
         Vector3 direction = new Vector3(player.CurrentTarget.transform.position.x, player.transform.position.y, player.CurrentTarget.transform.position.z) - player.transform.position;
         GetObstacleOnDash(direction);
+
+        //VFX
+        List<Vector3> frontAndBack = SceneHelper.Instance.GetCollisions(player.CurrentTarget.GetComponent<Collider>(), player.transform.position, direction, direction.magnitude);
+        if (frontAndBack.Count >= 2)
+        {
+            GameObject front = GameObject.Instantiate(parameters.frontDash, frontAndBack[0], Quaternion.identity);
+            front.transform.forward = -direction;
+            GameObject.Destroy(front, 2);
+
+            Sequence seqSpawn = DOTween.Sequence();
+            seqSpawn.AppendInterval(0.1f);
+            seqSpawn.AppendCallback(() =>
+            {
+                GameObject back = GameObject.Instantiate(parameters.backDash, frontAndBack[1], Quaternion.identity);
+                back.transform.forward = direction;
+                GameObject.Destroy(back, 2);
+            });
+            seqSpawn.Play();
+        }
 
         // Dash towards the target
         if (obstacleAhead)
@@ -65,7 +121,7 @@ public class RushAbility : Ability
         }
         else
         {
-            direction *= 1.3f;
+            direction += (direction.normalized * parameters.distanceAfterDash);
             player.ColliderObject.layer = LayerMask.NameToLayer("Player Dashing");
         }
 
@@ -81,6 +137,61 @@ public class RushAbility : Ability
 
         seq.AppendCallback(() => End());
         seq.Play();
+    }
+
+    void CreateStartMark(Vector3 direction)
+    {
+        RaycastHit hit;
+        //Find nearest ground + can be created on steep
+        if (Physics.Raycast(player.CurrentFootOnGround.position, Vector3.down, out hit))
+        {
+            Vector3 finalPos = hit.point + (hit.normal * 0.001f);
+
+            GameObject instanciatedTrail = GameObject.Instantiate(parameters.RushMarkPrefab);
+            instanciatedTrail.transform.forward = player.transform.forward;
+            instanciatedTrail.transform.position = finalPos;
+            Material mat = instanciatedTrail.GetComponent<MeshRenderer>().material;
+            mat.SetFloat("_CoeffDissolve", 0);
+            mat.SetFloat("_ExtToInt", 0);
+            mat.SetTexture("_MainTex", Random.value < 0.5f ? parameters.turnVariante1 : parameters.turnVariante2);
+            mat.SetFloat("_BlurRatio", 0.25f);
+            mat.SetVector("_CenterUV", new Vector4(0.5f, 0, 0, 0));
+            mat.SetVector("_ToBorder", new Vector4(0.5f, 1, 0, 0));
+            Sequence seq = DOTween.Sequence();
+            seq.Append(DOTween.To(() => mat.GetFloat("_CoeffDissolve"), x => mat.SetFloat("_CoeffDissolve", x), 1, parameters.speedAnimMark));
+            seq.AppendInterval(parameters.markPersistDuration);
+            seq.Append(DOTween.To(() => mat.GetFloat("_CoeffDissolve"), x => mat.SetFloat("_CoeffDissolve", x), 0, parameters.speedAnimMark));
+            seq.AppendCallback(() => GameObject.Destroy(instanciatedTrail));
+            seq.Play();
+        }
+    }
+
+    void CreateTurnMark(Vector3 direction)
+    {
+        RaycastHit hit;
+        //Find nearest ground + can be created on steep
+        if (Physics.Raycast(player.CurrentFootOnGround.position, Vector3.down, out hit))
+        {
+            Vector3 finalPos = hit.point + (hit.normal * 0.001f);
+
+            GameObject instanciatedTrail = GameObject.Instantiate(parameters.RushMarkPrefab);
+            instanciatedTrail.transform.localScale *= 0.7f;
+            instanciatedTrail.transform.forward = player.transform.forward;
+            instanciatedTrail.transform.position = finalPos;
+            Material mat = instanciatedTrail.GetComponent<MeshRenderer>().material;
+            mat.SetFloat("_CoeffDissolve", 0);
+            mat.SetFloat("_ExtToInt", 0);
+            mat.SetTexture("_MainTex", parameters.Texture);
+            mat.SetFloat("_BlurRatio", 0.25f);
+            mat.SetVector("_CenterUV", new Vector4(0.5f, 0, 0, 0));
+            mat.SetVector("_ToBorder", new Vector4(0.5f, 1, 0, 0));
+            Sequence seq = DOTween.Sequence();
+            seq.Append(DOTween.To(() => mat.GetFloat("_CoeffDissolve"), x => mat.SetFloat("_CoeffDissolve", x), 1, parameters.speedAnimMark));
+            seq.AppendInterval(parameters.markPersistDuration);
+            seq.Append(DOTween.To(() => mat.GetFloat("_CoeffDissolve"), x => mat.SetFloat("_CoeffDissolve", x), 0, parameters.speedAnimMark));
+            seq.AppendCallback(() => GameObject.Destroy(instanciatedTrail));
+            seq.Play();
+        }
     }
 
     void GetObstacleOnDash(Vector3 direction)
@@ -103,6 +214,7 @@ public class RushAbility : Ability
     public override void End()
     {
         player.Status.StopDashing();
+        player.Anim.SetRushing(false);
 
         if (obstacleAhead && obstacle.collider.gameObject.layer == LayerMask.NameToLayer("Stun"))
             player.Status.Stun();
@@ -114,18 +226,6 @@ public class RushAbility : Ability
                 RewindRush.AddChainEnemy(player.CurrentTarget);
             }
             player.ColliderObject.layer = LayerMask.NameToLayer("Default");
-        }
-
-        if (attackOnRythm)
-        {
-            parameters.OnBeatSound.Post(player.gameObject);
-            player.ModifyPulseValue(-healCorrectBeat);
-        }
-        else
-        {
-            RewindRush.MissInput();
-            parameters.OffBeatSound.Post(player.gameObject);
-            player.ModifyPulseValue(parameters.PulseCost);
         }
     }
 }

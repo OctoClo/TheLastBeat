@@ -13,7 +13,7 @@ public class SceneHelper : MonoBehaviour
     Image img = null;
 
     [SerializeField]
-    Transform respawnPlace;
+    Transform respawnPlace = null;
 
     Sequence seq;
     public static Vector3 LastDeathPosition = Vector3.zero;
@@ -56,5 +56,54 @@ public class SceneHelper : MonoBehaviour
     public Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, Vector3 angles)
     {
         return Quaternion.Euler(angles) * (point - pivot) + pivot;
+    }
+
+    [RuntimeInitializeOnLoadMethod]
+    public static void Init()
+    {
+        DOTween.Init();
+    }
+
+    public List<Vector3> GetCollisions(Collider coll, Vector3 origin, Vector3 direction, float maxDistance)
+    {
+        List<Vector3> output = new List<Vector3>();
+        origin += Vector3.up * 0.3f;
+        Ray ray = new Ray(origin, direction);
+        Ray reverted = new Ray(RotatePointAroundPivot(origin, coll.transform.position, Vector3.up * 180), -direction);
+        foreach(RaycastHit hit in Physics.RaycastAll(ray , maxDistance))
+        {
+            if (hit.collider == coll)
+            {
+                output.Add(hit.point);
+                Debug.DrawLine(hit.point, origin, Color.red,1);
+                break;
+            }
+        }
+
+        foreach (RaycastHit hit in Physics.RaycastAll(reverted, maxDistance))
+        {
+            if (hit.collider == coll)
+            {
+                output.Add(hit.point);
+                Debug.DrawLine(hit.point, RotatePointAroundPivot(origin, coll.transform.position, Vector3.up * 180), Color.blue, 1);
+                break;
+            }
+        }
+        
+        return output;
+    }
+
+    public float ComputeTimeScale(Sequence sequence , float mustFinishIn)
+    {
+        float timeLeft = sequence.Duration(false) - sequence.Elapsed(false);
+        return timeLeft / mustFinishIn;
+    }
+
+    public float ComputeTimeScale(Animator animator, float mustFinishIn)
+    {
+        AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
+        float elapsedTime = (state.normalizedTime % 1.0f) * state.length;
+        float timeLeft = state.length - elapsedTime;
+        return timeLeft / mustFinishIn;
     }
 }
