@@ -33,5 +33,8 @@ public abstract class EnemyState
         return stateEnum;
     }
 
-    public virtual void Exit() {}
+    public virtual void Exit()
+    {
+        enemy.Agent.ResetPath();
+    }
 }

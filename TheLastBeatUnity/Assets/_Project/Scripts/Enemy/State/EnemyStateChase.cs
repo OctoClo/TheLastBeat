@@ -11,11 +11,6 @@ public class EnemyStateChase : EnemyState
 
     public override EEnemyState UpdateState(float deltaTime)
     {
-        Vector3 toPlayer = enemy.Player.transform.position - enemy.transform.position;
-        toPlayer.y = 0;
-        toPlayer.Normalize();
-        enemy.transform.rotation = Quaternion.RotateTowards(enemy.transform.rotation, Quaternion.LookRotation(toPlayer), 10);
-
         if (enemy.ComeBack)
         {
             enemy.ComeBack = false;
@@ -24,7 +19,7 @@ public class EnemyStateChase : EnemyState
         
         if (!enemy.WeaponHitbox.PlayerInHitbox)
         {
-            enemy.transform.position += toPlayer * deltaTime * enemy.Speed;
+            enemy.Agent.SetDestination(enemy.Player.transform.position);
         }
         else
         {

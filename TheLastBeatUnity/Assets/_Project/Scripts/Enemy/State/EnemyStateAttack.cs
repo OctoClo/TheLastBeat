@@ -6,6 +6,7 @@ using DG.Tweening;
 public class EnemyStateAttack : EnemyState
 {
     Vector3 scaleEndValues = Vector3.zero;
+    Sequence animation = null;
     bool animationFinished = false;
     float waitBeforeAnimDuration = 0;
     float animDuration = 0;
@@ -33,13 +34,13 @@ public class EnemyStateAttack : EnemyState
         goalPos *= impulseForce;
         goalPos += enemy.transform.position;
 
-        enemy.CurrentMove = DOTween.Sequence();
+        animation = DOTween.Sequence();
 
-        enemy.CurrentMove.Insert(waitBeforeAnimDuration, enemy.transform.DOScale(scaleEndValues, animDuration).SetEase(Ease.OutBounce));
-        enemy.CurrentMove.Insert(waitBeforeAnimDuration, enemy.transform.DOMove(goalPos, animDuration).SetEase(Ease.OutBounce));
-        enemy.CurrentMove.AppendCallback(() => animationFinished = true);
+        animation.Insert(waitBeforeAnimDuration, enemy.transform.DOScale(scaleEndValues, animDuration).SetEase(Ease.OutBounce));
+        animation.Insert(waitBeforeAnimDuration, enemy.transform.DOMove(goalPos, animDuration).SetEase(Ease.OutBounce));
+        animation.AppendCallback(() => animationFinished = true);
 
-        enemy.CurrentMove.Play();
+        animation.Play();
     }
 
     public override EEnemyState UpdateState(float deltaTime)
@@ -52,7 +53,6 @@ public class EnemyStateAttack : EnemyState
 
     public override void Exit()
     {
-        enemy.CurrentMove = null;
         enemy.StopAttacking();
     }
 }
