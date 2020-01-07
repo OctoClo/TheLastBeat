@@ -11,8 +11,7 @@ public class EnemyDeadEvent : GameEvent { public Enemy enemy = null; }
 public class Enemy : MonoBehaviour
 {
     [TabGroup("General")] [SerializeField]
-    float speed = 5;
-    public float Speed => speed;
+    float speed = 8;
     [TabGroup("General")] [SerializeField]
     int maxLives = 10;
     int lives = 10;
@@ -77,6 +76,7 @@ public class Enemy : MonoBehaviour
         WeaponHitbox = GetComponentInChildren<EnemyWeaponHitbox>();
         collid = GetComponent<Collider>();
         Agent = GetComponent<NavMeshAgent>();
+        Agent.speed = speed;
 
         lives = maxLives;
         lifeText.text = lives.ToString();

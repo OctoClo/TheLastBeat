@@ -1157,8 +1157,8 @@ GameObject:
   - component: {fileID: 7484901647461563450}
   - component: {fileID: 7484901647461563449}
   - component: {fileID: 7484901647461563454}
-  - component: {fileID: 7484901647461563453}
   - component: {fileID: 2197232650288863714}
+  - component: {fileID: 7484901647461563453}
   - component: {fileID: 7956293027968414304}
   m_Layer: 8
   m_Name: Enemy
@@ -1247,6 +1247,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!65 &2197232650288863714
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7484901647461563443}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7484901647461563453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1259,16 +1272,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e047a9a15e32c19469369946a981b86c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 8
   maxLives: 10
-  waitBeforeNextMove: {x: 2, y: 5}
+  waitBeforeNextMove: {x: 1, y: 3}
   waitBeforePrepareAnim: 0.5
-  prepareAnimDuration: 2
+  prepareAnimDuration: 1.5
   waitBeforeAttackAnim: 0.25
   attackAnimDuration: 0.5
-  attackForce: 4
+  attackForce: 15
   attackDamage: 5
-  recoverAnimDuration: 2
+  recoverAnimDuration: 1.5
   chancesToGetStunned:
   - 1
   - 1
@@ -1283,19 +1296,6 @@ MonoBehaviour:
   ChaseAgain: 0
   InWanderZone: 0
   Agent: {fileID: 0}
---- !u!65 &2197232650288863714
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7484901647461563443}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!195 &7956293027968414304
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1306,7 +1306,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.96
-  m_Speed: 3.5
+  m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 360
