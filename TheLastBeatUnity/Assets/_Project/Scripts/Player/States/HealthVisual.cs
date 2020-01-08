@@ -9,6 +9,7 @@ public class VisualParams
 {
     public Image flameImage;
     public Image barImage;
+    public Image backgroundImage;
     public RectTransform flameTransform;
     public Animator riftAnimator;
     public float sequenceDuration;
