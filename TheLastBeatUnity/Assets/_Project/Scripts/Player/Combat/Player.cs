@@ -32,6 +32,9 @@ public class Player : Inputable
     [SerializeField]
     AK.Wwise.Event stopEvent = null;
 
+    [SerializeField]
+    AK.Wwise.Event hitPlayer = null;
+
     [HideInInspector]
     public PlayerStatus Status { get; private set; }
     [HideInInspector]
@@ -206,7 +209,7 @@ public class Player : Inputable
             }
         }
 
-        AkSoundEngine.PostEvent("Play_Hit_MC", gameObject);
+        hitPlayer.Post(gameObject);
         currentHurt = HurtCoroutine(timeScale, nbLoop);
         StartCoroutine(currentHurt);
     }

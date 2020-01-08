@@ -44,7 +44,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 00607f23f4bb1c4ba4ba719fd5871f3f
     GuidInternal: 
-    m_lastTime: -8586231953791423045
+    m_lastTime: -8586231131480387204
     List:
     - name: TheLastBank
       guid: ba44c042ce392242af9fd5c1beb6de48
@@ -60,7 +60,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 8758d50e9a0ca842a9ceccd260c5af42
     GuidInternal: 
-    m_lastTime: -8586231152404747295
+    m_lastTime: -8586231129792616397
     List:
     - name: Int_HitMusicFX
       guid: 99dfbaf434086c43af6c4fa0d57cbebb
@@ -98,27 +98,27 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Play_Hit_MC
-      guid: e11ad422526cdf4daa718df8f2766567
-      id: 2556472188
+    - name: Play_Hit_Enemy
+      guid: 0fbd5d13dde09c4fa7355c82e7de1ad9
+      id: 3889018732
       PathAndIcons:
       - ElementName: Default Work Unit
         ObjectType: 12
-      - ElementName: Play_Hit_MC
+      - ElementName: Play_Hit_Enemy
         ObjectType: 3
-      Path: Default Work Unit\Play_Hit_MC
+      Path: Default Work Unit\Play_Hit_Enemy
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Play_Hit_NME
-      guid: 0fbd5d13dde09c4fa7355c82e7de1ad9
-      id: 1378886504
+    - name: Play_Hit_Player
+      guid: e11ad422526cdf4daa718df8f2766567
+      id: 2257378511
       PathAndIcons:
       - ElementName: Default Work Unit
         ObjectType: 12
-      - ElementName: Play_Hit_NME
+      - ElementName: Play_Hit_Player
         ObjectType: 3
-      Path: Default Work Unit\Play_Hit_NME
+      Path: Default Work Unit\Play_Hit_Player
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -595,8 +595,7 @@ MonoBehaviour:
       Path: TheLastBeat\OnBeat
   ExpandedItems:
   - /TheLastBeatAudio
-  - /TheLastBeatAudio/States
-  - /TheLastBeatAudio/States/TheLastBeat
-  - /TheLastBeatAudio/States/TheLastBeat/FeedBackLevel
+  - /TheLastBeatAudio/Events
+  - /TheLastBeatAudio/Events/Default Work Unit
   autoPopulateEnabled: 1
   CurrentPluginConfig: 

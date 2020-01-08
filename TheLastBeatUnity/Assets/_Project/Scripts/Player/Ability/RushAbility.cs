@@ -99,8 +99,7 @@ public class RushAbility : Ability
         List<Vector3> frontAndBack = SceneHelper.Instance.GetCollisions(player.CurrentTarget.GetComponent<Collider>(), player.transform.position, direction, direction.magnitude);
         if (frontAndBack.Count >= 2)
         {
-            GameObject front = GameObject.Instantiate(parameters.frontDash, frontAndBack[0], Quaternion.identity);
-            AkSoundEngine.PostEvent("Play_Hit_NME", player.CurrentTarget.gameObject);
+            GameObject front = GameObject.Instantiate(parameters.frontDash, frontAndBack[0], Quaternion.identity);        
             front.transform.forward = -direction;
             GameObject.Destroy(front, 2);
 
