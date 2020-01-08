@@ -45,6 +45,8 @@ public class Enemy : MonoBehaviour
     GameObject stunElements = null;
     [TabGroup("References")] [SerializeField]
     GameObject notStunElements = null;
+    [TabGroup("References")] [SerializeField]
+    AK.Wwise.Event hitEnemy = null;
     public Material Material { get; private set; }
     Collider collid;
     public EnemyWeaponHitbox WeaponHitbox { get; private set; }
@@ -118,6 +120,7 @@ public class Enemy : MonoBehaviour
     public void GetAttacked(bool onRythm)
     {
         lives--;
+        hitEnemy.Post(gameObject);
         if (lives == 0)
         {
             EventManager.Instance.Raise(new EnemyDeadEvent { enemy = this });
