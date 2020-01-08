@@ -259,8 +259,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3802726272459948136}
-  - component: {fileID: 3194470468249649421}
   - component: {fileID: 626030153567214016}
+  - component: {fileID: 1557608354961419355}
   m_Layer: 8
   m_Name: WeaponHitbox
   m_TagString: Untagged
@@ -277,24 +277,11 @@ Transform:
   m_GameObject: {fileID: 1350852660425022129}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1.685}
-  m_LocalScale: {x: 1, y: 1, z: 2.38}
+  m_LocalScale: {x: 1.84, y: 1, z: 7}
   m_Children: []
   m_Father: {fileID: 7484901647461563452}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &3194470468249649421
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350852660425022129}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &626030153567214016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,6 +295,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerInHitbox: 0
+--- !u!136 &1557608354961419355
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1350852660425022129}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0.2}
 --- !u!1 &1814748014173155094
 GameObject:
   m_ObjectHideFlags: 0

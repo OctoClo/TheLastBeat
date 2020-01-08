@@ -132,6 +132,7 @@ public class RushAbility : Ability
         {
             direction *= -0.5f;
             goalPosition += direction;
+            seq.AppendCallback(() => player.Anim.SetRushing(false));
             seq.Append(player.transform.DOMove(goalPosition, parameters.RushDuration / 2.0f));
         }
 
