@@ -129,7 +129,7 @@ public class SceneHelper : MonoBehaviour
 
     public void Rumble(float intensity , float duration)
     {
-        InputDelegate.player.SetVibration(0, intensity, 2);
-        InputDelegate.player.SetVibration(1, intensity, 2);
+        InputDelegate.player.SetVibration(0, intensity, duration);
+        InputDelegate.player.SetVibration(1, intensity, duration);
     }
 }
