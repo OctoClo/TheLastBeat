@@ -1033,7 +1033,7 @@ PrefabInstance:
         type: 3}
       propertyPath: delegateColl
       value: 
-      objectReference: {fileID: 946689486}
+      objectReference: {fileID: 0}
     - target: {fileID: 3489716977114045590, guid: 07801b51c158daf499d145da957e6459,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1103,8 +1103,7 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 485d3efe6fa37b543a7f28c1980f3514,
         type: 2}
-    m_RemovedComponents:
-    - {fileID: 3489716977114045608, guid: 07801b51c158daf499d145da957e6459, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07801b51c158daf499d145da957e6459, type: 3}
 --- !u!4 &911424943 stripped
 Transform:
@@ -1157,7 +1156,6 @@ GameObject:
   m_Component:
   - component: {fileID: 946689488}
   - component: {fileID: 946689487}
-  - component: {fileID: 946689486}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -1165,18 +1163,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &946689486
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 946689485}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4599929d66ccfca4bb25bbf1ac26d031, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!136 &946689487
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3169,7 +3155,7 @@ PrefabInstance:
     - target: {fileID: 5046161126495913957, guid: 89c43181726305d40be5e6617086673b,
         type: 3}
       propertyPath: m_ChildCameras.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5046161126495913957, guid: 89c43181726305d40be5e6617086673b,
         type: 3}
@@ -3337,6 +3323,21 @@ PrefabInstance:
       propertyPath: caps
       value: 
       objectReference: {fileID: 946689487}
+    - target: {fileID: 4953025687933130734, guid: 89c43181726305d40be5e6617086673b,
+        type: 3}
+      propertyPath: m_Follow
+      value: 
+      objectReference: {fileID: 911424943}
+    - target: {fileID: 5997155226829383117, guid: 89c43181726305d40be5e6617086673b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.32223797
+      objectReference: {fileID: 0}
+    - target: {fileID: 5997155226829383117, guid: 89c43181726305d40be5e6617086673b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -44.931145
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 89c43181726305d40be5e6617086673b, type: 3}
 --- !u!114 &6542996927091890710 stripped

@@ -34,11 +34,24 @@ public class CameraManager : MonoBehaviour
         ChangeCamera();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            SetBoolCamera(!anim.GetBool("FOV"), "FOV");
+        }
+    }
+
     public void CameraStateChange(string triggerName)
     {
         anim.SetTrigger(triggerName);
         InCombat = !InCombat;
         ChangeCamera();
+    }
+
+    public void SetBoolCamera(bool value , string paramName)
+    {
+        anim.SetBool(paramName, value);
     }
 
     private void ChangeCamera()
