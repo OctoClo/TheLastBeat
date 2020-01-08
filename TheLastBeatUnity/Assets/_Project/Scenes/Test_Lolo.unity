@@ -105,21 +105,21 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 0.5
-    agentHeight: 2
+    agentRadius: 0.7
+    agentHeight: 1.8
     agentSlope: 45
-    agentClimb: 0.4
+    agentClimb: 0.6
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
     manualCellSize: 0
-    cellSize: 0.16666667
+    cellSize: 0.23333333
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 45fae32ddb6e63b4bb08d81dcc6b3308, type: 2}
 --- !u!1001 &32141903
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4962,7 +4962,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2010006729
 Transform:
@@ -5401,16 +5401,6 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: -35.741016
       objectReference: {fileID: 0}
-    - target: {fileID: 5046161126495913947, guid: 89c43181726305d40be5e6617086673b,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5046161127219819084, guid: 89c43181726305d40be5e6617086673b,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6542996926136852936, guid: 89c43181726305d40be5e6617086673b,
         type: 3}
       propertyPath: field of view
@@ -5421,26 +5411,16 @@ PrefabInstance:
       propertyPath: near clip plane
       value: 0.1
       objectReference: {fileID: 0}
-    - target: {fileID: 5046161127085458071, guid: 89c43181726305d40be5e6617086673b,
+    - target: {fileID: 2189164314403701388, guid: 89c43181726305d40be5e6617086673b,
         type: 3}
-      propertyPath: m_CameraDistance
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 5046161127291984609, guid: 89c43181726305d40be5e6617086673b,
-        type: 3}
-      propertyPath: m_CameraDistance
-      value: 57.86
-      objectReference: {fileID: 0}
-    - target: {fileID: 1146722836029997059, guid: 89c43181726305d40be5e6617086673b,
-        type: 3}
-      propertyPath: m_Priority
-      value: 56
-      objectReference: {fileID: 0}
-    - target: {fileID: 1146722836029997059, guid: 89c43181726305d40be5e6617086673b,
-        type: 3}
-      propertyPath: m_Follow
+      propertyPath: player
       value: 
       objectReference: {fileID: 911424943}
+    - target: {fileID: 5046161126495913947, guid: 89c43181726305d40be5e6617086673b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2972177437851897169, guid: 89c43181726305d40be5e6617086673b,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -5461,10 +5441,35 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: -35.741016
       objectReference: {fileID: 0}
+    - target: {fileID: 5046161127219819084, guid: 89c43181726305d40be5e6617086673b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1146722836029997059, guid: 89c43181726305d40be5e6617086673b,
+        type: 3}
+      propertyPath: m_Priority
+      value: 56
+      objectReference: {fileID: 0}
+    - target: {fileID: 1146722836029997059, guid: 89c43181726305d40be5e6617086673b,
+        type: 3}
+      propertyPath: m_Follow
+      value: 
+      objectReference: {fileID: 911424943}
     - target: {fileID: 4378735698870191583, guid: 89c43181726305d40be5e6617086673b,
         type: 3}
       propertyPath: m_CameraDistance
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5046161127085458071, guid: 89c43181726305d40be5e6617086673b,
+        type: 3}
+      propertyPath: m_CameraDistance
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5046161127291984609, guid: 89c43181726305d40be5e6617086673b,
+        type: 3}
+      propertyPath: m_CameraDistance
+      value: 57.86
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 89c43181726305d40be5e6617086673b, type: 3}
