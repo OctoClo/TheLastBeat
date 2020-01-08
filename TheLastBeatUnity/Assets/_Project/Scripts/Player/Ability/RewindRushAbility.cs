@@ -16,6 +16,8 @@ public class RewindRushParameters : AbilityParams
     public int MaxChained = 5;
     public float screenShakeDuration = 0;
     public float screenShakeIntensity = 0;
+    public float rumbleIntensity = 0;
+    public float rumbleDuration = 0;
 }
 
 public class RewindRushAbility : Ability
@@ -92,6 +94,7 @@ public class RewindRushAbility : Ability
         if (attackOnRythm)
         {
             player.ModifyPulseValue(-healCorrectBeat);
+            SceneHelper.Instance.Rumble(parameters.rumbleIntensity, parameters.rumbleDuration);
         }
         else
         {
@@ -115,6 +118,7 @@ public class RewindRushAbility : Ability
                     player.FocusZone.OverrideCurrentEnemy(enemy);
                     player.LookAtCurrentTarget();
                     player.Anim.SetRushing(true);
+                    SceneHelper.Instance.FreezeFrame(0.1f);
                 });
                 seq.Append(player.transform.DOMove(goalPosition, parameters.Duration));
                 seq.AppendCallback(() => { enemy.GetAttacked(attackOnRythm); });

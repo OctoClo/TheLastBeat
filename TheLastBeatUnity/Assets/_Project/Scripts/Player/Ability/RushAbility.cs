@@ -31,6 +31,8 @@ public class RushParams : AbilityParams
     public GameObject backDash = null;
     public float intensityScreenShake = 1;
     public float durationScreenShake = 0;
+    public float rumbleIntensity = 0;
+    public float rumbleDuration = 0;
 }
 
 public class RushAbility : Ability
@@ -53,6 +55,7 @@ public class RushAbility : Ability
     {
         if (!player.Status.Dashing && currentCooldown == 0 && player.CurrentTarget != null)
         {
+            SceneHelper.Instance.FreezeFrame(0.05f);
             Rush();
         }
     }
@@ -105,6 +108,7 @@ public class RushAbility : Ability
         {
             parameters.OnBeatSound.Post(player.gameObject);
             player.ModifyPulseValue(-healCorrectBeat);
+            SceneHelper.Instance.Rumble(parameters.rumbleIntensity, parameters.rumbleDuration);
         }
         else
         {

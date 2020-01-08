@@ -122,7 +122,10 @@ public class Health : Beatable
     public void BeatSequence()
     {
         if (InCriticMode)
+        {
             visual.ScreenShake();
+            visual.UIScreenShake();
+        }
 
         visual.RegularBeat(CurrentZone);
     }
