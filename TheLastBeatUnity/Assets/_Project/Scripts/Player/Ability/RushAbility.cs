@@ -236,6 +236,7 @@ public class RushAbility : Ability
         player.DelegateColl.OnTriggerEnterDelegate -= ImpactEffect;
         player.Status.StopDashing();
         player.Anim.SetRushing(false);
+        CameraManager.Instance.SetBoolCamera(false, "FOV");
 
         if (obstacleAhead && obstacle.collider.gameObject.layer == LayerMask.NameToLayer("Stun"))
             player.Status.Stun();

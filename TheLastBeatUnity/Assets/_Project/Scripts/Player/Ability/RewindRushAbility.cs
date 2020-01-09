@@ -76,7 +76,6 @@ public class RewindRushAbility : Ability
     {
         chainedEnemies.Clear();
         missedInput = 0;
-        CameraManager.Instance.SetBoolCamera(false, "FOV");
     }
 
     public override void Launch()

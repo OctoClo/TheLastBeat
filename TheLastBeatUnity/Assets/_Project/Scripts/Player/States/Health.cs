@@ -159,7 +159,6 @@ public class Health : Beatable
             visual.ScreenShake();
             Player.HurtAnimation(0.25f, 3);
             visual.UIScreenShake();
-            CameraManager.Instance.SetBoolCamera(false, "FOV");
         }
     }
 
