@@ -20,6 +20,9 @@ public class CameraManager : MonoBehaviour
     Animator anim = null;
 
     public CinemachineVirtualCamera LiveCamera { get; private set; }
+
+    public CameraEffect[] AllCameras => GameObject.FindObjectsOfType<CameraEffect>();
+
     public bool InCombat { get; private set; }
 
     void Start()

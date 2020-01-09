@@ -73,7 +73,11 @@ public class RushAbility : Ability
         if (coll.gameObject == player.CurrentTarget.gameObject)
         {
             SceneHelper.Instance.FreezeFrame(0.05f);
-            CameraManager.Instance.LiveCamera.GetComponent<CameraEffect>().StartScreenShake(parameters.durationScreenShake, parameters.intensityScreenShake);
+
+            foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
+            {
+                ce.StartScreenShake(parameters.durationScreenShake, parameters.intensityScreenShake);
+            }
 
             player.CurrentTarget.GetAttacked(attackOnRythm);
             if (RewindRush != null)

@@ -133,7 +133,10 @@ public class RewindRushAbility : Ability
 
     public override void End()
     {
-        CameraManager.Instance.LiveCamera.GetComponent<CameraEffect>().StartScreenShake(parameters.screenShakeDuration, parameters.screenShakeIntensity);
+        foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
+        {
+            ce.StartScreenShake(parameters.screenShakeDuration, parameters.screenShakeIntensity);
+        }
         player.Anim.SetRushing(false);
         player.Status.StopDashing();
         player.FocusZone.overrideControl = false;

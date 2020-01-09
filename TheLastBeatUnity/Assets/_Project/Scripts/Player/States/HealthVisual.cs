@@ -40,7 +40,10 @@ public class HealthVisual
 
     public void ScreenShake()
     {
-        CameraManager.Instance.LiveCamera.GetComponent<CameraEffect>().StartScreenShake(visualParams.screenShakeDuration, visualParams.screenShakeIntensity);
+        foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
+        {
+            ce.StartScreenShake(visualParams.screenShakeDuration, visualParams.screenShakeIntensity);
+        }
     }
 
     public void UIScreenShake()

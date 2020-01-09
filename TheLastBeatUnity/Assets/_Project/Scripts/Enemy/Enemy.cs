@@ -122,7 +122,10 @@ public class Enemy : MonoBehaviour
 
     public void GetAttacked(bool onRythm)
     {
-        CameraManager.Instance.LiveCamera.GetComponent<CameraEffect>().StartScreenShake(screenDurationHit, screenIntensityHit);
+        foreach(CameraEffect ce in CameraManager.Instance.AllCameras)
+        {
+            ce.StartScreenShake(screenDurationHit, screenIntensityHit);
+        }
 
         lives--;
         if (lives == 0)
