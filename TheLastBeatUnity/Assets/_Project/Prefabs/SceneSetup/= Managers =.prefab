@@ -964,12 +964,48 @@ MonoBehaviour:
   debugMode: 1
   visualParams:
     flameImage: {fileID: 0}
+    barImage: {fileID: 0}
+    backgroundImage: {fileID: 0}
     flameTransform: {fileID: 0}
     riftAnimator: {fileID: 0}
-    sequenceDuration: 0.1
+    sequenceDuration: 0.2
+    leftMostColor: {r: 0.6, g: 0.49019608, b: 0.42745098, a: 1}
+    rightMostColor: {r: 0.9490196, g: 0.4627451, b: 0.18039216, a: 1}
+    ratioRiftStep1: 0.7
+    ratioRiftStep2: 0.5
+    ratioRiftStep3: 0.2
+    pulseSize: 1.1
+    sizeCritic: 1.15
+    hurtColor: {r: 1, g: 0.27785224, b: 0, a: 1}
+    curveTransition:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    timeLifeTransition: 0.25
   currentPulse: 12
   minimalPulse: 0
   maximalPulse: 100
+  limitRatio: 0.1
   inLimit:
     idInternal: 0
     valueGuidInternal: 
@@ -998,14 +1034,3 @@ MonoBehaviour:
     groupGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: c43206be12ebb8c44acdf0bfcd87596e,
       type: 2}
-  colorZone: {r: 1, g: 0.066404626, b: 0, a: 1}
-  lengthZone: 6
-  labelZone: Berserk
-  allZones:
-  - {fileID: 11400000, guid: c537e4f2d5d80cc499411e3dd05f3d5b, type: 2}
-  - {fileID: 11400000, guid: 20019773a7a0ff94f9edd8d3d38f850a, type: 2}
-  - {fileID: 11400000, guid: 23df8eec967b47a4a97cedac220ad1ea, type: 2}
-  - {fileID: 11400000, guid: 33361139c6abaf647808fbaa3f62490d, type: 2}
-  - {fileID: 11400000, guid: a82e7f84b411f2b4990d5f3fad9ac966, type: 2}
-  scaleUI: 2.58
-  path: 
