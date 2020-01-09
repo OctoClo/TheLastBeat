@@ -72,7 +72,6 @@ public class RushAbility : Ability
     {
         if (coll.gameObject == player.CurrentTarget.gameObject)
         {
-            CameraManager.Instance.SetBoolCamera(true, "FOV");
             SceneHelper.Instance.FreezeFrame(0.05f);
             CameraManager.Instance.LiveCamera.GetComponent<CameraEffect>().StartScreenShake(parameters.durationScreenShake, parameters.intensityScreenShake);
 
@@ -105,6 +104,7 @@ public class RushAbility : Ability
 
     void Rush()
     {
+        CameraManager.Instance.SetBoolCamera(true, "FOV");
         if (SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT))
         {
             parameters.OnBeatSound.Post(player.gameObject);
