@@ -959,17 +959,18 @@ MonoBehaviour:
   visualParams:
     flameImage: {fileID: 0}
     barImage: {fileID: 0}
+    backgroundImage: {fileID: 0}
     flameTransform: {fileID: 0}
     riftAnimator: {fileID: 0}
     sequenceDuration: 0.2
-    leftMostColor: {r: 1, g: 0, b: 0, a: 1}
-    rightMostColor: {r: 0.21016884, g: 1, b: 0, a: 1}
+    leftMostColor: {r: 0.6, g: 0.49019608, b: 0.42745098, a: 1}
+    rightMostColor: {r: 0.9490196, g: 0.4627451, b: 0.18039216, a: 1}
     ratioRiftStep1: 0.7
     ratioRiftStep2: 0.5
     ratioRiftStep3: 0.2
     pulseSize: 1.1
     sizeCritic: 1.15
-    hurtColor: {r: 1, g: 0.5668887, b: 0, a: 1}
+    hurtColor: {r: 1, g: 0.27785224, b: 0, a: 1}
     curveTransition:
       serializedVersion: 2
       m_Curve:
@@ -994,6 +995,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+    timeLifeTransition: 0.25
   currentPulse: 12
   minimalPulse: 0
   maximalPulse: 100
