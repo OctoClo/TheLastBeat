@@ -55,7 +55,6 @@ public class RewindRushAbility : Ability
     public void AddChainEnemy(Enemy enn)
     {
         rushChainTimer = parameters.MaxTimeBeforeResetMarks;
-        CameraManager.Instance.SetBoolCamera(true, "FOV");
 
         if (chainedEnemies.Count >= parameters.MaxChained)
         {
