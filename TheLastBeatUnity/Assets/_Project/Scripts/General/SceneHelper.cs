@@ -22,6 +22,8 @@ public class SceneHelper : MonoBehaviour
     public static Vector3 LastDeathPosition = Vector3.zero;
     public static int DeathCount = 0;
 
+    Dictionary<Transform, Vector3> screenShakeMemory = new Dictionary<Transform, Vector3>();
+
     private void Start()
     {
         if (Instance == null)
@@ -104,6 +106,10 @@ public class SceneHelper : MonoBehaviour
 
     IEnumerator ScreenShakeCoroutine(Transform trsf, float duration, float intensity, AnimationCurve curve)
     {
+        if (screenShakeMemory.ContainsKey(trsf))
+            trsf.position = screenShakeMemory[trsf];
+
+        screenShakeMemory[trsf] = trsf.position;
         Vector3 origin = trsf.position;
         float normalizedTime = 0;
         while (normalizedTime < 1)
@@ -115,6 +121,7 @@ public class SceneHelper : MonoBehaviour
             yield return null;
         }
         trsf.position = origin;
+        screenShakeMemory.Remove(trsf);
     }
 
     public void FreezeFrame(float duration)
