@@ -37,6 +37,7 @@ public class RewindRushAbility : Ability
     public override void Update(float deltaTime)
     {
         base.Update(deltaTime);
+
         if (chainedEnemies.Count > 0 && !player.Status.Dashing && currentCooldown == 0)
         {
             rushChainTimer -= Time.deltaTime;
@@ -54,6 +55,8 @@ public class RewindRushAbility : Ability
     public void AddChainEnemy(Enemy enn)
     {
         rushChainTimer = parameters.MaxTimeBeforeResetMarks;
+        CameraManager.Instance.SetBoolCamera(true, "FOV");
+
         if (chainedEnemies.Count >= parameters.MaxChained)
         {
             chainedEnemies.Dequeue();
@@ -74,6 +77,7 @@ public class RewindRushAbility : Ability
     {
         chainedEnemies.Clear();
         missedInput = 0;
+        CameraManager.Instance.SetBoolCamera(false, "FOV");
     }
 
     public override void Launch()
@@ -126,7 +130,6 @@ public class RewindRushAbility : Ability
         }
 
         seq.AppendCallback(() => End());
-
         seq.Play();
     }
 

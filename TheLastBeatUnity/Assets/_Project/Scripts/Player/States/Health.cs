@@ -153,11 +153,13 @@ public class Health : Beatable
             OnZoneChanged(previousZone);
         }
 
+        //Hurted
         if (deltaValue > 0)
         {
             visual.ScreenShake();
             Player.HurtAnimation(0.25f, 3);
             visual.UIScreenShake();
+            CameraManager.Instance.SetBoolCamera(false, "FOV");
         }
     }
 
