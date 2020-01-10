@@ -107,6 +107,9 @@ public class RewindRushAbility : Ability
         Vector3 direction;
         Vector3 goalPosition = player.transform.position;
 
+        CameraManager.Instance.SetBlend("InCombat", "InCombatFOV", (0.1f + parameters.Duration) * chainedEnemies.Count);
+        CameraManager.Instance.SetBoolCamera(true, "FOV");
+
         foreach (Enemy enemy in chainedEnemies.Reverse())
         {
             if (enemy)
@@ -125,6 +128,11 @@ public class RewindRushAbility : Ability
                 seq.Append(player.transform.DOMove(goalPosition, parameters.Duration));
                 seq.AppendCallback(() => { enemy.GetAttacked(attackOnRythm); });
             }
+            else
+            {
+                seq.Kill();
+                End();
+            }
         }
 
         seq.AppendCallback(() => End());
@@ -137,6 +145,8 @@ public class RewindRushAbility : Ability
         {
             ce.StartScreenShake(parameters.screenShakeDuration, parameters.screenShakeIntensity);
         }
+
+        CameraManager.Instance.SetBoolCamera(false, "FOV");
         player.Anim.SetRushing(false);
         player.Status.StopDashing();
         player.FocusZone.overrideControl = false;
