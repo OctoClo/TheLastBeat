@@ -27,6 +27,9 @@ public class SoundManager : MonoBehaviour
     float tolerance = 0;
 
     [SerializeField]
+    float perfectTolerance = 0;
+
+    [SerializeField]
     float visualDelay = 0;
 
     public enum TypeBeat
@@ -107,18 +110,18 @@ public class SoundManager : MonoBehaviour
         (tb == TypeBeat.BAR ? Bar : Beats).Add(target);
     }
 
-    public bool IsInRythm(float sampleTime, TypeBeat layer)
+    bool IsInTolerance(float sampleTime , TypeBeat layer, float tol)
     {
         if (layer == TypeBeat.BAR)
         {
-            if (sampleTime - LastBar.lastTimeBeat > 0 && sampleTime - LastBar.lastTimeBeat < tolerance && currentBeat > lastBeatValidated)
+            if (sampleTime - LastBar.lastTimeBeat > 0 && sampleTime - LastBar.lastTimeBeat < tol && currentBeat > lastBeatValidated)
             {
                 return true;
             }
 
             float nextBeat = LastBar.lastTimeBeat + LastBar.beatInterval;
             //A bit early
-            if (sampleTime - nextBeat < 0 && sampleTime - nextBeat > -tolerance && currentBeat + 1 > lastBeatValidated)
+            if (sampleTime - nextBeat < 0 && sampleTime - nextBeat > -tol && currentBeat + 1 > lastBeatValidated)
             {
                 return true;
             }
@@ -126,7 +129,7 @@ public class SoundManager : MonoBehaviour
         else
         {
             //A bit late
-            if (sampleTime - LastBeat.lastTimeBeat > 0 && sampleTime - LastBeat.lastTimeBeat < tolerance && currentBeat > lastBeatValidated)
+            if (sampleTime - LastBeat.lastTimeBeat > 0 && sampleTime - LastBeat.lastTimeBeat < tol && currentBeat > lastBeatValidated)
             {
                 lastBeatValidated = currentBeat;
                 return true;
@@ -134,7 +137,7 @@ public class SoundManager : MonoBehaviour
 
             float nextBeat = LastBeat.lastTimeBeat + LastBeat.beatInterval;
             //A bit early
-            if (sampleTime - nextBeat < 0 && sampleTime - nextBeat > -tolerance && currentBeat + 1 > lastBeatValidated)
+            if (sampleTime - nextBeat < 0 && sampleTime - nextBeat > -tol && currentBeat + 1 > lastBeatValidated)
             {
                 lastBeatValidated = currentBeat + 1;
                 return true;
@@ -142,6 +145,16 @@ public class SoundManager : MonoBehaviour
         }
 
         return false;
+    }
+
+    public bool IsInRythm(float sampleTime, TypeBeat layer)
+    {
+        return IsInTolerance(sampleTime, layer, tolerance);
+    }
+
+    public bool IsPerfect(float sampleTime , TypeBeat layer)
+    {
+        return IsInTolerance(sampleTime, layer, perfectTolerance);
     }
 
     public void BeatAll(float timeBetweenBeat, TypeBeat tb)

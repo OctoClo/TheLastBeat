@@ -117,9 +117,9 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void GetAttacked(bool onRythm)
+    public void GetAttacked(bool onRythm, float dmg = 1)
     {
-        lives--;
+        lives -= (int)dmg;
         hitEnemy.Post(gameObject);
         if (lives == 0)
         {

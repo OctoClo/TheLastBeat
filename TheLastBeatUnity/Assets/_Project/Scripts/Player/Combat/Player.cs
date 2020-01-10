@@ -91,6 +91,11 @@ public class Player : Inputable
         }
     }
 
+    public void DebtRush(float value)
+    {
+        (abilities[EInputAction.RUSH] as RushAbility).AddDebt(value);
+    }
+
     public override void ProcessInput(Rewired.Player player)
     {
         Vector3 direction = new Vector3(player.GetAxis("MoveX"), 0, player.GetAxis("MoveY"));

@@ -9,6 +9,7 @@ public class RushParams : AbilityParams
     public float RushDuration = 0;
     public float distanceAfterDash = 0;
     public float PulseCost = 0;
+    public float damageMultiplier = 1;
 
     [Header("Sound")]
     public AK.Wwise.Event OnBeatSound = null;
@@ -36,15 +37,22 @@ public class RushParams : AbilityParams
 public class RushAbility : Ability
 {
     bool obstacleAhead = false;
-    bool attackOnRythm = false;
     RaycastHit obstacle;
     RushParams parameters;
+    float debt;
+    bool onRythm = false;
     
     public RewindRushAbility RewindRush { get; set; }
 
     public RushAbility(RushParams rp) : base(rp.AttachedPlayer)
     {
         parameters = rp;
+    }
+
+    public void AddDebt(float value)
+    {
+        if (debt == 0)
+            debt += value;
     }
 
     public override void Launch()
@@ -65,7 +73,8 @@ public class RushAbility : Ability
 
     void Rush()
     {
-        if (SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT))
+        onRythm = SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT);
+        if (onRythm)
         {
             parameters.OnBeatSound.Post(player.gameObject);
             player.ModifyPulseValue(-healCorrectBeat);
@@ -75,8 +84,11 @@ public class RushAbility : Ability
             //Reset CDA cooldown
             RewindRush.MissInput();
             parameters.OffBeatSound.Post(player.gameObject);
-            player.ModifyPulseValue(parameters.PulseCost);
+            if (InputDelegate.rythm == InputDelegate.RythmLayout.PUNISH)
+                player.ModifyPulseValue(parameters.PulseCost + debt);
         }
+
+        debt = 0;
 
         //To remove after
         CameraManager.Instance.LiveCamera.GetComponent<CameraEffect>().StartScreenShake(parameters.durationScreenShake, parameters.intensityScreenShake);
@@ -220,12 +232,13 @@ public class RushAbility : Ability
             player.Status.Stun();
         else
         {
-            player.CurrentTarget.GetAttacked(attackOnRythm);
-            if (RewindRush != null)
+            player.CurrentTarget.GetAttacked(onRythm, onRythm && InputDelegate.rythm == InputDelegate.RythmLayout.NOPUNISH ? parameters.damageMultiplier : 1);
+            if (RewindRush != null && (InputDelegate.rythm == InputDelegate.RythmLayout.PUNISH || onRythm))
             {
                 RewindRush.AddChainEnemy(player.CurrentTarget);
             }
             player.ColliderObject.layer = LayerMask.NameToLayer("Default");
         }
+        onRythm = false;
     }
 }

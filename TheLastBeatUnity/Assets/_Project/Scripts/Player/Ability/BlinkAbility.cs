@@ -55,15 +55,21 @@ public class BlinkAbility : Ability
         currentSequence = DOTween.Sequence();
         currentSequence.AppendCallback(() =>
         {
-            currentCooldown = SoundManager.Instance.TimePerBar;
             player.Status.StartBlink();
             if (SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT))
             {
-                player.ModifyPulseValue(-healCorrectBeat);
+                if (InputDelegate.rythm == InputDelegate.RythmLayout.PUNISH && SoundManager.Instance.IsPerfect(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT))
+                {
+                    player.ModifyPulseValue(-healCorrectBeat);
+                }
             }
             else
             {
-                player.ModifyPulseValue(parameters.PulseCost);
+                if (InputDelegate.rythm == InputDelegate.RythmLayout.PUNISH)
+                {
+                    player.DebtRush(parameters.PulseCost);
+                    currentCooldown = SoundManager.Instance.TimePerBar;
+                }
             }
             parameters.Sound.Post(player.gameObject);
         });
