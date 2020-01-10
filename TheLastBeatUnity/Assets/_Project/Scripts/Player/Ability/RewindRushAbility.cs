@@ -107,8 +107,8 @@ public class RewindRushAbility : Ability
         Vector3 direction;
         Vector3 goalPosition = player.transform.position;
 
-        CameraManager.Instance.SetBlend("InCombat", "InCombatFOV", (0.1f + parameters.Duration) * chainedEnemies.Count);
-        CameraManager.Instance.SetBoolCamera(true, "FOV");
+        CameraManager.Instance.SetBlend("InCombat", "FOV Rewind", (0.1f + parameters.Duration) * chainedEnemies.Count);
+        CameraManager.Instance.SetBoolCamera(true, "Rewinding");
 
         foreach (Enemy enemy in chainedEnemies.Reverse())
         {
@@ -146,7 +146,7 @@ public class RewindRushAbility : Ability
             ce.StartScreenShake(parameters.screenShakeDuration, parameters.screenShakeIntensity);
         }
 
-        CameraManager.Instance.SetBoolCamera(false, "FOV");
+        CameraManager.Instance.SetBoolCamera(false, "Rewinding");
         player.Anim.SetRushing(false);
         player.Status.StopDashing();
         player.FocusZone.overrideControl = false;
