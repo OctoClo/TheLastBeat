@@ -71,7 +71,7 @@ public class CameraManager : MonoBehaviour
                 blending.m_Blend.m_Time = tempValue;
                 stateDrive.m_CustomBlends.m_CustomBlends[indexList] = blending;
             });
-            seq.AppendInterval(tempValue * 2);
+            seq.AppendInterval(tempValue);
             seq.AppendCallback(() =>
             {
                 blending.m_Blend.m_Time = defaultBlendingTime[indexList];
