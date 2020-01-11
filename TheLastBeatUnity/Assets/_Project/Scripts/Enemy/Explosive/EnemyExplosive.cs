@@ -13,7 +13,7 @@ public class EnemyExplosive : Enemy
         states.Add(EEnemyState.WANDER, new EnemyStateWander(this, waitBeforeNextMove));
         states.Add(EEnemyState.CHASE, new EnemyStateChase(this));
         states.Add(EEnemyState.PREPARE_ATTACK, new EnemyStatePrepareAttack(this, waitBeforePrepareAnim, prepareAnimDuration));
-        states.Add(EEnemyState.ATTACK, new EnemyStateExplode(this, waitBeforeAttackAnim, attackForce, explosionArea));
+        states.Add(EEnemyState.ATTACK, new EnemyStateExplode(this, waitBeforeAttackAnim, attackForce, attackDamage, explosionArea));
         states.Add(EEnemyState.RECOVER_ATTACK, new EnemyStateRecoverAttack(this, recoverAnimDuration));
         states.Add(EEnemyState.COME_BACK, new EnemyStateComeBack(this));
         states.Add(EEnemyState.STUN, new EnemyStateStun(this));

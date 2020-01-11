@@ -11,27 +11,28 @@ public class EnemyStateExplode : EnemyState
     float waitBeforeBlast = 0;
     EnemyExplosionArea explosionArea = null;
     float blastForce = 0;
+    int blastDamage = 0;
 
-    public EnemyStateExplode(Enemy newEnemy, float waitBefore, float force, EnemyExplosionArea explosion) : base(newEnemy)
+    public EnemyStateExplode(Enemy newEnemy, float waitBefore, float force, int damage, EnemyExplosionArea explosion) : base(newEnemy)
     {
         stateEnum = EEnemyState.ATTACK;
         scaleEndValues = new Vector3(7, 7, 7);
         waitBeforeAnimDuration = waitBefore;
         explosionArea = explosion;
         blastForce = force;
+        blastDamage = damage;
     }
 
     public override void Enter()
     {
         enemy.SetStateText("explode");
-        enemy.StartAttacking();
 
         Sequence animation = DOTween.Sequence();
 
         animation.InsertCallback(waitBeforeAnimDuration, () =>
         {
             enemy.Model.SetActive(false);
-            explosionArea.Explode(blastForce);
+            explosionArea.Explode(blastForce, blastDamage, enemy.Player);
         });
 
         animation.Play();

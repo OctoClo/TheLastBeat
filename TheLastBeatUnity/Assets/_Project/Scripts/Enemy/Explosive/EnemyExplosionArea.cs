@@ -8,31 +8,40 @@ public class EnemyExplosionArea : MonoBehaviour
     public bool ExplosionFinished = false;
 
     float colliderRadius = 0;
+    float blastForce = 0;
+    Rigidbody rb = null;
 
     private void Start()
     {
         colliderRadius = GetComponent<SphereCollider>().radius;
     }
 
-    public void Explode(float blastForce)
+    public void Explode(float force, int damage, Player player)
     {
-        Rigidbody rb = null;
+        blastForce = force;
 
         Collider[] overlapColliders = Physics.OverlapSphere(transform.position, colliderRadius, Physics.AllLayers, QueryTriggerInteraction.Ignore);
         foreach (Collider collid in overlapColliders)
         {
-            if (collid.gameObject.CompareTag("Enemy") || collid.gameObject.CompareTag("Player"))
+            if (collid.gameObject.CompareTag("Enemy"))
             {
-                rb = collid.GetComponentInChildren<Rigidbody>();
-                if (rb)
-                {
-                    Debug.Log("Pushing this rigidbody", rb.gameObject);
-                    rb.AddExplosionForce(blastForce, transform.position, 0, 0, ForceMode.VelocityChange);
-                }
+                PushRigidbody(collid);
+            }
+
+            if (collid.gameObject.CompareTag("Player"))
+            {
+                PushRigidbody(collid);
+                player.ModifyPulseValue(damage, true);
             }
         }
 
         ExplosionFinished = true;
-        Debug.Log("Explosion over");
+    }
+
+    private void PushRigidbody(Collider collid)
+    {
+        rb = collid.GetComponentInChildren<Rigidbody>();
+        if (rb)
+            rb.AddExplosionForce(blastForce, transform.position, 0, 0, ForceMode.VelocityChange);
     }
 }
