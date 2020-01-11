@@ -34,7 +34,7 @@ public class EnemyStateAttack : EnemyState
         animation = DOTween.Sequence();
 
         animation.Insert(waitBeforeAnimDuration, enemy.Model.transform.DOScale(scaleEndValues, animDuration).SetEase(Ease.OutBounce));
-        animation.Insert(waitBeforeAnimDuration, enemy.Model.transform.DOMove(goalPos, animDuration).SetEase(Ease.OutBounce));
+        animation.Insert(waitBeforeAnimDuration, enemy.transform.DOMove(goalPos, animDuration).SetEase(Ease.OutBounce));
         animation.AppendCallback(() => animationFinished = true);
 
         animation.Play();
