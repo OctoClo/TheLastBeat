@@ -124,6 +124,11 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void GetPushedBack()
+    {
+        ChangeState(EEnemyState.STUN);
+    }
+
     public void GetAttacked(bool onRythm)
     {
         lives--;

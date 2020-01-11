@@ -15,6 +15,8 @@ public class SceneHelper : MonoBehaviour
     [SerializeField]
     Transform respawnPlace = null;
 
+    public Transform VfxFolder = null;
+
     Sequence seq;
     public static Vector3 LastDeathPosition = Vector3.zero;
     public static int DeathCount = 0;

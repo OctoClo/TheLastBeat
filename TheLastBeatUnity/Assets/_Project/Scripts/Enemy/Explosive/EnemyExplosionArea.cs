@@ -7,25 +7,32 @@ public class EnemyExplosionArea : MonoBehaviour
     [HideInInspector]
     public bool ExplosionFinished = false;
 
+    Enemy myself = null;
     float colliderRadius = 0;
     float blastForce = 0;
     Rigidbody rb = null;
 
     private void Start()
     {
+        myself = GetComponentInParent<Enemy>();
         colliderRadius = GetComponent<SphereCollider>().radius;
     }
 
     public void Explode(float force, int damage, Player player)
     {
         blastForce = force;
+        Enemy enemy = null;
 
         Collider[] overlapColliders = Physics.OverlapSphere(transform.position, colliderRadius, Physics.AllLayers, QueryTriggerInteraction.Ignore);
         foreach (Collider collid in overlapColliders)
         {
             if (collid.gameObject.CompareTag("Enemy"))
             {
-                PushRigidbody(collid);
+                if (collid.TryGetComponent<Enemy>(out enemy) && enemy != myself)
+                {
+                    enemy.GetPushedBack();
+                    PushRigidbody(collid);
+                }
             }
 
             if (collid.gameObject.CompareTag("Player"))

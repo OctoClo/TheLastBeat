@@ -5,22 +5,25 @@ using DG.Tweening;
 
 public class EnemyStateExplode : EnemyState
 {
-    Vector3 scaleEndValues = Vector3.zero;
-    float waitBeforeAnimDuration = 0;
-    float animDuration = 0;
-    float waitBeforeBlast = 0;
-    EnemyExplosionArea explosionArea = null;
+    float waitBeforeExplosion = 0;
+    float dieTimer = 0;
+
     float blastForce = 0;
     int blastDamage = 0;
 
-    public EnemyStateExplode(Enemy newEnemy, float waitBefore, float force, int damage, EnemyExplosionArea explosion) : base(newEnemy)
+    GameObject explosionPrefab = null;
+    EnemyExplosionArea explosionArea = null;
+
+    public EnemyStateExplode(Enemy newEnemy, float waitBefore, float force, int damage, GameObject newExplosionPrefab, EnemyExplosionArea newExplosionArea) : base(newEnemy)
     {
         stateEnum = EEnemyState.ATTACK;
-        scaleEndValues = new Vector3(7, 7, 7);
-        waitBeforeAnimDuration = waitBefore;
-        explosionArea = explosion;
+
+        waitBeforeExplosion = waitBefore;
         blastForce = force;
         blastDamage = damage;
+
+        explosionPrefab = newExplosionPrefab;
+        explosionArea = newExplosionArea;
     }
 
     public override void Enter()
@@ -29,9 +32,11 @@ public class EnemyStateExplode : EnemyState
 
         Sequence animation = DOTween.Sequence();
 
-        animation.InsertCallback(waitBeforeAnimDuration, () =>
+        animation.InsertCallback(waitBeforeExplosion, () =>
         {
             enemy.Model.SetActive(false);
+            GameObject explosion = GameObject.Instantiate(explosionPrefab, enemy.transform.position, Quaternion.identity);
+            explosion.transform.SetParent(SceneHelper.Instance.VfxFolder);
             explosionArea.Explode(blastForce, blastDamage, enemy.Player);
         });
 
