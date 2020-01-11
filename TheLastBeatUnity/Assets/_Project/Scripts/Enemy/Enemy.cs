@@ -10,8 +10,8 @@ public class EnemyDeadEvent : GameEvent { public Enemy enemy = null; }
 
 public class Enemy : MonoBehaviour
 {
-    [TabGroup("General")] [SerializeField]
-    float speed = 8;
+    [TabGroup("General")] [SerializeField] [Tooltip("Random speed between x and y")]
+    Vector2 speedMinMax = new Vector2(7, 9);
     [TabGroup("General")] [SerializeField]
     int maxLives = 10;
     int lives = 10;
@@ -80,7 +80,7 @@ public class Enemy : MonoBehaviour
         WeaponHitbox = GetComponentInChildren<EnemyWeaponHitbox>();
         collid = GetComponent<Collider>();
         Agent = GetComponent<NavMeshAgent>();
-        Agent.speed = speed;
+        Agent.speed = RandomHelper.GetRandom(speedMinMax.x, speedMinMax.y);
 
         lives = maxLives;
         lifeText.text = lives.ToString();
