@@ -17,21 +17,21 @@ public class Enemy : MonoBehaviour
     int lives = 10;
 
     [TabGroup("Behaviour")] [Header("Wander")] [SerializeField] [Tooltip("How much time the enemy will wait before going to another spot (random in [x, y]")]
-    Vector2 waitBeforeNextMove = new Vector2(2, 5);
+    protected Vector2 waitBeforeNextMove = new Vector2(2, 5);
     [TabGroup("Behaviour")] [Header("Prepare Attack")] [SerializeField] [Tooltip("How much time the enemy will wait between chasing and prepare attack animation")]
-    float waitBeforePrepareAnim = 0.5f;
+    protected float waitBeforePrepareAnim = 0.5f;
     [TabGroup("Behaviour")] [SerializeField] [Tooltip("How long the prepare attack animation will be")]
-    float prepareAnimDuration = 2;
+    protected float prepareAnimDuration = 2;
     [TabGroup("Behaviour")] [Header("Attack")] [SerializeField] [Tooltip("How much time the enemy will wait between preparing attack animation and attacking animation")]
-    float waitBeforeAttackAnim = 0.25f;
+    protected float waitBeforeAttackAnim = 0.25f;
     [TabGroup("Behaviour")] [SerializeField] [Tooltip("How long the attack animation will be")]
-    float attackAnimDuration = 0.5f;
+    protected float attackAnimDuration = 0.5f;
     [TabGroup("Behaviour")] [SerializeField] [Tooltip("How much the enemy will dive towards the player")]
-    float attackForce = 4;
+    protected float attackForce = 4;
     [TabGroup("Behaviour")] [SerializeField] [Tooltip("How many pulse intensity the player will lose if hit")]
-    int attackDamage = 5;
+    protected int attackDamage = 5;
     [TabGroup("Behaviour")] [Header("Recover")] [SerializeField] [Tooltip("How much time the enemy will wait after an attack")]
-    float recoverAnimDuration = 2;
+    protected float recoverAnimDuration = 2;
     [TabGroup("Behaviour")] [Header("Stun")] [SerializeField] [Range(0.0f, 1.0f)]
     float[] chancesToGetStunned = new float[5];
     int stunCounter = 0;
@@ -55,7 +55,7 @@ public class Enemy : MonoBehaviour
     public Player Player { get; private set; }
 
     // States
-    Dictionary<EEnemyState, EnemyState> states;
+    protected Dictionary<EEnemyState, EnemyState> states;
     public EEnemyState CurrentStateEnum { get; private set; }
     EnemyState currentState;
     [HideInInspector]
@@ -96,18 +96,23 @@ public class Enemy : MonoBehaviour
         if (type == EEnemyType.DEFAULT)
         {
             states = new Dictionary<EEnemyState, EnemyState>();
-            states.Add(EEnemyState.WANDER, new EnemyStateWander(this, waitBeforeNextMove));
-            states.Add(EEnemyState.CHASE, new EnemyStateChase(this));
-            states.Add(EEnemyState.PREPARE_ATTACK, new EnemyStatePrepareAttack(this, waitBeforePrepareAnim, prepareAnimDuration));
-            states.Add(EEnemyState.ATTACK, new EnemyStateAttack(this, waitBeforeAttackAnim, attackAnimDuration, attackForce));
-            states.Add(EEnemyState.RECOVER_ATTACK, new EnemyStateRecoverAttack(this, recoverAnimDuration));
-            states.Add(EEnemyState.COME_BACK, new EnemyStateComeBack(this));
-            states.Add(EEnemyState.STUN, new EnemyStateStun(this));
+            CreateStates();
 
             CurrentStateEnum = EEnemyState.WANDER;
             states.TryGetValue(CurrentStateEnum, out currentState);
             currentState.Enter();
         }
+    }
+
+    virtual protected void CreateStates()
+    {
+        states.Add(EEnemyState.WANDER, new EnemyStateWander(this, waitBeforeNextMove));
+        states.Add(EEnemyState.CHASE, new EnemyStateChase(this));
+        states.Add(EEnemyState.PREPARE_ATTACK, new EnemyStatePrepareAttack(this, waitBeforePrepareAnim, prepareAnimDuration));
+        states.Add(EEnemyState.ATTACK, new EnemyStateAttack(this, waitBeforeAttackAnim, attackAnimDuration, attackForce));
+        states.Add(EEnemyState.RECOVER_ATTACK, new EnemyStateRecoverAttack(this, recoverAnimDuration));
+        states.Add(EEnemyState.COME_BACK, new EnemyStateComeBack(this));
+        states.Add(EEnemyState.STUN, new EnemyStateStun(this));
     }
 
     private void Update()
@@ -124,8 +129,7 @@ public class Enemy : MonoBehaviour
         lives--;
         if (lives == 0)
         {
-            EventManager.Instance.Raise(new EnemyDeadEvent { enemy = this });
-            Destroy(gameObject);
+            Die();
             return;
         }
 
@@ -143,6 +147,12 @@ public class Enemy : MonoBehaviour
                 ChangeState(EEnemyState.STUN);
             }
         }
+    }
+
+    public void Die()
+    {
+        EventManager.Instance.Raise(new EnemyDeadEvent { enemy = this });
+        Destroy(gameObject);
     }
 
     void ChangeState(EEnemyState newStateEnum)
