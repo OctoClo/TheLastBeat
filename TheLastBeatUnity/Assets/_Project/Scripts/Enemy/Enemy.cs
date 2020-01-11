@@ -44,6 +44,9 @@ public class Enemy : MonoBehaviour
     GameObject stunElements = null;
     [TabGroup("References")] [SerializeField]
     GameObject notStunElements = null;
+    [TabGroup("References")]
+    public GameObject Model = null;
+    MeshRenderer modelMeshRenderer = null;
     public Material Material { get; private set; }
     Collider collid;
     public EnemyWeaponHitbox WeaponHitbox { get; private set; }
@@ -72,7 +75,8 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
-        Material = GetComponent<MeshRenderer>().material;
+        modelMeshRenderer = Model.GetComponent<MeshRenderer>();
+        Material = modelMeshRenderer.material;
         WeaponHitbox = GetComponentInChildren<EnemyWeaponHitbox>();
         collid = GetComponent<Collider>();
         Agent = GetComponent<NavMeshAgent>();
