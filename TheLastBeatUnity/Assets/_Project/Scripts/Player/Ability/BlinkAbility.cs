@@ -17,6 +17,8 @@ public class BlinkParams : AbilityParams
     public float markPersist = 0.25f;
     public float rumbleIntensity = 0;
     public float rumbleDuration = 0;
+    public AK.Wwise.Event OnBeatSound = null;
+    public AK.Wwise.Event OffBeatSound = null;
 }
 
 public class BlinkAbility : Ability
