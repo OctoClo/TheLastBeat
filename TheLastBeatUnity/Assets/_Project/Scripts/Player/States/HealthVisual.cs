@@ -11,8 +11,6 @@ public class VisualParams
     public Image barImage;
     public Image backgroundImage;
     public RectTransform flameTransform;
-    public Animator riftAnimator;
-    public float sequenceDuration;
     public Color leftMostColor;
     public Color rightMostColor;
     public float ratioRiftStep1 = 0.7f;
@@ -23,6 +21,10 @@ public class VisualParams
     public Color hurtColor = Color.clear;
     public AnimationCurve curveTransition;
     public float timeLifeTransition = 0.25f;
+    public float screenShakeIntensityUI = 0;
+    public float screenShakeDurationUI = 0;
+    public float screenShakeIntensity = 0;
+    public float screenShakeDuration = 0;
 }
 
 public class HealthVisual
@@ -62,6 +64,19 @@ public class HealthVisual
         seq.Append(visualParams.flameTransform.DOScale(normalSize * visualParams.pulseSize, visualParams.sequenceDuration));
         seq.Append(visualParams.flameTransform.DOScale(normalSize,  visualParams.sequenceDuration));
         seq.Play();
+    }
+
+    public void ScreenShake()
+    {
+        foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
+        {
+            ce.StartScreenShake(visualParams.screenShakeDuration, visualParams.screenShakeIntensity);
+        }
+    }
+
+    public void UIScreenShake()
+    {
+        SceneHelper.Instance.ScreenshakeGameObject(visualParams.flameImage.transform, visualParams.screenShakeDurationUI, visualParams.screenShakeIntensityUI);
     }
 
     public void EnterCriticState()

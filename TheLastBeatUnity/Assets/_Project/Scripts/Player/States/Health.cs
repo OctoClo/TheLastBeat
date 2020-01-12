@@ -60,7 +60,10 @@ public class Health : Beatable
     public void BeatSequence()
     {
         if (InCriticMode)
-            return;
+        {
+            visual.ScreenShake();
+            visual.UIScreenShake();
+        }
 
         visual.RegularBeat();
     }
@@ -86,13 +89,16 @@ public class Health : Beatable
             outLimit.SetValue();
         }
 
+        //Hurted
         currentPulse += deltaValue;
         currentPulse = Mathf.Clamp(currentPulse, minimalPulse, maximalPulse);
 
         if (deltaValue > 0)
         {
+            visual.ScreenShake();
             Player.HurtAnimation(0.25f, 3);
             visual.HurtAnimationUI();
+            visual.UIScreenShake();
         }
 
         visual.UpdateColor(ratioPulse);

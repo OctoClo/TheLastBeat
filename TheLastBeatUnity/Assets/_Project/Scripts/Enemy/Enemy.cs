@@ -47,6 +47,13 @@ public class Enemy : MonoBehaviour
     GameObject notStunElements = null;
     [TabGroup("References")] [SerializeField]
     AK.Wwise.Event hitEnemy = null;
+
+    [TabGroup("Feedback")] [SerializeField]
+    float screenDurationHit = 0;
+
+    [TabGroup("Feedback")] [SerializeField]
+    float screenIntensityHit = 0;
+
     public Material Material { get; private set; }
     Collider collid;
     public EnemyWeaponHitbox WeaponHitbox { get; private set; }
@@ -119,6 +126,11 @@ public class Enemy : MonoBehaviour
 
     public void GetAttacked(bool onRythm)
     {
+        foreach(CameraEffect ce in CameraManager.Instance.AllCameras)
+        {
+            ce.StartScreenShake(screenDurationHit, screenIntensityHit);
+        }
+
         lives--;
         hitEnemy.Post(gameObject);
         if (lives == 0)
