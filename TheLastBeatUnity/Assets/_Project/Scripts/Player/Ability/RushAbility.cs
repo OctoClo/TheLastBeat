@@ -70,7 +70,7 @@ public class RushAbility : Ability
 
     void ImpactEffect(Collider coll)
     {
-        if (coll.gameObject == player.CurrentTarget.gameObject)
+        if (coll && coll.gameObject == player.CurrentTarget.gameObject)
         {
             SceneHelper.Instance.FreezeFrame(0.05f);
 

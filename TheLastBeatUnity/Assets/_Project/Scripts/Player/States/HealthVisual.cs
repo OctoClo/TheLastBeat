@@ -25,6 +25,8 @@ public class VisualParams
     public float screenShakeDurationUI = 0;
     public float screenShakeIntensity = 0;
     public float screenShakeDuration = 0;
+    public float sequenceDuration = 0;
+    public Animator riftAnimator;
 }
 
 public class HealthVisual
