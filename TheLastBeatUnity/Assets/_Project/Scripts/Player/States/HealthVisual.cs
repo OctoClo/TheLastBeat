@@ -11,8 +11,6 @@ public class VisualParams
     public Image barImage;
     public Image backgroundImage;
     public RectTransform flameTransform;
-    public Animator riftAnimator;
-    public float sequenceDuration;
     public Color leftMostColor;
     public Color rightMostColor;
     public float ratioRiftStep1 = 0.7f;
@@ -23,6 +21,12 @@ public class VisualParams
     public Color hurtColor = Color.clear;
     public AnimationCurve curveTransition;
     public float timeLifeTransition = 0.25f;
+    public float screenShakeIntensityUI = 0;
+    public float screenShakeDurationUI = 0;
+    public float screenShakeIntensity = 0;
+    public float screenShakeDuration = 0;
+    public float sequenceDuration = 0;
+    public Animator riftAnimator;
 }
 
 public class HealthVisual
@@ -64,6 +68,19 @@ public class HealthVisual
         seq.Play();
     }
 
+    public void ScreenShake()
+    {
+        foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
+        {
+            ce.StartScreenShake(visualParams.screenShakeDuration, visualParams.screenShakeIntensity);
+        }
+    }
+
+    public void UIScreenShake()
+    {
+        SceneHelper.Instance.ScreenshakeGameObject(visualParams.flameImage.transform, visualParams.screenShakeDurationUI, visualParams.screenShakeIntensityUI);
+    }
+
     public void EnterCriticState()
     {
         visualParams.flameTransform.DOScale(normalSize * visualParams.sizeCritic, 0.1f);
@@ -92,6 +109,7 @@ public class HealthVisual
     {
         Color currentColor = Color.Lerp(visualParams.leftMostColor, visualParams.rightMostColor, ratio);
         visualParams.barImage.DOColor(currentColor, 0.25f);
+        visualParams.backgroundImage.DOColor(currentColor, 0.25f);
         DOTween.To(() => visualParams.barImage.fillAmount, x => visualParams.barImage.fillAmount = x, ratio, visualParams.timeLifeTransition).SetEase(visualParams.curveTransition);
 
         if (ratio < visualParams.ratioRiftStep1 && ratio > visualParams.ratioRiftStep2)

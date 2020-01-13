@@ -15,7 +15,8 @@ namespace AK
     {
         static const AkUniqueID INT_HITMUSICFX = 3191278813U;
         static const AkUniqueID PLAY_AMBDESERT = 3681445093U;
-        static const AkUniqueID PLAY_BLINK = 3106918468U;
+        static const AkUniqueID PLAY_BLINKFXOFFBEAT = 3832364417U;
+        static const AkUniqueID PLAY_BLINKFXONBEAT = 2655647461U;
         static const AkUniqueID PLAY_HIT_ENEMY = 3889018732U;
         static const AkUniqueID PLAY_HIT_PLAYER = 2257378511U;
         static const AkUniqueID PLAY_MUSIC = 2932040671U;
@@ -124,7 +125,8 @@ namespace AK
 
     namespace TRIGGERS
     {
-        static const AkUniqueID ONBEAT = 1813808854U;
+        static const AkUniqueID ONBEATBLINK = 2384616720U;
+        static const AkUniqueID ONBEATRUSH = 2234168428U;
     } // namespace TRIGGERS
 
     namespace BANKS

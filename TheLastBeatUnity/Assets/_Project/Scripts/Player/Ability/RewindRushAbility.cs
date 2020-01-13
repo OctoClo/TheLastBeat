@@ -14,6 +14,10 @@ public class RewindRushParameters : AbilityParams
     public AK.Wwise.State RewindState = null;
     public AK.Wwise.State NormalState = null;
     public int MaxChained = 5;
+    public float screenShakeDuration = 0;
+    public float screenShakeIntensity = 0;
+    public float rumbleIntensity = 0;
+    public float rumbleDuration = 0;
 }
 
 public class RewindRushAbility : Ability
@@ -33,6 +37,7 @@ public class RewindRushAbility : Ability
     public override void Update(float deltaTime)
     {
         base.Update(deltaTime);
+
         if (chainedEnemies.Count > 0 && !player.Status.Dashing && currentCooldown == 0)
         {
             rushChainTimer -= Time.deltaTime;
@@ -50,6 +55,7 @@ public class RewindRushAbility : Ability
     public void AddChainEnemy(Enemy enn)
     {
         rushChainTimer = parameters.MaxTimeBeforeResetMarks;
+
         if (chainedEnemies.Count >= parameters.MaxChained)
         {
             chainedEnemies.Dequeue();
@@ -90,6 +96,7 @@ public class RewindRushAbility : Ability
         if (attackOnRythm)
         {
             player.ModifyPulseValue(-healCorrectBeat);
+            SceneHelper.Instance.Rumble(parameters.rumbleIntensity, parameters.rumbleDuration);
         }
         else
         {
@@ -99,6 +106,9 @@ public class RewindRushAbility : Ability
         Sequence seq = DOTween.Sequence();
         Vector3 direction;
         Vector3 goalPosition = player.transform.position;
+
+        CameraManager.Instance.SetBlend("InCombat", "FOV Rewind", (0.1f + parameters.Duration) * chainedEnemies.Count);
+        CameraManager.Instance.SetBoolCamera(true, "Rewinding");
 
         foreach (Enemy enemy in chainedEnemies.Reverse())
         {
@@ -113,19 +123,30 @@ public class RewindRushAbility : Ability
                     player.FocusZone.OverrideCurrentEnemy(enemy);
                     player.LookAtCurrentTarget();
                     player.Anim.SetRushing(true);
+                    SceneHelper.Instance.FreezeFrame(0.1f);
                 });
                 seq.Append(player.transform.DOMove(goalPosition, parameters.Duration));
                 seq.AppendCallback(() => { enemy.GetAttacked(attackOnRythm); });
             }
+            else
+            {
+                seq.Kill();
+                End();
+            }
         }
 
         seq.AppendCallback(() => End());
-
         seq.Play();
     }
 
     public override void End()
     {
+        foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
+        {
+            ce.StartScreenShake(parameters.screenShakeDuration, parameters.screenShakeIntensity);
+        }
+
+        CameraManager.Instance.SetBoolCamera(false, "Rewinding");
         player.Anim.SetRushing(false);
         player.Status.StopDashing();
         player.FocusZone.overrideControl = false;

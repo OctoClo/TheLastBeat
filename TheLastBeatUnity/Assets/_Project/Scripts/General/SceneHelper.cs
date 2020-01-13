@@ -15,9 +15,14 @@ public class SceneHelper : MonoBehaviour
     [SerializeField]
     Transform respawnPlace = null;
 
+    [SerializeField]
+    AnimationCurve defaultAnimationCurve = null;
+
     Sequence seq;
     public static Vector3 LastDeathPosition = Vector3.zero;
     public static int DeathCount = 0;
+
+    Dictionary<Transform, Vector3> screenShakeMemory = new Dictionary<Transform, Vector3>();
 
     private void Start()
     {
@@ -64,28 +69,28 @@ public class SceneHelper : MonoBehaviour
         DOTween.Init();
     }
 
-    public List<Vector3> GetCollisions(Collider coll, Vector3 origin, Vector3 direction, float maxDistance)
+    public List<Vector3> RayCastBackAndForth(Collider coll, Vector3 origin, Vector3 direction, float maxDistance)
     {
+        direction.Normalize();
         List<Vector3> output = new List<Vector3>();
         origin += Vector3.up * 0.3f;
-        Ray ray = new Ray(origin, direction);
-        Ray reverted = new Ray(RotatePointAroundPivot(origin, coll.transform.position, Vector3.up * 180), -direction);
-        foreach(RaycastHit hit in Physics.RaycastAll(ray , maxDistance))
+        Ray ray = new Ray(origin - (direction * 2) + (Vector3.up * 0.01f), direction * 10);
+        Ray reverted = new Ray(RotatePointAroundPivot(origin - (direction * 2), coll.transform.position, Vector3.up * 180), -direction * 10);
+
+        foreach(RaycastHit hit in Physics.RaycastAll(ray , maxDistance * 2))
         {
             if (hit.collider == coll)
             {
                 output.Add(hit.point);
-                Debug.DrawLine(hit.point, origin, Color.red,1);
                 break;
             }
         }
 
-        foreach (RaycastHit hit in Physics.RaycastAll(reverted, maxDistance))
+        foreach (RaycastHit hit in Physics.RaycastAll(reverted, maxDistance * 2))
         {
             if (hit.collider == coll)
             {
                 output.Add(hit.point);
-                Debug.DrawLine(hit.point, RotatePointAroundPivot(origin, coll.transform.position, Vector3.up * 180), Color.blue, 1);
                 break;
             }
         }
@@ -105,5 +110,47 @@ public class SceneHelper : MonoBehaviour
         float elapsedTime = (state.normalizedTime % 1.0f) * state.length;
         float timeLeft = state.length - elapsedTime;
         return timeLeft / mustFinishIn;
+    }
+
+    public void ScreenshakeGameObject(Transform trsf , float duration , float intensity , AnimationCurve curve = null)
+    {
+        StopAllCoroutines();
+        StartCoroutine(ScreenShakeCoroutine(trsf, duration, intensity, curve == null ? defaultAnimationCurve : curve));
+    }
+
+    IEnumerator ScreenShakeCoroutine(Transform trsf, float duration, float intensity, AnimationCurve curve)
+    {
+        if (screenShakeMemory.ContainsKey(trsf))
+            trsf.position = screenShakeMemory[trsf];
+
+        screenShakeMemory[trsf] = trsf.position;
+        Vector3 origin = trsf.position;
+        float normalizedTime = 0;
+        while (normalizedTime < 1)
+        {
+            Vector2 random = Random.insideUnitCircle.normalized;
+            float currentIntensity = curve.Evaluate(normalizedTime) * intensity;
+            trsf.position = origin + new Vector3(random.x * currentIntensity, random.y * currentIntensity, 0);
+            normalizedTime += Time.deltaTime / duration;
+            yield return null;
+        }
+        trsf.position = origin;
+        screenShakeMemory.Remove(trsf);
+    }
+
+    public void FreezeFrame(float duration)
+    {
+        Sequence seq = DOTween.Sequence();
+        seq.AppendCallback(() => Time.timeScale = 0);
+        seq.AppendInterval(duration);
+        seq.AppendCallback(() => Time.timeScale = 1);
+        seq.SetUpdate(true);
+        seq.Play();
+    }
+
+    public void Rumble(float intensity , float duration)
+    {
+        InputDelegate.player.SetVibration(0, intensity, duration);
+        InputDelegate.player.SetVibration(1, intensity, duration);
     }
 }
