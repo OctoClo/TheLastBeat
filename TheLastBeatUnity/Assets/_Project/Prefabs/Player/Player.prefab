@@ -242,6 +242,21 @@ Transform:
   m_Father: {fileID: 3489716977114045590}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1006650741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938978441505910661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 019facea8f24cff4da0188d94c899464, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  plyr: {fileID: 3489716977114045609}
+  leftFoot: {fileID: 7532224865984800750}
+  rightFoot: {fileID: 6270997722281639568}
 --- !u!114 &1914734992382870252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,21 +288,6 @@ MonoBehaviour:
   leftFoot: {fileID: 7532224865984800750}
   rightFoot: {fileID: 6270997722281639568}
 --- !u!114 &4063737735382899853
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 938978441505910661}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 019facea8f24cff4da0188d94c899464, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  plyr: {fileID: 3489716977114045609}
-  leftFoot: {fileID: 7532224865984800750}
-  rightFoot: {fileID: 6270997722281639568}
---- !u!114 &1006650741
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -583,11 +583,6 @@ MonoBehaviour:
     HealPerCorrectBeat: 1
     Speed: 6
     PulseCost: 4
-    Sound:
-      idInternal: 0
-      valueGuidInternal: 
-      WwiseObjectReference: {fileID: 11400000, guid: 3a35a5d593c9a0e469bead9a32b70bd3,
-        type: 2}
     timeWait: 0.1
     prefabMark: {fileID: 4225803668478646523, guid: f31c8f95b4ca0bc499aef6b862b213c0,
       type: 3}
@@ -598,6 +593,16 @@ MonoBehaviour:
     markPersist: 0.25
     rumbleIntensity: 1
     rumbleDuration: 0.2
+    OnBeatSound:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 3a35a5d593c9a0e469bead9a32b70bd3,
+        type: 2}
+    OffBeatSound:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: c9c412797d2e0954b9bfb8854557cf95,
+        type: 2}
   rushParameters:
     AttachedPlayer: {fileID: 0}
     HealPerCorrectBeat: 1
@@ -633,7 +638,7 @@ MonoBehaviour:
   rushRewindParameters:
     AttachedPlayer: {fileID: 0}
     HealPerCorrectBeat: 1
-    Duration: 2
+    Duration: 0.2
     PulseCost: 5
     Cooldown: 5
     MaxTimeBeforeResetMarks: 3

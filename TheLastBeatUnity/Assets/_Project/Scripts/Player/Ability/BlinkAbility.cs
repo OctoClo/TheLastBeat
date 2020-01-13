@@ -8,7 +8,6 @@ public class BlinkParams : AbilityParams
 {
     public float Speed = 0;
     public float PulseCost = 0;
-    public AK.Wwise.Event Sound = null;
     public float timeWait = 0;
     public GameObject prefabMark;
     public GameObject prefabTrail;
@@ -17,6 +16,8 @@ public class BlinkParams : AbilityParams
     public float markPersist = 0.25f;
     public float rumbleIntensity = 0;
     public float rumbleDuration = 0;
+
+    [Header("Sound")]
     public AK.Wwise.Event OnBeatSound = null;
     public AK.Wwise.Event OffBeatSound = null;
 }
@@ -65,12 +66,13 @@ public class BlinkAbility : Ability
             {
                 player.ModifyPulseValue(-healCorrectBeat);
                 SceneHelper.Instance.Rumble(parameters.rumbleIntensity, parameters.rumbleDuration);
+                parameters.OnBeatSound.Post(player.gameObject);
             }
             else
             {
                 player.ModifyPulseValue(parameters.PulseCost);
+                parameters.OffBeatSound.Post(player.gameObject);
             }
-            parameters.Sound.Post(player.gameObject);
         });
         currentSequence.AppendInterval(parameters.timeWait);
         currentSequence.Append(player.VisualPart.DOScale(Vector3.zero, parameters.SpeedAnimShrink));

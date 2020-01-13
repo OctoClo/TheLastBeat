@@ -44,7 +44,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 00607f23f4bb1c4ba4ba719fd5871f3f
     GuidInternal: 
-    m_lastTime: -8586231098876543216
+    m_lastTime: -8586226907623417983
     List:
     - name: TheLastBank
       guid: ba44c042ce392242af9fd5c1beb6de48
@@ -60,7 +60,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 8758d50e9a0ca842a9ceccd260c5af42
     GuidInternal: 
-    m_lastTime: -8586231098883514521
+    m_lastTime: -8586226907623816912
     List:
     - name: Int_HitMusicFX
       guid: 99dfbaf434086c43af6c4fa0d57cbebb
@@ -86,15 +86,27 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Play_Blink
-      guid: 36a2dada2a3f3e40b025a216b7c4125d
-      id: 3106918468
+    - name: Play_BlinkFXOffBeat
+      guid: 19d67817d06af141bbd5f7ae21258a4f
+      id: 3832364417
       PathAndIcons:
       - ElementName: Default Work Unit
         ObjectType: 12
-      - ElementName: Play_Blink
+      - ElementName: Play_BlinkFXOffBeat
         ObjectType: 3
-      Path: Default Work Unit\Play_Blink
+      Path: Default Work Unit\Play_BlinkFXOffBeat
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_BlinkFXOnBeat
+      guid: 36a2dada2a3f3e40b025a216b7c4125d
+      id: 2655647461
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Play_BlinkFXOnBeat
+        ObjectType: 3
+      Path: Default Work Unit\Play_BlinkFXOnBeat
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -582,17 +594,26 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 1ac71c4bbb8fbe4aab71adce22d346fd
     GuidInternal: 
-    m_lastTime: -8586257155031571930
+    m_lastTime: -8586226907623288340
     List:
-    - name: OnBeat
-      guid: ffd3cb5f60b62441a39d20e0b0da27d8
-      id: 1813808854
+    - name: OnBeatBlink
+      guid: d46f234c41a01e47a61ebe5bd845a92c
+      id: 2384616720
       PathAndIcons:
       - ElementName: TheLastBeat
         ObjectType: 12
-      - ElementName: OnBeat
+      - ElementName: OnBeatBlink
         ObjectType: 14
-      Path: TheLastBeat\OnBeat
+      Path: TheLastBeat\OnBeatBlink
+    - name: OnBeatRush
+      guid: ffd3cb5f60b62441a39d20e0b0da27d8
+      id: 2234168428
+      PathAndIcons:
+      - ElementName: TheLastBeat
+        ObjectType: 12
+      - ElementName: OnBeatRush
+        ObjectType: 14
+      Path: TheLastBeat\OnBeatRush
   ExpandedItems:
   - /TheLastBeatAudio
   - /TheLastBeatAudio/Events
