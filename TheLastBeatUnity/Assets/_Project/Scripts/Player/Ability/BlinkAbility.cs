@@ -15,6 +15,10 @@ public class BlinkParams : AbilityParams
     public float SpeedAnimShrink = 0.25f;
     public float marksSpeedAnimation = 0.25f;
     public float markPersist = 0.25f;
+    public float rumbleIntensity = 0;
+    public float rumbleDuration = 0;
+    public AK.Wwise.Event OnBeatSound = null;
+    public AK.Wwise.Event OffBeatSound = null;
 }
 
 public class BlinkAbility : Ability
@@ -60,6 +64,7 @@ public class BlinkAbility : Ability
             if (SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT))
             {
                 player.ModifyPulseValue(-healCorrectBeat);
+                SceneHelper.Instance.Rumble(parameters.rumbleIntensity, parameters.rumbleDuration);
             }
             else
             {
