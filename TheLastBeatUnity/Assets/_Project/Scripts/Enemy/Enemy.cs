@@ -4,6 +4,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using TMPro;
 using DG.Tweening;
+using UnityEngine.AI;
 
 public class EnemyDeadEvent : GameEvent { public Enemy enemy = null; }
 
@@ -44,6 +45,8 @@ public class Enemy : MonoBehaviour
     GameObject stunElements = null;
     [TabGroup("References")] [SerializeField]
     GameObject notStunElements = null;
+    [TabGroup("References")] [SerializeField]
+    AK.Wwise.Event hitEnemy = null;
     public Material Material { get; private set; }
     Collider collid;
     public EnemyWeaponHitbox WeaponHitbox { get; private set; }
@@ -60,9 +63,9 @@ public class Enemy : MonoBehaviour
     [HideInInspector]
     public bool ChaseAgain = false;
     [HideInInspector]
-    public Sequence CurrentMove = null;
-    [HideInInspector]
     public bool InWanderZone = false;
+    [HideInInspector]
+    public NavMeshAgent Agent = null;
 
     // Misc
     EEnemyType type = EEnemyType.DEFAULT;
@@ -70,11 +73,12 @@ public class Enemy : MonoBehaviour
     bool isAttacking = false;
     bool hasAlreadyAttacked = false;
 
-    private void Start()
+    private void Awake()
     {
         Material = GetComponent<MeshRenderer>().material;
         WeaponHitbox = GetComponentInChildren<EnemyWeaponHitbox>();
         collid = GetComponent<Collider>();
+        Agent = GetComponent<NavMeshAgent>();
 
         lives = maxLives;
         lifeText.text = lives.ToString();
@@ -116,6 +120,7 @@ public class Enemy : MonoBehaviour
     public void GetAttacked(bool onRythm)
     {
         lives--;
+        hitEnemy.Post(gameObject);
         if (lives == 0)
         {
             EventManager.Instance.Raise(new EnemyDeadEvent { enemy = this });
@@ -175,15 +180,6 @@ public class Enemy : MonoBehaviour
     public void SetStateText(string text)
     {
         stateText.text = text;
-    }
-
-    public void KillCurrentTween()
-    {
-        if (CurrentMove != null)
-        {
-            CurrentMove.Kill();
-            CurrentMove = null;
-        }
     }
 
     public void StartAttacking()

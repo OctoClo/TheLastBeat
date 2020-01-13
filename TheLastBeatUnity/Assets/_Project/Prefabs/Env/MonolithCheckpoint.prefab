@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 6094460785050445774}
   - component: {fileID: 3861782229273650188}
   - component: {fileID: 2962825720183220454}
+  - component: {fileID: 1942752178311169549}
   m_Layer: 0
   m_Name: MonolithCheckpoint
   m_TagString: PotentialRespawn
@@ -193,3 +194,19 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 49.3
   m_Center: {x: -176.9, y: 14, z: 192.1}
+--- !u!208 &1942752178311169549
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 394752350867647315}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 462.93, y: 180.28001, z: 462.93}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 7.8560004, y: 128.02301, z: -146.09601}
+  m_TimeToStationary: 0.5

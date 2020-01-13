@@ -16,19 +16,14 @@ public class EnemyStateComeBack : EnemyState
     {
         base.Enter();
 
-        enemy.CurrentMove = DOTween.Sequence();
         enemy.WanderZone.GetRandomPosition(out goal, enemy.transform.position.y);
-        enemy.CurrentMove.Append(enemy.transform.DOLookAt(goal, 1, AxisConstraint.Y));
-        enemy.CurrentMove.Append(enemy.transform.DOMove(goal, Vector3.Distance(enemy.transform.position, goal) / enemy.Speed));
-        enemy.CurrentMove.AppendCallback(() => enemy.CurrentMove = null);
-        enemy.CurrentMove.Play();
+        enemy.Agent.SetDestination(goal);
     }
 
     public override EEnemyState UpdateState(float deltaTime)
     {
         if (enemy.ChaseAgain)
         {
-            enemy.KillCurrentTween();
             enemy.ChaseAgain = false;
             return EEnemyState.CHASE;
         }
