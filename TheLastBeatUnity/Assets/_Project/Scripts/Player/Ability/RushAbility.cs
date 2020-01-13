@@ -74,10 +74,12 @@ public class RushAbility : Ability
     void Rush()
     {
         onRythm = SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT);
+        bool perfect = SoundManager.Instance.IsPerfect(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT);
         if (onRythm)
         {
             parameters.OnBeatSound.Post(player.gameObject);
-            player.ModifyPulseValue(-healCorrectBeat);
+            if (InputDelegate.rythm == InputDelegate.RythmLayout.PUNISH && perfect)
+                player.ModifyPulseValue(-parameters.HealPerCorrectBeat);
         }
         else
         {

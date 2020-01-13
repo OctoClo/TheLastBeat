@@ -129,17 +129,15 @@ public class SoundManager : MonoBehaviour
         else
         {
             //A bit late
-            if (sampleTime - LastBeat.lastTimeBeat > 0 && sampleTime - LastBeat.lastTimeBeat < tol && currentBeat > lastBeatValidated)
+            if (sampleTime - LastBeat.lastTimeBeat > 0 && sampleTime - LastBeat.lastTimeBeat < tol)
             {
-                lastBeatValidated = currentBeat;
                 return true;
             }
 
             float nextBeat = LastBeat.lastTimeBeat + LastBeat.beatInterval;
             //A bit early
-            if (sampleTime - nextBeat < 0 && sampleTime - nextBeat > -tol && currentBeat + 1 > lastBeatValidated)
+            if (sampleTime - nextBeat < 0 && sampleTime - nextBeat > -tol)
             {
-                lastBeatValidated = currentBeat + 1;
                 return true;
             }
         }
