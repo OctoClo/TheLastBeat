@@ -109,6 +109,7 @@ public class HealthVisual
     {
         Color currentColor = Color.Lerp(visualParams.leftMostColor, visualParams.rightMostColor, ratio);
         visualParams.barImage.DOColor(currentColor, 0.25f);
+        visualParams.backgroundImage.DOColor(currentColor, 0.25f);
         DOTween.To(() => visualParams.barImage.fillAmount, x => visualParams.barImage.fillAmount = x, ratio, visualParams.timeLifeTransition).SetEase(visualParams.curveTransition);
 
         if (ratio < visualParams.ratioRiftStep1 && ratio > visualParams.ratioRiftStep2)
