@@ -43,6 +43,9 @@ public class InputVisualAnimation : Beatable
     }
     public void CorrectBeat()
     {
+        if (allInstances.Count == 0)
+            return;
+
         GameObject gob = allInstances.Dequeue();
         Vector3 scale = gob.GetComponent<RectTransform>().localScale;
         Destroy(gob);
@@ -54,6 +57,9 @@ public class InputVisualAnimation : Beatable
     }
     public void WrongBeat()
     {
+        if (allInstances.Count == 0)
+            return;
+
         GameObject gob = allInstances.Dequeue();
         Vector3 scale = gob.GetComponent<RectTransform>().localScale;
         seq.Kill();
@@ -64,6 +70,9 @@ public class InputVisualAnimation : Beatable
 
     public void PerfectBeat()
     {
+        if (allInstances.Count == 0)
+            return;
+
         GameObject gob = allInstances.Dequeue();
         Vector3 scale = gob.GetComponent<RectTransform>().localScale;
         Destroy(gob);

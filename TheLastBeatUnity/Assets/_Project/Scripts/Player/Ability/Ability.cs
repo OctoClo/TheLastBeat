@@ -34,7 +34,7 @@ public abstract class Ability
     {
         if (visualAnimation)
         {
-            visualAnimation.CorrectBeat();
+            //visualAnimation.CorrectBeat();
         }
     }
 
@@ -42,7 +42,7 @@ public abstract class Ability
     {
         if (visualAnimation)
         {
-            visualAnimation.PerfectBeat();
+            //visualAnimation.PerfectBeat();
         }
     }
 
@@ -50,7 +50,7 @@ public abstract class Ability
     {
         if (visualAnimation)
         {
-            visualAnimation.WrongBeat();
+            //visualAnimation.WrongBeat();
         }
     }
     public virtual void ResetCooldown()
