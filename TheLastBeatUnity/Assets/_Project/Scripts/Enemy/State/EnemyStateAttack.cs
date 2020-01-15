@@ -11,14 +11,16 @@ public class EnemyStateAttack : EnemyState
     float waitBeforeAnimDuration = 0;
     float animDuration = 0;
     float impulseForce = 0;
+    float blastForce = 0;
 
-    public EnemyStateAttack(Enemy newEnemy, float waitBefore, float duration, float impulse) : base(newEnemy)
+    public EnemyStateAttack(Enemy newEnemy, float waitBefore, float duration, float impulse, float force) : base(newEnemy)
     {
         stateEnum = EEnemyState.ATTACK;
         scaleEndValues = new Vector3(1, 1, 1);
         waitBeforeAnimDuration = waitBefore;
         animDuration = duration;
         impulseForce = impulse;
+        blastForce = force;
     }
 
     public override void Enter()
@@ -42,6 +44,21 @@ public class EnemyStateAttack : EnemyState
 
     public override EEnemyState UpdateState(float deltaTime)
     {
+        if (enemy.HasAttackedPlayer)
+        {
+            animation.Kill();
+
+            Rigidbody rb = enemy.Player.GetComponentInChildren<Rigidbody>();
+            if (rb)
+            {
+                Vector3 force = enemy.transform.forward;
+                force *= blastForce;
+                rb.AddForce(force, ForceMode.VelocityChange);
+            }
+            
+            return EEnemyState.RECOVER_ATTACK;
+        }
+
         if (animationFinished)
             return EEnemyState.RECOVER_ATTACK;
 
@@ -50,6 +67,7 @@ public class EnemyStateAttack : EnemyState
 
     public override void Exit()
     {
+        enemy.Model.transform.localScale = scaleEndValues;
         enemy.StopAttacking();
     }
 }

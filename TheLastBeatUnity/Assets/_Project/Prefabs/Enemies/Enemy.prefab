@@ -788,6 +788,65 @@ Transform:
   m_Father: {fileID: 1301082232849631533}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3638199352634917901
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2943798678271663125}
+  - component: {fileID: 2303970148616486497}
+  - component: {fileID: 7753054266263400909}
+  m_Layer: 8
+  m_Name: AttackHitbox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2943798678271663125
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3638199352634917901}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7484901647461563452}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2303970148616486497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3638199352634917901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f70ad361a7e84d46a7ed185eb686b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInHitbox: 0
+--- !u!136 &7753054266263400909
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3638199352634917901}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.89
+  m_Height: 1
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3884741069040389463
 GameObject:
   m_ObjectHideFlags: 0
@@ -1260,6 +1319,7 @@ Transform:
   - {fileID: 8144842508294378855}
   - {fileID: 1301082232849631533}
   - {fileID: 3802726272459948136}
+  - {fileID: 2943798678271663125}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1311,7 +1371,8 @@ MonoBehaviour:
   prepareAnimDuration: 1.5
   waitBeforeAttackAnim: 0.25
   attackAnimDuration: 0.5
-  attackForce: 15
+  attackAnimDistance: 15
+  attackBlastForce: 50
   attackDamage: 5
   recoverAnimDuration: 1.5
   chancesToGetStunned:
@@ -1330,10 +1391,13 @@ MonoBehaviour:
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: aff16eab68fd46744a00142ce2dfaa3f,
       type: 2}
+  screenDurationHit: 0
+  screenIntensityHit: 0
   ComeBack: 0
   ChaseAgain: 0
   InWanderZone: 0
   Agent: {fileID: 0}
+  HasAttackedPlayer: 0
 --- !u!195 &7956293027968414304
 NavMeshAgent:
   m_ObjectHideFlags: 0

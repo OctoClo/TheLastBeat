@@ -5,11 +5,11 @@ using Sirenix.OdinInspector;
 
 public class EnemyExplosive : Enemy
 {
-    [TabGroup("Behaviour")] [Header("Explode")] [SerializeField]
+    [TabGroup("Behaviour")] [Header("Explode")] [SerializeField] [Tooltip("How much time the enemy will wait before exploding")]
     float waitBeforeExplosionAnim = 0;
-    [TabGroup("Behaviour")] [SerializeField]
+    [TabGroup("Behaviour")] [SerializeField] [Tooltip("How much the explosion will push the player / enemies away if hit")]
     float explosionBlastForce = 0;
-    [TabGroup("Behaviour")] [SerializeField]
+    [TabGroup("Behaviour")] [SerializeField] [Tooltip("How many HP the player will lose if hit")]
     int explosionDamage = 0;
 
     [TabGroup("References")] [SerializeField]

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyWeaponHitbox : MonoBehaviour
+public class EnemyAttackHitbox : MonoBehaviour
 {
     public bool playerInHitbox;
     public bool PlayerInHitbox

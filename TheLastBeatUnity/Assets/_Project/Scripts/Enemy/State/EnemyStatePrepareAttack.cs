@@ -40,4 +40,9 @@ public class EnemyStatePrepareAttack : EnemyState
         
         return stateEnum;
     }
+
+    public override void Exit()
+    {
+        enemy.Model.transform.localScale = scaleEndValues;
+    }
 }

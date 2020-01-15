@@ -27,8 +27,10 @@ public class Enemy : MonoBehaviour
     [TabGroup("Behaviour")] [SerializeField] [Tooltip("How long the attack animation will be")]
     protected float attackAnimDuration = 0.5f;
     [TabGroup("Behaviour")] [SerializeField] [Tooltip("How much the enemy will dive towards the player")]
-    protected float attackForce = 4;
-    [TabGroup("Behaviour")] [SerializeField] [Tooltip("How many pulse intensity the player will lose if hit")]
+    protected float attackAnimDistance = 4;
+    [TabGroup("Behaviour")] [SerializeField] [Tooltip("How much the enemy will push the player away if hit")]
+    protected float attackBlastForce = 20;
+    [TabGroup("Behaviour")] [SerializeField] [Tooltip("How many HP the player will lose if hit")]
     protected int attackDamage = 5;
     [TabGroup("Behaviour")] [Header("Recover")] [SerializeField] [Tooltip("How much time the enemy will wait after an attack")]
     protected float recoverAnimDuration = 2;
@@ -52,16 +54,15 @@ public class Enemy : MonoBehaviour
 
     [TabGroup("Feedback")] [SerializeField]
     float screenDurationHit = 0;
-
     [TabGroup("Feedback")] [SerializeField]
     float screenIntensityHit = 0;
 
     public Material Material { get; private set; }
-    Collider collid;
     public EnemyWeaponHitbox WeaponHitbox { get; private set; }
     public EnemyDetectionZone DetectionZone { get; private set; }
     public EnemyWanderZone WanderZone { get; private set; }
     public Player Player { get; private set; }
+    EnemyAttackHitbox AttackHitbox;
 
     // States
     protected Dictionary<EEnemyState, EnemyState> states;
@@ -78,15 +79,17 @@ public class Enemy : MonoBehaviour
 
     // Misc
     EEnemyType type = EEnemyType.DEFAULT;
+    Collider collid;
     bool isTarget = false;
     bool isAttacking = false;
-    bool hasAlreadyAttacked = false;
+    public bool HasAttackedPlayer = false;
 
     private void Awake()
     {
         modelMeshRenderer = Model.GetComponent<MeshRenderer>();
         Material = modelMeshRenderer.material;
         WeaponHitbox = GetComponentInChildren<EnemyWeaponHitbox>();
+        AttackHitbox = GetComponentInChildren<EnemyAttackHitbox>();
         collid = GetComponent<Collider>();
         Agent = GetComponent<NavMeshAgent>();
         Agent.speed = speed;
@@ -118,7 +121,7 @@ public class Enemy : MonoBehaviour
         states.Add(EEnemyState.WANDER, new EnemyStateWander(this, waitBeforeNextMove));
         states.Add(EEnemyState.CHASE, new EnemyStateChase(this));
         states.Add(EEnemyState.PREPARE_ATTACK, new EnemyStatePrepareAttack(this, waitBeforePrepareAnim, prepareAnimDuration));
-        states.Add(EEnemyState.ATTACK, new EnemyStateAttack(this, waitBeforeAttackAnim, attackAnimDuration, attackForce));
+        states.Add(EEnemyState.ATTACK, new EnemyStateAttack(this, waitBeforeAttackAnim, attackAnimDuration, attackAnimDistance, attackBlastForce));
         states.Add(EEnemyState.RECOVER_ATTACK, new EnemyStateRecoverAttack(this, recoverAnimDuration));
         states.Add(EEnemyState.COME_BACK, new EnemyStateComeBack(this));
         states.Add(EEnemyState.STUN, new EnemyStateStun(this));
@@ -130,6 +133,12 @@ public class Enemy : MonoBehaviour
         {
             EEnemyState newStateEnum = currentState.UpdateState(Time.deltaTime);
             ChangeState(newStateEnum);
+
+            if (AttackHitbox.PlayerInHitbox && isAttacking && !HasAttackedPlayer)
+            {
+                Player.ModifyPulseValue(attackDamage, true);
+                HasAttackedPlayer = true;
+            }
         }
     }
 
@@ -220,15 +229,15 @@ public class Enemy : MonoBehaviour
 
     public void StartAttacking()
     {
-        isAttacking = true;
-        hasAlreadyAttacked = false;
         collid.isTrigger = true;
+        isAttacking = true;
+        HasAttackedPlayer = false;
     }
 
     public void StopAttacking()
     {
-        isAttacking = false;
         collid.isTrigger = false;
+        isAttacking = false;
     }
 
     public void BeginStun()
@@ -241,15 +250,6 @@ public class Enemy : MonoBehaviour
     {
         stunElements.SetActive(false);
         notStunElements.SetActive(true);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (isAttacking && !hasAlreadyAttacked && other.gameObject.CompareTag("Player"))
-        {
-            Player.ModifyPulseValue(attackDamage, true);
-            hasAlreadyAttacked = true;
-        }
     }
 
     private void OnDestroy()

@@ -861,6 +861,65 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &4249276497986037475
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4681058371219246807}
+  - component: {fileID: 8383119526242654748}
+  - component: {fileID: 7817963091966236076}
+  m_Layer: 8
+  m_Name: AttackHitbox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4681058371219246807
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4249276497986037475}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7484901647461563452}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8383119526242654748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4249276497986037475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f70ad361a7e84d46a7ed185eb686b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInHitbox: 0
+--- !u!136 &7817963091966236076
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4249276497986037475}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 1.16
+  m_Height: 1
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4530586894534398780
 GameObject:
   m_ObjectHideFlags: 0
@@ -1180,6 +1239,7 @@ Transform:
   - {fileID: 8144842508294378855}
   - {fileID: 4683746806868729451}
   - {fileID: 3802726272459948136}
+  - {fileID: 4681058371219246807}
   - {fileID: 8646028832501783119}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -1232,7 +1292,8 @@ MonoBehaviour:
   prepareAnimDuration: 1.5
   waitBeforeAttackAnim: 0.25
   attackAnimDuration: 0.5
-  attackForce: 15
+  attackAnimDistance: 15
+  attackBlastForce: 50
   attackDamage: 5
   recoverAnimDuration: 1.5
   chancesToGetStunned:
@@ -1246,10 +1307,17 @@ MonoBehaviour:
   stunElements: {fileID: 1814748014173155094}
   notStunElements: {fileID: 3492973329284040666}
   Model: {fileID: 7922066115217233574}
+  hitEnemy:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
+  screenDurationHit: 0
+  screenIntensityHit: 0
   ComeBack: 0
   ChaseAgain: 0
   InWanderZone: 0
   Agent: {fileID: 0}
+  HasAttackedPlayer: 0
   waitBeforeExplosionAnim: 1
   explosionBlastForce: 35
   explosionDamage: 10
@@ -1465,7 +1533,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7484901647461563452}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &4959366068669521162
 SphereCollider:
