@@ -11,50 +11,66 @@ public class InputVisualAnimation : Beatable
     [SerializeField]
     GameObject prefabAnimationCorrect;
 
+    [SerializeField]
+    GameObject prefabAnimationPerfect;
+
+    [SerializeField]
+    Color wrong;
+
     Sequence seq;
 
-    GameObject instanceFront = null;
-    GameObject instanceBack = null;
+    Queue<GameObject> allInstances = new Queue<GameObject>();
 
     public override void Beat()
     {
         GameObject instantiatedPrefab = Instantiate(prefabAnimation,transform);
         RectTransform rect = instantiatedPrefab.GetComponent<RectTransform>();
 
-        if (instanceFront == null)
-        {
-            instanceFront = instantiatedPrefab;
-        }
-        else
-        {
-            instanceBack = instantiatedPrefab;
-        }
+        allInstances.Enqueue(instantiatedPrefab);
 
         float timeLeft = (SoundManager.Instance.LastBeat.lastTimeBeat + SoundManager.Instance.LastBeat.beatInterval) - TimeManager.Instance.SampleCurrentTime();
 
         seq = DOTween.Sequence();
         seq.Append(DOTween.To(() => 0, x => rect.localScale = new Vector3(x, x, 1), 1.0f, timeLeft).SetEase(Ease.Linear))
            .Append(instantiatedPrefab.GetComponent<UnityEngine.UI.Image>().DOColor(Color.clear, SoundManager.Instance.Tolerance).SetEase(Ease.Linear))
-           .Insert(0,instantiatedPrefab.GetComponent<UnityEngine.UI.Image>().DOColor(Color.white, timeLeft).SetEase(Ease.Linear))
-           .Insert(timeLeft, DOTween.To(() => 1, x => rect.localScale = new Vector3(x, x, 1), 1.4f, SoundManager.Instance.Tolerance).SetEase(Ease.Linear))
-           .onComplete += () => Purge(instantiatedPrefab);
-        seq.onKill += () => Purge(instantiatedPrefab);
+           .AppendCallback(() =>
+           {
+               if (allInstances.Count > 0)
+                   allInstances.Dequeue();
+           })
+           .Insert(0, instantiatedPrefab.GetComponent<UnityEngine.UI.Image>().DOColor(Color.white, timeLeft).SetEase(Ease.Linear))
+           .Insert(timeLeft, DOTween.To(() => 1, x => rect.localScale = new Vector3(x, x, 1), 1.4f, SoundManager.Instance.Tolerance).SetEase(Ease.Linear));
     }
-
-    void Purge(GameObject obj)
-    {
-        Destroy(obj);
-        instanceFront = instanceBack;
-        instanceBack = null;
-    }
-
     public void CorrectBeat()
     {
+        GameObject gob = allInstances.Dequeue();
+        Vector3 scale = gob.GetComponent<RectTransform>().localScale;
+        Destroy(gob);
         seq.Kill();
-        Vector3 scale = instanceFront.GetComponent<RectTransform>().localScale;
-        Purge(instanceFront);
 
         GameObject instanceAnim = Instantiate(prefabAnimationCorrect, transform);
         instanceAnim.GetComponent<RectTransform>().localScale = scale;
+        Destroy(instanceAnim, 1);
+    }
+    public void WrongBeat()
+    {
+        GameObject gob = allInstances.Dequeue();
+        Vector3 scale = gob.GetComponent<RectTransform>().localScale;
+        seq.Kill();
+        gob.GetComponent<UnityEngine.UI.Image>().color = wrong;
+        gob.GetComponent<UnityEngine.UI.Image>().DOColor(Color.clear, 0.3f);
+        Destroy(gob, 1);
+    }
+
+    public void PerfectBeat()
+    {
+        GameObject gob = allInstances.Dequeue();
+        Vector3 scale = gob.GetComponent<RectTransform>().localScale;
+        Destroy(gob);
+        seq.Kill();
+
+        GameObject instanceAnim = Instantiate(prefabAnimationPerfect, transform);
+        instanceAnim.GetComponent<RectTransform>().localScale = scale;
+        Destroy(instanceAnim, 1);
     }
 }

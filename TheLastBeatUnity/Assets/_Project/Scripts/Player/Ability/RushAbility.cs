@@ -42,8 +42,6 @@ public class RushAbility : Ability
     RaycastHit obstacle;
     RushParams parameters;
     Vector3 direction;
-
-
     public RewindRushAbility RewindRush { get; set; }
 
     public RushAbility(RushParams rp) : base(rp.AttachedPlayer)
@@ -114,6 +112,7 @@ public class RushAbility : Ability
             parameters.OnBeatSound.Post(player.gameObject);
             player.ModifyPulseValue(-healCorrectBeat);
             SceneHelper.Instance.Rumble(parameters.rumbleIntensity, parameters.rumbleDuration);
+            CorrectBeat();
         }
         else
         {
@@ -121,6 +120,7 @@ public class RushAbility : Ability
             RewindRush.MissInput();
             parameters.OffBeatSound.Post(player.gameObject);
             player.ModifyPulseValue(parameters.PulseCost);
+            WrongBeat();
         }
 
         parameters.blinkAbility.ResetCooldown();
