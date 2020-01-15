@@ -162,7 +162,7 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        lifeText.text = lives.ToString() + " PV";
+        lifeText.text = lives.ToString();
 
         if (onRythm)
             StartCoroutine(BlinkBlue());
