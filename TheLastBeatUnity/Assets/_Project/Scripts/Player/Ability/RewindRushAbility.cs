@@ -89,7 +89,6 @@ public class RewindRushAbility : Ability
         currentCooldown = cooldown;
         parameters.RewindState.SetValue();
         player.Status.StartDashing();
-        player.FocusZone.overrideControl = true;
         player.ColliderObject.layer = LayerMask.NameToLayer("Player Dashing");
 
         attackOnRythm = SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT);
@@ -120,8 +119,6 @@ public class RewindRushAbility : Ability
                 goalPosition += direction;
                 seq.AppendCallback(() =>
                 {
-                    player.FocusZone.OverrideCurrentEnemy(enemy);
-                    player.LookAtCurrentTarget();
                     player.Anim.SetRushing(true);
                     SceneHelper.Instance.FreezeFrame(0.1f);
                 });
@@ -149,7 +146,6 @@ public class RewindRushAbility : Ability
         CameraManager.Instance.SetBoolCamera(false, "Rewinding");
         player.Anim.SetRushing(false);
         player.Status.StopDashing();
-        player.FocusZone.overrideControl = false;
         player.gameObject.layer = LayerMask.NameToLayer("Default");
         ResetCombo();
         parameters.NormalState.SetValue();
