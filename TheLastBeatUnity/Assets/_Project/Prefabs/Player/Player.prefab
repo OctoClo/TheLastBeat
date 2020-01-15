@@ -316,12 +316,12 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3489716977114045591}
   serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
+  m_Mass: 50
+  m_Drag: 8
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 2
   m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!136 &4657491567881127649
@@ -351,9 +351,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 12
-  maxRotationPerFrame: 30
-  debugMode: 1
+  rotationSpeed: 8
   holdlessThreshold: 0.7
+  debugMode: 1
   prefabDebug: {fileID: 5677467275973823097, guid: 9d7b9f9210a38a24da8ce1d3a5eaace3,
     type: 3}
   blinkParameters:
@@ -439,8 +439,10 @@ MonoBehaviour:
     screenShakeIntensity: 1
     rumbleIntensity: 10
     rumbleDuration: 0.4
-  LoseLifeOnAbilities: 1
   delegateColl: {fileID: 946689486}
+  healthSystem: {fileID: 0}
+  pyr: {fileID: 2872187011401476631}
+  visualPart: {fileID: 2086426542783193144}
   stopEvent:
     idInternal: 0
     valueGuidInternal: 
@@ -451,11 +453,9 @@ MonoBehaviour:
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 434b8e2fbb0f0e347a8b82bedc35565d,
       type: 2}
+  LoseLifeOnAbilities: 1
   Anim: {fileID: 0}
   ColliderObject: {fileID: 0}
-  healthSystem: {fileID: 0}
-  visualPart: {fileID: 2086426542783193144}
-  pyr: {fileID: 2872187011401476631}
 --- !u!114 &75586183539498471
 MonoBehaviour:
   m_ObjectHideFlags: 0

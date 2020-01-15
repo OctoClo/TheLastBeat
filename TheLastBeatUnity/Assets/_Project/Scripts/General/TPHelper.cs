@@ -7,8 +7,6 @@ using Doozy.Engine;
 public class TPHelper : MonoBehaviour
 {
     [SerializeField]
-    private GameManager gameManager = null;
-    [SerializeField]
     private Player player = null;
     private Transform playerTransform = null;
     [SerializeField]

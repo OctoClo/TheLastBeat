@@ -12,15 +12,19 @@ public class Player : Inputable
 {
     [TabGroup("Movement")] [SerializeField]
     float speed = 7.5f;
+    Vector3 movement = Vector3.zero;
+    Rigidbody rb = null;
     [TabGroup("Movement")] [SerializeField]
-    float maxRotationPerFrame = 30;
-    [SerializeField]
-    bool debugMode = false;
-    [TabGroup("Movement")][Range(0,1)][SerializeField]
-    float holdlessThreshold = 0.7f;
-
+    float rotationSpeed = 8;
+    Vector3 lookVector = Vector3.zero;
+    Vector3 rotation = Vector3.zero;
+    Quaternion deltaRotation = Quaternion.identity;
     public Vector3 CurrentDirection { get; set; }
 
+    [TabGroup("Movement")] [Range(0, 1)] [SerializeField]
+    float holdlessThreshold = 0.7f;
+    [TabGroup("Movement")] [SerializeField]
+    bool debugMode = false;
     [TabGroup("Movement")] [SerializeField]
     GameObject prefabDebug = null;
     GameObject instantiatedDebug;
@@ -30,47 +34,36 @@ public class Player : Inputable
 
     [TabGroup("Blink")] [SerializeField]
     BlinkParams blinkParameters = null;
-
-    [TabGroup("Rush")][SerializeField]
+    [TabGroup("Rush")] [SerializeField]
     RushParams rushParameters = null;
-
-    [TabGroup("Rush")][SerializeField]
+    [TabGroup("Rush")] [SerializeField]
     RewindRushParameters rushRewindParameters = null;
+    Dictionary<EInputAction, Ability> abilities = new Dictionary<EInputAction, Ability>();
+
+    [TabGroup("References")] [SerializeField]
+    DelegateCollider delegateColl = null;
+    public DelegateCollider DelegateColl => delegateColl;
+    [TabGroup("References")] [SerializeField]
+    Health healthSystem = null;
+    [TabGroup("References")] [SerializeField]
+    Pyramid pyr;
+    [TabGroup("References")] [SerializeField]
+    Transform visualPart = null;
+    public Transform VisualPart => visualPart;
+    public Transform CurrentFootOnGround { get; private set; }
+    [TabGroup("References")] [SerializeField]
+    AK.Wwise.Event stopEvent = null;
+    [TabGroup("References")] [SerializeField]
+    AK.Wwise.Event hitPlayer = null;
 
     [HideInInspector]
     public bool LoseLifeOnAbilities = true;
-
-    [TabGroup("Other")][SerializeField]
-    DelegateCollider delegateColl =null;
-    public DelegateCollider DelegateColl => delegateColl;
-
-    [SerializeField]
-    AK.Wwise.Event stopEvent = null;
-
-    [SerializeField]
-    AK.Wwise.Event hitPlayer = null;
-
     [HideInInspector]
     public PlayerStatus Status { get; private set; }
     [HideInInspector]
     public PlayerAnim Anim = null;
     [HideInInspector]
     public GameObject ColliderObject = null;
-
-    [SerializeField]
-    Health healthSystem = null;
-
-    [SerializeField]
-    Transform visualPart = null;
-    public Transform VisualPart => visualPart;
-    public Transform CurrentFootOnGround { get; private set; }
-
-    Dictionary<EInputAction, Ability> abilities = new Dictionary<EInputAction, Ability>();
-    IReadOnlyDictionary<EInputAction, Ability> Abilities => abilities;
-
-    [SerializeField]
-    Pyramid pyr;
-
     public Collider CurrentTarget => pyr.NearestEnemy;
 
     public void SetFoot(Transform trsf)
@@ -80,11 +73,13 @@ public class Player : Inputable
 
     private void Start()
     {
-        blinkParameters.AttachedPlayer = rushParameters.AttachedPlayer = rushRewindParameters.AttachedPlayer = this;
         Status = GetComponent<PlayerStatus>();
         Anim = GetComponent<PlayerAnim>();
         ColliderObject = GetComponent<CapsuleCollider>().gameObject;
+        rb = GetComponent<Rigidbody>();
+        healthSystem.Player = this;
 
+        blinkParameters.AttachedPlayer = rushParameters.AttachedPlayer = rushRewindParameters.AttachedPlayer = this;
         BlinkAbility blink = new BlinkAbility(blinkParameters);
         abilities.Add(EInputAction.BLINK, blink);
 
@@ -94,35 +89,22 @@ public class Player : Inputable
 
         RewindRushAbility rewindRush = new RewindRushAbility(rushRewindParameters);
         abilities.Add(EInputAction.REWINDRUSH, rewindRush);
-
         rush.RewindRush = rewindRush;
-        healthSystem.Player = this;
 
         if (SceneHelper.DeathCount > 0)
-        {
             SceneHelper.Instance.Respawn(transform);
-        }
 
         if (debugMode)
-        {
             instantiatedDebug = Instantiate(prefabDebug);
-        }
     }
 
     public override void ProcessInput(Rewired.Player player)
     {
-        Vector3 direction = new Vector3(player.GetAxis("MoveX"), 0, player.GetAxis("MoveY"));
-        CurrentDirection = direction;
-        Anim.SetMovement(direction);
+        // Direction Inputs
+        CurrentDirection = new Vector3(player.GetAxis("MoveX"), 0, player.GetAxis("MoveY"));
+        Anim.SetMovement(CurrentDirection);
 
-        if (direction != Vector3.zero)
-        {
-            Vector3 lookVector = direction;
-            lookVector.Normalize();
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(lookVector), maxRotationPerFrame);
-        }
-
-        // Movement and abilities
+        // Abilities Inputs
         if (!Status.Dashing)
         {
             Ability ability = null;
@@ -133,12 +115,6 @@ public class Player : Inputable
                 {
                     ability.Launch();
                 }
-            }
-
-            if (ability == null)
-            {
-                Vector3 movement = direction * Time.deltaTime * speed;
-                transform.Translate(movement, Space.World);
             }
         }
 
@@ -162,6 +138,21 @@ public class Player : Inputable
                 pyr.gameObject.GetComponent<Collider>().enabled = false;
                 pyr.Purge();
             }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (!BlockInput && CurrentDirection != Vector3.zero)
+        {
+            // Rotation
+            rotation = new Vector3(0, Vector3.SignedAngle(transform.forward, CurrentDirection, Vector3.up), 0);
+            deltaRotation = Quaternion.Euler(rotation * Time.deltaTime * rotationSpeed);
+            rb.MoveRotation(rb.rotation * deltaRotation);
+
+            // Movement
+            movement = CurrentDirection * speed;
+            rb.velocity = movement;
         }
     }
 
@@ -216,12 +207,7 @@ public class Player : Inputable
         foreach (KeyValuePair<EInputAction, Ability> abilityPair in abilities)
             abilityPair.Value.Update(Time.deltaTime);
 
-
-        //Need remove
-        if (Input.GetKeyDown(KeyCode.K))
-            Die();
-
-        if(Status.Dashing && CurrentTarget)
+        if (Status.Dashing && CurrentTarget)
         {
             Vector3 positionToLook = new Vector3(CurrentTarget.transform.position.x, transform.position.y, CurrentTarget.transform.position.z);
             pyr.transform.LookAt(positionToLook);

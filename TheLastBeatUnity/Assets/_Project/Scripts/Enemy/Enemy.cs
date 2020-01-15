@@ -82,6 +82,7 @@ public class Enemy : MonoBehaviour
     Collider collid;
     bool isTarget = false;
     bool isAttacking = false;
+    [HideInInspector]
     public bool HasAttackedPlayer = false;
 
     private void Awake()
