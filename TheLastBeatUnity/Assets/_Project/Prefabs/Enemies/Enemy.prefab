@@ -1364,14 +1364,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e047a9a15e32c19469369946a981b86c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
+  speed: 7
   maxLives: 5
   waitBeforeNextMove: {x: 1, y: 3}
-  waitBeforePrepareAnim: 0.2
-  prepareAnimDuration: 0.5
-  waitBeforeAttackAnim: 0.25
+  waitBeforePrepareAnim: 0
+  prepareAnimDuration: 0.3
+  waitBeforeAttackAnim: 0.2
   attackAnimDuration: 0.5
-  attackAnimDistance: 15
+  attackAnimDistance: 10
   attackBlastForce: 6
   attackDamage: 10
   recoverAnimDuration: 1.5
@@ -1408,7 +1408,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 7484901647461563443}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 1.75
+  m_Radius: 2.7
   m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 50
