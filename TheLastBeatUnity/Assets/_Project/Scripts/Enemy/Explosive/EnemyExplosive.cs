@@ -5,6 +5,13 @@ using Sirenix.OdinInspector;
 
 public class EnemyExplosive : Enemy
 {
+    [TabGroup("Behaviour")] [Header("Explode")] [SerializeField]
+    float waitBeforeExplosionAnim = 0;
+    [TabGroup("Behaviour")] [SerializeField]
+    float explosionBlastForce = 0;
+    [TabGroup("Behaviour")] [SerializeField]
+    int explosionDamage = 0;
+
     [TabGroup("References")] [SerializeField]
     EnemyExplosionArea explosionArea = null;
     [TabGroup("References")] [SerializeField]
@@ -12,12 +19,12 @@ public class EnemyExplosive : Enemy
 
     protected override void CreateStates()
     {
-        states.Add(EEnemyState.WANDER, new EnemyStateWander(this, waitBeforeNextMove));
-        states.Add(EEnemyState.CHASE, new EnemyStateChase(this));
-        states.Add(EEnemyState.PREPARE_ATTACK, new EnemyStatePrepareAttack(this, waitBeforePrepareAnim, prepareAnimDuration));
-        states.Add(EEnemyState.ATTACK, new EnemyStateExplode(this, waitBeforeAttackAnim, attackForce, attackDamage, explosionPrefab, explosionArea));
-        states.Add(EEnemyState.RECOVER_ATTACK, new EnemyStateRecoverAttack(this, recoverAnimDuration));
-        states.Add(EEnemyState.COME_BACK, new EnemyStateComeBack(this));
-        states.Add(EEnemyState.STUN, new EnemyStateStun(this));
+        base.CreateStates();
+        states.Add(EEnemyState.EXPLODE, new EnemyStateExplode(this, waitBeforeExplosionAnim, explosionBlastForce, explosionDamage, explosionPrefab, explosionArea));
+    }
+
+    public override void StartDying()
+    {
+        ChangeState(EEnemyState.EXPLODE);
     }
 }

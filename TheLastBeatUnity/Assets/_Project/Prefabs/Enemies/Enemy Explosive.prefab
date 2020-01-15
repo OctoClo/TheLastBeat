@@ -1225,13 +1225,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 260566299c24b7f4ebe2b19f8cf600fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedMinMax: {x: 7, y: 9}
+  speed: 8
   maxLives: 10
   waitBeforeNextMove: {x: 1, y: 3}
   waitBeforePrepareAnim: 0.5
   prepareAnimDuration: 1.5
   waitBeforeAttackAnim: 0.25
-  attackAnimDuration: 3
+  attackAnimDuration: 0.5
   attackForce: 15
   attackDamage: 5
   recoverAnimDuration: 1.5
@@ -1250,6 +1250,9 @@ MonoBehaviour:
   ChaseAgain: 0
   InWanderZone: 0
   Agent: {fileID: 0}
+  waitBeforeExplosionAnim: 1
+  explosionBlastForce: 35
+  explosionDamage: 10
   explosionArea: {fileID: 8494787692734404405}
   explosionPrefab: {fileID: 100010, guid: 031d08f52af1daa4f929b85221519426, type: 3}
 --- !u!195 &7956293027968414304
@@ -1489,3 +1492,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbfc87ddca5be9149bdd2a4d0154c784, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ExplosionFinished: 0

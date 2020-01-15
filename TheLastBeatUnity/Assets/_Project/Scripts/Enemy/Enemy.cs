@@ -134,7 +134,7 @@ public class Enemy : MonoBehaviour
         lives--;
         if (lives == 0)
         {
-            Die();
+            StartDying();
             return;
         }
 
@@ -154,13 +154,18 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public virtual void StartDying()
+    {
+        Die();
+    }
+
     public void Die()
     {
         EventManager.Instance.Raise(new EnemyDeadEvent { enemy = this });
         Destroy(gameObject);
     }
 
-    void ChangeState(EEnemyState newStateEnum)
+    protected void ChangeState(EEnemyState newStateEnum)
     {
         EnemyState newState;
         if (newStateEnum != CurrentStateEnum && states.TryGetValue(newStateEnum, out newState))

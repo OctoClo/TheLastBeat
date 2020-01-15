@@ -14,7 +14,7 @@ public class EnemyStateExplode : EnemyState
 
     public EnemyStateExplode(Enemy newEnemy, float waitBefore, float force, int damage, GameObject newExplosionPrefab, EnemyExplosionArea newExplosionArea) : base(newEnemy)
     {
-        stateEnum = EEnemyState.ATTACK;
+        stateEnum = EEnemyState.EXPLODE;
 
         waitBeforeExplosion = waitBefore;
         blastForce = force;
