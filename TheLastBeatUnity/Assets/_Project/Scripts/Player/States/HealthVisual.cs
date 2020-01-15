@@ -37,12 +37,14 @@ public class HealthVisual
     Vector3 normalSize = Vector3.zero;
     bool isChangingColor = false;
     Color flameColor = Color.black;
+    Sprite sprtStart = null;
 
     public HealthVisual(VisualParams vp)
     {
         visualParams = vp;
         normalSize = visualParams.flameTransform.localScale;
         flameColor = visualParams.flameImage.color;
+        sprtStart = visualParams.riftAnimator.GetComponent<UnityEngine.UI.Image>().sprite;
     }
 
     public void HurtAnimationUI()
@@ -102,6 +104,14 @@ public class HealthVisual
 
     public void SetRiftAnimation(int index)
     {
+        if (index == 0)
+        {
+            visualParams.riftAnimator.enabled = false;
+            visualParams.riftAnimator.GetComponent<UnityEngine.UI.Image>().sprite = sprtStart;
+            return;
+        }
+
+        visualParams.riftAnimator.enabled = true;
         visualParams.riftAnimator.SetInteger("indexState", index);
     }
 
@@ -111,6 +121,9 @@ public class HealthVisual
         visualParams.barImage.DOColor(currentColor, 0.25f);
         visualParams.backgroundImage.DOColor(currentColor, 0.25f);
         DOTween.To(() => visualParams.barImage.fillAmount, x => visualParams.barImage.fillAmount = x, ratio, visualParams.timeLifeTransition).SetEase(visualParams.curveTransition);
+
+        if (ratio > visualParams.ratioRiftStep1)
+            SetRiftAnimation(0);
 
         if (ratio < visualParams.ratioRiftStep1 && ratio > visualParams.ratioRiftStep2)
             SetRiftAnimation(1);
