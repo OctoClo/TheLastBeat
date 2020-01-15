@@ -42,7 +42,7 @@ public class RushAbility : Ability
     RaycastHit obstacle;
     RushParams parameters;
     Vector3 direction;
-
+    GameObject target;
 
     public RewindRushAbility RewindRush { get; set; }
 
@@ -70,7 +70,7 @@ public class RushAbility : Ability
 
     void ImpactEffect(Collider coll)
     {
-        if (coll && coll.gameObject == player.CurrentTarget.gameObject)
+        if (coll && coll.gameObject == target)
         {
             SceneHelper.Instance.FreezeFrame(0.05f);
 
@@ -79,14 +79,17 @@ public class RushAbility : Ability
                 ce.StartScreenShake(parameters.durationScreenShake, parameters.intensityScreenShake);
             }
 
-            player.CurrentTarget.GetComponent<Enemy>().GetAttacked(attackOnRythm);
+            target.GetComponent<Enemy>().GetAttacked(attackOnRythm);
+            if (!target)
+                return;
+
             if (RewindRush != null)
             {
-                RewindRush.AddChainEnemy(player.CurrentTarget.GetComponent<Enemy>());
+                RewindRush.AddChainEnemy(target.GetComponent<Enemy>());
             }
 
             //VFX
-            List<Vector3> frontAndBack = SceneHelper.Instance.RayCastBackAndForth(player.CurrentTarget.GetComponent<Collider>(), player.transform.position, direction, direction.magnitude);
+            List<Vector3> frontAndBack = SceneHelper.Instance.RayCastBackAndForth(target.GetComponent<Collider>(), player.transform.position, direction, direction.magnitude);
             if (frontAndBack.Count >= 2)
             {
                 GameObject front = GameObject.Instantiate(parameters.frontDash, frontAndBack[0], Quaternion.identity);
@@ -109,6 +112,7 @@ public class RushAbility : Ability
     void Rush()
     {
         CameraManager.Instance.SetBoolCamera(true, "FOV");
+        target = player.CurrentTarget.gameObject;
         if (SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT))
         {
             parameters.OnBeatSound.Post(player.gameObject);
@@ -135,7 +139,8 @@ public class RushAbility : Ability
             CreateStartMark(player.transform.forward);
 
         Sequence seq = DOTween.Sequence();
-        direction = new Vector3(player.CurrentTarget.transform.position.x, player.transform.position.y, player.CurrentTarget.transform.position.z) - player.transform.position;
+        direction = new Vector3(target.transform.position.x, player.transform.position.y, target.transform.position.z) - player.transform.position;
+        player.transform.forward = direction;
         GetObstacleOnDash(direction);
 
         // Dash towards the target
