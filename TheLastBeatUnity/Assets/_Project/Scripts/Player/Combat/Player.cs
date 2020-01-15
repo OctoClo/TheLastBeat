@@ -14,8 +14,16 @@ public class Player : Inputable
     float speed = 7.5f;
     [TabGroup("Movement")] [SerializeField]
     float maxRotationPerFrame = 30;
+    [SerializeField]
+    bool debugMode = false;
+    [TabGroup("Movement")][Range(0,1)][SerializeField]
+    float holdlessThreshold = 0.7f;
 
     public Vector3 CurrentDirection { get; set; }
+
+    [TabGroup("Movement")] [SerializeField]
+    GameObject prefabDebug = null;
+    GameObject instantiatedDebug;
 
     //If you are doing something (dash , attack animation, etc...) or if game paused, temporary block input
     public override bool BlockInput => (blockInput || Status.Dashing || Status.Stunned || Status.Blinking);
@@ -57,10 +65,10 @@ public class Player : Inputable
     Dictionary<EInputAction, Ability> abilities = new Dictionary<EInputAction, Ability>();
     IReadOnlyDictionary<EInputAction, Ability> Abilities => abilities;
 
-    [HideInInspector]
-    public FocusZone FocusZone = null;
+    [SerializeField]
+    Pyramid pyr;
 
-    public Enemy CurrentTarget { get; private set; }
+    public Transform CurrentTarget => pyr.NearestEnemy != null ? pyr.NearestEnemy.transform : null;
 
     public void SetFoot(Transform trsf)
     {
@@ -72,8 +80,6 @@ public class Player : Inputable
         blinkParameters.AttachedPlayer = rushParameters.AttachedPlayer = rushRewindParameters.AttachedPlayer = this;
         Status = GetComponent<PlayerStatus>();
         Anim = GetComponent<PlayerAnim>();
-        FocusZone = GetComponentInChildren<FocusZone>();
-        FocusZone.playerStatus = Status;
         ColliderObject = GetComponent<CapsuleCollider>().gameObject;
 
         BlinkAbility blink = new BlinkAbility(blinkParameters);
@@ -93,6 +99,11 @@ public class Player : Inputable
         {
             SceneHelper.Instance.Respawn(transform);
         }
+
+        if (debugMode)
+        {
+            instantiatedDebug = Instantiate(prefabDebug);
+        }
     }
 
     public override void ProcessInput(Rewired.Player player)
@@ -101,8 +112,6 @@ public class Player : Inputable
         CurrentDirection = direction;
         Anim.SetMovement(direction);
 
-        // Look at
-        LookAtCurrentTarget();
         if (!CurrentTarget && direction != Vector3.zero)
         {
             Vector3 lookVector = direction;
@@ -129,15 +138,24 @@ public class Player : Inputable
                 transform.Translate(movement, Space.World);
             }
         }
-    }
 
-    public void LookAtCurrentTarget()
-    {
-        CurrentTarget = FocusZone.GetCurrentTarget();
-        if (CurrentTarget)
+        Vector3 directionLook = new Vector3(player.GetAxis("FocusX"), 0, player.GetAxis("FocusY"));
+        if (directionLook.magnitude > holdlessThreshold)
+        { 
+            pyr.gameObject.SetActive(true);
+            pyr.transform.forward = new Vector3(directionLook.x, 0, directionLook.z);
+        }
+        else
         {
-            Vector3 lookVector = new Vector3(CurrentTarget.transform.position.x, transform.position.y, CurrentTarget.transform.position.z) - transform.position;
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(lookVector), 360);
+            if (CurrentTarget != null)
+            {
+                Vector3 positionToLook = new Vector3(CurrentTarget.position.x, transform.position.y, CurrentTarget.position.z);
+                pyr.transform.LookAt(positionToLook);
+            }
+            else
+            {
+                pyr.gameObject.SetActive(false);
+            }
         }
     }
 
@@ -196,6 +214,19 @@ public class Player : Inputable
         //Need remove
         if (Input.GetKeyDown(KeyCode.K))
             Die();
+
+        if (debugMode)
+        {
+            if (CurrentTarget != null)
+            {
+                instantiatedDebug.SetActive(true);
+                instantiatedDebug.transform.position = CurrentTarget.transform.position + Vector3.up;
+            }
+            else
+            {
+                instantiatedDebug.SetActive(false);
+            }
+        }
     }
 
     IEnumerator currentHurt;
@@ -248,10 +279,5 @@ public class Player : Inputable
                 yield return null;
             }
         }
-    }
-
-    public Enemy GetCurrentTarget()
-    {
-        return FocusZone.GetCurrentTarget();
     }
 }

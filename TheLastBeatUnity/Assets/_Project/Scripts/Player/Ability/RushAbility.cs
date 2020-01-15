@@ -79,10 +79,10 @@ public class RushAbility : Ability
                 ce.StartScreenShake(parameters.durationScreenShake, parameters.intensityScreenShake);
             }
 
-            player.CurrentTarget.GetAttacked(attackOnRythm);
+            player.CurrentTarget.GetComponent<Enemy>().GetAttacked(attackOnRythm);
             if (RewindRush != null)
             {
-                RewindRush.AddChainEnemy(player.CurrentTarget);
+                RewindRush.AddChainEnemy(player.CurrentTarget.GetComponent<Enemy>());
             }
 
             //VFX
