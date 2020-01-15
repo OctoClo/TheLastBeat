@@ -20,15 +20,15 @@ public class Rock : Beatable
     {
         base.Start();
         mat = GetComponent<MeshRenderer>().material;
-        originValue = 1.5f;
+        originValue = 0;
         col = mat.GetVector("_EmissionColor");
     }
 
     public override void Beat()
     {
         currentSequence = DOTween.Sequence();
-        currentSequence.Append(DOTween.To(() => originValue, x => mat.SetVector("_EmissionColor", col * x), targetValue, sequenceDuration / 2.0f).SetEase(curve));
-        currentSequence.Append(DOTween.To(() => targetValue, x => mat.SetVector("_EmissionColor", col * x), originValue, sequenceDuration / 2.0f).SetEase(curve));
+        currentSequence.Append(DOTween.To(() => originValue, x => mat.SetVector("_EmissionColor", Color.white * x), targetValue, sequenceDuration / 2.0f).SetEase(curve));
+        currentSequence.Append(DOTween.To(() => targetValue, x => mat.SetVector("_EmissionColor", Color.white * x), originValue, sequenceDuration / 2.0f).SetEase(curve));
         currentSequence.Play();
     }
 }

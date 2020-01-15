@@ -25,6 +25,7 @@ public class SoundManager : MonoBehaviour
 
     [SerializeField]
     float tolerance = 0;
+    public float Tolerance => tolerance;
 
     [SerializeField]
     float visualDelay = 0;
