@@ -46,37 +46,50 @@ public class Pyramid : MonoBehaviour
         if (potentialCollisions.Contains(other))
         {
             potentialCollisions.Remove(other);
-            if (insideCone.Contains(other))
-            {
-                insideCone.Remove(other);
-            }
             
-            if (NearestEnemy == other)
-            {
-                NearestEnemy = null;
-            }
+        }
+
+        if (insideCone.Contains(other))
+            insideCone.Remove(other);
+
+        if (NearestEnemy == other)
+        {
+            NearestEnemy = null;
         }
     }
 
     private void Update()
     {
         CheckOverlap();
-        if (NearestEnemy && (!IsInsideCone(NearestEnemy.transform.position) || !potentialCollisions.Contains(NearestEnemy)))
-        {
-            NearestEnemy = null;
-        }
     }
 
     void CheckOverlap()
     {
-        insideCone.Clear();
+        insideCone = insideCone.Where(x => x != null).ToList();
         foreach (Collider coll in potentialCollisions)
         {
-            if (coll && IsInsideCone(coll.transform.position))
+            if (coll)
             {
-                insideCone.Add(coll);
+                if (IsInsideCone(coll.transform.position) && potentialCollisions.Contains(coll) && !insideCone.Contains(coll))
+                {
+                    insideCone.Add(coll);
+                }
+                
+                if (!IsInsideCone(coll.transform.position))
+                {
+                    insideCone.Remove(coll);
+                    if (NearestEnemy == coll)
+                        NearestEnemy = null;
+                }
             }
         }
+    }
+
+    public void Purge()
+    {
+        potentialCollisions.Clear();
+        insideCone.Clear();
+        NearestEnemy = null;
     }
 
     void OnDrawGizmos()
@@ -101,18 +114,6 @@ public class Pyramid : MonoBehaviour
         return false;
     }
 
-    public void SetDirection(Vector3 newDirection)
-    {
-        direction = newDirection;
-        RecomputePositions();
-    }
-
-    public void SetPosition(Vector3 newPosition)
-    {
-        position = newPosition;
-        RecomputePositions();
-    }
-
     public void DebugDraw()
     {
         direction = transform.forward;
@@ -123,20 +124,20 @@ public class Pyramid : MonoBehaviour
         Debug.DrawLine(position, left, Color.red);
     }
 
-    void RecomputePositions()
+    public void RecomputePositions()
     {
         direction = transform.forward;
         position = transform.position;
 
         BoxCollider.center = Vector3.forward * length * 0.5f;
         float dist = Vector3.Distance(right, center) * 2;
-        BoxCollider.size = new Vector3(dist, 10, length);
+        BoxCollider.size = new Vector3(dist, dist, length);
     }
 
     public void RecomputeNearest()
     {
         IEnumerable<Collider> result = insideCone.OrderBy(x => Vector3.Distance(position, x.transform.position));
-        if (result.Count() == 0)
+        if (result.Count() == 0 || potentialCollisions.Count == 0)
             NearestEnemy = null;
         else
             NearestEnemy = result.First();

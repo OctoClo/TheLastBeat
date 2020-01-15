@@ -68,7 +68,7 @@ public class Player : Inputable
     [SerializeField]
     Pyramid pyr;
 
-    public Transform CurrentTarget => pyr.NearestEnemy != null ? pyr.NearestEnemy.transform : null;
+    public Collider CurrentTarget => pyr.NearestEnemy;
 
     public void SetFoot(Transform trsf)
     {
@@ -141,21 +141,23 @@ public class Player : Inputable
 
         Vector3 directionLook = new Vector3(player.GetAxis("FocusX"), 0, player.GetAxis("FocusY"));
         if (directionLook.magnitude > holdlessThreshold)
-        { 
-            pyr.gameObject.SetActive(true);
+        {
+            pyr.gameObject.GetComponent<Collider>().enabled = true;
             pyr.transform.forward = new Vector3(directionLook.x, 0, directionLook.z);
             pyr.RecomputeNearest();
+            pyr.RecomputePositions();
         }
         else
         {
             if (CurrentTarget != null)
             {
-                Vector3 positionToLook = new Vector3(CurrentTarget.position.x, transform.position.y, CurrentTarget.position.z);
+                Vector3 positionToLook = new Vector3(CurrentTarget.transform.position.x, transform.position.y, CurrentTarget.transform.position.z);
                 pyr.transform.LookAt(positionToLook);
             }
             else
             {
-                pyr.gameObject.SetActive(false);
+                pyr.gameObject.GetComponent<Collider>().enabled = false;
+                pyr.Purge();
             }
         }
     }
@@ -218,7 +220,7 @@ public class Player : Inputable
 
         if(Status.Dashing && CurrentTarget)
         {
-            Vector3 positionToLook = new Vector3(CurrentTarget.position.x, transform.position.y, CurrentTarget.position.z);
+            Vector3 positionToLook = new Vector3(CurrentTarget.transform.position.x, transform.position.y, CurrentTarget.transform.position.z);
             pyr.transform.LookAt(positionToLook);
         }
 
