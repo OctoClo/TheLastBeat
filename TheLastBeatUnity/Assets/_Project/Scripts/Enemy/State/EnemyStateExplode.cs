@@ -6,8 +6,6 @@ using DG.Tweening;
 public class EnemyStateExplode : EnemyState
 {
     float waitBeforeExplosion = 0;
-    float dieTimer = 0;
-
     float blastForce = 0;
     int blastDamage = 0;
 
