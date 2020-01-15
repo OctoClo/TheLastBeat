@@ -57,7 +57,7 @@ public class Pyramid : MonoBehaviour
         insideCone.Clear();
         foreach (Collider coll in potentialCollisions)
         {
-            if (IsInsideCone(coll.transform.position))
+            if (coll && IsInsideCone(coll.transform.position))
             {
                 insideCone.Add(coll);
             }

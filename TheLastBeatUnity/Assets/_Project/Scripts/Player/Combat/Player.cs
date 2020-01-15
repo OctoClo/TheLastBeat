@@ -215,6 +215,12 @@ public class Player : Inputable
         if (Input.GetKeyDown(KeyCode.K))
             Die();
 
+        if(Status.Dashing && CurrentTarget)
+        {
+            Vector3 positionToLook = new Vector3(CurrentTarget.position.x, transform.position.y, CurrentTarget.position.z);
+            pyr.transform.LookAt(positionToLook);
+        }
+
         if (debugMode)
         {
             if (CurrentTarget != null)
