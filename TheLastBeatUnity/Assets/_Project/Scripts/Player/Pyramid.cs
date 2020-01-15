@@ -43,8 +43,14 @@ public class Pyramid : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<Enemy>())
+        if (potentialCollisions.Contains(other))
+        {
             potentialCollisions.Remove(other);
+            if (insideCone.Contains(other))
+            {
+                insideCone.Remove(other);
+            }        
+        }
     }
 
     private void Update()
