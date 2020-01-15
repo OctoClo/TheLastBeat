@@ -7,7 +7,8 @@ using Doozy.Engine;
 public class TPHelper : MonoBehaviour
 {
     [SerializeField]
-    Transform player = null;
+    Player player = null;
+    Transform playerTransform = null;
     [SerializeField]
     Transform[] TPZones = new Transform[6];
 
@@ -21,6 +22,11 @@ public class TPHelper : MonoBehaviour
     private void OnDisable()
     {
         Message.RemoveListener<GameEventMessage>(OnMessage);
+    }
+
+    private void Start()
+    {
+        playerTransform = player.transform;
     }
 
     private void OnMessage(GameEventMessage message)
@@ -37,8 +43,9 @@ public class TPHelper : MonoBehaviour
 
     private void TPPlayer(Transform zone)
     {
-        player.position = zone.position + Vector3.up;
-        player.forward = zone.forward;
+        player.ModifyPulseValue(-100);
+        playerTransform.position = zone.position + Vector3.up;
+        playerTransform.forward = zone.forward;
     }
 
     private void Update()
