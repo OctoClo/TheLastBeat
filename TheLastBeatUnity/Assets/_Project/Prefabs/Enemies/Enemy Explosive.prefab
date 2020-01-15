@@ -276,8 +276,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1350852660425022129}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.685}
-  m_LocalScale: {x: 1.84, y: 1, z: 7}
+  m_LocalPosition: {x: 0, y: 0, z: 1.45}
+  m_LocalScale: {x: 1.84, y: 1, z: 3.3}
   m_Children: []
   m_Father: {fileID: 7484901647461563452}
   m_RootOrder: 2
@@ -1285,15 +1285,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 260566299c24b7f4ebe2b19f8cf600fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 8
+  speed: 15
   maxLives: 3
   waitBeforeNextMove: {x: 1, y: 3}
-  waitBeforePrepareAnim: 0.5
-  prepareAnimDuration: 1.5
+  waitBeforePrepareAnim: 0.2
+  prepareAnimDuration: 1
   waitBeforeAttackAnim: 0.25
   attackAnimDuration: 0.5
   attackAnimDistance: 15
-  attackBlastForce: 20
+  attackBlastForce: 7
   attackDamage: 5
   recoverAnimDuration: 1.5
   chancesToGetStunned:
