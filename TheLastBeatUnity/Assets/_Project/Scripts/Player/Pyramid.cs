@@ -24,7 +24,7 @@ public class Pyramid : MonoBehaviour
     Vector3 left => position + (Quaternion.AngleAxis(angle / 2.0f, Vector3.up) * direction) * length;
     Vector3 right => position + (Quaternion.AngleAxis(-angle / 2.0f, Vector3.up) * direction) * length;
 
-    public Collider NearestEnemy => insideCone.Count == 0 ? null : insideCone.OrderBy(x => Vector3.Distance(position, x.transform.position)).First();
+    public Collider NearestEnemy { get; private set; }
 
     private void Start()
     {
@@ -56,6 +56,10 @@ public class Pyramid : MonoBehaviour
     private void Update()
     {
         CheckOverlap();
+        if (NearestEnemy && (!IsInsideCone(NearestEnemy.transform.position) || !potentialCollisions.Contains(NearestEnemy)))
+        {
+            NearestEnemy = null;
+        }
     }
 
     void CheckOverlap()
@@ -122,5 +126,15 @@ public class Pyramid : MonoBehaviour
         BoxCollider.center = Vector3.forward * length * 0.5f;
         float dist = Vector3.Distance(right, center) * 2;
         BoxCollider.size = new Vector3(dist, 10, length);
+    }
+
+    public void RecomputeNearest()
+    {
+        insideCone.OrderBy(x => Vector3.Distance(position, x.transform.position)).First();
+        IEnumerable<Collider> result = insideCone.OrderBy(x => Vector3.Distance(position, x.transform.position));
+        if (result.Count() == 0)
+            NearestEnemy = null;
+        else
+            NearestEnemy = result.First();
     }
 }

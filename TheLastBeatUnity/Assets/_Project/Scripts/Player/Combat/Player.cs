@@ -112,7 +112,7 @@ public class Player : Inputable
         CurrentDirection = direction;
         Anim.SetMovement(direction);
 
-        if (!CurrentTarget && direction != Vector3.zero)
+        if (direction != Vector3.zero)
         {
             Vector3 lookVector = direction;
             lookVector.Normalize();
@@ -144,6 +144,7 @@ public class Player : Inputable
         { 
             pyr.gameObject.SetActive(true);
             pyr.transform.forward = new Vector3(directionLook.x, 0, directionLook.z);
+            pyr.RecomputeNearest();
         }
         else
         {
