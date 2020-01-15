@@ -11,28 +11,27 @@ public class EnemyDeadEvent : GameEvent { public Enemy enemy = null; }
 public class Enemy : MonoBehaviour
 {
     [TabGroup("General")] [SerializeField]
-    float speed = 5;
-    public float Speed => speed;
+    float speed = 8f;
     [TabGroup("General")] [SerializeField]
     int maxLives = 10;
     int lives = 10;
 
     [TabGroup("Behaviour")] [Header("Wander")] [SerializeField] [Tooltip("How much time the enemy will wait before going to another spot (random in [x, y]")]
-    Vector2 waitBeforeNextMove = new Vector2(2, 5);
+    protected Vector2 waitBeforeNextMove = new Vector2(2, 5);
     [TabGroup("Behaviour")] [Header("Prepare Attack")] [SerializeField] [Tooltip("How much time the enemy will wait between chasing and prepare attack animation")]
-    float waitBeforePrepareAnim = 0.5f;
+    protected float waitBeforePrepareAnim = 0.5f;
     [TabGroup("Behaviour")] [SerializeField] [Tooltip("How long the prepare attack animation will be")]
-    float prepareAnimDuration = 2;
+    protected float prepareAnimDuration = 2;
     [TabGroup("Behaviour")] [Header("Attack")] [SerializeField] [Tooltip("How much time the enemy will wait between preparing attack animation and attacking animation")]
-    float waitBeforeAttackAnim = 0.25f;
+    protected float waitBeforeAttackAnim = 0.25f;
     [TabGroup("Behaviour")] [SerializeField] [Tooltip("How long the attack animation will be")]
-    float attackAnimDuration = 0.5f;
+    protected float attackAnimDuration = 0.5f;
     [TabGroup("Behaviour")] [SerializeField] [Tooltip("How much the enemy will dive towards the player")]
-    float attackForce = 4;
+    protected float attackForce = 4;
     [TabGroup("Behaviour")] [SerializeField] [Tooltip("How many pulse intensity the player will lose if hit")]
-    int attackDamage = 5;
+    protected int attackDamage = 5;
     [TabGroup("Behaviour")] [Header("Recover")] [SerializeField] [Tooltip("How much time the enemy will wait after an attack")]
-    float recoverAnimDuration = 2;
+    protected float recoverAnimDuration = 2;
     [TabGroup("Behaviour")] [Header("Stun")] [SerializeField] [Range(0.0f, 1.0f)]
     float[] chancesToGetStunned = new float[5];
     int stunCounter = 0;
@@ -45,6 +44,9 @@ public class Enemy : MonoBehaviour
     GameObject stunElements = null;
     [TabGroup("References")] [SerializeField]
     GameObject notStunElements = null;
+    [TabGroup("References")]
+    public GameObject Model = null;
+    MeshRenderer modelMeshRenderer = null;
     [TabGroup("References")] [SerializeField]
     AK.Wwise.Event hitEnemy = null;
 
@@ -62,7 +64,7 @@ public class Enemy : MonoBehaviour
     public Player Player { get; private set; }
 
     // States
-    Dictionary<EEnemyState, EnemyState> states;
+    protected Dictionary<EEnemyState, EnemyState> states;
     public EEnemyState CurrentStateEnum { get; private set; }
     EnemyState currentState;
     [HideInInspector]
@@ -82,10 +84,12 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
-        Material = GetComponent<MeshRenderer>().material;
+        modelMeshRenderer = Model.GetComponent<MeshRenderer>();
+        Material = modelMeshRenderer.material;
         WeaponHitbox = GetComponentInChildren<EnemyWeaponHitbox>();
         collid = GetComponent<Collider>();
         Agent = GetComponent<NavMeshAgent>();
+        Agent.speed = speed;
 
         lives = maxLives;
         lifeText.text = lives.ToString();
@@ -101,18 +105,23 @@ public class Enemy : MonoBehaviour
         if (type == EEnemyType.DEFAULT)
         {
             states = new Dictionary<EEnemyState, EnemyState>();
-            states.Add(EEnemyState.WANDER, new EnemyStateWander(this, waitBeforeNextMove));
-            states.Add(EEnemyState.CHASE, new EnemyStateChase(this));
-            states.Add(EEnemyState.PREPARE_ATTACK, new EnemyStatePrepareAttack(this, waitBeforePrepareAnim, prepareAnimDuration));
-            states.Add(EEnemyState.ATTACK, new EnemyStateAttack(this, waitBeforeAttackAnim, attackAnimDuration, attackForce));
-            states.Add(EEnemyState.RECOVER_ATTACK, new EnemyStateRecoverAttack(this, recoverAnimDuration));
-            states.Add(EEnemyState.COME_BACK, new EnemyStateComeBack(this));
-            states.Add(EEnemyState.STUN, new EnemyStateStun(this));
+            CreateStates();
 
             CurrentStateEnum = EEnemyState.WANDER;
             states.TryGetValue(CurrentStateEnum, out currentState);
             currentState.Enter();
         }
+    }
+
+    virtual protected void CreateStates()
+    {
+        states.Add(EEnemyState.WANDER, new EnemyStateWander(this, waitBeforeNextMove));
+        states.Add(EEnemyState.CHASE, new EnemyStateChase(this));
+        states.Add(EEnemyState.PREPARE_ATTACK, new EnemyStatePrepareAttack(this, waitBeforePrepareAnim, prepareAnimDuration));
+        states.Add(EEnemyState.ATTACK, new EnemyStateAttack(this, waitBeforeAttackAnim, attackAnimDuration, attackForce));
+        states.Add(EEnemyState.RECOVER_ATTACK, new EnemyStateRecoverAttack(this, recoverAnimDuration));
+        states.Add(EEnemyState.COME_BACK, new EnemyStateComeBack(this));
+        states.Add(EEnemyState.STUN, new EnemyStateStun(this));
     }
 
     private void Update()
@@ -122,6 +131,11 @@ public class Enemy : MonoBehaviour
             EEnemyState newStateEnum = currentState.UpdateState(Time.deltaTime);
             ChangeState(newStateEnum);
         }
+    }
+
+    public void GetPushedBack()
+    {
+        ChangeState(EEnemyState.STUN);
     }
 
     public void GetAttacked(bool onRythm)
@@ -135,8 +149,7 @@ public class Enemy : MonoBehaviour
         hitEnemy.Post(gameObject);
         if (lives == 0)
         {
-            EventManager.Instance.Raise(new EnemyDeadEvent { enemy = this });
-            Destroy(gameObject);
+            StartDying();
             return;
         }
 
@@ -156,7 +169,18 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void ChangeState(EEnemyState newStateEnum)
+    public virtual void StartDying()
+    {
+        Die();
+    }
+
+    public void Die()
+    {
+        EventManager.Instance.Raise(new EnemyDeadEvent { enemy = this });
+        Destroy(gameObject);
+    }
+
+    protected void ChangeState(EEnemyState newStateEnum)
     {
         EnemyState newState;
         if (newStateEnum != CurrentStateEnum && states.TryGetValue(newStateEnum, out newState))

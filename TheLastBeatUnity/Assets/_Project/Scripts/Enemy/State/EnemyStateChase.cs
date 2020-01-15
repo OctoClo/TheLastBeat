@@ -17,13 +17,13 @@ public class EnemyStateChase : EnemyState
             return EEnemyState.COME_BACK;
         }
         
-        if (!enemy.WeaponHitbox.PlayerInHitbox)
+        if (enemy.WeaponHitbox.PlayerInHitbox)
         {
-            enemy.Agent.SetDestination(enemy.Player.transform.position);
+            return EEnemyState.PREPARE_ATTACK;
         }
         else
         {
-            return EEnemyState.PREPARE_ATTACK;
+            enemy.Agent.SetDestination(enemy.Player.transform.position);
         }
         
         return stateEnum;

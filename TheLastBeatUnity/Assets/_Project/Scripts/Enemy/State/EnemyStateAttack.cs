@@ -28,15 +28,12 @@ public class EnemyStateAttack : EnemyState
         enemy.StartAttacking();
         animationFinished = false;
 
-        Vector3 goalPos = enemy.Player.transform.position - enemy.transform.position;
-        goalPos.y = 0;
-        goalPos.Normalize();
-        goalPos *= impulseForce;
+        Vector3 goalPos = enemy.transform.forward * impulseForce;
         goalPos += enemy.transform.position;
 
         animation = DOTween.Sequence();
 
-        animation.Insert(waitBeforeAnimDuration, enemy.transform.DOScale(scaleEndValues, animDuration).SetEase(Ease.OutBounce));
+        animation.Insert(waitBeforeAnimDuration, enemy.Model.transform.DOScale(scaleEndValues, animDuration).SetEase(Ease.OutBounce));
         animation.Insert(waitBeforeAnimDuration, enemy.transform.DOMove(goalPos, animDuration).SetEase(Ease.OutBounce));
         animation.AppendCallback(() => animationFinished = true);
 

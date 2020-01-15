@@ -15,6 +15,8 @@ public class SceneHelper : MonoBehaviour
     [SerializeField]
     Transform respawnPlace = null;
 
+    public Transform VfxFolder = null;
+
     [SerializeField]
     AnimationCurve defaultAnimationCurve = null;
 
