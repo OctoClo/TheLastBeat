@@ -49,7 +49,12 @@ public class Pyramid : MonoBehaviour
             if (insideCone.Contains(other))
             {
                 insideCone.Remove(other);
-            }        
+            }
+            
+            if (NearestEnemy == other)
+            {
+                NearestEnemy = null;
+            }
         }
     }
 
@@ -130,7 +135,6 @@ public class Pyramid : MonoBehaviour
 
     public void RecomputeNearest()
     {
-        insideCone.OrderBy(x => Vector3.Distance(position, x.transform.position)).First();
         IEnumerable<Collider> result = insideCone.OrderBy(x => Vector3.Distance(position, x.transform.position));
         if (result.Count() == 0)
             NearestEnemy = null;
