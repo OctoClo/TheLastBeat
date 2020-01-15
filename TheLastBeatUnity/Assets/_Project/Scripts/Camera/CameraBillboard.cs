@@ -17,6 +17,12 @@ public class CameraBillboard : MonoBehaviour
         EventManager.Instance.RemoveListener<ChangeCameraEvent>(OnChangeCameraEvent);
     }
 
+    private void Start()
+    {
+        if (CameraManager.Instance)
+            cam = CameraManager.Instance.LiveCamera;
+    }
+
     void OnChangeCameraEvent(ChangeCameraEvent e)
     {
         cam = CameraManager.Instance.LiveCamera;

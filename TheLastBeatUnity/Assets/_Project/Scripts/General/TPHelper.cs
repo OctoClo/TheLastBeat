@@ -7,12 +7,16 @@ using Doozy.Engine;
 public class TPHelper : MonoBehaviour
 {
     [SerializeField]
-    Player player = null;
-    Transform playerTransform = null;
+    private Player player = null;
+    private Transform playerTransform = null;
     [SerializeField]
-    Transform[] TPZones = new Transform[6];
+    private Transform[] TPZones = new Transform[6];
     [SerializeField]
-    GameObject[] CurrentZones = new GameObject[6];
+    private GameObject[] CurrentZones = new GameObject[6];
+    [SerializeField]
+    private GameObject[] ZonePrefabsToSpawn = new GameObject[6];
+
+    private Vector3[] ZonePositions = new Vector3[6];
 
     bool TPMenu = false;
 
@@ -29,6 +33,11 @@ public class TPHelper : MonoBehaviour
     private void Start()
     {
         playerTransform = player.transform;
+
+        for (int i = 0; i < ZonePositions.Length; i++)
+        {
+            ZonePositions[i] = CurrentZones[i].transform.position;
+        }
     }
 
     private void OnMessage(GameEventMessage message)
@@ -56,7 +65,14 @@ public class TPHelper : MonoBehaviour
     {
         for (int i = 0; i < CurrentZones.Length; i++)
         {
-            CurrentZones[i].SetActive(i == zoneException);
+            if (i == zoneException)
+            {
+                Destroy(CurrentZones[i]);
+                CurrentZones[i] = Instantiate(ZonePrefabsToSpawn[i], ZonePositions[i], Quaternion.identity);
+                continue;
+            }
+
+            CurrentZones[i].SetActive(false);
         }
     }
 
