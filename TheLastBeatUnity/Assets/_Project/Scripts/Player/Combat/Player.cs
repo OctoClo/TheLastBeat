@@ -37,6 +37,9 @@ public class Player : Inputable
     [TabGroup("Rush")][SerializeField]
     RewindRushParameters rushRewindParameters = null;
 
+    [HideInInspector]
+    public bool LoseLifeOnAbilities = true;
+
     [TabGroup("Other")][SerializeField]
     DelegateCollider delegateColl =null;
     public DelegateCollider DelegateColl => delegateColl;

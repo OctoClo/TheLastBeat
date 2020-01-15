@@ -120,7 +120,8 @@ public class RushAbility : Ability
             //Reset CDA cooldown
             RewindRush.MissInput();
             parameters.OffBeatSound.Post(player.gameObject);
-            player.ModifyPulseValue(parameters.PulseCost);
+            if (player.LoseLifeOnAbilities)
+                player.ModifyPulseValue(parameters.PulseCost);
         }
 
         parameters.blinkAbility.ResetCooldown();

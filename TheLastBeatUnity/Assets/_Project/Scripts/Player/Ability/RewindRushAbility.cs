@@ -97,7 +97,7 @@ public class RewindRushAbility : Ability
             player.ModifyPulseValue(-healCorrectBeat);
             SceneHelper.Instance.Rumble(parameters.rumbleIntensity, parameters.rumbleDuration);
         }
-        else
+        else if (player.LoseLifeOnAbilities)
         {
             player.ModifyPulseValue(parameters.PulseCost);
         }

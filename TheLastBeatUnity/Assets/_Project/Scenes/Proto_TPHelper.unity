@@ -1928,6 +1928,18 @@ MonoBehaviour:
   ControllerName: 
   DontDestroyControllerOnLoad: 0
   m_graphModel: {fileID: 11400000, guid: 558018c2577d94c49ab7a48218e63545, type: 2}
+--- !u!114 &1512015025 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1509530214, guid: e0b5776d33d81194499f12bbaf555111,
+    type: 3}
+  m_PrefabInstance: {fileID: 1719755199}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 145157185bdfabd4ea1b9012678987e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1529781466
 GameObject:
   m_ObjectHideFlags: 0
@@ -2744,6 +2756,61 @@ PrefabInstance:
     - target: {fileID: 6513656802348666330, guid: c8beaaa7ef3505849b75ceaef2fc7148,
         type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6457222357081706872, guid: c8beaaa7ef3505849b75ceaef2fc7148,
+        type: 3}
+      propertyPath: OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6457222357081706872, guid: c8beaaa7ef3505849b75ceaef2fc7148,
+        type: 3}
+      propertyPath: OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6457222357081706872, guid: c8beaaa7ef3505849b75ceaef2fc7148,
+        type: 3}
+      propertyPath: OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6457222357081706872, guid: c8beaaa7ef3505849b75ceaef2fc7148,
+        type: 3}
+      propertyPath: OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1512015025}
+    - target: {fileID: 6457222357081706872, guid: c8beaaa7ef3505849b75ceaef2fc7148,
+        type: 3}
+      propertyPath: OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnToggleLoseLife
+      objectReference: {fileID: 0}
+    - target: {fileID: 6457222357081706872, guid: c8beaaa7ef3505849b75ceaef2fc7148,
+        type: 3}
+      propertyPath: OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175944625816201691, guid: c8beaaa7ef3505849b75ceaef2fc7148,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175944625816201691, guid: c8beaaa7ef3505849b75ceaef2fc7148,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175944625816201691, guid: c8beaaa7ef3505849b75ceaef2fc7148,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175944625816201691, guid: c8beaaa7ef3505849b75ceaef2fc7148,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175944625816201691, guid: c8beaaa7ef3505849b75ceaef2fc7148,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

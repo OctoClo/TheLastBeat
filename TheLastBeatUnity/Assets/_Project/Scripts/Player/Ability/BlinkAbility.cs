@@ -70,7 +70,8 @@ public class BlinkAbility : Ability
             }
             else
             {
-                player.ModifyPulseValue(parameters.PulseCost);
+                if (player.LoseLifeOnAbilities)
+                    player.ModifyPulseValue(parameters.PulseCost);
                 parameters.OffBeatSound.Post(player.gameObject);
             }
         });

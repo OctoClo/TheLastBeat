@@ -7,6 +7,8 @@ using Doozy.Engine;
 public class TPHelper : MonoBehaviour
 {
     [SerializeField]
+    private GameManager gameManager = null;
+    [SerializeField]
     private Player player = null;
     private Transform playerTransform = null;
     [SerializeField]
@@ -83,5 +85,10 @@ public class TPHelper : MonoBehaviour
             TPMenu = !TPMenu;
             GameEventMessage.SendEvent("TPMenu");
         }
+    }
+
+    public void OnToggleLoseLife(bool loseLife)
+    {
+        player.LoseLifeOnAbilities = loseLife;
     }
 }
