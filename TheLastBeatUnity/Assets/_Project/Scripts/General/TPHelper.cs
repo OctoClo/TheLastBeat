@@ -11,6 +11,8 @@ public class TPHelper : MonoBehaviour
     Transform playerTransform = null;
     [SerializeField]
     Transform[] TPZones = new Transform[6];
+    [SerializeField]
+    GameObject[] CurrentZones = new GameObject[6];
 
     bool TPMenu = false;
 
@@ -37,7 +39,9 @@ public class TPHelper : MonoBehaviour
         if (message.EventName.Substring(0, 6).Equals("TPZone"))
         {
             int zoneNb = (int)System.Char.GetNumericValue(message.EventName[6]);
-            TPPlayer(TPZones[zoneNb - 1]);
+            zoneNb--;
+            TPPlayer(TPZones[zoneNb]);
+            DeactivateZonesExcept(zoneNb);
         }
     }
 
@@ -46,6 +50,14 @@ public class TPHelper : MonoBehaviour
         player.ModifyPulseValue(-100);
         playerTransform.position = zone.position + Vector3.up;
         playerTransform.forward = zone.forward;
+    }
+
+    private void DeactivateZonesExcept(int zoneException)
+    {
+        for (int i = 0; i < CurrentZones.Length; i++)
+        {
+            CurrentZones[i].SetActive(i == zoneException);
+        }
     }
 
     private void Update()

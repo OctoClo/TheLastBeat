@@ -95,6 +95,11 @@ public class Enemy : MonoBehaviour
         lifeText.text = lives.ToString();
     }
 
+    private void OnEnable()
+    {
+        ChangeState(EEnemyState.WANDER, true);
+    }
+
     public void ZoneInitialize(EEnemyType newType, EnemyWanderZone newWanderZone, EnemyDetectionZone newDetectionZone, Player newPlayer)
     {
         type = newType;
@@ -180,10 +185,10 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
-    protected void ChangeState(EEnemyState newStateEnum)
+    protected void ChangeState(EEnemyState newStateEnum, bool forceChange = false)
     {
         EnemyState newState;
-        if (newStateEnum != CurrentStateEnum && states.TryGetValue(newStateEnum, out newState))
+        if ((newStateEnum != CurrentStateEnum || forceChange) && states != null && states.TryGetValue(newStateEnum, out newState))
         {
             currentState.Exit();
             CurrentStateEnum = newStateEnum;
