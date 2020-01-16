@@ -17,6 +17,8 @@ namespace AK
         static const AkUniqueID PLAY_AMBDESERT = 3681445093U;
         static const AkUniqueID PLAY_BLINKFXOFFBEAT = 3832364417U;
         static const AkUniqueID PLAY_BLINKFXONBEAT = 2655647461U;
+        static const AkUniqueID PLAY_BOUNCE_SHIELD = 5903894U;
+        static const AkUniqueID PLAY_EXPLOSION = 4030404899U;
         static const AkUniqueID PLAY_HIT_ENEMY = 3889018732U;
         static const AkUniqueID PLAY_HIT_PLAYER = 2257378511U;
         static const AkUniqueID PLAY_MUSIC = 2932040671U;
@@ -41,9 +43,8 @@ namespace AK
 
             namespace STATE
             {
-                static const AkUniqueID LEVEL1 = 2678230382U;
-                static const AkUniqueID LEVEL2 = 2678230381U;
-                static const AkUniqueID LEVEL3 = 2678230380U;
+                static const AkUniqueID NORMAL = 1160234136U;
+                static const AkUniqueID PERFECT = 2161557176U;
             } // namespace STATE
         } // namespace FEEDBACKLEVEL
 
