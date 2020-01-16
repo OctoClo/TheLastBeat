@@ -66,8 +66,13 @@ public class BlinkAbility : Ability
                 if (SoundManager.Instance.IsPerfect(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT))
                 {
                     player.ModifyPulseValue(-healCorrectBeat);
+                    PerfectBeat();
                 }
-                CorrectBeat();
+                else
+                {
+                    CorrectBeat();
+                }
+                
                 parameters.OnBeatSound.Post(player.gameObject);
                 SceneHelper.Instance.Rumble(parameters.rumbleIntensity, parameters.rumbleDuration);
             }

@@ -33,7 +33,7 @@ public class InputVisualAnimation : Beatable
         GameObject instantiatedPrefab = Instantiate(prefabAnimation,transform);
         RectTransform rect = instantiatedPrefab.GetComponent<RectTransform>();
 
-        float timeLeft = (SoundManager.Instance.LastBeat.lastTimeBeat + SoundManager.Instance.LastBeat.beatInterval) - TimeManager.Instance.SampleCurrentTime();
+        float timeLeft = SoundManager.Instance.LastBeat.beatInterval;
 
         Sequence seq = DOTween.Sequence();
         seq.Append(DOTween.To(() => 0, x => rect.localScale = new Vector3(x, x, 1), 1.0f, timeLeft).SetEase(Ease.Linear))

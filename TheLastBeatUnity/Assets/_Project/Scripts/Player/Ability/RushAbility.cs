@@ -127,10 +127,14 @@ public class RushAbility : Ability
         if (onRythm)
         {
             parameters.OnBeatSound.Post(player.gameObject);
-            CorrectBeat();
             SceneHelper.Instance.Rumble(parameters.rumbleIntensity, parameters.rumbleDuration);
             if (perfect)
+            {
                 player.ModifyPulseValue(-parameters.HealPerCorrectBeat);
+                PerfectBeat();
+            }
+            else
+                CorrectBeat();
         }
         else
         {
