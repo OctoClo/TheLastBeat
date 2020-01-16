@@ -22,7 +22,7 @@ public abstract class Ability
     protected Player player;
     protected float currentCooldown = 0;
     protected float cooldown = 0;
-    protected float healCorrectBeat;
+    protected float healCorrectBeat = 4;
     InputVisualAnimation visualAnimation;
     public Ability(Player newPlayer)
     {
