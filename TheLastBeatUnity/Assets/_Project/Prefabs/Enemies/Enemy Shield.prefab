@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 6543021738339295281}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.669}
-  m_LocalScale: {x: 1, y: 1, z: 0.049999997}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 0.049999997}
   m_Children: []
   m_Father: {fileID: 4637281319541658838}
   m_RootOrder: 2
@@ -99,11 +99,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7484901647461563443, guid: abdf3400b3417834db1e415f63b0d963,
-        type: 3}
-      propertyPath: m_Name
-      value: Enemy Shield
-      objectReference: {fileID: 0}
     - target: {fileID: 7484901647461563452, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -159,6 +154,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7484901647461563443, guid: abdf3400b3417834db1e415f63b0d963,
+        type: 3}
+      propertyPath: m_Name
+      value: Enemy Shield
+      objectReference: {fileID: 0}
+    - target: {fileID: 7484901647461563454, guid: abdf3400b3417834db1e415f63b0d963,
+        type: 3}
+      propertyPath: m_AngularDrag
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
       propertyPath: prepareAnimDuration
@@ -183,6 +188,11 @@ PrefabInstance:
         type: 3}
       propertyPath: attackAnimDistance
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7956293027968414304, guid: abdf3400b3417834db1e415f63b0d963,
+        type: 3}
+      propertyPath: m_AutoBraking
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4459998854467160860, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
