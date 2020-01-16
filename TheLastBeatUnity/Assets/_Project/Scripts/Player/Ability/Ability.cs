@@ -23,12 +23,36 @@ public abstract class Ability
     protected float currentCooldown = 0;
     protected float cooldown = 0;
     protected float healCorrectBeat;
-
+    InputVisualAnimation visualAnimation;
     public Ability(Player newPlayer)
     {
         player = newPlayer;
+        visualAnimation = GameObject.FindObjectOfType<InputVisualAnimation>();
     }
 
+    public void CorrectBeat()
+    {
+        if (visualAnimation)
+        {
+            //visualAnimation.CorrectBeat();
+        }
+    }
+
+    public void PerfectBeat()
+    {
+        if (visualAnimation)
+        {
+            //visualAnimation.PerfectBeat();
+        }
+    }
+
+    public void WrongBeat()
+    {
+        if (visualAnimation)
+        {
+            //visualAnimation.WrongBeat();
+        }
+    }
     public virtual void ResetCooldown()
     {
         currentCooldown = 0;

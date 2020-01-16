@@ -96,10 +96,12 @@ public class RewindRushAbility : Ability
         {
             player.ModifyPulseValue(-healCorrectBeat);
             SceneHelper.Instance.Rumble(parameters.rumbleIntensity, parameters.rumbleDuration);
+            CorrectBeat();
         }
         else if (player.LoseLifeOnAbilities)
         {
             player.ModifyPulseValue(parameters.PulseCost);
+            WrongBeat();
         }
 
         Sequence seq = DOTween.Sequence();

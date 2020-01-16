@@ -118,6 +118,7 @@ public class RushAbility : Ability
             parameters.OnBeatSound.Post(player.gameObject);
             player.ModifyPulseValue(-healCorrectBeat);
             SceneHelper.Instance.Rumble(parameters.rumbleIntensity, parameters.rumbleDuration);
+            CorrectBeat();
         }
         else
         {
@@ -126,6 +127,7 @@ public class RushAbility : Ability
             parameters.OffBeatSound.Post(player.gameObject);
             if (player.LoseLifeOnAbilities)
                 player.ModifyPulseValue(parameters.PulseCost);
+            WrongBeat();
         }
 
         parameters.blinkAbility.ResetCooldown();

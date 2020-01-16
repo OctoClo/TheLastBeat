@@ -67,12 +67,14 @@ public class BlinkAbility : Ability
                 player.ModifyPulseValue(-healCorrectBeat);
                 SceneHelper.Instance.Rumble(parameters.rumbleIntensity, parameters.rumbleDuration);
                 parameters.OnBeatSound.Post(player.gameObject);
+                CorrectBeat();
             }
             else
             {
                 if (player.LoseLifeOnAbilities)
                     player.ModifyPulseValue(parameters.PulseCost);
                 parameters.OffBeatSound.Post(player.gameObject);
+                WrongBeat();
             }
         });
         currentSequence.AppendInterval(parameters.timeWait);
