@@ -69,6 +69,11 @@ public class TPHelper : MonoBehaviour
             {
                 Destroy(CurrentZones[i]);
                 CurrentZones[i] = Instantiate(ZonePrefabsToSpawn[i], ZonePositions[i], Quaternion.identity);
+                EnemyZone[] enemyZones = CurrentZones[i].GetComponentsInChildren<EnemyZone>();
+                foreach (EnemyZone enemyZone in enemyZones)
+                {
+                    enemyZone.player = player;
+                }
                 continue;
             }
 

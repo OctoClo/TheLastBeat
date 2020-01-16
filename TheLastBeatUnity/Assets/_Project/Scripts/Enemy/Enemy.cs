@@ -150,31 +150,34 @@ public class Enemy : MonoBehaviour
 
     public void GetAttacked(bool onRythm)
     {
-        foreach(CameraEffect ce in CameraManager.Instance.AllCameras)
+        if (CurrentStateEnum != EEnemyState.EXPLODE)
         {
-            ce.StartScreenShake(screenDurationHit, screenIntensityHit);
-        }
-
-        lives--;
-        hitEnemy.Post(gameObject);
-        if (lives == 0)
-        {
-            StartDying();
-            return;
-        }
-
-        lifeText.text = lives.ToString();
-
-        if (onRythm)
-            StartCoroutine(BlinkBlue());
-        
-        if (stunCounter < chancesToGetStunned.Length)
-        {
-            float stunPercentage = RandomHelper.GetRandom();
-            if (stunPercentage < chancesToGetStunned[stunCounter])
+            foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
             {
-                stunCounter++;
-                ChangeState(EEnemyState.STUN);
+                ce.StartScreenShake(screenDurationHit, screenIntensityHit);
+            }
+
+            lives--;
+            hitEnemy.Post(gameObject);
+            if (lives == 0)
+            {
+                StartDying();
+                return;
+            }
+
+            lifeText.text = lives.ToString();
+
+            if (onRythm)
+                StartCoroutine(BlinkBlue());
+
+            if (stunCounter < chancesToGetStunned.Length)
+            {
+                float stunPercentage = RandomHelper.GetRandom();
+                if (stunPercentage < chancesToGetStunned[stunCounter])
+                {
+                    stunCounter++;
+                    ChangeState(EEnemyState.STUN);
+                }
             }
         }
     }
