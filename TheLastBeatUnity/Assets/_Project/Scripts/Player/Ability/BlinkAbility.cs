@@ -60,14 +60,16 @@ public class BlinkAbility : Ability
         currentSequence = DOTween.Sequence();
         currentSequence.AppendCallback(() =>
         {
-            currentCooldown = SoundManager.Instance.TimePerBar;
             player.Status.StartBlink();
             if (SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT))
             {
-                player.ModifyPulseValue(-healCorrectBeat);
-                SceneHelper.Instance.Rumble(parameters.rumbleIntensity, parameters.rumbleDuration);
-                parameters.OnBeatSound.Post(player.gameObject);
+                if (SoundManager.Instance.IsPerfect(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT))
+                {
+                    player.ModifyPulseValue(-healCorrectBeat);
+                }
                 CorrectBeat();
+                parameters.OnBeatSound.Post(player.gameObject);
+                SceneHelper.Instance.Rumble(parameters.rumbleIntensity, parameters.rumbleDuration);
             }
             else
             {
@@ -75,6 +77,8 @@ public class BlinkAbility : Ability
                     player.ModifyPulseValue(parameters.PulseCost);
                 parameters.OffBeatSound.Post(player.gameObject);
                 WrongBeat();
+                player.DebtRush(parameters.PulseCost);
+                currentCooldown = SoundManager.Instance.TimePerBar;
             }
         });
         currentSequence.AppendInterval(parameters.timeWait);

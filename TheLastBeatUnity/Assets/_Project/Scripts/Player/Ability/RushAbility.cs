@@ -9,6 +9,7 @@ public class RushParams : AbilityParams
     public float RushDuration = 0;
     public float distanceAfterDash = 0;
     public float PulseCost = 0;
+    public float damageMultiplier = 1;
 
     [Header("Sound")]
     public AK.Wwise.Event OnBeatSound = null;
@@ -38,17 +39,25 @@ public class RushParams : AbilityParams
 public class RushAbility : Ability
 {
     bool obstacleAhead = false;
-    bool attackOnRythm = false;
     RaycastHit obstacle;
     RushParams parameters;
     Vector3 direction;
     GameObject target;
 
+    float debt;
+    bool onRythm = false;
+    
     public RewindRushAbility RewindRush { get; set; }
 
     public RushAbility(RushParams rp) : base(rp.AttachedPlayer)
     {
         parameters = rp;
+    }
+
+    public void AddDebt(float value)
+    {
+        if (debt == 0)
+            debt += value;
     }
 
     public override void Launch()
@@ -113,23 +122,28 @@ public class RushAbility : Ability
     {
         CameraManager.Instance.SetBoolCamera(true, "FOV");
         target = player.CurrentTarget.gameObject;
-        if (SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT))
+        onRythm = SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT);
+        bool perfect = SoundManager.Instance.IsPerfect(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT);
+        if (onRythm)
         {
             parameters.OnBeatSound.Post(player.gameObject);
-            player.ModifyPulseValue(-healCorrectBeat);
-            SceneHelper.Instance.Rumble(parameters.rumbleIntensity, parameters.rumbleDuration);
             CorrectBeat();
+            SceneHelper.Instance.Rumble(parameters.rumbleIntensity, parameters.rumbleDuration);
+            if (perfect)
+                player.ModifyPulseValue(-parameters.HealPerCorrectBeat);
         }
         else
         {
             //Reset CDA cooldown
             RewindRush.MissInput();
             parameters.OffBeatSound.Post(player.gameObject);
+            player.ModifyPulseValue(parameters.PulseCost + debt);
+            WrongBeat();
             if (player.LoseLifeOnAbilities)
                 player.ModifyPulseValue(parameters.PulseCost);
-            WrongBeat();
         }
 
+        debt = 0;
         parameters.blinkAbility.ResetCooldown();
         currentCooldown = cooldown;
         player.Status.StartDashing();
@@ -254,7 +268,13 @@ public class RushAbility : Ability
             player.Status.Stun();
         else
         {
+            player.CurrentTarget.GetAttacked(onRythm, 1);
+            if (RewindRush != null && onRythm)
+            {
+                RewindRush.AddChainEnemy(player.CurrentTarget);
+            }
             player.ColliderObject.layer = LayerMask.NameToLayer("Default");
         }
+        onRythm = false;
     }
 }

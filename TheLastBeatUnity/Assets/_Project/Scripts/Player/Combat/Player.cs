@@ -98,6 +98,11 @@ public class Player : Inputable
             instantiatedDebug = Instantiate(prefabDebug);
     }
 
+    public void DebtRush(float value)
+    {
+        (abilities[EInputAction.RUSH] as RushAbility).AddDebt(value);
+    }
+
     public override void ProcessInput(Rewired.Player player)
     {
         // Direction Inputs
