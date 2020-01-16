@@ -12,19 +12,19 @@ struct SequenceAndTarget
 public class InputVisualAnimation : Beatable
 {
     [SerializeField]
-    GameObject prefabAnimation;
+    GameObject prefabAnimation = null;
 
     [SerializeField]
-    GameObject prefabAnimationCorrect;
+    GameObject prefabAnimationCorrect = null;
 
     [SerializeField]
-    GameObject prefabAnimationPerfect;
+    GameObject prefabAnimationPerfect = null;
 
     [SerializeField]
-    RectTransform rootPerfectGood;
+    RectTransform rootPerfectGood = null;
 
     [SerializeField]
-    Color wrong;
+    Color wrong = Color.white;
 
     Queue<SequenceAndTarget> allInstances = new Queue<SequenceAndTarget>();
 

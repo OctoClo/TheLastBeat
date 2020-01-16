@@ -88,7 +88,7 @@ public class RushAbility : Ability
                 ce.StartScreenShake(parameters.durationScreenShake, parameters.intensityScreenShake);
             }
 
-            target.GetComponent<Enemy>().GetAttacked(attackOnRythm);
+            target.GetComponent<Enemy>().GetAttacked(onRythm);
             if (!target)
                 return;
 
@@ -259,6 +259,7 @@ public class RushAbility : Ability
 
     public override void End()
     {
+        onRythm = false;
         player.DelegateColl.OnTriggerEnterDelegate -= ImpactEffect;
         player.Status.StopDashing();
         player.Anim.SetRushing(false);
@@ -268,13 +269,14 @@ public class RushAbility : Ability
             player.Status.Stun();
         else
         {
-            player.CurrentTarget.GetAttacked(onRythm, 1);
+            if (!target)
+                return;
+            target.GetComponent<Enemy>().GetAttacked(onRythm);
             if (RewindRush != null && onRythm)
             {
-                RewindRush.AddChainEnemy(player.CurrentTarget);
+                RewindRush.AddChainEnemy(target.GetComponent<Enemy>());
             }
             player.ColliderObject.layer = LayerMask.NameToLayer("Default");
         }
-        onRythm = false;
     }
 }

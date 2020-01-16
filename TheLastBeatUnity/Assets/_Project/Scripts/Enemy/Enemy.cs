@@ -153,7 +153,7 @@ public class Enemy : MonoBehaviour
         if (CurrentStateEnum != EEnemyState.EXPLODE)
         lives -= (int)dmg;
         hitEnemy.Post(gameObject);
-        if (lives == 0)
+        if (lives <= 0)
         {
             foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
             {
@@ -162,7 +162,7 @@ public class Enemy : MonoBehaviour
 
             lives--;
             hitEnemy.Post(gameObject);
-            if (lives == 0)
+            if (lives <= 0)
             {
                 StartDying();
                 return;

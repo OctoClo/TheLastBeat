@@ -46,7 +46,7 @@ public class Player : Inputable
     [TabGroup("References")] [SerializeField]
     Health healthSystem = null;
     [TabGroup("References")] [SerializeField]
-    Pyramid pyr;
+    Pyramid pyr = null;
     [TabGroup("References")] [SerializeField]
     Transform visualPart = null;
     public Transform VisualPart => visualPart;
