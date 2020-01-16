@@ -10,20 +10,9 @@ public class InputDelegate : MonoBehaviour
 
     Rewired.Player player;
 
-    public enum RythmLayout
-    {
-        NOPUNISH,
-        PUNISH
-    }
-
-    public static RythmLayout rythm;
-    [SerializeField]
-    RythmLayout layout;
-
     private void Start()
     {
         player = ReInput.players.GetPlayer(0);
-        rythm = layout;
     }
 
     private void Update()

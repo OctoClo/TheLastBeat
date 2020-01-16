@@ -78,7 +78,7 @@ public class RushAbility : Ability
         if (onRythm)
         {
             parameters.OnBeatSound.Post(player.gameObject);
-            if (InputDelegate.rythm == InputDelegate.RythmLayout.PUNISH && perfect)
+            if (perfect)
                 player.ModifyPulseValue(-parameters.HealPerCorrectBeat);
         }
         else
@@ -86,8 +86,7 @@ public class RushAbility : Ability
             //Reset CDA cooldown
             RewindRush.MissInput();
             parameters.OffBeatSound.Post(player.gameObject);
-            if (InputDelegate.rythm == InputDelegate.RythmLayout.PUNISH)
-                player.ModifyPulseValue(parameters.PulseCost + debt);
+            player.ModifyPulseValue(parameters.PulseCost + debt);
         }
 
         debt = 0;
@@ -234,8 +233,8 @@ public class RushAbility : Ability
             player.Status.Stun();
         else
         {
-            player.CurrentTarget.GetAttacked(onRythm, onRythm && InputDelegate.rythm == InputDelegate.RythmLayout.NOPUNISH ? parameters.damageMultiplier : 1);
-            if (RewindRush != null && (InputDelegate.rythm == InputDelegate.RythmLayout.PUNISH || onRythm))
+            player.CurrentTarget.GetAttacked(onRythm, 1);
+            if (RewindRush != null && onRythm)
             {
                 RewindRush.AddChainEnemy(player.CurrentTarget);
             }

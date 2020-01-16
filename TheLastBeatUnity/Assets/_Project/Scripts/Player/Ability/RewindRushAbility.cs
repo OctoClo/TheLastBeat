@@ -93,13 +93,7 @@ public class RewindRushAbility : Ability
         }
         else
         {
-            if (InputDelegate.rythm == InputDelegate.RythmLayout.PUNISH)
-                player.ModifyPulseValue(parameters.PulseCost);
-            else
-            {
-                End();
-                return;
-            }
+            player.ModifyPulseValue(parameters.PulseCost);
         }
 
         Sequence seq = DOTween.Sequence();

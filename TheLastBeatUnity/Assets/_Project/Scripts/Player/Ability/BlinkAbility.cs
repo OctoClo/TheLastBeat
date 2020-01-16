@@ -58,18 +58,15 @@ public class BlinkAbility : Ability
             player.Status.StartBlink();
             if (SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT))
             {
-                if (InputDelegate.rythm == InputDelegate.RythmLayout.PUNISH && SoundManager.Instance.IsPerfect(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT))
+                if (SoundManager.Instance.IsPerfect(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT))
                 {
                     player.ModifyPulseValue(-healCorrectBeat);
                 }
             }
             else
             {
-                if (InputDelegate.rythm == InputDelegate.RythmLayout.PUNISH)
-                {
-                    player.DebtRush(parameters.PulseCost);
-                    currentCooldown = SoundManager.Instance.TimePerBar;
-                }
+                player.DebtRush(parameters.PulseCost);
+                currentCooldown = SoundManager.Instance.TimePerBar;
             }
             parameters.Sound.Post(player.gameObject);
         });
