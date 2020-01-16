@@ -134,15 +134,14 @@ public class RushAbility : Ability
         currentCooldown = cooldown;
         player.Status.StartDashing();
         player.Anim.SetRushing(true);
-
+        direction = new Vector3(target.transform.position.x, player.transform.position.y, target.transform.position.z) - player.transform.position;
+        player.transform.forward = direction;
         if (RewindRush.IsInCombo)
             CreateTurnMark(player.transform.forward);
         else
             CreateStartMark(player.transform.forward);
 
         Sequence seq = DOTween.Sequence();
-        direction = new Vector3(target.transform.position.x, player.transform.position.y, target.transform.position.z) - player.transform.position;
-        player.transform.forward = direction;
         GetObstacleOnDash(direction);
 
         // Dash towards the target
