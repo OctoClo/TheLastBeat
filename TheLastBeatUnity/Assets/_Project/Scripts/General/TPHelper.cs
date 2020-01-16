@@ -10,13 +10,13 @@ public class TPHelper : MonoBehaviour
     private Player player = null;
     private Transform playerTransform = null;
     [SerializeField]
-    private Transform[] TPZones = new Transform[6];
+    private Transform[] TPZones = null;
     [SerializeField]
-    private GameObject[] CurrentZones = new GameObject[6];
+    private GameObject[] CurrentZones = null;
     [SerializeField]
-    private GameObject[] ZonePrefabsToSpawn = new GameObject[6];
+    private GameObject[] ZonePrefabsToSpawn = null;
 
-    private Vector3[] ZonePositions = new Vector3[6];
+    private Vector3[] ZonePositions = null;
 
     bool TPMenu = false;
 
@@ -34,7 +34,8 @@ public class TPHelper : MonoBehaviour
     {
         playerTransform = player.transform;
 
-        for (int i = 0; i < ZonePositions.Length; i++)
+        ZonePositions = new Vector3[CurrentZones.Length];
+        for (int i = 0; i < CurrentZones.Length; i++)
         {
             ZonePositions[i] = CurrentZones[i].transform.position;
         }
