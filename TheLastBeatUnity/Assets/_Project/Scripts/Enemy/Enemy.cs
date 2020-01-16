@@ -148,9 +148,12 @@ public class Enemy : MonoBehaviour
         ChangeState(EEnemyState.STUN);
     }
 
-    public void GetAttacked(bool onRythm)
+    public void GetAttacked(bool onRythm, float dmg = 1)
     {
         if (CurrentStateEnum != EEnemyState.EXPLODE)
+        lives -= (int)dmg;
+        hitEnemy.Post(gameObject);
+        if (lives <= 0)
         {
             foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
             {
@@ -159,7 +162,7 @@ public class Enemy : MonoBehaviour
 
             lives--;
             hitEnemy.Post(gameObject);
-            if (lives == 0)
+            if (lives <= 0)
             {
                 StartDying();
                 return;
