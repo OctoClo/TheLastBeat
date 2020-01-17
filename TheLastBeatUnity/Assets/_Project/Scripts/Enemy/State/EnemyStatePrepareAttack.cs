@@ -6,6 +6,7 @@ using DG.Tweening;
 public class EnemyStatePrepareAttack : EnemyState
 {
     Vector3 scaleEndValues = Vector3.zero;
+    Sequence animation = null;
     bool animationFinished = false;
     float waitBeforeAnimDuration = 0;
     float animDuration = 0;
@@ -23,13 +24,13 @@ public class EnemyStatePrepareAttack : EnemyState
         enemy.SetStateText("prepare");
 
         animationFinished = false;
-        enemy.CurrentMove = DOTween.Sequence();
+        animation = DOTween.Sequence();
 
-        enemy.CurrentMove.Insert(waitBeforeAnimDuration, enemy.transform.DOShakePosition(animDuration, 0.5f, 100));
-        enemy.CurrentMove.Insert(waitBeforeAnimDuration, enemy.transform.DOScale(scaleEndValues, animDuration));
-        enemy.CurrentMove.AppendCallback(() => animationFinished = true);
+        animation.Insert(waitBeforeAnimDuration, enemy.transform.DOShakePosition(animDuration, 0.5f, 100));
+        animation.Insert(waitBeforeAnimDuration, enemy.Model.transform.DOScale(scaleEndValues, animDuration));
+        animation.AppendCallback(() => animationFinished = true);
 
-        enemy.CurrentMove.Play();
+        animation.Play();
     }
 
     public override EEnemyState UpdateState(float deltaTime)
@@ -42,6 +43,6 @@ public class EnemyStatePrepareAttack : EnemyState
 
     public override void Exit()
     {
-        enemy.KillCurrentTween();
+        enemy.Model.transform.localScale = scaleEndValues;
     }
 }

@@ -6,13 +6,13 @@ public class PlayerAnimationModifier : MonoBehaviour
 {
 
     [SerializeField]
-    Player plyr;
+    Player plyr = null;
 
     [SerializeField]
-    Transform leftFoot;
+    Transform leftFoot = null;
 
     [SerializeField]
-    Transform rightFoot;
+    Transform rightFoot = null;
 
     public enum FootStatus
     {

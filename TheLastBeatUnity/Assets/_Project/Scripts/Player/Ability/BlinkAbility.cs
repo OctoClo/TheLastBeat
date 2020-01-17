@@ -8,13 +8,18 @@ public class BlinkParams : AbilityParams
 {
     public float Speed = 0;
     public float PulseCost = 0;
-    public AK.Wwise.Event Sound = null;
     public float timeWait = 0;
     public GameObject prefabMark;
     public GameObject prefabTrail;
     public float SpeedAnimShrink = 0.25f;
     public float marksSpeedAnimation = 0.25f;
     public float markPersist = 0.25f;
+    public float rumbleIntensity = 0;
+    public float rumbleDuration = 0;
+
+    [Header("Sound")]
+    public AK.Wwise.Event OnBeatSound = null;
+    public AK.Wwise.Event OffBeatSound = null;
 }
 
 public class BlinkAbility : Ability
@@ -55,18 +60,31 @@ public class BlinkAbility : Ability
         currentSequence = DOTween.Sequence();
         currentSequence.AppendCallback(() =>
         {
-            currentCooldown = SoundManager.Instance.TimePerBar;
             player.Status.StartBlink();
-            if (BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT))
+            if (SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT))
             {
-                BeatManager.Instance.ValidateLastBeat(BeatManager.TypeBeat.BEAT);
-                player.ModifyPulseValue(-healCorrectBeat);
+                if (SoundManager.Instance.IsPerfect(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT))
+                {
+                    player.ModifyPulseValue(-healCorrectBeat);
+                    PerfectBeat();
+                }
+                else
+                {
+                    CorrectBeat();
+                }
+                
+                parameters.OnBeatSound.Post(player.gameObject);
+                SceneHelper.Instance.Rumble(parameters.rumbleIntensity, parameters.rumbleDuration);
             }
             else
             {
-                player.ModifyPulseValue(parameters.PulseCost);
+                if (player.LoseLifeOnAbilities)
+                    player.ModifyPulseValue(parameters.PulseCost);
+                parameters.OffBeatSound.Post(player.gameObject);
+                WrongBeat();
+                player.DebtRush(parameters.PulseCost);
+                currentCooldown = SoundManager.Instance.TimePerBar;
             }
-            parameters.Sound.Post(player.gameObject);
         });
         currentSequence.AppendInterval(parameters.timeWait);
         currentSequence.Append(player.VisualPart.DOScale(Vector3.zero, parameters.SpeedAnimShrink));

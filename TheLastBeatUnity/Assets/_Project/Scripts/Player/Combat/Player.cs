@@ -12,55 +12,60 @@ public class Player : Inputable
 {
     [TabGroup("Movement")] [SerializeField]
     float speed = 7.5f;
+    Vector3 movement = Vector3.zero;
+    Rigidbody rb = null;
     [TabGroup("Movement")] [SerializeField]
-    float maxRotationPerFrame = 30;
-
-    [TabGroup("Movement")] [SerializeField]
-    Transform groundRotationReference;
-
+    float rotationSpeed = 8;
+    Vector3 lookVector = Vector3.zero;
+    Vector3 rotation = Vector3.zero;
+    Quaternion deltaRotation = Quaternion.identity;
     public Vector3 CurrentDirection { get; set; }
+
+    [TabGroup("Movement")] [Range(0, 1)] [SerializeField]
+    float holdlessThreshold = 0.7f;
+    [TabGroup("Movement")] [SerializeField]
+    bool debugMode = false;
+    [TabGroup("Movement")] [SerializeField]
+    GameObject prefabDebug = null;
+    GameObject instantiatedDebug;
 
     //If you are doing something (dash , attack animation, etc...) or if game paused, temporary block input
     public override bool BlockInput => (blockInput || Status.Dashing || Status.Stunned || Status.Blinking);
 
     [TabGroup("Blink")] [SerializeField]
     BlinkParams blinkParameters = null;
-
-    [TabGroup("Rush")][SerializeField]
+    [TabGroup("Rush")] [SerializeField]
     RushParams rushParameters = null;
-
-    [TabGroup("Rush")][SerializeField]
+    [TabGroup("Rush")] [SerializeField]
     RewindRushParameters rushRewindParameters = null;
+    Dictionary<EInputAction, Ability> abilities = new Dictionary<EInputAction, Ability>();
 
-    [SerializeField]
+    [TabGroup("References")] [SerializeField]
+    DelegateCollider delegateColl = null;
+    public DelegateCollider DelegateColl => delegateColl;
+    [TabGroup("References")] [SerializeField]
+    Health healthSystem = null;
+    [TabGroup("References")] [SerializeField]
+    Pyramid pyramid = null;
+    Collider pyramidCollider = null;
+    [TabGroup("References")] [SerializeField]
+    Transform visualPart = null;
+    public Transform VisualPart => visualPart;
+    public Transform CurrentFootOnGround { get; private set; }
+    [TabGroup("References")] [SerializeField]
     AK.Wwise.Event stopEvent = null;
+    [TabGroup("References")] [SerializeField]
+    AK.Wwise.Event hitPlayer = null;
 
+    [HideInInspector]
+    public bool LoseLifeOnAbilities = true;
     [HideInInspector]
     public PlayerStatus Status { get; private set; }
     [HideInInspector]
     public PlayerAnim Anim = null;
     [HideInInspector]
     public GameObject ColliderObject = null;
-
-    [SerializeField]
-    Health healthSystem = null;
-
-    [SerializeField]
-    Transform visualPart = null;
-    public Transform VisualPart => visualPart;
-    public Transform CurrentFootOnGround { get; private set; }
-
-    Dictionary<EInputAction, Ability> abilities = new Dictionary<EInputAction, Ability>();
-    IReadOnlyDictionary<EInputAction, Ability> Abilities => abilities;
-
-    [HideInInspector]
-    public FocusZone FocusZone = null;
-
-    [SerializeField]
-    BeatManager beatManager = null;
-    public BeatManager BeatManager => beatManager;
-
-    public Enemy CurrentTarget { get; private set; }
+    public Collider CurrentTarget => pyramid.NearestEnemy;
 
     public void SetFoot(Transform trsf)
     {
@@ -69,13 +74,14 @@ public class Player : Inputable
 
     private void Start()
     {
-        blinkParameters.AttachedPlayer = rushParameters.AttachedPlayer = rushRewindParameters.AttachedPlayer = this;
         Status = GetComponent<PlayerStatus>();
         Anim = GetComponent<PlayerAnim>();
-        FocusZone = GetComponentInChildren<FocusZone>();
-        FocusZone.playerStatus = Status;
-        ColliderObject = GetComponentInChildren<CapsuleCollider>().gameObject;
+        ColliderObject = GetComponent<CapsuleCollider>().gameObject;
+        rb = GetComponent<Rigidbody>();
+        pyramidCollider = pyramid.GetComponent<Collider>();
+        healthSystem.Player = this;
 
+        blinkParameters.AttachedPlayer = rushParameters.AttachedPlayer = rushRewindParameters.AttachedPlayer = this;
         BlinkAbility blink = new BlinkAbility(blinkParameters);
         abilities.Add(EInputAction.BLINK, blink);
 
@@ -85,32 +91,27 @@ public class Player : Inputable
 
         RewindRushAbility rewindRush = new RewindRushAbility(rushRewindParameters);
         abilities.Add(EInputAction.REWINDRUSH, rewindRush);
-
         rush.RewindRush = rewindRush;
-        healthSystem.Player = this;
 
         if (SceneHelper.DeathCount > 0)
-        {
             SceneHelper.Instance.Respawn(transform);
-        }
+
+        if (debugMode)
+            instantiatedDebug = Instantiate(prefabDebug);
+    }
+
+    public void DebtRush(float value)
+    {
+        (abilities[EInputAction.RUSH] as RushAbility).AddDebt(value);
     }
 
     public override void ProcessInput(Rewired.Player player)
     {
-        Vector3 direction = new Vector3(player.GetAxis("MoveX"), 0, player.GetAxis("MoveY"));
-        CurrentDirection = direction;
-        Anim.SetMovement(direction);
+        // Direction Inputs
+        CurrentDirection = new Vector3(player.GetAxis("MoveX"), 0, player.GetAxis("MoveY"));
+        Anim.SetMovement(CurrentDirection);
 
-        // Look at
-        LookAtCurrentTarget();
-        if (!CurrentTarget && direction != Vector3.zero)
-        {
-            Vector3 lookVector = direction;
-            lookVector.Normalize();
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(lookVector), maxRotationPerFrame);
-        }
-
-        // Movement and abilities
+        // Abilities Inputs
         if (!Status.Dashing)
         {
             Ability ability = null;
@@ -122,22 +123,43 @@ public class Player : Inputable
                     ability.Launch();
                 }
             }
+        }
 
-            if (ability == null)
+        Vector3 directionLook = new Vector3(player.GetAxis("FocusX"), 0, player.GetAxis("FocusY"));
+        if (directionLook.magnitude > holdlessThreshold)
+        {
+            pyramidCollider.enabled = true;
+            pyramid.transform.forward = new Vector3(directionLook.x, 0, directionLook.z);
+            pyramid.RecomputeNearest();
+            pyramid.RecomputePositions();
+        }
+        else
+        {
+            if (CurrentTarget != null)
             {
-                Vector3 movement = direction * Time.deltaTime * speed;
-                transform.Translate(movement, Space.World);
+                Vector3 positionToLook = new Vector3(CurrentTarget.transform.position.x, transform.position.y, CurrentTarget.transform.position.z);
+                pyramid.transform.LookAt(positionToLook);
+            }
+            else
+            {
+                pyramidCollider.enabled = false;
+                pyramid.Purge();
             }
         }
     }
 
-    public void LookAtCurrentTarget()
+    private void FixedUpdate()
     {
-        CurrentTarget = FocusZone.GetCurrentTarget();
-        if (CurrentTarget)
+        if (!BlockInput && CurrentDirection != Vector3.zero)
         {
-            Vector3 lookVector = new Vector3(CurrentTarget.transform.position.x, transform.position.y, CurrentTarget.transform.position.z) - transform.position;
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(lookVector), 360);
+            // Rotation
+            rotation = new Vector3(0, Vector3.SignedAngle(transform.forward, CurrentDirection, Vector3.up), 0);
+            deltaRotation = Quaternion.Euler(rotation * Time.deltaTime * rotationSpeed);
+            rb.MoveRotation(rb.rotation * deltaRotation);
+
+            // Movement
+            movement = CurrentDirection * speed;
+            rb.velocity = movement;
         }
     }
 
@@ -184,7 +206,7 @@ public class Player : Inputable
         }
 
         SceneHelper.Instance.RecordDeath(transform.position);
-        SceneHelper.Instance.StartFade(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name), 2, Color.black);
+        SceneHelper.Instance.StartFade(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name), 0.5f, Color.black);
     }
 
     private void Update()
@@ -192,10 +214,24 @@ public class Player : Inputable
         foreach (KeyValuePair<EInputAction, Ability> abilityPair in abilities)
             abilityPair.Value.Update(Time.deltaTime);
 
+        if (Status.Dashing && CurrentTarget)
+        {
+            Vector3 positionToLook = new Vector3(CurrentTarget.transform.position.x, transform.position.y, CurrentTarget.transform.position.z);
+            pyramid.transform.LookAt(positionToLook);
+        }
 
-        //Need remove
-        if (Input.GetKeyDown(KeyCode.K))
-            Die();
+        if (debugMode)
+        {
+            if (CurrentTarget != null)
+            {
+                instantiatedDebug.SetActive(true);
+                instantiatedDebug.transform.position = CurrentTarget.transform.position + Vector3.up;
+            }
+            else
+            {
+                instantiatedDebug.SetActive(false);
+            }
+        }
     }
 
     IEnumerator currentHurt;
@@ -213,7 +249,7 @@ public class Player : Inputable
             }
         }
 
-
+        hitPlayer.Post(gameObject);
         currentHurt = HurtCoroutine(timeScale, nbLoop);
         StartCoroutine(currentHurt);
     }
@@ -248,10 +284,5 @@ public class Player : Inputable
                 yield return null;
             }
         }
-    }
-
-    public Enemy GetCurrentTarget()
-    {
-        return FocusZone.GetCurrentTarget();
     }
 }

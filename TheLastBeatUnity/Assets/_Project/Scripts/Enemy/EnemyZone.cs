@@ -18,8 +18,7 @@ public class EnemyZone : MonoBehaviour
 {
     [SerializeField]
     EEnemyType enemiesType = EEnemyType.DEFAULT;
-    [SerializeField]
-    Player player = null;
+    public Player player = null;
     [SerializeField]
     float maxDistanceChase = 6;
     float sqrMaxDistanceChase = 0;

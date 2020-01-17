@@ -20,14 +20,9 @@ public class PlayerAnim : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
     }
 
-    public void LaunchAnim(EPlayerAnim anim)
+    public void SetRushing(bool value)
     {
-        switch (anim)
-        {
-            case EPlayerAnim.RUSHING:
-                animator.SetTrigger("rush");
-                break;
-        }
+        animator.SetBool("rush", value);
     }
 
     public void SetMovement(Vector3 movement)

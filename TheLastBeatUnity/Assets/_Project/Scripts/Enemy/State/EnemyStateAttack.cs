@@ -6,18 +6,21 @@ using DG.Tweening;
 public class EnemyStateAttack : EnemyState
 {
     Vector3 scaleEndValues = Vector3.zero;
+    Sequence animation = null;
     bool animationFinished = false;
     float waitBeforeAnimDuration = 0;
     float animDuration = 0;
     float impulseForce = 0;
+    float blastForce = 0;
 
-    public EnemyStateAttack(Enemy newEnemy, float waitBefore, float duration, float impulse) : base(newEnemy)
+    public EnemyStateAttack(Enemy newEnemy, float waitBefore, float duration, float impulse, float force) : base(newEnemy)
     {
         stateEnum = EEnemyState.ATTACK;
         scaleEndValues = new Vector3(1, 1, 1);
         waitBeforeAnimDuration = waitBefore;
         animDuration = duration;
         impulseForce = impulse;
+        blastForce = force;
     }
 
     public override void Enter()
@@ -27,23 +30,35 @@ public class EnemyStateAttack : EnemyState
         enemy.StartAttacking();
         animationFinished = false;
 
-        Vector3 goalPos = enemy.Player.transform.position - enemy.transform.position;
-        goalPos.y = 0;
-        goalPos.Normalize();
-        goalPos *= impulseForce;
+        Vector3 goalPos = enemy.transform.forward * impulseForce;
         goalPos += enemy.transform.position;
 
-        enemy.CurrentMove = DOTween.Sequence();
+        animation = DOTween.Sequence();
 
-        enemy.CurrentMove.Insert(waitBeforeAnimDuration, enemy.transform.DOScale(scaleEndValues, animDuration).SetEase(Ease.OutBounce));
-        enemy.CurrentMove.Insert(waitBeforeAnimDuration, enemy.transform.DOMove(goalPos, animDuration).SetEase(Ease.OutBounce));
-        enemy.CurrentMove.AppendCallback(() => animationFinished = true);
+        animation.Insert(waitBeforeAnimDuration, enemy.Model.transform.DOScale(scaleEndValues, animDuration).SetEase(Ease.OutBounce));
+        animation.Insert(waitBeforeAnimDuration, enemy.transform.DOMove(goalPos, animDuration).SetEase(Ease.OutBounce));
+        animation.AppendCallback(() => animationFinished = true);
 
-        enemy.CurrentMove.Play();
+        animation.Play();
     }
 
     public override EEnemyState UpdateState(float deltaTime)
     {
+        if (enemy.HasAttackedPlayer)
+        {
+            animation.Kill();
+
+            Rigidbody rb = enemy.Player.GetComponentInChildren<Rigidbody>();
+            if (rb)
+            {
+                Vector3 force = enemy.transform.forward;
+                force *= blastForce;
+                rb.AddForce(force, ForceMode.VelocityChange);
+            }
+            
+            return EEnemyState.RECOVER_ATTACK;
+        }
+
         if (animationFinished)
             return EEnemyState.RECOVER_ATTACK;
 
@@ -52,7 +67,7 @@ public class EnemyStateAttack : EnemyState
 
     public override void Exit()
     {
-        enemy.CurrentMove = null;
+        enemy.Model.transform.localScale = scaleEndValues;
         enemy.StopAttacking();
     }
 }

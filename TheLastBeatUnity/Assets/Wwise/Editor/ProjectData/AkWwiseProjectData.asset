@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 53f38f5348f7094493a66f9c8647d632
     GuidInternal: 
-    m_lastTime: -8586260625586479153
+    m_lastTime: -8586230265986033782
     List:
     - name: MFXRewindVerb
       guid: 82a1ed093669ee4f84717f8fd1429698
@@ -44,7 +44,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 00607f23f4bb1c4ba4ba719fd5871f3f
     GuidInternal: 
-    m_lastTime: -8586260625586319579
+    m_lastTime: -8586226864554392751
     List:
     - name: TheLastBank
       guid: ba44c042ce392242af9fd5c1beb6de48
@@ -60,8 +60,20 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 8758d50e9a0ca842a9ceccd260c5af42
     GuidInternal: 
-    m_lastTime: -8586260454866448162
+    m_lastTime: -8586226864554751788
     List:
+    - name: Int_HitMusicFX
+      guid: 99dfbaf434086c43af6c4fa0d57cbebb
+      id: 3191278813
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Int_HitMusicFX
+        ObjectType: 3
+      Path: Default Work Unit\Int_HitMusicFX
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Play_AmbDesert
       guid: 4385c76f7ea2514d8d08d372b433eb9f
       id: 3681445093
@@ -74,27 +86,51 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Play_Blink
-      guid: 36a2dada2a3f3e40b025a216b7c4125d
-      id: 3106918468
+    - name: Play_BlinkFXOffBeat
+      guid: 19d67817d06af141bbd5f7ae21258a4f
+      id: 3832364417
       PathAndIcons:
       - ElementName: Default Work Unit
         ObjectType: 12
-      - ElementName: Play_Blink
+      - ElementName: Play_BlinkFXOffBeat
         ObjectType: 3
-      Path: Default Work Unit\Play_Blink
+      Path: Default Work Unit\Play_BlinkFXOffBeat
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Play_HitMusicFX
-      guid: 99dfbaf434086c43af6c4fa0d57cbebb
-      id: 4266628140
+    - name: Play_BlinkFXOnBeat
+      guid: 36a2dada2a3f3e40b025a216b7c4125d
+      id: 2655647461
       PathAndIcons:
       - ElementName: Default Work Unit
         ObjectType: 12
-      - ElementName: Play_HitMusicFX
+      - ElementName: Play_BlinkFXOnBeat
         ObjectType: 3
-      Path: Default Work Unit\Play_HitMusicFX
+      Path: Default Work Unit\Play_BlinkFXOnBeat
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_Hit_Enemy
+      guid: 0fbd5d13dde09c4fa7355c82e7de1ad9
+      id: 3889018732
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Play_Hit_Enemy
+        ObjectType: 3
+      Path: Default Work Unit\Play_Hit_Enemy
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_Hit_Player
+      guid: e11ad422526cdf4daa718df8f2766567
+      id: 2257378511
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Play_Hit_Player
+        ObjectType: 3
+      Path: Default Work Unit\Play_Hit_Player
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -214,18 +250,6 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: SloMoMusicFX
-      guid: 132f99754a954445bfe974bc0983221f
-      id: 996118318
-      PathAndIcons:
-      - ElementName: Default Work Unit
-        ObjectType: 12
-      - ElementName: SloMoMusicFX
-        ObjectType: 3
-      Path: Default Work Unit\SloMoMusicFX
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
     - name: Stop_All
       guid: 409572278565a7488d306c5160c2d643
       id: 452547817
@@ -275,7 +299,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 0e2ba2ef49d7a9468a71f885a9d96179
     GuidInternal: 
-    m_lastTime: -8586260625586768378
+    m_lastTime: -8586231098883504551
     List:
     - name: Int_MusicCrusher
       guid: 5d683a5f3806e94c9fe29471a79b243a
@@ -286,17 +310,8 @@ MonoBehaviour:
       - ElementName: Int_MusicCrusher
         ObjectType: 13
       Path: TheLastBeat\Int_MusicCrusher
-    - name: Int_MusicSloMo
-      guid: c78511a00da7ac4b8ad6c83ef9dd161f
-      id: 1326134596
-      PathAndIcons:
-      - ElementName: TheLastBeat
-        ObjectType: 12
-      - ElementName: Int_MusicSloMo
-        ObjectType: 13
-      Path: TheLastBeat\Int_MusicSloMo
     - name: Int_SyncDucking
-      guid: 4bee6aa48b02614998e75a7dcc105556
+      guid: 3416152db6a0a24897770ce68c1a0e43
       id: 758808735
       PathAndIcons:
       - ElementName: TheLastBeat
@@ -324,63 +339,38 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: f97624b2970aec4088365c8371d57a2e
     GuidInternal: 
-    m_lastTime: -8586260625586229809
+    m_lastTime: -8586231098876303856
     List:
-    - name: CriticLevel
-      guid: e0881fa885fafe4eadc3070962111216
-      id: 887277441
+    - name: FeedBackLevel
+      guid: 8038f10c5c50fc48945233d7a42453ff
+      id: 291463486
       PathAndIcons:
       - ElementName: TheLastBeat
         ObjectType: 12
-      - ElementName: CriticLevel
+      - ElementName: FeedBackLevel
         ObjectType: 9
-      Path: TheLastBeat\CriticLevel
+      Path: TheLastBeat\FeedBackLevel
       values:
-      - name: Critic
-        guid: e2f66f6ee82ec842933480ac3fac41ee
-        id: 2938985745
+      - name: Level1
+        guid: 2856beab7ece1d4e993ae6ba075aa044
+        id: 2678230382
         PathAndIcons:
-        - ElementName: Critic
+        - ElementName: Level1
+          ObjectType: 8
+      - name: Level2
+        guid: f31adad4ea8bda4dbfd5a2642a439979
+        id: 2678230381
+        PathAndIcons:
+        - ElementName: Level2
+          ObjectType: 8
+      - name: Level3
+        guid: 8abefd1da82fca4299826cb062cc40cf
+        id: 2678230380
+        PathAndIcons:
+        - ElementName: Level3
           ObjectType: 8
       - name: None
-        guid: 03c5a0f2c42f0f45a65f539c23cc0b88
-        id: 748895195
-        PathAndIcons:
-        - ElementName: None
-          ObjectType: 8
-      - name: NotCritic
-        guid: 76bbddf46b9c6f4f933fc30513d7bf66
-        id: 3922556052
-        PathAndIcons:
-        - ElementName: NotCritic
-          ObjectType: 8
-      ValueGuids: []
-      ValueIcons: []
-      valuesInternal: []
-    - name: MusicCombatSwitch
-      guid: c9b72d2b1ecb37459c8b6d2d7e8d30f6
-      id: 2511127250
-      PathAndIcons:
-      - ElementName: TheLastBeat
-        ObjectType: 12
-      - ElementName: MusicCombatSwitch
-        ObjectType: 9
-      Path: TheLastBeat\MusicCombatSwitch
-      values:
-      - name: Combat_Calm
-        guid: c746a11293c409488faa53cd9f4692cb
-        id: 2894236345
-        PathAndIcons:
-        - ElementName: Combat_Calm
-          ObjectType: 8
-      - name: Combat_Limit
-        guid: 670d350ac682774883782e97760b729f
-        id: 2902872313
-        PathAndIcons:
-        - ElementName: Combat_Limit
-          ObjectType: 8
-      - name: None
-        guid: 46b2aa1700316b4f9705cd1a133a1e2f
+        guid: 1fedc107f92fcf42a22998f44c43bc1f
         id: 748895195
         PathAndIcons:
         - ElementName: None
@@ -388,46 +378,15 @@ MonoBehaviour:
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
-    - name: MusicExploSwitch
-      guid: 1a7f56f2a62c1940980555d30e042150
-      id: 426116888
-      PathAndIcons:
-      - ElementName: TheLastBeat
-        ObjectType: 12
-      - ElementName: MusicExploSwitch
-        ObjectType: 9
-      Path: TheLastBeat\MusicExploSwitch
-      values:
-      - name: Explo_Calm
-        guid: bda2cf949ae40542903bec5975cf90be
-        id: 314074733
-        PathAndIcons:
-        - ElementName: Explo_Calm
-          ObjectType: 8
-      - name: Explo_Rhytm
-        guid: 20baf73a85098e4b94bc22785717a772
-        id: 1899308558
-        PathAndIcons:
-        - ElementName: Explo_Rhytm
-          ObjectType: 8
-      - name: None
-        guid: 0e41cec6e5837d4a94ec7b743fc16d68
-        id: 748895195
-        PathAndIcons:
-        - ElementName: None
-          ObjectType: 8
-      ValueGuids: []
-      ValueIcons: []
-      valuesInternal: []
-    - name: MusicSwitch
+    - name: Music_CombatExplo_Switch
       guid: cfa89c524c09c849b1e78caac8c6afb2
-      id: 1445037870
+      id: 2355547200
       PathAndIcons:
       - ElementName: TheLastBeat
         ObjectType: 12
-      - ElementName: MusicSwitch
+      - ElementName: Music_CombatExplo_Switch
         ObjectType: 9
-      Path: TheLastBeat\MusicSwitch
+      Path: TheLastBeat\Music_CombatExplo_Switch
       values:
       - name: Combat
         guid: 1315de352d8e944e9322ec89914ae87b
@@ -450,46 +409,108 @@ MonoBehaviour:
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
-    - name: Rewind
-      guid: 7ee8c1577e4b7947839fefdbbd4510e8
-      id: 1673109572
+    - name: Music_CriticLevel
+      guid: e0881fa885fafe4eadc3070962111216
+      id: 1082318473
       PathAndIcons:
       - ElementName: TheLastBeat
         ObjectType: 12
-      - ElementName: Rewind
+      - ElementName: Music_CriticLevel
         ObjectType: 9
-      Path: TheLastBeat\Rewind
+      Path: TheLastBeat\Music_CriticLevel
       values:
+      - name: Critic
+        guid: e2f66f6ee82ec842933480ac3fac41ee
+        id: 2938985745
+        PathAndIcons:
+        - ElementName: Critic
+          ObjectType: 8
       - name: None
-        guid: f4f04d6111b644458a7ca45b570a3e0b
+        guid: 03c5a0f2c42f0f45a65f539c23cc0b88
         id: 748895195
         PathAndIcons:
         - ElementName: None
           ObjectType: 8
-      - name: Normal
-        guid: 86fe1233d1280947846e24f51cf5b8dd
-        id: 1160234136
+      - name: NotCritic
+        guid: 76bbddf46b9c6f4f933fc30513d7bf66
+        id: 3922556052
         PathAndIcons:
-        - ElementName: Normal
-          ObjectType: 8
-      - name: Rewind
-        guid: d4ea08054659974b85bc01228336570c
-        id: 1673109572
-        PathAndIcons:
-        - ElementName: Rewind
+        - ElementName: NotCritic
           ObjectType: 8
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
-    - name: RewindSwitch
-      guid: c07ecd409c1ea9409220e3c18b25b534
-      id: 1439182312
+    - name: Music_Limit_Switch
+      guid: c9b72d2b1ecb37459c8b6d2d7e8d30f6
+      id: 960036381
       PathAndIcons:
       - ElementName: TheLastBeat
         ObjectType: 12
-      - ElementName: RewindSwitch
+      - ElementName: Music_Limit_Switch
         ObjectType: 9
-      Path: TheLastBeat\RewindSwitch
+      Path: TheLastBeat\Music_Limit_Switch
+      values:
+      - name: Combat_Calm
+        guid: c746a11293c409488faa53cd9f4692cb
+        id: 2894236345
+        PathAndIcons:
+        - ElementName: Combat_Calm
+          ObjectType: 8
+      - name: Combat_Limit
+        guid: 670d350ac682774883782e97760b729f
+        id: 2902872313
+        PathAndIcons:
+        - ElementName: Combat_Limit
+          ObjectType: 8
+      - name: None
+        guid: 46b2aa1700316b4f9705cd1a133a1e2f
+        id: 748895195
+        PathAndIcons:
+        - ElementName: None
+          ObjectType: 8
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
+    - name: Music_Switch
+      guid: f18eeccfd0661a4fa2cf4790ce6ee7c2
+      id: 2724869341
+      PathAndIcons:
+      - ElementName: TheLastBeat
+        ObjectType: 12
+      - ElementName: Music_Switch
+        ObjectType: 9
+      Path: TheLastBeat\Music_Switch
+      values:
+      - name: Final_Combat
+        guid: 7c4a4ed5eb27884582a8514b2014e356
+        id: 1993352646
+        PathAndIcons:
+        - ElementName: Final_Combat
+          ObjectType: 8
+      - name: Land
+        guid: 300e4ce5bab0364facdf927a6af053c6
+        id: 674522502
+        PathAndIcons:
+        - ElementName: Land
+          ObjectType: 8
+      - name: None
+        guid: 384dc40d77b13f4cab4eec1e6d8d0868
+        id: 748895195
+        PathAndIcons:
+        - ElementName: None
+          ObjectType: 8
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
+    - name: Rewind_Combat_Loop
+      guid: c07ecd409c1ea9409220e3c18b25b534
+      id: 2305855220
+      PathAndIcons:
+      - ElementName: TheLastBeat
+        ObjectType: 12
+      - ElementName: Rewind_Combat_Loop
+        ObjectType: 9
+      Path: TheLastBeat\Rewind_Combat_Loop
       values:
       - name: LoopA
         guid: b4571515d19d124e9300ef175cf6c815
@@ -518,6 +539,37 @@ MonoBehaviour:
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
+    - name: Rewind_State
+      guid: 7ee8c1577e4b7947839fefdbbd4510e8
+      id: 2996289134
+      PathAndIcons:
+      - ElementName: TheLastBeat
+        ObjectType: 12
+      - ElementName: Rewind_State
+        ObjectType: 9
+      Path: TheLastBeat\Rewind_State
+      values:
+      - name: None
+        guid: f4f04d6111b644458a7ca45b570a3e0b
+        id: 748895195
+        PathAndIcons:
+        - ElementName: None
+          ObjectType: 8
+      - name: Normal
+        guid: 86fe1233d1280947846e24f51cf5b8dd
+        id: 1160234136
+        PathAndIcons:
+        - ElementName: Normal
+          ObjectType: 8
+      - name: Rewind
+        guid: d4ea08054659974b85bc01228336570c
+        id: 1673109572
+        PathAndIcons:
+        - ElementName: Rewind
+          ObjectType: 8
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
   SwitchWwu:
   - PhysicalPath: Switches\Default Work Unit.wwu
     ParentPhysicalPath: 
@@ -542,17 +594,26 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 1ac71c4bbb8fbe4aab71adce22d346fd
     GuidInternal: 
-    m_lastTime: -8586261317261972313
+    m_lastTime: -8586226864554392751
     List:
-    - name: OnBeat
-      guid: ffd3cb5f60b62441a39d20e0b0da27d8
-      id: 1813808854
+    - name: OnBeatBlink
+      guid: d46f234c41a01e47a61ebe5bd845a92c
+      id: 2384616720
       PathAndIcons:
       - ElementName: TheLastBeat
         ObjectType: 12
-      - ElementName: OnBeat
+      - ElementName: OnBeatBlink
         ObjectType: 14
-      Path: TheLastBeat\OnBeat
+      Path: TheLastBeat\OnBeatBlink
+    - name: OnBeatRush
+      guid: ffd3cb5f60b62441a39d20e0b0da27d8
+      id: 2234168428
+      PathAndIcons:
+      - ElementName: TheLastBeat
+        ObjectType: 12
+      - ElementName: OnBeatRush
+        ObjectType: 14
+      Path: TheLastBeat\OnBeatRush
   ExpandedItems:
   - /TheLastBeatAudio
   - /TheLastBeatAudio/Events

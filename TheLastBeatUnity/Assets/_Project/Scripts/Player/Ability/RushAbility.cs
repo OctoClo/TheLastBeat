@@ -7,27 +7,45 @@ using DG.Tweening;
 public class RushParams : AbilityParams
 {
     public float RushDuration = 0;
+    public float distanceAfterDash = 0;
     public float PulseCost = 0;
+    public float damageMultiplier = 1;
+
+    [Header("Sound")]
     public AK.Wwise.Event OnBeatSound = null;
     public AK.Wwise.Event OffBeatSound = null;
     public float Cooldown = 0;
 
     [HideInInspector]
     public BlinkAbility blinkAbility;
-    public GameObject RushMark = null;
+
+    [Header("Rush mark")]
+    public GameObject RushMarkPrefab = null;
     public Texture Texture = null;
     public float speedAnimMark = 0;
     public float markPersistDuration = 0;
     public Texture turnVariante1 = null;
     public Texture turnVariante2 = null;
+
+    [Header("Impact")]
+    public GameObject frontDash = null;
+    public GameObject backDash = null;
+    public float intensityScreenShake = 1;
+    public float durationScreenShake = 0;
+    public float rumbleIntensity = 0;
+    public float rumbleDuration = 0;
 }
 
 public class RushAbility : Ability
 {
     bool obstacleAhead = false;
-    bool attackOnRythm = false;
     RaycastHit obstacle;
     RushParams parameters;
+    Vector3 direction;
+    GameObject target;
+
+    float debt;
+    bool onRythm = false;
     
     public RewindRushAbility RewindRush { get; set; }
 
@@ -36,10 +54,17 @@ public class RushAbility : Ability
         parameters = rp;
     }
 
+    public void AddDebt(float value)
+    {
+        if (debt == 0)
+            debt += value;
+    }
+
     public override void Launch()
     {
         if (!player.Status.Dashing && currentCooldown == 0 && player.CurrentTarget != null)
         {
+            SceneHelper.Instance.FreezeFrame(0.05f);
             Rush();
         }
     }
@@ -52,21 +77,89 @@ public class RushAbility : Ability
         }
     }
 
+    void ImpactEffect(Collider coll)
+    {
+        if (coll && coll.gameObject == target)
+        {
+            SceneHelper.Instance.FreezeFrame(0.05f);
+
+            foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
+            {
+                ce.StartScreenShake(parameters.durationScreenShake, parameters.intensityScreenShake);
+            }
+
+            target.GetComponent<Enemy>().GetAttacked(onRythm);
+            if (!target)
+                return;
+
+            if (RewindRush != null)
+            {
+                RewindRush.AddChainEnemy(target.GetComponent<Enemy>());
+            }
+
+            //VFX
+            List<Vector3> frontAndBack = SceneHelper.Instance.RayCastBackAndForth(target.GetComponent<Collider>(), player.transform.position, direction, direction.magnitude);
+            if (frontAndBack.Count >= 2)
+            {
+                GameObject front = GameObject.Instantiate(parameters.frontDash, frontAndBack[0], Quaternion.identity);
+                front.transform.forward = -direction;
+                GameObject.Destroy(front, 2);
+
+                Sequence seqSpawn = DOTween.Sequence();
+                seqSpawn.AppendInterval(0.1f);
+                seqSpawn.AppendCallback(() =>
+                {
+                    GameObject back = GameObject.Instantiate(parameters.backDash, frontAndBack[1], Quaternion.identity);
+                    back.transform.forward = direction;
+                    GameObject.Destroy(back, 2);
+                });
+                seqSpawn.Play();
+            }
+        }
+    }
+
     void Rush()
     {
-        attackOnRythm = BeatManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), BeatManager.TypeBeat.BEAT);
+        CameraManager.Instance.SetBoolCamera(true, "FOV");
+        target = player.CurrentTarget.gameObject;
+        onRythm = SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT);
+        bool perfect = SoundManager.Instance.IsPerfect(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT);
+        if (onRythm)
+        {
+            parameters.OnBeatSound.Post(player.gameObject);
+            SceneHelper.Instance.Rumble(parameters.rumbleIntensity, parameters.rumbleDuration);
+            if (perfect)
+            {
+                player.ModifyPulseValue(-parameters.HealPerCorrectBeat);
+                PerfectBeat();
+            }
+            else
+                CorrectBeat();
+        }
+        else
+        {
+            //Reset CDA cooldown
+            RewindRush.MissInput();
+            parameters.OffBeatSound.Post(player.gameObject);
+            player.ModifyPulseValue(parameters.PulseCost + debt);
+            WrongBeat();
+            if (player.LoseLifeOnAbilities)
+                player.ModifyPulseValue(parameters.PulseCost);
+        }
+
+        debt = 0;
         parameters.blinkAbility.ResetCooldown();
         currentCooldown = cooldown;
         player.Status.StartDashing();
-        player.Anim.LaunchAnim(EPlayerAnim.RUSHING);
-
+        player.Anim.SetRushing(true);
+        direction = new Vector3(target.transform.position.x, player.transform.position.y, target.transform.position.z) - player.transform.position;
+        player.transform.forward = direction;
         if (RewindRush.IsInCombo)
             CreateTurnMark(player.transform.forward);
         else
             CreateStartMark(player.transform.forward);
 
         Sequence seq = DOTween.Sequence();
-        Vector3 direction = new Vector3(player.CurrentTarget.transform.position.x, player.transform.position.y, player.CurrentTarget.transform.position.z) - player.transform.position;
         GetObstacleOnDash(direction);
 
         // Dash towards the target
@@ -76,7 +169,7 @@ public class RushAbility : Ability
         }
         else
         {
-            direction *= 1.3f;
+            direction += (direction.normalized * parameters.distanceAfterDash);
             player.ColliderObject.layer = LayerMask.NameToLayer("Player Dashing");
         }
 
@@ -87,9 +180,11 @@ public class RushAbility : Ability
         {
             direction *= -0.5f;
             goalPosition += direction;
+            seq.AppendCallback(() => player.Anim.SetRushing(false));
             seq.Append(player.transform.DOMove(goalPosition, parameters.RushDuration / 2.0f));
         }
 
+        player.DelegateColl.OnTriggerEnterDelegate += ImpactEffect;
         seq.AppendCallback(() => End());
         seq.Play();
     }
@@ -102,7 +197,7 @@ public class RushAbility : Ability
         {
             Vector3 finalPos = hit.point + (hit.normal * 0.001f);
 
-            GameObject instanciatedTrail = GameObject.Instantiate(parameters.RushMark);
+            GameObject instanciatedTrail = GameObject.Instantiate(parameters.RushMarkPrefab);
             instanciatedTrail.transform.forward = player.transform.forward;
             instanciatedTrail.transform.position = finalPos;
             Material mat = instanciatedTrail.GetComponent<MeshRenderer>().material;
@@ -129,7 +224,7 @@ public class RushAbility : Ability
         {
             Vector3 finalPos = hit.point + (hit.normal * 0.001f);
 
-            GameObject instanciatedTrail = GameObject.Instantiate(parameters.RushMark);
+            GameObject instanciatedTrail = GameObject.Instantiate(parameters.RushMarkPrefab);
             instanciatedTrail.transform.localScale *= 0.7f;
             instanciatedTrail.transform.forward = player.transform.forward;
             instanciatedTrail.transform.position = finalPos;
@@ -168,30 +263,19 @@ public class RushAbility : Ability
 
     public override void End()
     {
+        onRythm = false;
+        player.DelegateColl.OnTriggerEnterDelegate -= ImpactEffect;
         player.Status.StopDashing();
+        player.Anim.SetRushing(false);
+        CameraManager.Instance.SetBoolCamera(false, "FOV");
 
         if (obstacleAhead && obstacle.collider.gameObject.layer == LayerMask.NameToLayer("Stun"))
             player.Status.Stun();
         else
         {
-            player.CurrentTarget.GetAttacked(attackOnRythm);
-            if (RewindRush != null)
-            {
-                RewindRush.AddChainEnemy(player.CurrentTarget);
-            }
+            if (!target)
+                return;
             player.ColliderObject.layer = LayerMask.NameToLayer("Default");
-        }
-
-        if (attackOnRythm)
-        {
-            parameters.OnBeatSound.Post(player.gameObject);
-            player.ModifyPulseValue(-healCorrectBeat);
-        }
-        else
-        {
-            RewindRush.MissInput();
-            parameters.OffBeatSound.Post(player.gameObject);
-            player.ModifyPulseValue(parameters.PulseCost);
         }
     }
 }

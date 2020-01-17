@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class EnemyWeaponHitbox : MonoBehaviour
 {
-    public bool PlayerInHitbox { get; private set; }
     public bool playerInHitbox;
-    Collider collid;
+    public bool PlayerInHitbox
+    {
+        get
+        {
+            return playerInHitbox;
+        }
+        private set
+        {
+            playerInHitbox = value;
+        }
+    }
 
     private void Start()
     {
         PlayerInHitbox = false;
-        playerInHitbox = false;
-        collid = GetComponent<Collider>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -20,7 +27,6 @@ public class EnemyWeaponHitbox : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             PlayerInHitbox = true;
-            playerInHitbox = true;
         }
     }
 
@@ -29,7 +35,6 @@ public class EnemyWeaponHitbox : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             PlayerInHitbox = false;
-            playerInHitbox = false;
         }
     }
 }
