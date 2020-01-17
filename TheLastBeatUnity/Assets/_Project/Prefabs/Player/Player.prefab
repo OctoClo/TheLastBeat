@@ -390,11 +390,11 @@ MonoBehaviour:
   rotationSpeed: 8
   holdlessThreshold: 0.7
   debugMode: 1
-  prefabDebug: {fileID: 5677467275973823097, guid: 9d7b9f9210a38a24da8ce1d3a5eaace3,
+  prefabDebug: {fileID: 2410694937090517874, guid: d27e93cf0a018cf46aef7a676ae41e92,
     type: 3}
   blinkParameters:
     AttachedPlayer: {fileID: 0}
-    HealPerCorrectBeat: 1
+    HealPerCorrectBeat: 0
     Speed: 6
     PulseCost: 4
     timeWait: 0.1
@@ -419,7 +419,7 @@ MonoBehaviour:
         type: 2}
   rushParameters:
     AttachedPlayer: {fileID: 0}
-    HealPerCorrectBeat: 1
+    HealPerCorrectBeat: 3
     RushDuration: 0.4
     distanceAfterDash: 4
     PulseCost: 5
@@ -452,7 +452,7 @@ MonoBehaviour:
     rumbleDuration: 0.4
   rushRewindParameters:
     AttachedPlayer: {fileID: 0}
-    HealPerCorrectBeat: 1
+    HealPerCorrectBeat: 6
     Duration: 0.2
     PulseCost: 5
     Cooldown: 5
