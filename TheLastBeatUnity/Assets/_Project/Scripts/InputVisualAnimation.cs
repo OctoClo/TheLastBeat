@@ -41,7 +41,11 @@ public class InputVisualAnimation : Beatable
            .AppendCallback(() =>
            {
                if (allInstances.Count > 0)
-                   allInstances.Dequeue();
+               {
+                   SequenceAndTarget seqAndTar = allInstances.Dequeue();
+                   seqAndTar.sequence.Kill();
+                   Destroy(seqAndTar.target);
+               }
            })
            .Insert(0, instantiatedPrefab.GetComponent<UnityEngine.UI.Image>().DOColor(Color.white, timeLeft).SetEase(Ease.Linear))
            .Insert(timeLeft, DOTween.To(() => 1, x => rect.localScale = new Vector3(x, x, 1), 1.4f, SoundManager.Instance.Tolerance).SetEase(Ease.Linear));
