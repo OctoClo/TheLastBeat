@@ -275,11 +275,6 @@ public class RushAbility : Ability
         {
             if (!target)
                 return;
-            target.GetComponent<Enemy>().GetAttacked(onRythm);
-            if (RewindRush != null && onRythm)
-            {
-                RewindRush.AddChainEnemy(target.GetComponent<Enemy>());
-            }
             player.ColliderObject.layer = LayerMask.NameToLayer("Default");
         }
     }
