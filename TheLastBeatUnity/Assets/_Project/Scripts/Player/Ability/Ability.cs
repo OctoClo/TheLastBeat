@@ -19,14 +19,16 @@ public class AbilityParams
 
 public abstract class Ability
 {
-    protected Player player;
+    protected Player player = null;
     protected float currentCooldown = 0;
     protected float cooldown = 0;
-    protected float healCorrectBeat = 4;
-    InputVisualAnimation visualAnimation;
-    public Ability(Player newPlayer)
+    protected float healCorrectBeat = 0;
+    InputVisualAnimation visualAnimation = null;
+
+    public Ability(Player newPlayer, float healCorrect)
     {
         player = newPlayer;
+        healCorrectBeat = healCorrect;
         visualAnimation = GameObject.FindObjectOfType<InputVisualAnimation>();
     }
 

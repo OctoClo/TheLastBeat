@@ -29,7 +29,7 @@ public class RewindRushAbility : Ability
     bool attackOnRythm = false;
     RewindRushParameters parameters;
 
-    public RewindRushAbility(RewindRushParameters rrp) : base(rrp.AttachedPlayer)
+    public RewindRushAbility(RewindRushParameters rrp, float healCorrect) : base(rrp.AttachedPlayer, healCorrect)
     {
         parameters = rrp;
     }

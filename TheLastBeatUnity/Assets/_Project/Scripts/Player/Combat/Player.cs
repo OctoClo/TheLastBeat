@@ -82,14 +82,14 @@ public class Player : Inputable
         healthSystem.Player = this;
 
         blinkParameters.AttachedPlayer = rushParameters.AttachedPlayer = rushRewindParameters.AttachedPlayer = this;
-        BlinkAbility blink = new BlinkAbility(blinkParameters);
+        BlinkAbility blink = new BlinkAbility(blinkParameters, blinkParameters.HealPerCorrectBeat);
         abilities.Add(EInputAction.BLINK, blink);
 
         rushParameters.blinkAbility = blink;
-        RushAbility rush = new RushAbility(rushParameters);
+        RushAbility rush = new RushAbility(rushParameters, rushParameters.HealPerCorrectBeat);
         abilities.Add(EInputAction.RUSH, rush);
 
-        RewindRushAbility rewindRush = new RewindRushAbility(rushRewindParameters);
+        RewindRushAbility rewindRush = new RewindRushAbility(rushRewindParameters, rushRewindParameters.HealPerCorrectBeat);
         abilities.Add(EInputAction.REWINDRUSH, rewindRush);
         rush.RewindRush = rewindRush;
 

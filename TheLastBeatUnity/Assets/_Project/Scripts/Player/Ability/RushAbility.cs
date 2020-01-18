@@ -49,7 +49,7 @@ public class RushAbility : Ability
     
     public RewindRushAbility RewindRush { get; set; }
 
-    public RushAbility(RushParams rp) : base(rp.AttachedPlayer)
+    public RushAbility(RushParams rp, float healCorrect) : base(rp.AttachedPlayer, healCorrect)
     {
         parameters = rp;
     }
