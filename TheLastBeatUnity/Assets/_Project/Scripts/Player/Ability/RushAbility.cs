@@ -197,9 +197,8 @@ public class RushAbility : Ability
         {
             Vector3 finalPos = hit.point + (hit.normal * 0.001f);
 
-            GameObject instanciatedTrail = GameObject.Instantiate(parameters.RushMarkPrefab);
+            GameObject instanciatedTrail = GameObject.Instantiate(parameters.RushMarkPrefab, finalPos, Quaternion.identity);
             instanciatedTrail.transform.forward = player.transform.forward;
-            instanciatedTrail.transform.position = finalPos;
             Material mat = instanciatedTrail.GetComponent<MeshRenderer>().material;
             mat.SetFloat("_CoeffDissolve", 0);
             mat.SetFloat("_ExtToInt", 0);
@@ -224,10 +223,9 @@ public class RushAbility : Ability
         {
             Vector3 finalPos = hit.point + (hit.normal * 0.001f);
 
-            GameObject instanciatedTrail = GameObject.Instantiate(parameters.RushMarkPrefab);
+            GameObject instanciatedTrail = GameObject.Instantiate(parameters.RushMarkPrefab, finalPos , Quaternion.identity);
             instanciatedTrail.transform.localScale *= 0.7f;
             instanciatedTrail.transform.forward = player.transform.forward;
-            instanciatedTrail.transform.position = finalPos;
             Material mat = instanciatedTrail.GetComponent<MeshRenderer>().material;
             mat.SetFloat("_CoeffDissolve", 0);
             mat.SetFloat("_ExtToInt", 0);
