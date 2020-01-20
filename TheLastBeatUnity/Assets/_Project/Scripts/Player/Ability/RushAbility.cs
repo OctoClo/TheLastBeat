@@ -268,8 +268,6 @@ public class RushAbility : Ability
             player.Status.GetStunned();
         else
         {
-            if (!target)
-                return;
             player.ColliderObject.layer = LayerMask.NameToLayer("Default");
             player.Status.StopRushing();
         }
