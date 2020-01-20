@@ -22,7 +22,8 @@ public class BeatAtFeet : Beatable
         instantiated.transform.localPosition = Vector3.zero;
         Sequence seq = DOTween.Sequence()
             .Append(instantiated.transform.DOScale(finalSize, timeLeft)).SetEase(Ease.Linear)
-            .Insert(0, DOTween.To(() => instantiated.GetComponent<MeshRenderer>().material.color, x => instantiated.GetComponent<MeshRenderer>().material.color = x, Color.white, timeLeft)).SetEase(Ease.Linear)
+            .Append(DOTween.To(() => instantiated.GetComponent<MeshRenderer>().material.color, x => instantiated.GetComponent<MeshRenderer>().material.color = x, Color.clear, 0.2f).SetEase(Ease.Linear))
+            .Insert(0, DOTween.To(() => instantiated.GetComponent<MeshRenderer>().material.color, x => instantiated.GetComponent<MeshRenderer>().material.color = x, Color.white, timeLeft).SetEase(Ease.Linear))
             .AppendCallback(() => Destroy(instantiated));
     }
 }
