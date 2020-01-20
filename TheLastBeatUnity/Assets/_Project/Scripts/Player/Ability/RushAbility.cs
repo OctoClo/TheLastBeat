@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -62,9 +62,9 @@ public class RushAbility : Ability
 
     public override void Launch()
     {
-        if (!player.Status.Dashing && currentCooldown == 0 && player.CurrentTarget != null)
+        if (currentCooldown == 0 && player.CurrentTarget != null)
         {
-            SceneHelper.Instance.FreezeFrame(0.05f);
+            SceneHelper.Instance.FreezeFrameTween(0.05f);
             Rush();
         }
     }
@@ -81,7 +81,7 @@ public class RushAbility : Ability
     {
         if (coll && coll.gameObject == target)
         {
-            SceneHelper.Instance.FreezeFrame(0.05f);
+            SceneHelper.Instance.FreezeFrameTween(0.05f);
 
             foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
             {
@@ -150,10 +150,11 @@ public class RushAbility : Ability
         debt = 0;
         parameters.blinkAbility.ResetCooldown();
         currentCooldown = cooldown;
-        player.Status.StartDashing();
-        player.Anim.SetRushing(true);
+        player.Status.StartRushing();
         direction = new Vector3(target.transform.position.x, player.transform.position.y, target.transform.position.z) - player.transform.position;
         player.transform.forward = direction;
+        player.DelegateColl.OnTriggerEnterDelegate += ImpactEffect;
+
         if (RewindRush.IsInCombo)
             CreateTurnMark(player.transform.forward);
         else
@@ -183,8 +184,6 @@ public class RushAbility : Ability
             seq.AppendCallback(() => player.Anim.SetRushing(false));
             seq.Append(player.transform.DOMove(goalPosition, parameters.RushDuration / 2.0f));
         }
-
-        player.DelegateColl.OnTriggerEnterDelegate += ImpactEffect;
         seq.AppendCallback(() => End());
         seq.Play();
     }
@@ -263,17 +262,16 @@ public class RushAbility : Ability
     {
         onRythm = false;
         player.DelegateColl.OnTriggerEnterDelegate -= ImpactEffect;
-        player.Status.StopDashing();
-        player.Anim.SetRushing(false);
         CameraManager.Instance.SetBoolCamera(false, "FOV");
 
         if (obstacleAhead && obstacle.collider.gameObject.layer == LayerMask.NameToLayer("Stun"))
-            player.Status.Stun();
+            player.Status.GetStunned();
         else
         {
             if (!target)
                 return;
             player.ColliderObject.layer = LayerMask.NameToLayer("Default");
+            player.Status.StopRushing();
         }
     }
 }

@@ -38,7 +38,7 @@ public class RewindRushAbility : Ability
     {
         base.Update(deltaTime);
 
-        if (chainedEnemies.Count > 0 && !player.Status.Dashing && currentCooldown == 0)
+        if (chainedEnemies.Count > 0 && currentCooldown == 0)
         {
             rushChainTimer -= Time.deltaTime;
 
@@ -88,7 +88,7 @@ public class RewindRushAbility : Ability
     {
         currentCooldown = cooldown;
         parameters.RewindState.SetValue();
-        player.Status.StartDashing();
+        player.Status.StartRushing();
         player.ColliderObject.layer = LayerMask.NameToLayer("Player Dashing");
 
         attackOnRythm = SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT);
@@ -119,11 +119,7 @@ public class RewindRushAbility : Ability
                 direction *= 1.3f;
 
                 goalPosition += direction;
-                seq.AppendCallback(() =>
-                {
-                    player.Anim.SetRushing(true);
-                    SceneHelper.Instance.FreezeFrame(0.1f);
-                });
+                seq.AppendCallback(() => SceneHelper.Instance.FreezeFrameTween(0.1f));
                 seq.Append(player.transform.DOMove(goalPosition, parameters.Duration));
                 seq.AppendCallback(() => { enemy.GetAttacked(attackOnRythm); });
             }
@@ -146,8 +142,7 @@ public class RewindRushAbility : Ability
         }
 
         CameraManager.Instance.SetBoolCamera(false, "Rewinding");
-        player.Anim.SetRushing(false);
-        player.Status.StopDashing();
+        player.Status.StopRushing();
         player.gameObject.layer = LayerMask.NameToLayer("Default");
         ResetCombo();
         parameters.NormalState.SetValue();

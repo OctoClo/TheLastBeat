@@ -10,6 +10,14 @@ using System.Linq;
 
 public class Player : Inputable
 {
+    [TabGroup("General")] [SerializeField]
+    float hitFreezeFrameDuration = 0.2f;
+    [TabGroup("General")] [SerializeField]
+    bool debugMode = false;
+    [TabGroup("General")] [SerializeField]
+    GameObject prefabDebug = null;
+    GameObject instantiatedDebug;
+
     [TabGroup("Movement")] [SerializeField]
     float speed = 7.5f;
     Vector3 movement = Vector3.zero;
@@ -20,17 +28,12 @@ public class Player : Inputable
     Vector3 rotation = Vector3.zero;
     Quaternion deltaRotation = Quaternion.identity;
     public Vector3 CurrentDirection { get; set; }
-
-    [TabGroup("Movement")] [Range(0, 1)] [SerializeField]
+    [TabGroup("Movement")] [Range(0, 1)] [SerializeField] [Tooltip("Ignore input for right stick under this value")]
     float holdlessThreshold = 0.7f;
-    [TabGroup("Movement")] [SerializeField]
-    bool debugMode = false;
-    [TabGroup("Movement")] [SerializeField]
-    GameObject prefabDebug = null;
-    GameObject instantiatedDebug;
 
     //If you are doing something (dash , attack animation, etc...) or if game paused, temporary block input
-    public override bool BlockInput => (blockInput || Status.Dashing || Status.Stunned || Status.Blinking);
+    public override bool BlockInput => (blockInput || Status.CurrentStatus != EPlayerStatus.DEFAULT);
+    public bool BlockInputDebug = false;
 
     [TabGroup("Blink")] [SerializeField]
     BlinkParams blinkParameters = null;
@@ -62,8 +65,6 @@ public class Player : Inputable
     [HideInInspector]
     public PlayerStatus Status { get; private set; }
     [HideInInspector]
-    public PlayerAnim Anim = null;
-    [HideInInspector]
     public GameObject ColliderObject = null;
     public Collider CurrentTarget => pyramid.NearestEnemy;
 
@@ -75,7 +76,6 @@ public class Player : Inputable
     private void Start()
     {
         Status = GetComponent<PlayerStatus>();
-        Anim = GetComponent<PlayerAnim>();
         ColliderObject = GetComponent<CapsuleCollider>().gameObject;
         rb = GetComponent<Rigidbody>();
         pyramidCollider = pyramid.GetComponent<Collider>();
@@ -109,10 +109,9 @@ public class Player : Inputable
     {
         // Direction Inputs
         CurrentDirection = new Vector3(player.GetAxis("MoveX"), 0, player.GetAxis("MoveY"));
-        Anim.SetMovement(CurrentDirection);
 
         // Abilities Inputs
-        if (!Status.Dashing)
+        if (Status.CurrentStatus == EPlayerStatus.DEFAULT)
         {
             Ability ability = null;
 
@@ -160,7 +159,10 @@ public class Player : Inputable
             // Movement
             movement = CurrentDirection * speed;
             rb.velocity = movement;
+            Status.SetMoving(true);
         }
+        else
+            Status.SetMoving(false);
     }
 
     public void ModifyPulseValue(float value, bool fromEnemy = false)
@@ -171,14 +173,24 @@ public class Player : Inputable
         }
         else
         {
-            healthSystem.ModifyPulseValue(value);
-            if (fromEnemy)
+            if (!fromEnemy)
+                healthSystem.ModifyPulseValue(value);
+            else if (Status.CurrentStatus != EPlayerStatus.RUSHING && Status.CurrentStatus != EPlayerStatus.BLINKING)
             {
                 Ability rewindRush;
                 if (abilities.TryGetValue(EInputAction.REWINDRUSH, out rewindRush))
                     ((RewindRushAbility)rewindRush).ResetCooldown();
+                StartCoroutine(SioHitAnim(value));
             }
         }
+    }
+
+    IEnumerator SioHitAnim(float value)
+    {
+        Status.GetHit();
+        yield return StartCoroutine(SceneHelper.Instance.FreezeFrameCoroutine(hitFreezeFrameDuration));
+        Status.StopHit();
+        healthSystem.ModifyPulseValue(value);
     }
 
     void Die()
@@ -195,7 +207,7 @@ public class Player : Inputable
         float objective = 90;
         float duration = 0.5f;
         float cursor = 0;
-        Anim.SetMovement(Vector3.zero);
+        Status.SetMoving(false);
 
         while (cursor < objective)
         {
@@ -211,10 +223,12 @@ public class Player : Inputable
 
     private void Update()
     {
+        BlockInputDebug = BlockInput;
+        
         foreach (KeyValuePair<EInputAction, Ability> abilityPair in abilities)
             abilityPair.Value.Update(Time.deltaTime);
 
-        if (Status.Dashing && CurrentTarget)
+        if (Status.CurrentStatus == EPlayerStatus.RUSHING && CurrentTarget)
         {
             Vector3 positionToLook = new Vector3(CurrentTarget.transform.position.x, transform.position.y, CurrentTarget.transform.position.z);
             pyramid.transform.LookAt(positionToLook);
