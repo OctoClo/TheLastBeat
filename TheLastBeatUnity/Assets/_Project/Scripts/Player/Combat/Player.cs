@@ -33,7 +33,6 @@ public class Player : Inputable
 
     //If you are doing something (dash , attack animation, etc...) or if game paused, temporary block input
     public override bool BlockInput => (blockInput || Status.CurrentStatus != EPlayerStatus.DEFAULT);
-    public bool BlockInputDebug = false;
 
     [TabGroup("Blink")] [SerializeField]
     BlinkParams blinkParameters = null;
@@ -223,8 +222,6 @@ public class Player : Inputable
 
     private void Update()
     {
-        BlockInputDebug = BlockInput;
-        
         foreach (KeyValuePair<EInputAction, Ability> abilityPair in abilities)
             abilityPair.Value.Update(Time.deltaTime);
 
