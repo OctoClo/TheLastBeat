@@ -1310,9 +1310,10 @@ MonoBehaviour:
   hitEnemy:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
-  screenDurationHit: 0
-  screenIntensityHit: 0
+    WwiseObjectReference: {fileID: 11400000, guid: aff16eab68fd46744a00142ce2dfaa3f,
+      type: 2}
+  screenDurationHit: 0.5
+  screenIntensityHit: 5
   ComeBack: 0
   ChaseAgain: 0
   InWanderZone: 0
@@ -1320,7 +1321,8 @@ MonoBehaviour:
   HasAttackedPlayer: 0
   waitBeforeExplosionAnim: 1
   explosionBlastForce: 35
-  explosionDamage: 10
+  explosionDamageToPlayer: 10
+  explosionDamageToEnemies: 2
   explosionArea: {fileID: 8494787692734404405}
   explosionPrefab: {fileID: 100010, guid: 031d08f52af1daa4f929b85221519426, type: 3}
 --- !u!195 &7956293027968414304

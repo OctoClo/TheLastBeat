@@ -10,7 +10,9 @@ public class EnemyExplosive : Enemy
     [TabGroup("Behaviour")] [SerializeField] [Tooltip("How much the explosion will push the player / enemies away if hit")]
     float explosionBlastForce = 0;
     [TabGroup("Behaviour")] [SerializeField] [Tooltip("How many HP the player will lose if hit")]
-    int explosionDamage = 0;
+    int explosionDamageToPlayer = 0;
+    [TabGroup("Behaviour")] [SerializeField] [Tooltip("How many HP the enemies will lose if hit")]
+    int explosionDamageToEnemies = 0;
 
     [TabGroup("References")] [SerializeField]
     EnemyExplosionArea explosionArea = null;
@@ -20,7 +22,7 @@ public class EnemyExplosive : Enemy
     protected override void CreateStates()
     {
         base.CreateStates();
-        states.Add(EEnemyState.EXPLODE, new EnemyStateExplode(this, waitBeforeExplosionAnim, explosionBlastForce, explosionDamage, explosionPrefab, explosionArea));
+        states.Add(EEnemyState.EXPLODE, new EnemyStateExplode(this, waitBeforeExplosionAnim, explosionBlastForce, explosionDamageToPlayer, explosionDamageToEnemies, explosionPrefab, explosionArea));
     }
 
     public override void StartDying()

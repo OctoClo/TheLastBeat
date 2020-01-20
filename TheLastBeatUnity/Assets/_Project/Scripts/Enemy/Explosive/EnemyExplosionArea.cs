@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,7 +18,7 @@ public class EnemyExplosionArea : MonoBehaviour
         colliderRadius = GetComponent<SphereCollider>().radius;
     }
 
-    public void Explode(float force, int damage, Player player)
+    public void Explode(float force, int damageToPlayer, int damageToEnemies, Player player)
     {
         blastForce = force;
         Enemy enemy = null;
@@ -32,13 +32,14 @@ public class EnemyExplosionArea : MonoBehaviour
                 {
                     enemy.GetPushedBack();
                     PushRigidbody(collid);
+                    enemy.GetAttacked(false, damageToEnemies);
                 }
             }
 
             if (collid.gameObject.CompareTag("Player"))
             {
                 PushRigidbody(collid);
-                player.ModifyPulseValue(damage, true);
+                player.ModifyPulseValue(damageToPlayer, true);
             }
         }
 
