@@ -46,7 +46,8 @@ public class Player : Inputable
     [TabGroup("References")] [SerializeField]
     Health healthSystem = null;
     [TabGroup("References")] [SerializeField]
-    Pyramid pyr;
+    Pyramid pyramid = null;
+    Collider pyramidCollider = null;
     [TabGroup("References")] [SerializeField]
     Transform visualPart = null;
     public Transform VisualPart => visualPart;
@@ -64,7 +65,7 @@ public class Player : Inputable
     public PlayerAnim Anim = null;
     [HideInInspector]
     public GameObject ColliderObject = null;
-    public Collider CurrentTarget => pyr.NearestEnemy;
+    public Collider CurrentTarget => pyramid.NearestEnemy;
 
     public void SetFoot(Transform trsf)
     {
@@ -77,6 +78,7 @@ public class Player : Inputable
         Anim = GetComponent<PlayerAnim>();
         ColliderObject = GetComponent<CapsuleCollider>().gameObject;
         rb = GetComponent<Rigidbody>();
+        pyramidCollider = pyramid.GetComponent<Collider>();
         healthSystem.Player = this;
 
         blinkParameters.AttachedPlayer = rushParameters.AttachedPlayer = rushRewindParameters.AttachedPlayer = this;
@@ -96,6 +98,11 @@ public class Player : Inputable
 
         if (debugMode)
             instantiatedDebug = Instantiate(prefabDebug);
+    }
+
+    public void DebtRush(float value)
+    {
+        (abilities[EInputAction.RUSH] as RushAbility).AddDebt(value);
     }
 
     public override void ProcessInput(Rewired.Player player)
@@ -121,22 +128,22 @@ public class Player : Inputable
         Vector3 directionLook = new Vector3(player.GetAxis("FocusX"), 0, player.GetAxis("FocusY"));
         if (directionLook.magnitude > holdlessThreshold)
         {
-            pyr.gameObject.GetComponent<Collider>().enabled = true;
-            pyr.transform.forward = new Vector3(directionLook.x, 0, directionLook.z);
-            pyr.RecomputeNearest();
-            pyr.RecomputePositions();
+            pyramidCollider.enabled = true;
+            pyramid.transform.forward = new Vector3(directionLook.x, 0, directionLook.z);
+            pyramid.RecomputeNearest();
+            pyramid.RecomputePositions();
         }
         else
         {
             if (CurrentTarget != null)
             {
                 Vector3 positionToLook = new Vector3(CurrentTarget.transform.position.x, transform.position.y, CurrentTarget.transform.position.z);
-                pyr.transform.LookAt(positionToLook);
+                pyramid.transform.LookAt(positionToLook);
             }
             else
             {
-                pyr.gameObject.GetComponent<Collider>().enabled = false;
-                pyr.Purge();
+                pyramidCollider.enabled = false;
+                pyramid.Purge();
             }
         }
     }
@@ -210,7 +217,7 @@ public class Player : Inputable
         if (Status.Dashing && CurrentTarget)
         {
             Vector3 positionToLook = new Vector3(CurrentTarget.transform.position.x, transform.position.y, CurrentTarget.transform.position.z);
-            pyr.transform.LookAt(positionToLook);
+            pyramid.transform.LookAt(positionToLook);
         }
 
         if (debugMode)

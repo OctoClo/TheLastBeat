@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1771742551436359499}
   - component: {fileID: 1332683587560319940}
   - component: {fileID: 1597515078}
+  - component: {fileID: 2379123549399822018}
   m_Layer: 0
   m_Name: Monotlith6
   m_TagString: Untagged
@@ -91,14 +92,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b564c97716787b04f852f8f6c29d0c82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sequenceDuration: 0.4
+  sequenceDuration: 0.8
   recordAs: 0
   curve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0
+      time: -0.0083351135
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -107,17 +108,34 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
+      value: 0
+      inSlope: -3.2547162
+      outSlope: -3.2547162
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.049586702
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   targetValue: 10
+  countBeforeSetup: 2
+--- !u!208 &2379123549399822018
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638537368386868299}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 1.7730001, y: 1.8030001, z: 1.7730001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
+  m_TimeToStationary: 0.5
 --- !u!1 &1484894166599355705
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,6 +148,7 @@ GameObject:
   - component: {fileID: 3233138920547600762}
   - component: {fileID: 2854316780155916740}
   - component: {fileID: 1597515083}
+  - component: {fileID: 2955036634558112526}
   m_Layer: 0
   m_Name: Monolith1
   m_TagString: Untagged
@@ -209,14 +228,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b564c97716787b04f852f8f6c29d0c82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sequenceDuration: 0.4
+  sequenceDuration: 0.8
   recordAs: 0
   curve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0
+      time: -0.0083351135
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -225,17 +244,34 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
+      value: 0
+      inSlope: -3.2547162
+      outSlope: -3.2547162
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.049586702
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   targetValue: 10
+  countBeforeSetup: 2
+--- !u!208 &2955036634558112526
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1484894166599355705}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.47700003, y: 0.48800004, z: 0.47800002}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.045, y: 0.043, z: 0.027}
+  m_TimeToStationary: 0.5
 --- !u!1 &2275711416260616471
 GameObject:
   m_ObjectHideFlags: 0
@@ -248,6 +284,7 @@ GameObject:
   - component: {fileID: 3067397433355463007}
   - component: {fileID: 1743523238148078120}
   - component: {fileID: 1597515077}
+  - component: {fileID: 892870215996055886}
   m_Layer: 0
   m_Name: Monotlith7
   m_TagString: Untagged
@@ -327,14 +364,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b564c97716787b04f852f8f6c29d0c82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sequenceDuration: 0.4
+  sequenceDuration: 0.8
   recordAs: 0
   curve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0
+      time: -0.0083351135
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -343,17 +380,34 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
+      value: 0
+      inSlope: -3.2547162
+      outSlope: -3.2547162
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.049586702
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   targetValue: 10
+  countBeforeSetup: 2
+--- !u!208 &892870215996055886
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2275711416260616471}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 1.102, y: 1.128, z: 1.0730001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.043, y: 0.68700004, z: -0.096}
+  m_TimeToStationary: 0.5
 --- !u!1 &3037933935655973377
 GameObject:
   m_ObjectHideFlags: 0
@@ -366,6 +420,7 @@ GameObject:
   - component: {fileID: 629956377277350894}
   - component: {fileID: 5106257956573366802}
   - component: {fileID: 1597515080}
+  - component: {fileID: 2951634109265436558}
   m_Layer: 0
   m_Name: Monotlith4
   m_TagString: Untagged
@@ -445,14 +500,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b564c97716787b04f852f8f6c29d0c82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sequenceDuration: 0.4
+  sequenceDuration: 0.8
   recordAs: 0
   curve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0
+      time: -0.0083351135
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -461,17 +516,34 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
+      value: 0
+      inSlope: -3.2547162
+      outSlope: -3.2547162
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.049586702
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   targetValue: 10
+  countBeforeSetup: 2
+--- !u!208 &2951634109265436558
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3037933935655973377}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.8, y: 0.81600004, z: 0.78200006}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.001, y: 0.483, z: 0.089}
+  m_TimeToStationary: 0.5
 --- !u!1 &3662277959436827350
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,6 +556,7 @@ GameObject:
   - component: {fileID: 5044122364734960194}
   - component: {fileID: 2878794959181206960}
   - component: {fileID: 1597515081}
+  - component: {fileID: 2244778471669718169}
   m_Layer: 0
   m_Name: Monotlith3
   m_TagString: Untagged
@@ -563,14 +636,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b564c97716787b04f852f8f6c29d0c82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sequenceDuration: 0.4
+  sequenceDuration: 0.8
   recordAs: 0
   curve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0
+      time: -0.0083351135
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -579,17 +652,34 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
+      value: 0
+      inSlope: -3.2547162
+      outSlope: -3.2547162
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.049586702
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   targetValue: 10
+  countBeforeSetup: 2
+--- !u!208 &2244778471669718169
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3662277959436827350}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 1.085, y: 1.13, z: 1.0830001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.07700001, y: 0.74300003, z: 0.141}
+  m_TimeToStationary: 0.5
 --- !u!1 &4580481139769555783
 GameObject:
   m_ObjectHideFlags: 0
@@ -602,6 +692,7 @@ GameObject:
   - component: {fileID: 5005481728379145349}
   - component: {fileID: 5297793744775910944}
   - component: {fileID: 1597515079}
+  - component: {fileID: 6539235552671310403}
   m_Layer: 0
   m_Name: Monotlith5
   m_TagString: Untagged
@@ -681,14 +772,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b564c97716787b04f852f8f6c29d0c82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sequenceDuration: 0.4
+  sequenceDuration: 0.8
   recordAs: 0
   curve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0
+      time: -0.0083351135
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -697,17 +788,34 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
+      value: 0
+      inSlope: -3.2547162
+      outSlope: -3.2547162
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.049586702
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   targetValue: 10
+  countBeforeSetup: 2
+--- !u!208 &6539235552671310403
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4580481139769555783}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.78000003, y: 0.80600005, z: 0.79600006}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.043, y: 0.31500003, z: 0.003}
+  m_TimeToStationary: 0.5
 --- !u!1 &6318520969088867325
 GameObject:
   m_ObjectHideFlags: 0
@@ -757,6 +865,7 @@ GameObject:
   - component: {fileID: 7703955359715916795}
   - component: {fileID: 5544827844228316524}
   - component: {fileID: 1597515082}
+  - component: {fileID: 7472767129543903122}
   m_Layer: 0
   m_Name: Monotlith2
   m_TagString: Untagged
@@ -836,14 +945,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b564c97716787b04f852f8f6c29d0c82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sequenceDuration: 0.4
+  sequenceDuration: 0.8
   recordAs: 0
   curve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0
+      time: -0.0083351135
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -852,14 +961,31 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
+      value: 0
+      inSlope: -3.2547162
+      outSlope: -3.2547162
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.049586702
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   targetValue: 10
+  countBeforeSetup: 2
+--- !u!208 &7472767129543903122
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8972405305828906435}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.48200002, y: 0.48400003, z: 0.47900003}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.016, y: 0.10300001, z: 0.069000006}
+  m_TimeToStationary: 0.5

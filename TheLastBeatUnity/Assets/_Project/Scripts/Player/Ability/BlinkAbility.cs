@@ -60,14 +60,21 @@ public class BlinkAbility : Ability
         currentSequence = DOTween.Sequence();
         currentSequence.AppendCallback(() =>
         {
-            currentCooldown = SoundManager.Instance.TimePerBar;
             player.Status.StartBlink();
             if (SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT))
             {
-                player.ModifyPulseValue(-healCorrectBeat);
-                SceneHelper.Instance.Rumble(parameters.rumbleIntensity, parameters.rumbleDuration);
+                if (SoundManager.Instance.IsPerfect(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT))
+                {
+                    player.ModifyPulseValue(-healCorrectBeat);
+                    PerfectBeat();
+                }
+                else
+                {
+                    CorrectBeat();
+                }
+                
                 parameters.OnBeatSound.Post(player.gameObject);
-                CorrectBeat();
+                SceneHelper.Instance.Rumble(parameters.rumbleIntensity, parameters.rumbleDuration);
             }
             else
             {
@@ -75,6 +82,8 @@ public class BlinkAbility : Ability
                     player.ModifyPulseValue(parameters.PulseCost);
                 parameters.OffBeatSound.Post(player.gameObject);
                 WrongBeat();
+                player.DebtRush(parameters.PulseCost);
+                currentCooldown = SoundManager.Instance.TimePerBar;
             }
         });
         currentSequence.AppendInterval(parameters.timeWait);
@@ -94,9 +103,9 @@ public class BlinkAbility : Ability
         //Find nearest ground + can be created on steep
         if (Physics.Raycast(positionCast, Vector3.down, out hit))
         {
-            GameObject markInstanciated = GameObject.Instantiate(parameters.prefabMark);
-            markInstanciated.transform.position = hit.point + (hit.normal * 0.1f);
+            GameObject markInstanciated = GameObject.Instantiate(parameters.prefabMark, hit.point + (hit.normal * 0.1f), Quaternion.identity);
             markInstanciated.transform.up = hit.normal;
+            markInstanciated.GetComponent<SlopeAdaptation>().Adapt();
             Material mat = markInstanciated.GetComponent<MeshRenderer>().material;
             mat.SetFloat("_ExtToInt", 1);
             Sequence seq = DOTween.Sequence();
@@ -120,8 +129,8 @@ public class BlinkAbility : Ability
             pos2 = hit2.point + (hit2.normal * 0.001f);
 
             GameObject instanciatedTrail = GameObject.Instantiate(parameters.prefabTrail);
-            instanciatedTrail.transform.position = (pos1 + pos2) / 2.0f;
             instanciatedTrail.transform.right = pos1 - pos2;
+            instanciatedTrail.transform.position = (pos1 + pos2) / 2.0f;
 
             Material mat = instanciatedTrail.GetComponent<MeshRenderer>().material;
             Sequence seq = DOTween.Sequence();
@@ -136,6 +145,8 @@ public class BlinkAbility : Ability
             Vector3 scale = instanciatedTrail.transform.localScale;
             float nextValue = dist * scale.x / 8.0f;
             instanciatedTrail.transform.localScale = new Vector3(nextValue, instanciatedTrail.transform.localScale.y, instanciatedTrail.transform.localScale.z);
+
+            instanciatedTrail.GetComponent<SlopeAdaptation>().Adapt();
         }
     }
 }

@@ -156,87 +156,6 @@ MonoBehaviour:
   m_id: 1c79e7d7-81ec-43df-9d3a-94ff0efa8f10
   m_name: Application Quit
   m_notes: 
---- !u!114 &-5568928207472404110
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97aebf4d1c7c46d9843e5c78fd464d44, type: 3}
-  m_Name: GameEventNode
-  m_EditorClassIdentifier: 
-  ErrorNodeNameIsEmpty: 0
-  ErrorDuplicateNameFoundInGraph: 0
-  m_inputSockets:
-  - m_connectionMode: 1
-    m_connections:
-    - m_inputConnectionPoint: {x: -2, y: 4}
-      m_outputConnectionPoint: {x: 106, y: 4}
-      m_id: 06587faa-e93d-4e2c-b0ac-d4255a83d169
-      m_inputNodeId: 437c36fc-a76c-41ea-8859-4c499f4095f1
-      m_inputSocketId: e623c096-8eaa-494b-9f84-869870dfa0a0
-      m_outputNodeId: 40132db1-603f-49c5-ac83-415c61922b76
-      m_outputSocketId: 62a6f541-b184-4b8a-94a2-e288f8188108
-    m_connectionPoints:
-    - {x: -2, y: 4}
-    - {x: 202, y: 4}
-    m_direction: 0
-    m_canBeDeleted: 0
-    m_canBeReordered: 0
-    m_curveModifier: 0
-    m_height: 24
-    m_width: 216
-    m_x: 0
-    m_y: 38
-    m_id: e623c096-8eaa-494b-9f84-869870dfa0a0
-    m_nodeId: 437c36fc-a76c-41ea-8859-4c499f4095f1
-    m_socketName: InputSocket_0
-    m_value: '{}'
-    m_valueTypeQualifiedName: Doozy.Engine.Nody.Connections.PassthroughConnection,
-      Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_outputSockets:
-  - m_connectionMode: 0
-    m_connections: []
-    m_connectionPoints:
-    - {x: -2, y: 4}
-    - {x: 202, y: 4}
-    m_direction: 1
-    m_canBeDeleted: 0
-    m_canBeReordered: 0
-    m_curveModifier: 0
-    m_height: 24
-    m_width: 216
-    m_x: 0
-    m_y: 62
-    m_id: 212f9c91-3ef7-4806-b013-b9fb381a6658
-    m_nodeId: 437c36fc-a76c-41ea-8859-4c499f4095f1
-    m_socketName: OutputSocket_0
-    m_value: '{}'
-    m_valueTypeQualifiedName: Doozy.Engine.Nody.Connections.PassthroughConnection,
-      Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_nodeType: 4
-  m_allowDuplicateNodeName: 0
-  m_allowEmptyNodeName: 0
-  m_canBeDeleted: 1
-  m_debugMode: 0
-  m_useFixedUpdate: 0
-  m_useLateUpdate: 0
-  m_useUpdate: 0
-  m_height: 152
-  m_width: 216
-  m_x: 108
-  m_y: -12
-  m_minimumInputSocketsCount: 1
-  m_minimumOutputSocketsCount: 1
-  m_graphId: f0a88120-e5c7-4cc8-822f-d35880f2af75
-  m_id: 437c36fc-a76c-41ea-8859-4c499f4095f1
-  m_name: Send Game Events
-  m_notes: 
-  ErrorNotSendingAnyGameEvent: 1
-  GameEvent: 
 --- !u!114 &-5518308281712296374
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -448,7 +367,7 @@ MonoBehaviour:
   m_version: 1
   m_description: 
   m_id: f0a88120-e5c7-4cc8-822f-d35880f2af75
-  m_lastModified: 132199396432847457
+  m_lastModified: 132237307880683152
 --- !u!114 &2186754372028318758
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -695,14 +614,7 @@ MonoBehaviour:
   m_inputSockets: []
   m_outputSockets:
   - m_connectionMode: 0
-    m_connections:
-    - m_inputConnectionPoint: {x: -2, y: 4}
-      m_outputConnectionPoint: {x: 106, y: 4}
-      m_id: b4096016-b8f9-492a-b74e-b81c9b6736ea
-      m_inputNodeId: ed42d26a-df8a-4821-ade1-0685bb2a58da
-      m_inputSocketId: 2d98e408-89f1-442a-a3ae-e9dea26a32c5
-      m_outputNodeId: 40132db1-603f-49c5-ac83-415c61922b76
-      m_outputSocketId: 62a6f541-b184-4b8a-94a2-e288f8188108
+    m_connections: []
     m_connectionPoints:
     - {x: -2, y: 4}
     - {x: 106, y: 4}
@@ -738,7 +650,7 @@ MonoBehaviour:
   m_id: 40132db1-603f-49c5-ac83-415c61922b76
   m_name: Start
   m_notes: 
-  ErrorNodeIsNotConnected: 0
+  ErrorNodeIsNotConnected: 1
 --- !u!114 &6310735168030211219
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1132,13 +1044,6 @@ MonoBehaviour:
   m_inputSockets:
   - m_connectionMode: 1
     m_connections:
-    - m_inputConnectionPoint: {x: -2, y: 4}
-      m_outputConnectionPoint: {x: 106, y: 4}
-      m_id: b4096016-b8f9-492a-b74e-b81c9b6736ea
-      m_inputNodeId: ed42d26a-df8a-4821-ade1-0685bb2a58da
-      m_inputSocketId: 2d98e408-89f1-442a-a3ae-e9dea26a32c5
-      m_outputNodeId: 40132db1-603f-49c5-ac83-415c61922b76
-      m_outputSocketId: 62a6f541-b184-4b8a-94a2-e288f8188108
     - m_inputConnectionPoint: {x: 202, y: 4}
       m_outputConnectionPoint: {x: -2, y: 4}
       m_id: b7014204-ef11-4433-97f6-ab714224746b

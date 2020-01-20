@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6980080456268427876}
   - component: {fileID: 5841489717362376583}
   - component: {fileID: 6621869573772023745}
+  - component: {fileID: 4907745882533169897}
   m_Layer: 0
   m_Name: StartDash
   m_TagString: Untagged
@@ -78,3 +79,18 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &4907745882533169897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3234649817364588464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1d1c1bfcb02234488164e661d14f2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offsetRaycast: {x: 0, y: 1, z: 0}
+  offsetY: 0.01
+  adaptOnStart: 1

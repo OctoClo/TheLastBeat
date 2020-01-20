@@ -7,11 +7,11 @@ using System.Linq;
 public class Pyramid : MonoBehaviour
 {
     [SerializeField]
-    float length;
+    float length = 0;
     public float Length => length;
 
     [SerializeField]
-    float angle;
+    float angle = 0;
 
     List<Collider> potentialCollisions = new List<Collider>();
     List<Collider> insideCone = new List<Collider>();

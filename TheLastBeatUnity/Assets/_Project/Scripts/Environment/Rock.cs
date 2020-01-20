@@ -12,7 +12,8 @@ public class Rock : Beatable
     float targetValue = 0;
     float originValue = 0;
 
-    Sequence currentSequence;
+    [SerializeField]
+    int countBeforeSetup = 2;
     Material mat;
     Color col;
 
@@ -26,9 +27,14 @@ public class Rock : Beatable
 
     public override void Beat()
     {
-        currentSequence = DOTween.Sequence();
-        currentSequence.Append(DOTween.To(() => originValue, x => mat.SetVector("_EmissionColor", Color.white * x), targetValue, sequenceDuration / 2.0f).SetEase(curve));
-        currentSequence.Append(DOTween.To(() => targetValue, x => mat.SetVector("_EmissionColor", Color.white * x), originValue, sequenceDuration / 2.0f).SetEase(curve));
-        currentSequence.Play();
+        countBeforeSetup--;
+        if (countBeforeSetup == 0)
+        {
+            DOTween.Sequence()
+                .Append(DOTween.To(() => originValue, x => mat.SetVector("_EmissionColor", col * x), targetValue, sequenceDuration / 2.0f).SetEase(curve))
+                .Append(DOTween.To(() => targetValue, x => mat.SetVector("_EmissionColor", col * x), originValue, sequenceDuration / 2.0f).SetEase(curve))
+                .AppendInterval(SoundManager.Instance.LastBeat.beatInterval - sequenceDuration)
+                .SetLoops(-1);
+        }
     }
 }

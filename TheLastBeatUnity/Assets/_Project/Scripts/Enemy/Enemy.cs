@@ -148,23 +148,22 @@ public class Enemy : MonoBehaviour
         ChangeState(EEnemyState.STUN);
     }
 
-    public void GetAttacked(bool onRythm)
+    public void GetAttacked(bool onRythm, float dmg = 1)
     {
-        if (CurrentStateEnum != EEnemyState.EXPLODE)
+        if (CurrentStateEnum == EEnemyState.EXPLODE)
+            return;
+        
+        lives -= (int)dmg;
+        hitEnemy.Post(gameObject);
+
+        foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
         {
-            foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
-            {
-                ce.StartScreenShake(screenDurationHit, screenIntensityHit);
-            }
+            ce.StartScreenShake(screenDurationHit, screenIntensityHit);
+        }
+        hitEnemy.Post(gameObject);
 
-            lives--;
-            hitEnemy.Post(gameObject);
-            if (lives == 0)
-            {
-                StartDying();
-                return;
-            }
-
+        if (lives > 0)
+        {
             lifeText.text = lives.ToString();
 
             if (onRythm)
@@ -179,6 +178,11 @@ public class Enemy : MonoBehaviour
                     ChangeState(EEnemyState.STUN);
                 }
             }
+        }
+        else
+        {
+
+            StartDying();
         }
     }
 
@@ -258,16 +262,7 @@ public class Enemy : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (type == EEnemyType.DEFAULT)
-        {
-            EnemyState state;
-            foreach (EEnemyState stateEnum in states.Keys)
-            {
-                if (states.TryGetValue(stateEnum, out state))
-                {
-                    state = null;
-                }
-            }
-        }
+        if (states != null)
+            states.Clear();
     }
 }
