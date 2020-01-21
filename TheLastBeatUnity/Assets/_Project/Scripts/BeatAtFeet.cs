@@ -23,6 +23,9 @@ public class BeatAtFeet : Beatable
     [SerializeField]
     Color wrongInput;
 
+    [SerializeField]
+    Color perfectInput;
+
     Queue<SequenceAndTarget> allInstances = new Queue<SequenceAndTarget>();
 
     public override void Beat()
@@ -31,12 +34,15 @@ public class BeatAtFeet : Beatable
         float timeLeft = (sm.LastBeat.lastTimeBeat + sm.LastBeat.beatInterval) - TimeManager.Instance.SampleCurrentTime();
         timeLeft += sm.LastBeat.beatInterval;
         GameObject instantiated = Instantiate(prefab, rootParent);
-        instantiated.transform.localPosition = Vector3.zero;
+        instantiated.transform.localPosition = Vector3.up * 0.01f;
         instantiated.transform.localScale = Vector3.one * 0.1f;
+        Color col = instantiated.GetComponent<MeshRenderer>().material.color;
+        col.a = 0.3f;
+        instantiated.GetComponent<MeshRenderer>().material.color = col;
         Sequence seq = DOTween.Sequence()
             .Append(instantiated.transform.DOScale(finalSize, timeLeft).SetEase(curve))
             .Insert(0, DOTween.To(() => instantiated.GetComponent<MeshRenderer>().material.color, x => instantiated.GetComponent<MeshRenderer>().material.color = x, Color.white, timeLeft))
-            .Append(DOTween.To(() => instantiated.GetComponent<MeshRenderer>().material.color, x => instantiated.GetComponent<MeshRenderer>().material.color = x, Color.white, 0.2f))
+            .Append(DOTween.To(() => instantiated.GetComponent<MeshRenderer>().material.color, x => instantiated.GetComponent<MeshRenderer>().material.color = x, Color.clear, 0.2f))
             .AppendCallback(() => Destroy(instantiated))
             .AppendCallback(() => allInstances.Dequeue());
 
@@ -48,28 +54,25 @@ public class BeatAtFeet : Beatable
 
     public void CorrectInput()
     {
-        SequenceAndTarget seqTar = allInstances.Dequeue();
-        seqTar.sequence.Kill();
-        seqTar.target.GetComponent<MeshRenderer>().material.color = goodInput;
-        Color tempColor = new Color(goodInput.r, goodInput.g, goodInput.b, 0);
-        Sequence seq = DOTween.Sequence()
-            .Append(DOTween.To(() => seqTar.target.GetComponent<MeshRenderer>().material.color, x => seqTar.target.GetComponent<MeshRenderer>().material.color = x, Color.white, 0.2f))
-            .AppendCallback(() => Destroy(seqTar.target));
+        CircleDisappear(goodInput);
     }
 
     public void PerfectInput()
     {
-        CorrectInput();
+        CircleDisappear(perfectInput);
     }
 
     public void WrongInput()
     {
+        CircleDisappear(wrongInput);
+    }
+
+    void CircleDisappear(Color col)
+    {
         SequenceAndTarget seqTar = allInstances.Dequeue();
         seqTar.sequence.Kill();
-        seqTar.target.GetComponent<MeshRenderer>().material.color = wrongInput;
-        Debug.Log(seqTar.target, seqTar.target);
-        Debug.Break();
-        Color tempColor = new Color(wrongInput.r, wrongInput.g, wrongInput.b, 0);
+        seqTar.target.GetComponent<MeshRenderer>().material.color = col;
+        Color tempColor = new Color(col.r, col.g, col.b, 0);
         Sequence seq = DOTween.Sequence()
             .Append(DOTween.To(() => seqTar.target.GetComponent<MeshRenderer>().material.color, x => seqTar.target.GetComponent<MeshRenderer>().material.color = x, tempColor, 0.2f))
             .AppendCallback(() => Destroy(seqTar.target));
