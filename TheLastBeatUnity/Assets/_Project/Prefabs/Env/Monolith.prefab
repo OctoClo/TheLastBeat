@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5500302833627776227}
   - component: {fileID: 8353754837755138383}
   - component: {fileID: 3088290296123037201}
+  - component: {fileID: 8319327765623183905}
   m_Layer: 0
   m_Name: Monolith
   m_TagString: Untagged
@@ -118,3 +119,20 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   targetValue: 10
+  countBeforeSetup: 2
+--- !u!208 &8319327765623183905
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3288071906463541914}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.47800002, y: 0.48800004, z: 0.47800002}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.045, y: 0.043, z: 0.027}
+  m_TimeToStationary: 0.5

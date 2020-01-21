@@ -3,63 +3,102 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
+public enum EPlayerStatus
+{
+    DEFAULT,
+    RUSHING,
+    BLINKING,
+    STUNNED
+}
+
 public class PlayerStatus : MonoBehaviour
 {
-    [TabGroup("Status")] [SerializeField]
-    bool stunned => Stunned;
-    public bool Stunned { get; private set; }
-
-    [TabGroup("Status")]
-    bool dashing => Dashing;
-    public bool Dashing { get; private set; }
-    public bool Blinking { get; private set; }
+    public EPlayerStatus CurrentStatus { get; private set; }
 
     [TabGroup("Stun")] [SerializeField]
     float stunDuration = 0.5f;
-    float stunTimer = 0;
+    [TabGroup("Stun")] [SerializeField]
+    AnimationClip stunRecoverAnim = null;
     [TabGroup("Stun")] [SerializeField]
     Color stunColor = Color.blue;
     Color normalColor = Color.white;
     [TabGroup("Stun")] [SerializeField]
     AK.Wwise.Event stunMusicSXF = null;
 
-    public void Stun()
+    public Animator Animator = null;
+    private Coroutine stunCoroutine = null;
+
+    private void Awake()
     {
-        Stunned = true;
-        stunMusicSXF.Post(gameObject);
-        stunTimer = stunDuration;
+        CurrentStatus = EPlayerStatus.DEFAULT;
     }
 
-    public void StartDashing()
+    private void Start()
     {
-        Dashing = true;
+        stunDuration -= stunRecoverAnim.length;
+    }
+
+    public void SetMoving(bool moving)
+    {
+        Animator.SetBool("moving", moving);
+    }
+
+    public void StartRushing()
+    {
+        CurrentStatus = EPlayerStatus.RUSHING;
+        Animator.SetTrigger("rush");
+    }
+
+    public void StopRushing()
+    {
+        CurrentStatus = EPlayerStatus.DEFAULT;
+        Animator.SetTrigger("rushEnd");
     }
 
     public void StartBlink()
     {
-        Blinking = true;
+        CurrentStatus = EPlayerStatus.BLINKING;
     }
 
     public void StopBlink()
     {
-        Blinking = false;
+        CurrentStatus = EPlayerStatus.DEFAULT;
     }
 
-    public void StopDashing()
+    public void GetHit()
     {
-        Dashing = false;
-    }
-
-    private void Update()
-    {
-        if (stunned)
+        if (stunCoroutine != null)
         {
-            stunTimer -= Time.deltaTime / Time.timeScale;
-
-            if (stunTimer <= 0)
-            {
-                Stunned = false;
-            }
+            StopCoroutine(stunCoroutine);
+            Animator.SetBool("stunned", false);
+            CurrentStatus = EPlayerStatus.DEFAULT;
         }
+        Animator.SetTrigger("hit");
+    }
+
+    public void StopHit()
+    {
+        Animator.SetTrigger("hitEnd");
+    }
+
+    public void GetStunned()
+    {
+        CurrentStatus = EPlayerStatus.STUNNED;
+        stunMusicSXF.Post(gameObject);
+        Animator.SetBool("stunned", true);
+        stunCoroutine = StartCoroutine(WaitBeforeAnimStunEnd());
+    }
+
+    private IEnumerator WaitBeforeAnimStunEnd()
+    {
+        yield return new WaitForSecondsRealtime(stunDuration);
+        Animator.SetBool("stunned", false);
+        StartCoroutine(WaitBeforeStunEnd());
+    }
+
+    private IEnumerator WaitBeforeStunEnd()
+    {
+        yield return new WaitForSecondsRealtime(stunRecoverAnim.length);
+        CurrentStatus = EPlayerStatus.DEFAULT;
     }
 }

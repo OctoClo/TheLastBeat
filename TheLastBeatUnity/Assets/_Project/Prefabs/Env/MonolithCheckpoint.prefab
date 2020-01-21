@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5654883186454209398}
   - component: {fileID: 2109557262927617935}
   - component: {fileID: 5502340002384178935}
-  - component: {fileID: 5162649052885602504}
   - component: {fileID: 444568163251494306}
   - component: {fileID: 8172626919892001283}
   - component: {fileID: 2641118883414366888}
@@ -105,19 +104,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &5162649052885602504
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 394752350867647315}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 4.3092155
-  m_Center: {x: 0.078564405, y: 1.2802253, z: -1.01}
 --- !u!135 &444568163251494306
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -219,11 +205,11 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 0
-  m_Extents: {x: 462.93, y: 180.28001, z: 462.93}
+  m_Extents: {x: 4.6293, y: 1.8028, z: 4.6293}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
-  m_Center: {x: 7.8560004, y: 128.02301, z: -146.09601}
+  m_Center: {x: 0.07856, y: 1.28023, z: -1.46096}
   m_TimeToStationary: 0.5
 --- !u!114 &3906940911706357990
 MonoBehaviour:
@@ -264,3 +250,4 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   targetValue: 10
+  countBeforeSetup: 2

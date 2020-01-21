@@ -140,7 +140,14 @@ public class SceneHelper : MonoBehaviour
         screenShakeMemory.Remove(trsf);
     }
 
-    public void FreezeFrame(float duration)
+    public IEnumerator FreezeFrameCoroutine(float duration)
+    {
+        Time.timeScale = 0;
+        yield return new WaitForSecondsRealtime(duration);
+        Time.timeScale = 1;
+    }
+
+    public void FreezeFrameTween(float duration)
     {
         Sequence seq = DOTween.Sequence();
         seq.AppendCallback(() => Time.timeScale = 0);

@@ -19,15 +19,19 @@ public class AbilityParams
 
 public abstract class Ability
 {
-    protected Player player;
+    protected Player player = null;
     protected float currentCooldown = 0;
     protected float cooldown = 0;
-    protected float healCorrectBeat = 4;
-    InputVisualAnimation visualAnimation;
-    public Ability(Player newPlayer)
+    protected float healCorrectBeat = 0;
+    InputVisualAnimation visualAnimation = null;
+    BeatAtFeet beatFeet;
+
+    public Ability(Player newPlayer, float healCorrect)
     {
         player = newPlayer;
+        healCorrectBeat = healCorrect;
         visualAnimation = GameObject.FindObjectOfType<InputVisualAnimation>();
+        beatFeet = GameObject.FindObjectOfType<BeatAtFeet>();
     }
 
     public void CorrectBeat()
@@ -35,6 +39,11 @@ public abstract class Ability
         if (visualAnimation)
         {
             visualAnimation.CorrectBeat();
+        }
+
+        if (beatFeet)
+        {
+            beatFeet.CorrectInput();
         }
     }
 
@@ -44,6 +53,11 @@ public abstract class Ability
         {
             visualAnimation.PerfectBeat();
         }
+
+        if (beatFeet)
+        {
+            beatFeet.PerfectInput();
+        }
     }
 
     public void WrongBeat()
@@ -51,6 +65,11 @@ public abstract class Ability
         if (visualAnimation)
         {
             visualAnimation.WrongBeat();
+        }
+
+        if (beatFeet)
+        {
+            beatFeet.WrongInput();
         }
     }
     public virtual void ResetCooldown()
