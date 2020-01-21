@@ -27,7 +27,7 @@ public class BlinkAbility : Ability
     BlinkParams parameters;
     Sequence currentSequence;
 
-    public BlinkAbility(BlinkParams bp) : base(bp.AttachedPlayer)
+    public BlinkAbility(BlinkParams bp, float healCorrect) : base(bp.AttachedPlayer, healCorrect)
     {
         parameters = bp;
     }

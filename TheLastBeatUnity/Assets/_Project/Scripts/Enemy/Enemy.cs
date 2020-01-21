@@ -27,9 +27,7 @@ public class Enemy : MonoBehaviour
     [TabGroup("Behaviour")] [SerializeField] [Tooltip("How long the attack animation will be")]
     protected float attackAnimDuration = 0.5f;
     [TabGroup("Behaviour")] [SerializeField] [Tooltip("How much the enemy will dive towards the player")]
-    protected float attackAnimDistance = 4;
-    [TabGroup("Behaviour")] [SerializeField] [Tooltip("How much the enemy will push the player away if hit")]
-    protected float attackBlastForce = 20;
+    protected float attackAnimDistance = 10;
     [TabGroup("Behaviour")] [SerializeField] [Tooltip("How many HP the player will lose if hit")]
     protected int attackDamage = 5;
     [TabGroup("Behaviour")] [Header("Recover")] [SerializeField] [Tooltip("How much time the enemy will wait after an attack")]
@@ -122,7 +120,7 @@ public class Enemy : MonoBehaviour
         states.Add(EEnemyState.WANDER, new EnemyStateWander(this, waitBeforeNextMove));
         states.Add(EEnemyState.CHASE, new EnemyStateChase(this));
         states.Add(EEnemyState.PREPARE_ATTACK, new EnemyStatePrepareAttack(this, waitBeforePrepareAnim, prepareAnimDuration));
-        states.Add(EEnemyState.ATTACK, new EnemyStateAttack(this, waitBeforeAttackAnim, attackAnimDuration, attackAnimDistance, attackBlastForce));
+        states.Add(EEnemyState.ATTACK, new EnemyStateAttack(this, waitBeforeAttackAnim, attackAnimDuration, attackAnimDistance));
         states.Add(EEnemyState.RECOVER_ATTACK, new EnemyStateRecoverAttack(this, recoverAnimDuration));
         states.Add(EEnemyState.COME_BACK, new EnemyStateComeBack(this));
         states.Add(EEnemyState.STUN, new EnemyStateStun(this));

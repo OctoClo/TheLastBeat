@@ -37,18 +37,19 @@ public class InputVisualAnimation : Beatable
 
         Sequence seq = DOTween.Sequence();
         seq.Append(DOTween.To(() => 0, x => rect.localScale = new Vector3(x, x, 1), 1.0f, timeLeft).SetEase(Ease.Linear))
-           .Append(instantiatedPrefab.GetComponent<UnityEngine.UI.Image>().DOColor(Color.clear, SoundManager.Instance.Tolerance).SetEase(Ease.Linear))
-           .AppendCallback(() =>
-           {
-               if (allInstances.Count > 0)
-               {
-                   SequenceAndTarget seqAndTar = allInstances.Dequeue();
-                   seqAndTar.sequence.Kill();
-                   Destroy(seqAndTar.target);
-               }
-           })
-           .Insert(0, instantiatedPrefab.GetComponent<UnityEngine.UI.Image>().DOColor(Color.white, timeLeft).SetEase(Ease.Linear))
-           .Insert(timeLeft, DOTween.To(() => 1, x => rect.localScale = new Vector3(x, x, 1), 1.4f, SoundManager.Instance.Tolerance).SetEase(Ease.Linear));
+            .Append(instantiatedPrefab.GetComponent<UnityEngine.UI.Image>().DOColor(Color.clear, SoundManager.Instance.Tolerance).SetEase(Ease.Linear))
+            .AppendCallback(() =>
+            {
+                if (allInstances.Count > 0)
+                {
+                    SequenceAndTarget seqAndTar = allInstances.Dequeue();
+                    seqAndTar.sequence.Kill();
+                    Destroy(seqAndTar.target);
+                }
+            })
+            .Insert(0, instantiatedPrefab.GetComponent<UnityEngine.UI.Image>().DOColor(Color.white, timeLeft).SetEase(Ease.Linear))
+            .Insert(timeLeft, DOTween.To(() => 1, x => rect.localScale = new Vector3(x, x, 1), 1.4f, SoundManager.Instance.Tolerance).SetEase(Ease.Linear))
+            .SetUpdate(true);
 
         SequenceAndTarget seqTar = new SequenceAndTarget();
         seqTar.sequence = seq;
