@@ -34,7 +34,8 @@ public class Rock : Beatable
                 .Append(DOTween.To(() => originValue, x => mat.SetVector("_EmissionColor", col * x), targetValue, sequenceDuration / 2.0f).SetEase(curve))
                 .Append(DOTween.To(() => targetValue, x => mat.SetVector("_EmissionColor", col * x), originValue, sequenceDuration / 2.0f).SetEase(curve))
                 .AppendInterval(SoundManager.Instance.LastBeat.beatInterval - sequenceDuration)
-                .SetLoops(-1);
+                .SetLoops(-1)
+                .SetUpdate(true);
         }
     }
 }
