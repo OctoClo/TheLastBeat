@@ -36,9 +36,6 @@ public class SlopeAdaptation : MonoBehaviour
         {
             for (int i = 0; i < 11; i++)
             {
-                if (gameObject.name.Contains("Line"))
-                    Debug.Log(offsetY);
-
                 Vector3 middlePoint = transform.TransformPoint(verts[(i * 11) + j]) + offsetRaycast;
                 Ray ray = new Ray(middlePoint, Vector3.down);
 
