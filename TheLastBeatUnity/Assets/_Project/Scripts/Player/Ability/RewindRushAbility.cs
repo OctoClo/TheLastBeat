@@ -18,6 +18,7 @@ public class RewindRushParameters : AbilityParams
     public float screenShakeIntensity = 0;
     public float rumbleIntensity = 0;
     public float rumbleDuration = 0;
+    public float freezeFrameDuration = 0.1f;
 }
 
 public class RewindRushAbility : Ability
@@ -87,6 +88,7 @@ public class RewindRushAbility : Ability
     void RewindRush()
     {
         currentCooldown = cooldown;
+        player.RushParticles.SetActive(true);
         parameters.RewindState.SetValue();
         player.Status.StartDashing();
         player.ColliderObject.layer = LayerMask.NameToLayer("Player Dashing");
@@ -122,7 +124,7 @@ public class RewindRushAbility : Ability
                 seq.AppendCallback(() =>
                 {
                     player.Anim.SetRushing(true);
-                    SceneHelper.Instance.FreezeFrame(0.1f);
+                    SceneHelper.Instance.FreezeFrame(parameters.freezeFrameDuration);
                 });
                 seq.Append(player.transform.DOMove(goalPosition, parameters.Duration));
                 seq.AppendCallback(() => { enemy.GetAttacked(attackOnRythm); });
@@ -145,6 +147,7 @@ public class RewindRushAbility : Ability
             ce.StartScreenShake(parameters.screenShakeDuration, parameters.screenShakeIntensity);
         }
 
+        player.RushParticles.SetActive(false);
         CameraManager.Instance.SetBoolCamera(false, "Rewinding");
         player.Anim.SetRushing(false);
         player.Status.StopDashing();

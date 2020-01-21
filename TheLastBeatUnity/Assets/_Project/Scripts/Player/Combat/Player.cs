@@ -56,6 +56,8 @@ public class Player : Inputable
     AK.Wwise.Event stopEvent = null;
     [TabGroup("References")] [SerializeField]
     AK.Wwise.Event hitPlayer = null;
+    [TabGroup("References")]
+    public GameObject RushParticles = null;
 
     [HideInInspector]
     public bool LoseLifeOnAbilities = true;

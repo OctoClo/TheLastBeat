@@ -10,6 +10,7 @@ public class RushParams : AbilityParams
     public float distanceAfterDash = 0;
     public float PulseCost = 0;
     public float damageMultiplier = 1;
+    public float freezeFrameBeginDuration = 0.05f;
 
     [Header("Sound")]
     public AK.Wwise.Event OnBeatSound = null;
@@ -34,6 +35,7 @@ public class RushParams : AbilityParams
     public float durationScreenShake = 0;
     public float rumbleIntensity = 0;
     public float rumbleDuration = 0;
+    public float freezeFrameImpactDuration = 0.05f;
 }
 
 public class RushAbility : Ability
@@ -64,7 +66,7 @@ public class RushAbility : Ability
     {
         if (!player.Status.Dashing && currentCooldown == 0 && player.CurrentTarget != null)
         {
-            SceneHelper.Instance.FreezeFrame(0.05f);
+            SceneHelper.Instance.FreezeFrame(parameters.freezeFrameBeginDuration);
             Rush();
         }
     }
@@ -81,7 +83,7 @@ public class RushAbility : Ability
     {
         if (coll && coll.gameObject == target)
         {
-            SceneHelper.Instance.FreezeFrame(0.05f);
+            SceneHelper.Instance.FreezeFrame(parameters.freezeFrameImpactDuration);
 
             foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
             {
@@ -123,6 +125,7 @@ public class RushAbility : Ability
         CameraManager.Instance.SetBoolCamera(true, "FOV");
         target = player.CurrentTarget.gameObject;
         onRythm = SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT);
+        player.RushParticles.SetActive(true);
         bool perfect = SoundManager.Instance.IsPerfect(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT);
         if (onRythm)
         {
@@ -262,6 +265,7 @@ public class RushAbility : Ability
     public override void End()
     {
         onRythm = false;
+        player.RushParticles.SetActive(false);
         player.DelegateColl.OnTriggerEnterDelegate -= ImpactEffect;
         player.Status.StopDashing();
         player.Anim.SetRushing(false);
