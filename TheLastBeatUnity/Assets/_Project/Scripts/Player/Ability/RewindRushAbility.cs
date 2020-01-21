@@ -88,6 +88,7 @@ public class RewindRushAbility : Ability
     void RewindRush()
     {
         currentCooldown = cooldown;
+        player.RushParticles.SetActive(true);
         parameters.RewindState.SetValue();
         player.Status.StartDashing();
         player.ColliderObject.layer = LayerMask.NameToLayer("Player Dashing");
@@ -146,6 +147,7 @@ public class RewindRushAbility : Ability
             ce.StartScreenShake(parameters.screenShakeDuration, parameters.screenShakeIntensity);
         }
 
+        player.RushParticles.SetActive(false);
         CameraManager.Instance.SetBoolCamera(false, "Rewinding");
         player.Anim.SetRushing(false);
         player.Status.StopDashing();

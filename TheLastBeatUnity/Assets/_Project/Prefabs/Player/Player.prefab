@@ -5236,7 +5236,7 @@ MonoBehaviour:
     distanceAfterDash: 4
     PulseCost: 5
     damageMultiplier: 1
-    RushParticles: {fileID: 5431658358474403458}
+    freezeFrameBeginDuration: 0.05
     OnBeatSound:
       idInternal: 0
       valueGuidInternal: 
@@ -5263,7 +5263,7 @@ MonoBehaviour:
     durationScreenShake: 0.3
     rumbleIntensity: 1
     rumbleDuration: 0.4
-    freezeFrameDuration: 0.05
+    freezeFrameImpactDuration: 0.05
   rushRewindParameters:
     AttachedPlayer: {fileID: 0}
     HealPerCorrectBeat: 6
@@ -5305,6 +5305,7 @@ MonoBehaviour:
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 434b8e2fbb0f0e347a8b82bedc35565d,
       type: 2}
+  RushParticles: {fileID: 5431658358474403458}
   LoseLifeOnAbilities: 1
   Anim: {fileID: 0}
   ColliderObject: {fileID: 0}

@@ -10,7 +10,6 @@ public class RushParams : AbilityParams
     public float distanceAfterDash = 0;
     public float PulseCost = 0;
     public float damageMultiplier = 1;
-    public GameObject RushParticles = null;
     public float freezeFrameBeginDuration = 0.05f;
 
     [Header("Sound")]
@@ -126,7 +125,7 @@ public class RushAbility : Ability
         CameraManager.Instance.SetBoolCamera(true, "FOV");
         target = player.CurrentTarget.gameObject;
         onRythm = SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT);
-        parameters.RushParticles.SetActive(true);
+        player.RushParticles.SetActive(true);
         bool perfect = SoundManager.Instance.IsPerfect(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT);
         if (onRythm)
         {
@@ -266,7 +265,7 @@ public class RushAbility : Ability
     public override void End()
     {
         onRythm = false;
-        parameters.RushParticles.SetActive(false);
+        player.RushParticles.SetActive(false);
         player.DelegateColl.OnTriggerEnterDelegate -= ImpactEffect;
         player.Status.StopDashing();
         player.Anim.SetRushing(false);
