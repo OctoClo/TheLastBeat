@@ -26,6 +26,12 @@ public class BeatAtFeet : Beatable
     [SerializeField]
     Color perfectInput;
 
+    [SerializeField]
+    GameObject perfectPrefab;
+
+    [SerializeField]
+    GameObject goodPrefab;
+
     Queue<SequenceAndTarget> allInstances = new Queue<SequenceAndTarget>();
 
     public override void Beat()
@@ -55,16 +61,23 @@ public class BeatAtFeet : Beatable
     public void CorrectInput()
     {
         CircleDisappear(goodInput);
+        GameObject instantiated = Instantiate(goodPrefab, transform);
+        instantiated.transform.localPosition = Vector3.up * 0.45f;
+        Destroy(instantiated, 2);
     }
 
     public void PerfectInput()
     {
         CircleDisappear(perfectInput);
+        GameObject instantiated = Instantiate(perfectPrefab, transform);
+        instantiated.transform.localScale = Vector3.one * 5.5f;
+        instantiated.transform.localPosition = Vector3.up * 0.45f;
+        Destroy(instantiated, 2);
     }
 
     public void WrongInput()
     {
-        CircleDisappear(wrongInput);
+        CircleDisappear(wrongInput);;
     }
 
     void CircleDisappear(Color col)
