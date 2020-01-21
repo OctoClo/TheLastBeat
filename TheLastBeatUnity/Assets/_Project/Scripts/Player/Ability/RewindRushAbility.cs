@@ -18,6 +18,7 @@ public class RewindRushParameters : AbilityParams
     public float screenShakeIntensity = 0;
     public float rumbleIntensity = 0;
     public float rumbleDuration = 0;
+    public float freezeFrameDuration = 0.1f;
 }
 
 public class RewindRushAbility : Ability
@@ -122,7 +123,7 @@ public class RewindRushAbility : Ability
                 seq.AppendCallback(() =>
                 {
                     player.Anim.SetRushing(true);
-                    SceneHelper.Instance.FreezeFrame(0.1f);
+                    SceneHelper.Instance.FreezeFrame(parameters.freezeFrameDuration);
                 });
                 seq.Append(player.transform.DOMove(goalPosition, parameters.Duration));
                 seq.AppendCallback(() => { enemy.GetAttacked(attackOnRythm); });

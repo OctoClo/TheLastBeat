@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -11,6 +11,7 @@ public class RushParams : AbilityParams
     public float PulseCost = 0;
     public float damageMultiplier = 1;
     public GameObject RushParticles = null;
+    public float freezeFrameBeginDuration = 0.05f;
 
     [Header("Sound")]
     public AK.Wwise.Event OnBeatSound = null;
@@ -35,6 +36,7 @@ public class RushParams : AbilityParams
     public float durationScreenShake = 0;
     public float rumbleIntensity = 0;
     public float rumbleDuration = 0;
+    public float freezeFrameImpactDuration = 0.05f;
 }
 
 public class RushAbility : Ability
@@ -65,7 +67,7 @@ public class RushAbility : Ability
     {
         if (!player.Status.Dashing && currentCooldown == 0 && player.CurrentTarget != null)
         {
-            SceneHelper.Instance.FreezeFrame(0.05f);
+            SceneHelper.Instance.FreezeFrame(parameters.freezeFrameBeginDuration);
             Rush();
         }
     }
@@ -82,7 +84,7 @@ public class RushAbility : Ability
     {
         if (coll && coll.gameObject == target)
         {
-            SceneHelper.Instance.FreezeFrame(0.05f);
+            SceneHelper.Instance.FreezeFrame(parameters.freezeFrameImpactDuration);
 
             foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
             {
