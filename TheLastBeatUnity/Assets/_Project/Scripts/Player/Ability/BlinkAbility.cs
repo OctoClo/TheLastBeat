@@ -6,7 +6,8 @@ using DG.Tweening;
 [System.Serializable]
 public class BlinkParams : AbilityParams
 {
-    public float Speed = 0;
+    public float Distance = 0;
+    public float TimeToReach = 0;
     public float PulseCost = 0;
     public float timeWait = 0;
     public GameObject prefabMark;
@@ -26,6 +27,7 @@ public class BlinkAbility : Ability
 {
     BlinkParams parameters;
     Sequence currentSequence;
+    float speed;
 
     public BlinkAbility(BlinkParams bp, float healCorrect) : base(bp.AttachedPlayer, healCorrect)
     {
@@ -51,11 +53,15 @@ public class BlinkAbility : Ability
         Vector3 startSize = player.VisualPart.localScale;
         Vector3 direction = player.CurrentDirection;
         direction.Normalize();
-        Vector3 newPosition = player.transform.position + direction * parameters.Speed;
-
+        direction = new Vector3(direction.x, 0, direction.z);
+        float angle = Vector3.Angle(direction, direction + (Vector3.up * player.CurrentDeltaY));
+        direction = Quaternion.AngleAxis(player.CurrentDeltaY < 0 ? angle * 0.9f : angle, Vector3.left) * direction;
+        Vector3 newPosition = player.transform.position + (direction * parameters.Distance);
+        speed = parameters.Distance / parameters.TimeToReach;
+        Vector3 velocity = direction * speed;
         CreateMark(player.transform.position);
         CreateMark(newPosition);
-        CreateTrail(player.transform.position + (direction.normalized), newPosition - direction.normalized);
+        CreateTrail(player.transform.position + direction.normalized, newPosition - direction.normalized);
 
         currentSequence = DOTween.Sequence();
         currentSequence.AppendCallback(() =>
@@ -88,7 +94,8 @@ public class BlinkAbility : Ability
         });
         currentSequence.AppendInterval(parameters.timeWait);
         currentSequence.Append(player.VisualPart.DOScale(Vector3.zero, parameters.SpeedAnimShrink));
-        currentSequence.Append(player.transform.DOMove(newPosition, 0.2f));
+        currentSequence.Append(DOTween.To(() => 0, x => player.Rb.velocity = velocity, 1, parameters.TimeToReach));
+        currentSequence.AppendCallback(() => player.Rb.velocity = Vector3.zero);
         currentSequence.Append(player.VisualPart.DOScale(startSize, parameters.SpeedAnimShrink));
         currentSequence.AppendCallback(() =>
         {
@@ -145,7 +152,6 @@ public class BlinkAbility : Ability
             Vector3 scale = instanciatedTrail.transform.localScale;
             float nextValue = dist * scale.x / 8.0f;
             instanciatedTrail.transform.localScale = new Vector3(nextValue, instanciatedTrail.transform.localScale.y, instanciatedTrail.transform.localScale.z);
-
             instanciatedTrail.GetComponent<SlopeAdaptation>().Adapt();
         }
     }

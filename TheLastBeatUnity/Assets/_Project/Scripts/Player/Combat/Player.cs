@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
@@ -19,15 +19,19 @@ public class Player : Inputable
     GameObject instantiatedDebug;
 
     [TabGroup("Movement")] [SerializeField]
-    float speed = 7.5f;
+    float maxSpeed = 5;
+    [TabGroup("Movement")] [SerializeField]
+    float thrust = 10;
     Vector3 movement = Vector3.zero;
+    public Vector3 CurrentDirection { get; set; }
+    public float CurrentDeltaY { get; private set; }
     Rigidbody rb = null;
+    public Rigidbody Rb => rb;
     [TabGroup("Movement")] [SerializeField]
     float rotationSpeed = 8;
     Vector3 lookVector = Vector3.zero;
     Vector3 rotation = Vector3.zero;
     Quaternion deltaRotation = Quaternion.identity;
-    public Vector3 CurrentDirection { get; set; }
     [TabGroup("Movement")] [Range(0, 1)] [SerializeField] [Tooltip("Ignore input for right stick under this value")]
     float holdlessThreshold = 0.7f;
 
@@ -125,6 +129,7 @@ public class Player : Inputable
             }
         }
 
+        // Pyramid for focus
         Vector3 directionLook = new Vector3(player.GetAxis("FocusX"), 0, player.GetAxis("FocusY"));
         if (directionLook.magnitude > holdlessThreshold)
         {
@@ -150,17 +155,32 @@ public class Player : Inputable
 
     private void FixedUpdate()
     {
-        if (!BlockInput && CurrentDirection != Vector3.zero)
+        Vector3 flatVelocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+        if (!BlockInput)
         {
-            // Rotation
-            rotation = new Vector3(0, Vector3.SignedAngle(transform.forward, CurrentDirection, Vector3.up), 0);
-            deltaRotation = Quaternion.Euler(rotation * Time.deltaTime * rotationSpeed);
-            rb.MoveRotation(rb.rotation * deltaRotation);
+            if (CurrentDirection != Vector3.zero)
+            {
+                // Rotation
+                rotation = new Vector3(0, Vector3.SignedAngle(transform.forward, CurrentDirection, Vector3.up), 0);
+                deltaRotation = Quaternion.Euler(rotation * Time.deltaTime * rotationSpeed);
+                rb.MoveRotation(rb.rotation * deltaRotation);
 
-            // Movement
-            movement = CurrentDirection * speed;
-            rb.velocity = movement;
-            Status.SetMoving(true);
+                // Movement
+                rb.AddForce(CurrentDirection * thrust);
+                Status.SetMoving(true);
+            }
+            else
+                Status.SetMoving(false);
+            
+            // Clamp velocity
+            if (flatVelocity.magnitude > maxSpeed)
+            {
+                rb.velocity = (flatVelocity.normalized * maxSpeed) + (Vector3.up * rb.velocity.y);
+            }
+
+            // Glue to floor
+            if (CurrentDeltaY <= 0)
+                rb.AddForce(Physics.gravity * 20);
         }
         else
             Status.SetMoving(false);
@@ -245,6 +265,42 @@ public class Player : Inputable
             {
                 instantiatedDebug.SetActive(false);
             }
+        }
+
+        Ray ray = new Ray(transform.position, Vector3.down);
+        bool foundFirst = false;
+        Vector3 hitFirst = Vector3.zero;
+        foreach(RaycastHit hit in Physics.RaycastAll(ray , 3))
+        {
+            if (hit.collider.gameObject.CompareTag("Slope"))
+            {
+                foundFirst = true;
+                hitFirst = hit.point;
+                break;
+            }
+        }
+
+        Vector3 flatForward = new Vector3(transform.forward.x, 0, transform.forward.z);
+        Ray ray2 = new Ray(transform.position + (flatForward.normalized * 0.01f), Vector3.down);
+        bool foundSecond = false;
+        Vector3 hitSecond = Vector3.zero;
+        foreach (RaycastHit hit in Physics.RaycastAll(ray2, 3))
+        {
+            if (hit.collider.gameObject.CompareTag("Slope"))
+            {
+                foundSecond = true;
+                hitSecond = hit.point;
+                break;
+            }
+        }
+
+        if (foundFirst && foundSecond)
+        {
+            CurrentDeltaY = (hitSecond - hitFirst).normalized.y;
+        }
+        else
+        {
+            CurrentDeltaY = 0;
         }
     }
 
