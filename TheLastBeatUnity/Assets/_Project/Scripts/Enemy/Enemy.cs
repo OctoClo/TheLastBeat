@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
     [TabGroup("General")] [SerializeField]
     int maxLives = 10;
     int lives = 10;
+    protected int minLives = 0;
 
     [TabGroup("Behaviour")] [Header("Wander")] [SerializeField] [Tooltip("How much time the enemy will wait before going to another spot (random in [x, y]")]
     protected Vector2 waitBeforeNextMove = new Vector2(2, 5);
@@ -83,7 +84,7 @@ public class Enemy : MonoBehaviour
     [HideInInspector]
     public bool HasAttackedPlayer = false;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         modelMeshRenderer = Model.GetComponent<MeshRenderer>();
         Material = modelMeshRenderer.material;
@@ -160,7 +161,7 @@ public class Enemy : MonoBehaviour
         }
         hitEnemy.Post(gameObject);
 
-        if (lives > 0)
+        if (lives > minLives)
         {
             lifeText.text = lives.ToString();
 
@@ -179,7 +180,6 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-
             StartDying();
         }
     }
