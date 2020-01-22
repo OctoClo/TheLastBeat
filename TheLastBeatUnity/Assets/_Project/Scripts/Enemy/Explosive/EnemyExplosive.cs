@@ -19,6 +19,12 @@ public class EnemyExplosive : Enemy
     [TabGroup("References")] [SerializeField]
     GameObject explosionPrefab = null;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        minLives = 1;
+    }
+
     protected override void CreateStates()
     {
         base.CreateStates();

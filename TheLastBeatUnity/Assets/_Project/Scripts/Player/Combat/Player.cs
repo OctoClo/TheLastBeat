@@ -169,8 +169,9 @@ public class Player : Inputable
     public void ModifyPulseValue(float value, bool fromEnemy = false)
     {
         if (healthSystem.InCriticMode)
-        {
-            Die();
+        { 
+            if (value > 0)
+                Die();
         }
         else
         {
