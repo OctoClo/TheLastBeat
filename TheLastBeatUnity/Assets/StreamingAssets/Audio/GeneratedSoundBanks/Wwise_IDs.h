@@ -13,7 +13,17 @@ namespace AK
 {
     namespace EVENTS
     {
+        static const AkUniqueID INT_CHORD01 = 1850257862U;
+        static const AkUniqueID INT_CHORD02 = 1850257861U;
+        static const AkUniqueID INT_CHORD03 = 1850257860U;
+        static const AkUniqueID INT_CHORD04 = 1850257859U;
+        static const AkUniqueID INT_CHORD05 = 1850257858U;
+        static const AkUniqueID INT_CHORD06 = 1850257857U;
+        static const AkUniqueID INT_CHORD07 = 1850257856U;
+        static const AkUniqueID INT_CHORD08 = 1850257871U;
         static const AkUniqueID INT_HITMUSICFX = 3191278813U;
+        static const AkUniqueID INT_MUSICFEEDBACKOFF = 2501149424U;
+        static const AkUniqueID INT_MUSICFEEDBACKON = 1468197082U;
         static const AkUniqueID PLAY_AMBDESERT = 3681445093U;
         static const AkUniqueID PLAY_BLINKFXOFFBEAT = 3832364417U;
         static const AkUniqueID PLAY_BLINKFXONBEAT = 2655647461U;
@@ -37,16 +47,33 @@ namespace AK
 
     namespace STATES
     {
-        namespace FEEDBACKLEVEL
+        namespace INPUTSTATE
         {
-            static const AkUniqueID GROUP = 291463486U;
+            static const AkUniqueID GROUP = 2836345082U;
 
             namespace STATE
             {
                 static const AkUniqueID NORMAL = 1160234136U;
                 static const AkUniqueID PERFECT = 2161557176U;
             } // namespace STATE
-        } // namespace FEEDBACKLEVEL
+        } // namespace INPUTSTATE
+
+        namespace INT_LAND_CHORD
+        {
+            static const AkUniqueID GROUP = 2886309763U;
+
+            namespace STATE
+            {
+                static const AkUniqueID CHORD_01 = 852835689U;
+                static const AkUniqueID CHORD_02 = 852835690U;
+                static const AkUniqueID CHORD_03 = 852835691U;
+                static const AkUniqueID CHORD_04 = 852835692U;
+                static const AkUniqueID CHORD_05 = 852835693U;
+                static const AkUniqueID CHORD_06 = 852835694U;
+                static const AkUniqueID CHORD_07 = 852835695U;
+                static const AkUniqueID CHORD_08 = 852835680U;
+            } // namespace STATE
+        } // namespace INT_LAND_CHORD
 
         namespace MUSIC_COMBATEXPLO_SWITCH
         {
@@ -117,8 +144,29 @@ namespace AK
 
     } // namespace STATES
 
+    namespace SWITCHES
+    {
+        namespace MUSICLAYER
+        {
+            static const AkUniqueID GROUP = 2074789557U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID LAYER1 = 3298531297U;
+                static const AkUniqueID LAYER2 = 3298531298U;
+                static const AkUniqueID LAYER3 = 3298531299U;
+                static const AkUniqueID LAYER4 = 3298531300U;
+                static const AkUniqueID LAYER5 = 3298531301U;
+                static const AkUniqueID LAYER6 = 3298531302U;
+            } // namespace SWITCH
+        } // namespace MUSICLAYER
+
+    } // namespace SWITCHES
+
     namespace GAME_PARAMETERS
     {
+        static const AkUniqueID INT_MUSICCOMBOSTATE = 4043924749U;
+        static const AkUniqueID INT_MUSICCOMBOVALUE = 609762841U;
         static const AkUniqueID INT_MUSICCRUSHER = 807022328U;
         static const AkUniqueID INT_SYNCDUCKING = 758808735U;
         static const AkUniqueID MUSICPOSITION = 3149782607U;
@@ -126,6 +174,7 @@ namespace AK
 
     namespace TRIGGERS
     {
+        static const AkUniqueID MUSICFEEDBACK = 2661784387U;
         static const AkUniqueID ONBEATBLINK = 2384616720U;
         static const AkUniqueID ONBEATRUSH = 2234168428U;
     } // namespace TRIGGERS
