@@ -1293,7 +1293,6 @@ MonoBehaviour:
   waitBeforeAttackAnim: 0.25
   attackAnimDuration: 0.5
   attackAnimDistance: 10
-  attackBlastForce: 7
   attackDamage: 5
   recoverAnimDuration: 1.5
   chancesToGetStunned:
@@ -1306,7 +1305,7 @@ MonoBehaviour:
   stateText: {fileID: 7527763480712231296}
   stunElements: {fileID: 1814748014173155094}
   notStunElements: {fileID: 3492973329284040666}
-  Model: {fileID: 7922066115217233574}
+  model: {fileID: 7922066115217233574}
   hitEnemy:
     idInternal: 0
     valueGuidInternal: 
@@ -1485,6 +1484,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: bba6cfed4417b714cb4b94ac0c9d74ed, type: 2}
+  - {fileID: 2100000, guid: eb2a68c1dac1b9e44ad24c96cc0b1ad6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

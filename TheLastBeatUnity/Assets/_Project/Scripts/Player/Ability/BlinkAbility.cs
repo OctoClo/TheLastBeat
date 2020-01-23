@@ -36,7 +36,7 @@ public class BlinkAbility : Ability
 
     public override void Launch()
     {
-        if (player.CurrentDirection != Vector3.zero && currentCooldown == 0)
+        if (player.CurrentDirection != Vector3.zero && currentCooldown == 0 && player.Status.CurrentStatus == EPlayerStatus.DEFAULT)
             Blink();
     }
 

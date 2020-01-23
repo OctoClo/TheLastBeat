@@ -13,10 +13,17 @@ public class Pyramid : MonoBehaviour
     [SerializeField]
     float angle = 0;
 
+    [SerializeField]
+    Transform arrowVisual = null;
+
     List<Collider> potentialCollisions = new List<Collider>();
     List<Collider> insideCone = new List<Collider>();
 
-    public BoxCollider BoxCollider { get; private set; }
+    [SerializeField]
+    GameObject prefabFocus = null;
+    GameObject instantiatedFocus;
+
+    public SphereCollider SphereCollider { get; private set; }
 
     Vector3 position = Vector3.zero;
     Vector3 direction = Vector3.up * 10;
@@ -24,13 +31,43 @@ public class Pyramid : MonoBehaviour
     Vector3 left => position + (Quaternion.AngleAxis(angle / 2.0f, Vector3.up) * direction) * length;
     Vector3 right => position + (Quaternion.AngleAxis(-angle / 2.0f, Vector3.up) * direction) * length;
 
-    public Collider NearestEnemy { get; private set; }
+    Collider nearest = null;
+    public bool RightStickEnabled { get; set; }
+    public bool LeftStickEnabled { get; set; }
+
+    public Collider NearestEnemy
+    {
+        get
+        {
+            return nearest;
+        }
+        set
+        {
+            if (nearest != null)
+            {
+                Enemy enn = nearest.GetComponent<Enemy>();
+                enn.EnemyKilled -= () => NearestEnemy = null;
+                enn.StopFocus(instantiatedFocus);
+            }
+
+            nearest = value;
+
+            if (nearest != null)
+            {
+                Enemy enn = nearest.GetComponent<Enemy>();
+                enn.EnemyKilled += () => NearestEnemy = null;
+                enn.StartFocus(instantiatedFocus);
+            }
+        }
+    }
 
     private void Start()
     {
-        BoxCollider = gameObject.AddComponent<BoxCollider>();
-        BoxCollider.isTrigger = true;
+        SphereCollider = gameObject.AddComponent<SphereCollider>();
+        SphereCollider.isTrigger = true;
+        instantiatedFocus = Instantiate(prefabFocus);
         RecomputePositions();
+        RightStickEnabled = false;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -61,35 +98,74 @@ public class Pyramid : MonoBehaviour
     private void Update()
     {
         CheckOverlap();
+        arrowVisual.gameObject.SetActive(RightStickEnabled || LeftStickEnabled);
+        if (!RightStickEnabled && !LeftStickEnabled && NearestEnemy)
+        {
+            NearestEnemy = null;
+        }
+
+        SetArrowScale(RightStickEnabled ? 1 : 0.5f);
+        if (NearestEnemy)
+        {
+            transform.LookAt(NearestEnemy.transform.position);
+            if (!RightStickEnabled)
+                arrowVisual.transform.forward = transform.forward;
+
+            SetArrowScale(Vector3.Distance(transform.position, NearestEnemy.transform.position) / length);
+        }
+        else
+        {
+            transform.forward = transform.parent.forward;
+            transform.forward = new Vector3(transform.forward.x, 0, transform.forward.z);
+        }
+
     }
 
     void CheckOverlap()
     {
-        insideCone = insideCone.Where(x => x != null).ToList();
         foreach (Collider coll in potentialCollisions)
         {
             if (coll)
             {
-                if (IsInsideCone(coll.transform.position) && potentialCollisions.Contains(coll) && !insideCone.Contains(coll))
+                if (IsInsideCone(coll.transform.position, direction) && !insideCone.Contains(coll))
                 {
                     insideCone.Add(coll);
                 }
-                
-                if (!IsInsideCone(coll.transform.position))
+
+                if (!IsInsideCone(coll.transform.position, direction) && insideCone.Contains(coll))
                 {
                     insideCone.Remove(coll);
-                    if (NearestEnemy == coll)
-                        NearestEnemy = null;
                 }
             }
         }
+        
+        if (NearestEnemy == null)
+            RecomputeNearest();
     }
 
-    public void Purge()
+    //Tempory set the pyramid direction , if an anemy is found keep this direction, otherwise go back
+    public void OverlookDirection(Vector3 direct)
     {
-        potentialCollisions.Clear();
-        insideCone.Clear();
-        NearestEnemy = null;
+        arrowVisual.gameObject.SetActive(true);
+
+        //TODO : Get the nearest
+        List<Collider> allCandidates = new List<Collider>();
+        foreach (Collider coll in potentialCollisions)
+        {
+            if (coll && IsInsideCone(coll.transform.position, direct))
+            {
+                allCandidates.Add(coll);
+            }
+        }
+        
+        arrowVisual.transform.forward = direct;
+        if (allCandidates.Contains(NearestEnemy))
+            arrowVisual.transform.LookAt(NearestEnemy.transform);
+
+        if (allCandidates.Count > 0)
+        {
+            NearestEnemy = allCandidates.OrderBy(x => Vector3.Distance(transform.position, x.transform.position)).First();
+        }
     }
 
     void OnDrawGizmos()
@@ -103,25 +179,15 @@ public class Pyramid : MonoBehaviour
         Gizmos.DrawLine(left, right);
     }
 
-    bool IsInsideCone(Vector3 position)
+    bool IsInsideCone(Vector3 position, Vector3 dir)
     {
         position = new Vector3(position.x, transform.position.y, position.z);
         Vector3 centerToPos = position - this.position;
-        if (Vector3.Dot(centerToPos, direction) > 0 && Vector3.Angle(centerToPos, direction) < angle / 2.0f)
+        if (Vector3.Dot(centerToPos, dir) > 0 && Vector3.Angle(centerToPos, dir) < angle / 2.0f)
         {
             return true;
         }
         return false;
-    }
-
-    public void DebugDraw()
-    {
-        direction = transform.forward;
-        position = transform.position;
-
-        Debug.DrawLine(right, left, Color.red);
-        Debug.DrawLine(position, right, Color.red);
-        Debug.DrawLine(position, left, Color.red);
     }
 
     public void RecomputePositions()
@@ -129,17 +195,26 @@ public class Pyramid : MonoBehaviour
         direction = transform.forward;
         position = transform.position;
 
-        BoxCollider.center = Vector3.forward * length * 0.5f;
         float dist = Vector3.Distance(right, center) * 2;
-        BoxCollider.size = new Vector3(dist, dist, length);
+        SphereCollider.radius = length;
     }
 
     public void RecomputeNearest()
     {
-        IEnumerable<Collider> result = insideCone.OrderBy(x => Vector3.Distance(position, x.transform.position));
+        IEnumerable<Collider> result = insideCone.Where(x => x != null).OrderBy(x => Vector3.Distance(position, x.transform.position));
         if (result.Count() == 0 || potentialCollisions.Count == 0)
             NearestEnemy = null;
         else
             NearestEnemy = result.First();
+    }
+
+    void SetArrowScale(float ratio)
+    {
+        Transform child = arrowVisual.GetChild(0);
+        Vector3 scale = child.localScale;
+        Vector3 localPos = child.localPosition;
+
+        child.localScale = new Vector3(child.localScale.x, child.localScale.y, 0.5f * ratio);
+        child.localPosition = new Vector3(0, child.localPosition.y, 2.3f * ratio);
     }
 }
