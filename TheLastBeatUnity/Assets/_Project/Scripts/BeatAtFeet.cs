@@ -12,7 +12,7 @@ public class BeatAtFeet : Beatable
     GameObject prefab = null;
 
     [SerializeField]
-    Vector3 finalSize = Vector3.zero;
+    Vector3 finalSize = Vector3.one;
 
     [SerializeField]
     AnimationCurve curve = null;
