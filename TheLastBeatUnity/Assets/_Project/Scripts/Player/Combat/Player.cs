@@ -12,11 +12,6 @@ public class Player : Inputable
 {
     [TabGroup("General")] [SerializeField]
     float hitFreezeFrameDuration = 0.2f;
-    [TabGroup("General")] [SerializeField]
-    bool debugMode = false;
-    [TabGroup("General")] [SerializeField]
-    GameObject prefabDebug = null;
-    GameObject instantiatedDebug;
 
     [TabGroup("Movement")] [SerializeField]
     float maxSpeed = 5;
@@ -29,14 +24,13 @@ public class Player : Inputable
     public Rigidbody Rb => rb;
     [TabGroup("Movement")] [SerializeField]
     float rotationSpeed = 8;
-    Vector3 lookVector = Vector3.zero;
     Vector3 rotation = Vector3.zero;
     Quaternion deltaRotation = Quaternion.identity;
     [TabGroup("Movement")] [Range(0, 1)] [SerializeField] [Tooltip("Ignore input for right stick under this value")]
     float holdlessThreshold = 0.7f;
 
     //If you are doing something (dash , attack animation, etc...) or if game paused, temporary block input
-    public override bool BlockInput => (blockInput || Status.CurrentStatus != EPlayerStatus.DEFAULT);
+    public override bool BlockInput => blockInput;
 
     [TabGroup("Blink")] [SerializeField]
     BlinkParams blinkParameters = null;
@@ -53,7 +47,6 @@ public class Player : Inputable
     Health healthSystem = null;
     [TabGroup("References")] [SerializeField]
     Pyramid pyramid = null;
-    Collider pyramidCollider = null;
     [TabGroup("References")] [SerializeField]
     Transform visualPart = null;
     public Transform VisualPart => visualPart;
@@ -83,7 +76,6 @@ public class Player : Inputable
         Status = GetComponent<PlayerStatus>();
         ColliderObject = GetComponent<CapsuleCollider>().gameObject;
         rb = GetComponent<Rigidbody>();
-        pyramidCollider = pyramid.GetComponent<Collider>();
         healthSystem.Player = this;
 
         blinkParameters.AttachedPlayer = rushParameters.AttachedPlayer = rushRewindParameters.AttachedPlayer = this;
@@ -100,9 +92,6 @@ public class Player : Inputable
 
         if (SceneHelper.DeathCount > 0)
             SceneHelper.Instance.Respawn(transform);
-
-        if (debugMode)
-            instantiatedDebug = Instantiate(prefabDebug);
     }
 
     public void DebtRush(float value)
@@ -114,6 +103,7 @@ public class Player : Inputable
     {
         // Direction Inputs
         CurrentDirection = new Vector3(player.GetAxis("MoveX"), 0, player.GetAxis("MoveY"));
+        pyramid.LeftStickEnabled = (CurrentDirection != Vector3.zero);
 
         // Abilities Inputs
         if (Status.CurrentStatus == EPlayerStatus.DEFAULT)
@@ -133,23 +123,23 @@ public class Player : Inputable
         Vector3 directionLook = new Vector3(player.GetAxis("FocusX"), 0, player.GetAxis("FocusY"));
         if (directionLook.magnitude > holdlessThreshold)
         {
-            pyramidCollider.enabled = true;
-            pyramid.transform.forward = new Vector3(directionLook.x, 0, directionLook.z);
-            pyramid.RecomputeNearest();
-            pyramid.RecomputePositions();
+            pyramid.RightStickEnabled = true;
+            pyramid.OverlookDirection(directionLook);
         }
         else
         {
-            if (CurrentTarget != null)
-            {
-                Vector3 positionToLook = new Vector3(CurrentTarget.transform.position.x, transform.position.y, CurrentTarget.transform.position.z);
-                pyramid.transform.LookAt(positionToLook);
-            }
-            else
-            {
-                pyramidCollider.enabled = false;
-                pyramid.Purge();
-            }
+            pyramid.RightStickEnabled = false;
+        }
+
+        if (CurrentTarget != null)
+        {
+            Vector3 positionToLook = new Vector3(CurrentTarget.transform.position.x, transform.position.y, CurrentTarget.transform.position.z);
+            pyramid.transform.LookAt(positionToLook);
+        }
+
+        if (CurrentDirection != Vector3.zero && !pyramid.RightStickEnabled)
+        {
+            pyramid.OverlookDirection(CurrentDirection);
         }
     }
 
@@ -247,26 +237,6 @@ public class Player : Inputable
     {
         foreach (KeyValuePair<EInputAction, Ability> abilityPair in abilities)
             abilityPair.Value.Update(Time.deltaTime);
-
-        if (Status.CurrentStatus == EPlayerStatus.RUSHING && CurrentTarget)
-        {
-            Vector3 positionToLook = new Vector3(CurrentTarget.transform.position.x, transform.position.y, CurrentTarget.transform.position.z);
-            pyramid.transform.LookAt(positionToLook);
-        }
-
-        if (debugMode)
-        {
-            if (CurrentTarget != null)
-            {
-                instantiatedDebug.SetActive(true);
-                instantiatedDebug.transform.position = CurrentTarget.transform.position + Vector3.up;
-            }
-            else
-            {
-                instantiatedDebug.SetActive(false);
-            }
-        }
-
         Ray ray = new Ray(transform.position, Vector3.down);
         bool foundFirst = false;
         Vector3 hitFirst = Vector3.zero;
@@ -274,8 +244,8 @@ public class Player : Inputable
         {
             if (hit.collider.gameObject.CompareTag("Slope"))
             {
-                foundFirst = true;
                 hitFirst = hit.point;
+                foundFirst = true;
                 break;
             }
         }
@@ -293,8 +263,8 @@ public class Player : Inputable
                 break;
             }
         }
-
         if (foundFirst && foundSecond)
+
         {
             CurrentDeltaY = (hitSecond - hitFirst).normalized.y;
         }

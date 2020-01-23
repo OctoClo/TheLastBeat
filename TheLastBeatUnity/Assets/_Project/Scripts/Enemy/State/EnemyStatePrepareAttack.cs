@@ -27,7 +27,7 @@ public class EnemyStatePrepareAttack : EnemyState
         animation = DOTween.Sequence();
 
         animation.Insert(waitBeforeAnimDuration, enemy.transform.DOShakePosition(animDuration, 0.5f, 100));
-        animation.Insert(waitBeforeAnimDuration, enemy.Model.transform.DOScale(scaleEndValues, animDuration));
+        animation.Insert(waitBeforeAnimDuration, enemy.model.transform.DOScale(scaleEndValues, animDuration));
         animation.AppendCallback(() => animationFinished = true);
 
         animation.Play();
@@ -43,6 +43,6 @@ public class EnemyStatePrepareAttack : EnemyState
 
     public override void Exit()
     {
-        enemy.Model.transform.localScale = scaleEndValues;
+        enemy.model.transform.localScale = scaleEndValues;
     }
 }
