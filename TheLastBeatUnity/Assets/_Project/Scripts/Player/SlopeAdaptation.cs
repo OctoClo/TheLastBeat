@@ -50,7 +50,7 @@ public class SlopeAdaptation : MonoBehaviour
 
                 foreach (RaycastHit hit in Physics.RaycastAll(ray, 10))
                 {
-                    if (hit.collider.gameObject != gameObject)
+                    if (hit.collider.gameObject.CompareTag("Slope"))  
                     {
                         Vector3 worldPosition = hit.point + (Vector3.up * offsetY);
                         verts[(i * 11) + j] = transform.InverseTransformPoint(worldPosition);
