@@ -6,11 +6,11 @@ using DG.Tweening;
 [System.Serializable]
 public class RushParams : AbilityParams
 {
-    public float RushDuration = 0;
-    public float distanceAfterDash = 0;
+    public float distanceDash = 0;
     public float PulseCost = 0;
     public float damageMultiplier = 1;
     public float freezeFrameBeginDuration = 0.05f;
+    public float timeToReachDist = 0.5f;
 
     [Header("Sound")]
     public AK.Wwise.Event OnBeatSound = null;
@@ -40,14 +40,15 @@ public class RushParams : AbilityParams
 
 public class RushAbility : Ability
 {
-    bool obstacleAhead = false;
-    RaycastHit obstacle;
     RushParams parameters;
     Vector3 direction;
     GameObject target;
+    float speed = 0;
+    Sequence seq;
 
-    float debt;
+    float debt = 0;
     bool onRythm = false;
+    bool hitShield = false;
     
     public RewindRushAbility RewindRush { get; set; }
 
@@ -66,7 +67,6 @@ public class RushAbility : Ability
     {
         if (currentCooldown == 0 && player.CurrentTarget != null)
         {
-            SceneHelper.Instance.FreezeFrameTween(parameters.freezeFrameBeginDuration);
             Rush();
         }
     }
@@ -81,6 +81,18 @@ public class RushAbility : Ability
 
     void ImpactEffect(Collider coll)
     {
+        if (coll.gameObject.layer == LayerMask.NameToLayer("Stun") && Vector3.Dot(coll.transform.forward, player.transform.forward) < 0)
+        {
+            if (seq != null)
+            {
+                seq.Kill();
+                hitShield = true;
+                player.Status.GetStunned(-direction);
+                End();
+            }
+            return;
+        }
+
         if (coll && coll.gameObject == target)
         {
             SceneHelper.Instance.FreezeFrameTween(parameters.freezeFrameImpactDuration);
@@ -122,6 +134,9 @@ public class RushAbility : Ability
 
     void Rush()
     {
+        SceneHelper.Instance.FreezeFrameTween(parameters.freezeFrameBeginDuration);
+        hitShield = false;
+        player.ColliderObject.layer = LayerMask.NameToLayer("Player Dashing");
         CameraManager.Instance.SetBoolCamera(true, "FOV");
         target = player.CurrentTarget.gameObject;
         onRythm = SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT);
@@ -154,6 +169,9 @@ public class RushAbility : Ability
         currentCooldown = cooldown;
         player.Status.StartRushing();
         direction = new Vector3(target.transform.position.x, player.transform.position.y, target.transform.position.z) - player.transform.position;
+        direction = direction.normalized;
+        direction = new Vector3(direction.x, player.CurrentDeltaY, direction.z);
+        direction *= parameters.distanceDash;
         player.transform.forward = direction;
         player.DelegateColl.OnTriggerEnterDelegate += ImpactEffect;
 
@@ -162,22 +180,10 @@ public class RushAbility : Ability
         else
             CreateStartMark(player.transform.forward);
 
-        Sequence seq = DOTween.Sequence();
-        GetObstacleOnDash(direction);
-
-        // Dash towards the target
-        if (obstacleAhead)
-        {
-            direction = new Vector3(obstacle.point.x, player.transform.position.y, obstacle.point.z) - player.transform.position;
-        }
-        else
-        {
-            direction += (direction.normalized * parameters.distanceAfterDash);
-            player.ColliderObject.layer = LayerMask.NameToLayer("Player Dashing");
-        }
-
-        Vector3 goalPosition = direction + player.transform.position;
-        seq.Append(player.transform.DOMove(goalPosition, parameters.RushDuration));
+        seq = DOTween.Sequence();
+        speed = (direction.magnitude / parameters.timeToReachDist) * 4.0f;
+        seq.onUpdate += () => player.Rb.velocity = direction.normalized * speed;
+        seq.AppendInterval(parameters.timeToReachDist);
         seq.AppendCallback(() => End());
         seq.Play();
     }
@@ -235,38 +241,16 @@ public class RushAbility : Ability
         }
     }
 
-    void GetObstacleOnDash(Vector3 direction)
-    {
-        RaycastHit[] hits = Physics.RaycastAll(player.transform.position, direction, direction.magnitude);
-
-        foreach (RaycastHit hit in hits)
-        {
-            if (hit.collider.gameObject.layer != LayerMask.NameToLayer("Enemies") && !hit.collider.isTrigger)
-            {
-                obstacleAhead = true;
-                obstacle = hit;
-                return;
-            }
-        }
-
-        obstacleAhead = false;
-    }
-
     public override void End()
     {
         onRythm = false;
         player.RushParticles.SetActive(false);
         player.DelegateColl.OnTriggerEnterDelegate -= ImpactEffect;
         CameraManager.Instance.SetBoolCamera(false, "FOV");
+        player.ColliderObject.layer = LayerMask.NameToLayer("Default");
+        player.Rb.velocity = Vector3.zero;
 
-        if (obstacleAhead && obstacle.collider != null && obstacle.collider.gameObject.layer == LayerMask.NameToLayer("Stun"))
-        {
-            player.Status.GetStunned();
-        }
-        else
-        {
-            player.ColliderObject.layer = LayerMask.NameToLayer("Default");
+        if (!hitShield)
             player.Status.StopRushing();
-        }
     }
 }

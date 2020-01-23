@@ -6,31 +6,31 @@ using DG.Tweening;
 public class BeatAtFeet : Beatable
 {
     [SerializeField]
-    Transform rootParent;
+    Transform rootParent = null;
 
     [SerializeField]
-    GameObject prefab;
+    GameObject prefab = null;
 
     [SerializeField]
-    Vector3 finalSize;
+    Vector3 finalSize = Vector3.zero;
 
     [SerializeField]
-    AnimationCurve curve;
+    AnimationCurve curve = null;
 
     [SerializeField]
-    Color goodInput;
+    Color goodInput = Color.white;
 
     [SerializeField]
-    Color wrongInput;
+    Color wrongInput = Color.white;
 
     [SerializeField]
-    Color perfectInput;
+    Color perfectInput = Color.white;
 
     [SerializeField]
-    GameObject perfectPrefab;
+    GameObject perfectPrefab = null;
 
     [SerializeField]
-    GameObject goodPrefab;
+    GameObject goodPrefab = null;
 
     Queue<SequenceAndTarget> allInstances = new Queue<SequenceAndTarget>();
 

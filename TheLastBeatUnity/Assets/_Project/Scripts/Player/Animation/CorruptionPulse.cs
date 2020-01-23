@@ -3,26 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class Rock : Beatable
+public class CorruptionPulse : Beatable
 {
     [SerializeField]
     AnimationCurve curve = null;
-
     [SerializeField]
-    float targetValue = 0;
+    float targetValue = 10;
     float originValue = 0;
-
     [SerializeField]
     int countBeforeSetup = 2;
-    Material mat;
-    Color col;
+
+    Material[] materials;
+    Color col = Color.white;
 
     protected override void Start()
     {
         base.Start();
-        mat = GetComponent<MeshRenderer>().material;
-        originValue = 0;
-        col = mat.GetVector("_EmissionColor");
+        materials = GetComponent<SkinnedMeshRenderer>().materials;
+
+        if (materials.Length > 0)
+            col = materials[0].GetVector("_EmissionColor");
     }
 
     public override void Beat()
@@ -30,10 +30,13 @@ public class Rock : Beatable
         countBeforeSetup--;
         if (countBeforeSetup <= 0)
         {
-            DOTween.Sequence()
+            foreach (Material mat in materials)
+            {
+                DOTween.Sequence()
                 .Append(DOTween.To(() => originValue, x => mat.SetVector("_EmissionColor", col * x), targetValue, sequenceDuration)
                     .SetEase(curve))
                 .SetUpdate(true);
+            }
         }
     }
 }
