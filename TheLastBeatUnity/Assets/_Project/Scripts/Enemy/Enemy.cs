@@ -45,7 +45,7 @@ public class Enemy : MonoBehaviour
     [TabGroup("References")] [SerializeField]
     GameObject notStunElements = null;
     [TabGroup("References")]
-    public GameObject Model = null;
+    public GameObject model = null;
     MeshRenderer modelMeshRenderer = null;
     [TabGroup("References")] [SerializeField]
     AK.Wwise.Event hitEnemy = null;
@@ -77,15 +77,17 @@ public class Enemy : MonoBehaviour
 
     // Misc
     EEnemyType type = EEnemyType.DEFAULT;
-    Collider collid;
-    bool isTarget = false;
+    Collider collid = null;
     bool isAttacking = false;
     [HideInInspector]
     public bool HasAttackedPlayer = false;
 
+    public delegate void noParams();
+    public event noParams EnemyKilled;
+
     private void Awake()
     {
-        modelMeshRenderer = Model.GetComponent<MeshRenderer>();
+        modelMeshRenderer = model.GetComponent<MeshRenderer>();
         Material = modelMeshRenderer.material;
         WeaponHitbox = GetComponentInChildren<EnemyWeaponHitbox>();
         AttackHitbox = GetComponentInChildren<EnemyAttackHitbox>();
@@ -163,10 +165,6 @@ public class Enemy : MonoBehaviour
         if (lives > 0)
         {
             lifeText.text = lives.ToString();
-
-            if (onRythm)
-                StartCoroutine(BlinkBlue());
-
             if (stunCounter < chancesToGetStunned.Length)
             {
                 float stunPercentage = RandomHelper.GetRandom();
@@ -211,21 +209,6 @@ public class Enemy : MonoBehaviour
     {
         Material.color = Color.blue;
         yield return new WaitForSecondsRealtime(0.3f);
-        UpdateColor();
-    }
-
-    public void SetSelected(bool selected)
-    {
-        isTarget = selected;
-        UpdateColor();
-    }
-
-    private void UpdateColor()
-    {
-        if (isTarget)
-            Material.color = Color.green;
-        else
-            Material.color = Color.yellow;
     }
 
     public void SetStateText(string text)
@@ -258,8 +241,26 @@ public class Enemy : MonoBehaviour
         notStunElements.SetActive(true);
     }
 
+    public void StartFocus(GameObject focusMark)
+    {
+        focusMark.SetActive(true);
+        focusMark.transform.position = transform.position + Vector3.up;
+        focusMark.transform.parent = transform;
+        model.GetComponent<MeshRenderer>().materials[1].SetFloat("_Outline", 0.1f);
+    }
+
+    public void StopFocus(GameObject focusMark)
+    {
+        focusMark.transform.parent = null;
+        focusMark.SetActive(false);
+        model.GetComponent<MeshRenderer>().materials[1].SetFloat("_Outline", 0);
+    }
+
     private void OnDestroy()
     {
+        if (EnemyKilled != null)
+            EnemyKilled();
+
         if (states != null)
             states.Clear();
     }

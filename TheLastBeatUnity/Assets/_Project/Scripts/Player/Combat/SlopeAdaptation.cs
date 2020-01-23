@@ -5,13 +5,16 @@ using UnityEngine;
 public class SlopeAdaptation : MonoBehaviour
 {
     [SerializeField]
-    Vector3 offsetRaycast;
+    Vector3 offsetRaycast = Vector3.zero;
 
     [SerializeField]
     float offsetY = 0;
 
     [SerializeField]
     bool adaptOnStart = false;
+
+    [SerializeField]
+    bool adaptOnUpdate = false;
 
     Mesh mesh;
 
@@ -21,7 +24,13 @@ public class SlopeAdaptation : MonoBehaviour
             Adapt();
     }
 
-    public void Adapt()
+    private void Update()
+    {
+        if (adaptOnUpdate)
+            Adapt(false);
+    }
+
+    public void Adapt(bool destroyEnd = true)
     {
         mesh = GetComponent<MeshFilter>().mesh;
         if (mesh.vertices.Length != 121)
@@ -52,6 +61,7 @@ public class SlopeAdaptation : MonoBehaviour
         }
 
         mesh.vertices = verts;
-        Destroy(this);
+        if (destroyEnd)
+            Destroy(this);
     }
 }

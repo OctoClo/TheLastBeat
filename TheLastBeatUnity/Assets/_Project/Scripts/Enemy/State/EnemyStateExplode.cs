@@ -34,7 +34,7 @@ public class EnemyStateExplode : EnemyState
 
         animation.InsertCallback(waitBeforeExplosion, () =>
         {
-            enemy.Model.SetActive(false);
+            enemy.model.SetActive(false);
             GameObject explosion = GameObject.Instantiate(explosionPrefab, enemy.transform.position, Quaternion.identity);
             explosion.transform.SetParent(SceneHelper.Instance.VfxFolder);
             explosionArea.Explode(blastForce, blastDamageToPlayer, blastDamageToEnemies, enemy.Player);

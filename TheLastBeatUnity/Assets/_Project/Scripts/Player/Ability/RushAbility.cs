@@ -64,7 +64,7 @@ public class RushAbility : Ability
 
     public override void Launch()
     {
-        if (currentCooldown == 0 && player.CurrentTarget != null)
+        if (currentCooldown == 0 && player.CurrentTarget != null && player.Status.CurrentStatus == EPlayerStatus.DEFAULT)
         {
             SceneHelper.Instance.FreezeFrameTween(parameters.freezeFrameBeginDuration);
             Rush();
