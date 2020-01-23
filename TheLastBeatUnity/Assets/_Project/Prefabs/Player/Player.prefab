@@ -5187,10 +5187,10 @@ MonoBehaviour:
   debugMode: 1
   prefabDebug: {fileID: 2410694937090517874, guid: d27e93cf0a018cf46aef7a676ae41e92,
     type: 3}
-  rotationSpeed: 8
-  holdlessThreshold: 0.7
   maxSpeed: 10
   thrust: 1500
+  rotationSpeed: 8
+  holdlessThreshold: 0.7
   blinkParameters:
     AttachedPlayer: {fileID: 0}
     HealPerCorrectBeat: 0
@@ -5308,6 +5308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1cf034fbde5d0846996c139b3238010, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kickbackForce: 1.5
   stunDuration: 0.5
   stunRecoverAnim: {fileID: 7400000, guid: e0a1b34a99c77e14fa24af239c50edb0, type: 2}
   stunColor: {r: 0, g: 0, b: 1, a: 1}
@@ -15034,9 +15035,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  goodInput: {r: 0.3204999, g: 1, b: 0, a: 1}
+  goodInput: {r: 1, g: 1, b: 1, a: 1}
   wrongInput: {r: 1, g: 0.19551288, b: 0, a: 1}
-  perfectInput: {r: 0.7608987, g: 1, b: 0, a: 1}
+  perfectInput: {r: 1, g: 1, b: 1, a: 1}
   perfectPrefab: {fileID: 4513129306177862933, guid: 0fb685f0340bad445857d7e327986613,
     type: 3}
   goodPrefab: {fileID: 1531867778023654895, guid: 4704f6eca92512f4a9ed6db0e69096d0,
