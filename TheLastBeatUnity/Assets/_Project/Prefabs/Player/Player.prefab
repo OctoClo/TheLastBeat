@@ -14942,10 +14942,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 493f02d913aac6e4ea553e896905cb8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sequenceDuration: 0.8
+  sequenceDuration: 0.75
   recordAs: 0
-  countBeforeSetup: 2
-  targetValue: 10
   curve:
     serializedVersion: 2
     m_Curve:
@@ -14953,25 +14951,25 @@ MonoBehaviour:
       time: -0.0083351135
       value: 1
       inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      outSlope: -0.9917338
+      tangentMode: 69
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: -3.2547162
+      inSlope: -0.9917338
       outSlope: -3.2547162
-      tangentMode: 0
+      tangentMode: 69
       weightedMode: 0
       inWeight: 0.049586702
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  materialSpear: {fileID: 2100000, guid: 9452a0c8640d8f7418d2d9b5983fd254, type: 2}
-  materialBody: {fileID: 2100000, guid: c33ab03de8699134a9c4956dd7a6ec95, type: 2}
+  targetValue: 10
+  countBeforeSetup: 2
 --- !u!1 &8398008199935335471
 GameObject:
   m_ObjectHideFlags: 0
