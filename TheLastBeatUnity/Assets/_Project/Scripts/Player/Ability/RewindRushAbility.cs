@@ -75,7 +75,7 @@ public class RewindRushAbility : Ability
 
         foreach (Enemy enemy in chainedEnemies.Reverse())
         {
-            if (enemy)
+            if (enemy.gameObject != null)
             {
                 direction = new Vector3(enemy.transform.position.x, goalPosition.y, enemy.transform.position.z) - goalPosition;
                 direction *= 1.3f;
