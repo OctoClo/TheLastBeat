@@ -28,13 +28,11 @@ public class Rock : Beatable
     public override void Beat()
     {
         countBeforeSetup--;
-        if (countBeforeSetup == 0)
+        if (countBeforeSetup <= 0)
         {
             DOTween.Sequence()
                 .Append(DOTween.To(() => originValue, x => mat.SetVector("_EmissionColor", col * x), targetValue, sequenceDuration)
                     .SetEase(curve))
-                .AppendInterval(SoundManager.Instance.TimePerBeat - sequenceDuration)
-                .SetLoops(-1)
                 .SetUpdate(true);
         }
     }
