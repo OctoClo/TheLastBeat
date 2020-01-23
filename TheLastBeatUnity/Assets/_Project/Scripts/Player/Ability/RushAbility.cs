@@ -57,90 +57,63 @@ public class RushAbility : Ability
         parameters = rp;
     }
 
-    public void AddDebt(float value)
-    {
-        if (debt == 0)
-            debt += value;
-    }
-
     public override void Launch()
     {
         if (currentCooldown == 0 && player.CurrentTarget != null && player.Status.CurrentStatus == EPlayerStatus.DEFAULT)
-        {
             Rush();
-        }
     }
 
     public override void Update(float deltaTime)
     {
         if (currentCooldown > 0)
-        {
             currentCooldown = Mathf.Max(0, currentCooldown - deltaTime);
-        }
-    }
-
-    void ImpactEffect(Collider coll)
-    {
-        if (coll.gameObject.layer == LayerMask.NameToLayer("Stun") && Vector3.Dot(coll.transform.forward, player.transform.forward) < 0)
-        {
-            if (seq != null)
-            {
-                seq.Kill();
-                hitShield = true;
-                player.Status.GetStunned(-direction);
-                End();
-            }
-            return;
-        }
-
-        if (coll && coll.gameObject == target)
-        {
-            SceneHelper.Instance.FreezeFrameTween(parameters.freezeFrameImpactDuration);
-
-            foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
-            {
-                ce.StartScreenShake(parameters.durationScreenShake, parameters.intensityScreenShake);
-            }
-
-            target.GetComponent<Enemy>().GetAttacked(onRythm);
-            if (!target)
-                return;
-
-            if (RewindRush != null)
-            {
-                RewindRush.AddChainEnemy(target.GetComponent<Enemy>());
-            }
-
-            //VFX
-            List<Vector3> frontAndBack = SceneHelper.Instance.RayCastBackAndForth(target.GetComponent<Collider>(), player.transform.position, direction, direction.magnitude);
-            if (frontAndBack.Count >= 2)
-            {
-                GameObject front = GameObject.Instantiate(parameters.frontDash, frontAndBack[0], Quaternion.identity);
-                front.transform.forward = -direction;
-                GameObject.Destroy(front, 2);
-
-                Sequence seqSpawn = DOTween.Sequence();
-                seqSpawn.AppendInterval(0.1f);
-                seqSpawn.AppendCallback(() =>
-                {
-                    GameObject back = GameObject.Instantiate(parameters.backDash, frontAndBack[1], Quaternion.identity);
-                    back.transform.forward = direction;
-                    GameObject.Destroy(back, 2);
-                });
-                seqSpawn.Play();
-            }
-        }
     }
 
     void Rush()
     {
-        SceneHelper.Instance.FreezeFrameTween(parameters.freezeFrameBeginDuration);
+        // Init
+        debt = 0;
         hitShield = false;
-        player.ColliderObject.layer = LayerMask.NameToLayer("Player Dashing");
-        CameraManager.Instance.SetBoolCamera(true, "FOV");
+        currentCooldown = cooldown;
         target = player.CurrentTarget.gameObject;
-        onRythm = SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT);
+        player.ColliderObject.layer = LayerMask.NameToLayer("Player Dashing");
+        player.DelegateColl.OnTriggerEnterDelegate += ImpactEffect;
+        parameters.blinkAbility.ResetCooldown();
+        player.Status.StartRushing();
+        CheckRhythm();
+
+        // Game feel
+        SceneHelper.Instance.FreezeFrameTween(parameters.freezeFrameBeginDuration);
+        CameraManager.Instance.SetBoolCamera(true, "FOV");
+        
+        // Determine direction
+        direction = new Vector3(target.transform.position.x, player.transform.position.y, target.transform.position.z) - player.transform.position;
+        direction = direction.normalized;
+        direction = new Vector3(direction.x, player.CurrentDeltaY, direction.z);
+        direction *= parameters.distanceDash;
+        player.transform.forward = direction;
+        RushVFX();
+
+        seq = DOTween.Sequence();
+        speed = (direction.magnitude / parameters.timeToReachDist) * 4.0f;
+        seq.onUpdate += () => player.Rb.velocity = direction.normalized * speed;
+        seq.AppendInterval(parameters.timeToReachDist);
+        seq.AppendCallback(() => End());
+        seq.Play();
+    }
+
+    void RushVFX()
+    {
         player.RushParticles.SetActive(true);
+        if (RewindRush.IsInCombo)
+            CreateTurnMark(player.transform.forward);
+        else
+            CreateStartMark(player.transform.forward);
+    }
+
+    void CheckRhythm()
+    {
+        onRythm = SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT);
         bool perfect = SoundManager.Instance.IsPerfect(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT);
         if (onRythm)
         {
@@ -163,29 +136,64 @@ public class RushAbility : Ability
             if (player.LoseLifeOnAbilities)
                 player.ModifyPulseValue(parameters.PulseCost + debt);
         }
+    }
 
-        debt = 0;
-        parameters.blinkAbility.ResetCooldown();
-        currentCooldown = cooldown;
-        player.Status.StartRushing();
-        direction = new Vector3(target.transform.position.x, player.transform.position.y, target.transform.position.z) - player.transform.position;
-        direction = direction.normalized;
-        direction = new Vector3(direction.x, player.CurrentDeltaY, direction.z);
-        direction *= parameters.distanceDash;
-        player.transform.forward = direction;
-        player.DelegateColl.OnTriggerEnterDelegate += ImpactEffect;
+    public void AddDebt(float value)
+    {
+        if (debt == 0)
+            debt += value;
+    }
 
-        if (RewindRush.IsInCombo)
-            CreateTurnMark(player.transform.forward);
-        else
-            CreateStartMark(player.transform.forward);
+    void ImpactEffect(Collider coll)
+    {
+        // Found a shield
+        if (coll.gameObject.layer == LayerMask.NameToLayer("Stun") && Vector3.Dot(coll.transform.forward, player.transform.forward) < 0)
+        {
+            if (seq != null)
+            {
+                seq.Kill();
+                hitShield = true;
+                player.Status.GetStunned(-direction);
+                End();
+            }
+            return;
+        }
 
-        seq = DOTween.Sequence();
-        speed = (direction.magnitude / parameters.timeToReachDist) * 4.0f;
-        seq.onUpdate += () => player.Rb.velocity = direction.normalized * speed;
-        seq.AppendInterval(parameters.timeToReachDist);
-        seq.AppendCallback(() => End());
-        seq.Play();
+        // Found the target
+        if (coll && coll.gameObject == target)
+        {
+            SceneHelper.Instance.FreezeFrameTween(parameters.freezeFrameImpactDuration);
+
+            foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
+                ce.StartScreenShake(parameters.durationScreenShake, parameters.intensityScreenShake);
+
+            EnemyHitVFX();
+            target.GetComponent<Enemy>().GetAttacked(onRythm);
+            
+            if (target && RewindRush != null)
+                RewindRush.AddChainEnemy(target.GetComponent<Enemy>());
+        }
+    }
+
+    void EnemyHitVFX()
+    {
+        List<Vector3> frontAndBack = SceneHelper.Instance.RayCastBackAndForth(target.GetComponent<Collider>(), player.transform.position, direction, direction.magnitude);
+        if (frontAndBack.Count >= 2)
+        {
+            GameObject front = GameObject.Instantiate(parameters.frontDash, frontAndBack[0], Quaternion.identity);
+            front.transform.forward = -direction;
+            GameObject.Destroy(front, 2);
+
+            Sequence seqSpawn = DOTween.Sequence();
+            seqSpawn.AppendInterval(0.1f);
+            seqSpawn.AppendCallback(() =>
+            {
+                GameObject back = GameObject.Instantiate(parameters.backDash, frontAndBack[1], Quaternion.identity);
+                back.transform.forward = direction;
+                GameObject.Destroy(back, 2);
+            });
+            seqSpawn.Play();
+        }
     }
 
     void CreateStartMark(Vector3 direction)

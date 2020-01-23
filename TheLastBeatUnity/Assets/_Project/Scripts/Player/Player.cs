@@ -66,11 +66,6 @@ public class Player : Inputable
     public GameObject ColliderObject = null;
     public Collider CurrentTarget => pyramid.NearestEnemy;
 
-    public void SetFoot(Transform trsf)
-    {
-        CurrentFootOnGround = trsf;
-    }
-
     private void Start()
     {
         Status = GetComponent<PlayerStatus>();
@@ -94,11 +89,6 @@ public class Player : Inputable
             SceneHelper.Instance.Respawn(transform);
     }
 
-    public void DebtRush(float value)
-    {
-        (abilities[EInputAction.RUSH] as RushAbility).AddDebt(value);
-    }
-
     public override void ProcessInput(Rewired.Player player)
     {
         // Direction Inputs
@@ -113,23 +103,20 @@ public class Player : Inputable
             foreach (EInputAction action in (EInputAction[])Enum.GetValues(typeof(EInputAction)))
             {
                 if (player.GetButtonDown(action.ToString()) && abilities.TryGetValue(action, out ability))
-                {
                     ability.Launch();
-                }
             }
         }
 
-        // Pyramid for focus
+        HandlePyramid(player);
+    }
+
+    private void HandlePyramid(Rewired.Player player)
+    {
         Vector3 directionLook = new Vector3(player.GetAxis("FocusX"), 0, player.GetAxis("FocusY"));
-        if (directionLook.magnitude > holdlessThreshold)
-        {
-            pyramid.RightStickEnabled = true;
+        bool pyramidEnabled = (directionLook.magnitude > holdlessThreshold);
+        pyramid.RightStickEnabled = pyramidEnabled;
+        if (pyramidEnabled)
             pyramid.OverlookDirection(directionLook);
-        }
-        else
-        {
-            pyramid.RightStickEnabled = false;
-        }
 
         if (CurrentTarget != null)
         {
@@ -138,14 +125,11 @@ public class Player : Inputable
         }
 
         if (CurrentDirection != Vector3.zero && !pyramid.RightStickEnabled)
-        {
             pyramid.OverlookDirection(CurrentDirection);
-        }
     }
 
     private void FixedUpdate()
     {
-        Vector3 flatVelocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
         if (!BlockInput)
         {
             if (CurrentDirection != Vector3.zero)
@@ -158,15 +142,14 @@ public class Player : Inputable
                 // Movement
                 rb.AddForce(CurrentDirection * thrust);
                 Status.SetMoving(true);
+
+                // Clamp velocity
+                Vector3 flatVelocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+                if (flatVelocity.magnitude > maxSpeed && Status.CurrentStatus == EPlayerStatus.DEFAULT)
+                    rb.velocity = (flatVelocity.normalized * maxSpeed) + (Vector3.up * rb.velocity.y);
             }
             else
                 Status.SetMoving(false);
-            
-            // Clamp velocity
-            if (flatVelocity.magnitude > maxSpeed)
-            {
-                rb.velocity = (flatVelocity.normalized * maxSpeed) + (Vector3.up * rb.velocity.y);
-            }
 
             // Glue to floor
             if (CurrentDeltaY <= 0)
@@ -174,6 +157,59 @@ public class Player : Inputable
         }
         else
             Status.SetMoving(false);
+    }
+
+    private void Update()
+    {
+        foreach (KeyValuePair<EInputAction, Ability> abilityPair in abilities)
+            abilityPair.Value.Update(Time.deltaTime);
+
+        HandleMovementY();
+    }
+
+    private void HandleMovementY()
+    {
+        Ray ray = new Ray(transform.position, Vector3.down);
+        bool foundFirst = false;
+        Vector3 hitFirst = Vector3.zero;
+        foreach (RaycastHit hit in Physics.RaycastAll(ray, 3))
+        {
+            if (hit.collider.gameObject.CompareTag("Slope"))
+            {
+                hitFirst = hit.point;
+                foundFirst = true;
+                break;
+            }
+        }
+
+        Vector3 flatForward = new Vector3(transform.forward.x, 0, transform.forward.z);
+        Ray ray2 = new Ray(transform.position + (flatForward.normalized * 0.01f), Vector3.down);
+        bool foundSecond = false;
+        Vector3 hitSecond = Vector3.zero;
+        foreach (RaycastHit hit in Physics.RaycastAll(ray2, 3))
+        {
+            if (hit.collider.gameObject.CompareTag("Slope"))
+            {
+                foundSecond = true;
+                hitSecond = hit.point;
+                break;
+            }
+        }
+
+        if (foundFirst && foundSecond)
+            CurrentDeltaY = (hitSecond - hitFirst).normalized.y;
+        else
+            CurrentDeltaY = 0;
+    }
+
+    public void SetFoot(Transform trsf)
+    {
+        CurrentFootOnGround = trsf;
+    }
+
+    public void DebtRush(float value)
+    {
+        (abilities[EInputAction.RUSH] as RushAbility).AddDebt(value);
     }
 
     public void ModifyPulseValue(float value, bool fromEnemy = false)
@@ -203,75 +239,6 @@ public class Player : Inputable
         yield return StartCoroutine(SceneHelper.Instance.FreezeFrameCoroutine(hitFreezeFrameDuration));
         Status.StopHit();
         healthSystem.ModifyPulseValue(value);
-    }
-
-    void Die()
-    {
-        DOTween.KillAll();
-        blockInput = true;
-        SceneHelper.Instance.RecordDeath(transform.position);
-        stopEvent.Post(gameObject);
-        StartCoroutine(DieCoroutine());
-    }
-
-    IEnumerator DieCoroutine()
-    {
-        float objective = 90;
-        float duration = 0.5f;
-        float cursor = 0;
-        Status.SetMoving(false);
-
-        while (cursor < objective)
-        {
-            float tempValue = (objective * Time.deltaTime / duration);
-            cursor += tempValue;
-            transform.Rotate(Vector3.right * tempValue, Space.Self);
-            yield return null;
-        }
-
-        SceneHelper.Instance.RecordDeath(transform.position);
-        SceneHelper.Instance.StartFade(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name), 0.5f, Color.black);
-    }
-
-    private void Update()
-    {
-        foreach (KeyValuePair<EInputAction, Ability> abilityPair in abilities)
-            abilityPair.Value.Update(Time.deltaTime);
-        Ray ray = new Ray(transform.position, Vector3.down);
-        bool foundFirst = false;
-        Vector3 hitFirst = Vector3.zero;
-        foreach(RaycastHit hit in Physics.RaycastAll(ray , 3))
-        {
-            if (hit.collider.gameObject.CompareTag("Slope"))
-            {
-                hitFirst = hit.point;
-                foundFirst = true;
-                break;
-            }
-        }
-
-        Vector3 flatForward = new Vector3(transform.forward.x, 0, transform.forward.z);
-        Ray ray2 = new Ray(transform.position + (flatForward.normalized * 0.01f), Vector3.down);
-        bool foundSecond = false;
-        Vector3 hitSecond = Vector3.zero;
-        foreach (RaycastHit hit in Physics.RaycastAll(ray2, 3))
-        {
-            if (hit.collider.gameObject.CompareTag("Slope"))
-            {
-                foundSecond = true;
-                hitSecond = hit.point;
-                break;
-            }
-        }
-        if (foundFirst && foundSecond)
-
-        {
-            CurrentDeltaY = (hitSecond - hitFirst).normalized.y;
-        }
-        else
-        {
-            CurrentDeltaY = 0;
-        }
     }
 
     IEnumerator currentHurt;
@@ -324,5 +291,33 @@ public class Player : Inputable
                 yield return null;
             }
         }
+    }
+
+    void Die()
+    {
+        DOTween.KillAll();
+        blockInput = true;
+        SceneHelper.Instance.RecordDeath(transform.position);
+        stopEvent.Post(gameObject);
+        StartCoroutine(DieCoroutine());
+    }
+
+    IEnumerator DieCoroutine()
+    {
+        float objective = 90;
+        float duration = 0.5f;
+        float cursor = 0;
+        Status.SetMoving(false);
+
+        while (cursor < objective)
+        {
+            float tempValue = (objective * Time.deltaTime / duration);
+            cursor += tempValue;
+            transform.Rotate(Vector3.right * tempValue, Space.Self);
+            yield return null;
+        }
+
+        SceneHelper.Instance.RecordDeath(transform.position);
+        SceneHelper.Instance.StartFade(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name), 0.5f, Color.black);
     }
 }

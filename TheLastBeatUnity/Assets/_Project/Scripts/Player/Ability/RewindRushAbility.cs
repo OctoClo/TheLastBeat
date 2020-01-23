@@ -35,10 +35,14 @@ public class RewindRushAbility : Ability
         parameters = rrp;
     }
 
+    public override void Launch()
+    {
+        if (chainedEnemies.Count > 0 && currentCooldown == 0 && player.Status.CurrentStatus == EPlayerStatus.DEFAULT)
+            RewindRush();
+    }
+
     public override void Update(float deltaTime)
     {
-        base.Update(deltaTime);
-
         if (chainedEnemies.Count > 0 && currentCooldown == 0)
         {
             rushChainTimer -= Time.deltaTime;
@@ -48,70 +52,26 @@ public class RewindRushAbility : Ability
         }
 
         if (currentCooldown > 0)
-        {
             currentCooldown = Mathf.Max(currentCooldown - deltaTime, 0.0f);
-        }
-    }
-
-    public void AddChainEnemy(Enemy enn)
-    {
-        rushChainTimer = parameters.MaxTimeBeforeResetMarks;
-
-        if (chainedEnemies.Count >= parameters.MaxChained)
-        {
-            chainedEnemies.Dequeue();
-        }
-        chainedEnemies.Enqueue(enn);
-    }
-
-    public void MissInput()
-    {
-        missedInput++;
-        if (missedInput >= 2)
-        {
-            ResetCombo();
-        }
-    }
-
-    public void ResetCombo()
-    {
-        chainedEnemies.Clear();
-        missedInput = 0;
-    }
-
-    public override void Launch()
-    {
-        if (chainedEnemies.Count > 0 && currentCooldown == 0 && player.Status.CurrentStatus == EPlayerStatus.DEFAULT)
-            RewindRush();
     }
 
     void RewindRush()
     {
+        // Init
         currentCooldown = cooldown;
         player.RushParticles.SetActive(true);
         parameters.RewindState.SetValue();
         player.Status.StartRushing();
         player.ColliderObject.layer = LayerMask.NameToLayer("Player Dashing");
+        CheckRhythm();
 
-        attackOnRythm = SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT);
-        if (attackOnRythm)
-        {
-            player.ModifyPulseValue(-healCorrectBeat);
-            SceneHelper.Instance.Rumble(parameters.rumbleIntensity, parameters.rumbleDuration);
-            CorrectBeat();
-        }
-        else if (player.LoseLifeOnAbilities)
-        {
-            player.ModifyPulseValue(parameters.PulseCost);
-            WrongBeat();
-        }
-
-        Sequence seq = DOTween.Sequence();
-        Vector3 direction;
-        Vector3 goalPosition = player.transform.position;
-
+        // Game feel
         CameraManager.Instance.SetBlend("InCombat", "FOV Rewind", (0.1f + parameters.Duration) * chainedEnemies.Count);
         CameraManager.Instance.SetBoolCamera(true, "Rewinding");
+
+        Vector3 direction;
+        Vector3 goalPosition = player.transform.position;
+        Sequence seq = DOTween.Sequence();
 
         foreach (Enemy enemy in chainedEnemies.Reverse())
         {
@@ -131,12 +91,50 @@ public class RewindRushAbility : Ability
         seq.Play();
     }
 
+    void CheckRhythm()
+    {
+        attackOnRythm = SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT);
+        if (attackOnRythm)
+        {
+            player.ModifyPulseValue(-healCorrectBeat);
+            SceneHelper.Instance.Rumble(parameters.rumbleIntensity, parameters.rumbleDuration);
+            CorrectBeat();
+        }
+        else if (player.LoseLifeOnAbilities)
+        {
+            player.ModifyPulseValue(parameters.PulseCost);
+            WrongBeat();
+        }
+    }
+
+    public void AddChainEnemy(Enemy enn)
+    {
+        rushChainTimer = parameters.MaxTimeBeforeResetMarks;
+
+        if (chainedEnemies.Count >= parameters.MaxChained)
+            chainedEnemies.Dequeue();
+
+        chainedEnemies.Enqueue(enn);
+    }
+
+    public void MissInput()
+    {
+        missedInput++;
+
+        if (missedInput >= 2)
+            ResetCombo();
+    }
+
+    public void ResetCombo()
+    {
+        chainedEnemies.Clear();
+        missedInput = 0;
+    }
+
     public override void End()
     {
         foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
-        {
             ce.StartScreenShake(parameters.screenShakeDuration, parameters.screenShakeIntensity);
-        }
 
         player.RushParticles.SetActive(false);
         CameraManager.Instance.SetBoolCamera(false, "Rewinding");

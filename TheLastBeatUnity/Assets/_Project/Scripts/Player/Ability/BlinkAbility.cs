@@ -43,65 +43,70 @@ public class BlinkAbility : Ability
     public override void Update(float deltaTime)
     {
         if (currentCooldown > 0)
-        {
             currentCooldown = Mathf.Max(0, currentCooldown - deltaTime);
-        }
     }
 
     private void Blink()
     {
+        // Init
+        player.Status.StartBlink();
+        CheckRhythm();
+
+        // Determine direction
         Vector3 startSize = player.VisualPart.localScale;
         Vector3 direction = player.CurrentDirection;
         direction.Normalize();
         direction = new Vector3(direction.x, 0, direction.z);
         float angle = Vector3.Angle(direction, direction + (Vector3.up * player.CurrentDeltaY));
         direction = Quaternion.AngleAxis(player.CurrentDeltaY < 0 ? angle * 0.9f : angle, Vector3.left) * direction;
-        Vector3 newPosition = player.transform.position + (direction * parameters.Distance);
         speed = parameters.Distance / parameters.TimeToReach;
         Vector3 velocity = direction * speed;
-        CreateMark(player.transform.position);
-        CreateMark(newPosition);
-        CreateTrail(player.transform.position + direction.normalized, newPosition - direction.normalized);
+        BlinkVFX(direction);
 
         currentSequence = DOTween.Sequence();
-        currentSequence.AppendCallback(() =>
-        {
-            player.Status.StartBlink();
-            if (SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT))
-            {
-                if (SoundManager.Instance.IsPerfect(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT))
-                {
-                    player.ModifyPulseValue(-healCorrectBeat);
-                    PerfectBeat();
-                }
-                else
-                {
-                    CorrectBeat();
-                }
-                
-                parameters.OnBeatSound.Post(player.gameObject);
-                SceneHelper.Instance.Rumble(parameters.rumbleIntensity, parameters.rumbleDuration);
-            }
-            else
-            {
-                if (player.LoseLifeOnAbilities)
-                    player.ModifyPulseValue(parameters.PulseCost);
-                parameters.OffBeatSound.Post(player.gameObject);
-                WrongBeat();
-                player.DebtRush(parameters.PulseCost);
-                currentCooldown = SoundManager.Instance.TimePerBar;
-            }
-        });
         currentSequence.AppendInterval(parameters.timeWait);
         currentSequence.Append(player.VisualPart.DOScale(Vector3.zero, parameters.SpeedAnimShrink));
         currentSequence.Append(DOTween.To(() => 0, x => player.Rb.velocity = velocity, 1, parameters.TimeToReach));
         currentSequence.AppendCallback(() => player.Rb.velocity = Vector3.zero);
         currentSequence.Append(player.VisualPart.DOScale(startSize, parameters.SpeedAnimShrink));
-        currentSequence.AppendCallback(() =>
-        {
-            player.Status.StopBlink();
-        });
+        currentSequence.AppendCallback(() => player.Status.StopBlink());
         currentSequence.Play();
+    }
+
+    void BlinkVFX(Vector3 direction)
+    {
+        Vector3 newPosition = player.transform.position + (direction * parameters.Distance);
+        CreateMark(player.transform.position);
+        CreateMark(newPosition);
+        CreateTrail(player.transform.position + direction.normalized, newPosition - direction.normalized);
+    }
+
+    void CheckRhythm()
+    {
+        if (SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT))
+        {
+            if (SoundManager.Instance.IsPerfect(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT))
+            {
+                player.ModifyPulseValue(-healCorrectBeat);
+                PerfectBeat();
+            }
+            else
+            {
+                CorrectBeat();
+            }
+
+            parameters.OnBeatSound.Post(player.gameObject);
+            SceneHelper.Instance.Rumble(parameters.rumbleIntensity, parameters.rumbleDuration);
+        }
+        else
+        {
+            if (player.LoseLifeOnAbilities)
+                player.ModifyPulseValue(parameters.PulseCost);
+            parameters.OffBeatSound.Post(player.gameObject);
+            WrongBeat();
+            player.DebtRush(parameters.PulseCost);
+            currentCooldown = SoundManager.Instance.TimePerBar;
+        }
     }
 
     void CreateMark(Vector3 positionCast)
