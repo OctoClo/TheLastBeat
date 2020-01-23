@@ -125,11 +125,6 @@ public class RewindRushAbility : Ability
                 seq.Append(player.transform.DOMove(goalPosition, parameters.Duration));
                 seq.AppendCallback(() => { enemy.GetAttacked(attackOnRythm); });
             }
-            else
-            {
-                seq.Kill();
-                End();
-            }
         }
 
         seq.AppendCallback(() => End());

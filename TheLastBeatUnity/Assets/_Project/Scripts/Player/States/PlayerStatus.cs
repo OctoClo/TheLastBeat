@@ -16,6 +16,8 @@ public class PlayerStatus : MonoBehaviour
     public EPlayerStatus CurrentStatus { get; private set; }
 
     [TabGroup("Stun")] [SerializeField]
+    float kickbackForce = 1.5f;
+    [TabGroup("Stun")] [SerializeField]
     float stunDuration = 0.5f;
     [TabGroup("Stun")] [SerializeField]
     AnimationClip stunRecoverAnim = null;
@@ -27,6 +29,7 @@ public class PlayerStatus : MonoBehaviour
 
     public Animator Animator = null;
     private Coroutine stunCoroutine = null;
+    private Rigidbody rb = null;
 
     private void Awake()
     {
@@ -35,6 +38,7 @@ public class PlayerStatus : MonoBehaviour
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody>();
         stunDuration -= stunRecoverAnim.length;
     }
 
@@ -81,10 +85,11 @@ public class PlayerStatus : MonoBehaviour
         Animator.SetTrigger("hitEnd");
     }
 
-    public void GetStunned()
+    public void GetStunned(Vector3 kickbackDirection)
     {
         CurrentStatus = EPlayerStatus.STUNNED;
         stunMusicSXF.Post(gameObject);
+        rb.AddForce(kickbackDirection * kickbackForce, ForceMode.VelocityChange);
         Animator.SetBool("stunned", true);
         stunCoroutine = StartCoroutine(WaitBeforeAnimStunEnd());
     }
