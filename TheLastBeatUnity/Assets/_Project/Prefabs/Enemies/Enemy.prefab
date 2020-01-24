@@ -1298,6 +1298,8 @@ GameObject:
   - component: {fileID: 7484901647461563454}
   - component: {fileID: 2197232650288863714}
   - component: {fileID: 7484901647461563453}
+  - component: {fileID: 6503521586080623152}
+  - component: {fileID: 3344081479214520141}
   - component: {fileID: 7956293027968414304}
   m_Layer: 8
   m_Name: Enemy
@@ -1399,6 +1401,34 @@ MonoBehaviour:
   InWanderZone: 0
   Agent: {fileID: 0}
   HasAttackedPlayer: 0
+--- !u!114 &6503521586080623152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7484901647461563443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95534162d483af543971bf17bd7101d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sequenceDuration: 0
+  recordAs: 1
+--- !u!114 &3344081479214520141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7484901647461563443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b91ad4901b629da47b009c6a033e41ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sequenceDuration: 0
+  recordAs: 0
 --- !u!195 &7956293027968414304
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -25,9 +25,6 @@ public class EnemyStateRecoverAttack : EnemyState
         recoverTimer -= deltaTime;
 
         if (recoverTimer <= 0)
-            return EEnemyState.PREPARE_ATTACK;
-        
-        if (!enemy.WeaponHitbox.PlayerInHitbox)
             return EEnemyState.CHASE;
         
         return stateEnum;

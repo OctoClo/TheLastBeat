@@ -144,6 +144,16 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void OnBeat()
+    {
+        currentState.OnBeat();
+    }
+
+    public void OnBar()
+    {
+        currentState.OnBar();
+    }
+
     public void GetPushedBack()
     {
         ChangeState(EEnemyState.STUN);

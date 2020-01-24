@@ -37,6 +37,8 @@ public class EnemyStatePrepareAttack : EnemyState
     {
         if (animationFinished)
             return EEnemyState.ATTACK;
+        else
+            enemy.transform.LookAt(enemy.Player.transform, Vector3.up);
         
         return stateEnum;
     }
