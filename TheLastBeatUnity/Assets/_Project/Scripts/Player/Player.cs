@@ -221,6 +221,9 @@ public class Player : Inputable
         }
         else
         {
+            if (fromEnemy)
+                SceneHelper.Instance.FreezeFrameTween(0.2f);
+
             if (!fromEnemy)
                 healthSystem.ModifyPulseValue(value);
             else if (Status.CurrentStatus != EPlayerStatus.RUSHING && Status.CurrentStatus != EPlayerStatus.BLINKING)
