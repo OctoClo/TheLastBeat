@@ -35,6 +35,7 @@ namespace AK
         static const AkUniqueID PLAY_REWIND = 869704911U;
         static const AkUniqueID PLAY_RUSHFXOFFBEAT = 3852757989U;
         static const AkUniqueID PLAY_RUSHFXONBEAT = 2567002569U;
+        static const AkUniqueID PLAY_RUSHFXONPERFECT = 3119437920U;
         static const AkUniqueID PLAY_WILDLIFEDESERT_1 = 92132223U;
         static const AkUniqueID PLAY_WILDLIFEDESERT_2 = 92132220U;
         static const AkUniqueID SETREWIND_LOOPA = 4276712656U;
@@ -47,17 +48,6 @@ namespace AK
 
     namespace STATES
     {
-        namespace INPUTSTATE
-        {
-            static const AkUniqueID GROUP = 2836345082U;
-
-            namespace STATE
-            {
-                static const AkUniqueID NORMAL = 1160234136U;
-                static const AkUniqueID PERFECT = 2161557176U;
-            } // namespace STATE
-        } // namespace INPUTSTATE
-
         namespace INT_LAND_CHORD
         {
             static const AkUniqueID GROUP = 2886309763U;
@@ -177,6 +167,7 @@ namespace AK
         static const AkUniqueID MUSICFEEDBACK = 2661784387U;
         static const AkUniqueID ONBEATBLINK = 2384616720U;
         static const AkUniqueID ONBEATRUSH = 2234168428U;
+        static const AkUniqueID ONPERFECTRUSH = 3602984935U;
     } // namespace TRIGGERS
 
     namespace BANKS
@@ -187,10 +178,12 @@ namespace AK
 
     namespace BUSSES
     {
+        static const AkUniqueID ALLBUTPERC = 4285133355U;
         static const AkUniqueID GAMEPLAYSFX = 4065441226U;
         static const AkUniqueID MASTER_AUDIO_BUS = 3803692087U;
         static const AkUniqueID MFX = 931006280U;
         static const AkUniqueID MUSIC = 3991942870U;
+        static const AkUniqueID PERC = 1743886701U;
         static const AkUniqueID SFX = 393239870U;
         static const AkUniqueID SYNCFEEDBACK = 176430053U;
     } // namespace BUSSES
