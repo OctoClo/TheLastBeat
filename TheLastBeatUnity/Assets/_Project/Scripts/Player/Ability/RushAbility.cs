@@ -15,6 +15,7 @@ public class RushParams : AbilityParams
     [Header("Sound")]
     public AK.Wwise.Event OnBeatSound = null;
     public AK.Wwise.Event OffBeatSound = null;
+    public AK.Wwise.Event PerfectBeatSound = null;
     public float Cooldown = 0;
 
     [HideInInspector]
@@ -117,7 +118,11 @@ public class RushAbility : Ability
         bool perfect = SoundManager.Instance.IsPerfect(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT);
         if (onRythm)
         {
-            parameters.OnBeatSound.Post(player.gameObject);
+            if (perfect)
+                parameters.PerfectBeatSound.Post(player.gameObject);
+            else
+                parameters.OnBeatSound.Post(player.gameObject);
+
             SceneHelper.Instance.Rumble(parameters.rumbleIntensity, parameters.rumbleDuration);
             if (perfect)
             {
