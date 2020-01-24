@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 53f38f5348f7094493a66f9c8647d632
     GuidInternal: 
-    m_lastTime: -8586218968497243962
+    m_lastTime: -8586217403430120212
     List:
     - name: MFXRewindVerb
       guid: 82a1ed093669ee4f84717f8fd1429698
@@ -44,7 +44,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 00607f23f4bb1c4ba4ba719fd5871f3f
     GuidInternal: 
-    m_lastTime: -8586219921892165917
+    m_lastTime: -8586217267817043691
     List:
     - name: TheLastBank
       guid: ba44c042ce392242af9fd5c1beb6de48
@@ -60,7 +60,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 8758d50e9a0ca842a9ceccd260c5af42
     GuidInternal: 
-    m_lastTime: -8586218270641008730
+    m_lastTime: -8586217267889064967
     List:
     - name: Int_Chord01
       guid: eaee35c708d9eb47b66fd56d667bc9eb
@@ -330,6 +330,20 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: Play_LeftFoot
+      guid: c58f26cabaad9d41b065bfaa9517f129
+      id: 1674468585
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: 02_Player
+        ObjectType: 4
+      - ElementName: Play_LeftFoot
+        ObjectType: 3
+      Path: Default Work Unit\02_Player\Play_LeftFoot
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Play_Music
       guid: 7c0c99b2cf37254792bd1ed7910ef398
       id: 2932040671
@@ -358,6 +372,20 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: Play_RightFoot
+      guid: 9043671446358d498397c632091c5328
+      id: 3723441664
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: 02_Player
+        ObjectType: 4
+      - ElementName: Play_RightFoot
+        ObjectType: 3
+      Path: Default Work Unit\02_Player\Play_RightFoot
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Play_RushFXOffBeat
       guid: 2ff54b16913df94c9315546f884b8f0f
       id: 3852757989
@@ -383,6 +411,20 @@ MonoBehaviour:
       - ElementName: Play_RushFXOnBeat
         ObjectType: 3
       Path: Default Work Unit\02_Player\Play_RushFXOnBeat
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_RushFXOnPerfect
+      guid: df796864a7e24e4eb537e877b5ee9bc3
+      id: 3119437920
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: 02_Player
+        ObjectType: 4
+      - ElementName: Play_RushFXOnPerfect
+        ObjectType: 3
+      Path: Default Work Unit\02_Player\Play_RushFXOnPerfect
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -573,41 +615,8 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: f97624b2970aec4088365c8371d57a2e
     GuidInternal: 
-    m_lastTime: -8586219918893986237
+    m_lastTime: -8586217403430070344
     List:
-    - name: InputState
-      guid: 8038f10c5c50fc48945233d7a42453ff
-      id: 2836345082
-      PathAndIcons:
-      - ElementName: TheLastBeat
-        ObjectType: 12
-      - ElementName: FeedbackState
-        ObjectType: 4
-      - ElementName: InputState
-        ObjectType: 9
-      Path: TheLastBeat\FeedbackState\InputState
-      values:
-      - name: None
-        guid: 1fedc107f92fcf42a22998f44c43bc1f
-        id: 748895195
-        PathAndIcons:
-        - ElementName: None
-          ObjectType: 8
-      - name: Normal
-        guid: 2856beab7ece1d4e993ae6ba075aa044
-        id: 1160234136
-        PathAndIcons:
-        - ElementName: Normal
-          ObjectType: 8
-      - name: Perfect
-        guid: f31adad4ea8bda4dbfd5a2642a439979
-        id: 2161557176
-        PathAndIcons:
-        - ElementName: Perfect
-          ObjectType: 8
-      ValueGuids: []
-      ValueIcons: []
-      valuesInternal: []
     - name: Int_Land_Chord
       guid: 0aa30c6240435e45a7a36f62c52db2f0
       id: 2886309763
@@ -892,8 +901,39 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 3af7dc8d80519e43aa87a0e9a3e8afdb
     GuidInternal: 
-    m_lastTime: -8586218326134593059
+    m_lastTime: -8586217270153132051
     List:
+    - name: FootstepsMaterial
+      guid: f8a8b4e1ebb69944a3e54fee02df5e8e
+      id: 982447677
+      PathAndIcons:
+      - ElementName: TheLastBeat
+        ObjectType: 12
+      - ElementName: FootstepsMaterial
+        ObjectType: 11
+      Path: TheLastBeat\FootstepsMaterial
+      values:
+      - name: Grass
+        guid: cca8743298ea284293d4f3840091341a
+        id: 4248645337
+        PathAndIcons:
+        - ElementName: Grass
+          ObjectType: 10
+      - name: Rock
+        guid: 2427892d46c451468d0d71b9038633dd
+        id: 2144363834
+        PathAndIcons:
+        - ElementName: Rock
+          ObjectType: 10
+      - name: Sand
+        guid: fab755798a2ca642ae4cabd3f1dbfc0f
+        id: 803837735
+        PathAndIcons:
+        - ElementName: Sand
+          ObjectType: 10
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
     - name: MusicLayer
       guid: e36780a61df852489bf909c33ce5a862
       id: 2074789557
@@ -954,7 +994,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 1ac71c4bbb8fbe4aab71adce22d346fd
     GuidInternal: 
-    m_lastTime: -8586220027887085545
+    m_lastTime: -8586217403430050397
     List:
     - name: MusicFeedback
       guid: 3a584ce44dfb2345a8278daa62360197
@@ -983,10 +1023,20 @@ MonoBehaviour:
       - ElementName: OnBeatRush
         ObjectType: 14
       Path: TheLastBeat\OnBeatRush
+    - name: OnPerfectRush
+      guid: 82893a0291446640853fe992d2e40aa2
+      id: 3602984935
+      PathAndIcons:
+      - ElementName: TheLastBeat
+        ObjectType: 12
+      - ElementName: OnPerfectRush
+        ObjectType: 14
+      Path: TheLastBeat\OnPerfectRush
   ExpandedItems:
   - /TheLastBeatAudio
   - /TheLastBeatAudio/Events
   - /TheLastBeatAudio/Events/Default Work Unit
+  - /TheLastBeatAudio/Events/Default Work Unit/00_Internal
   - /TheLastBeatAudio/Events/Default Work Unit/03_NME
   autoPopulateEnabled: 1
   CurrentPluginConfig: 

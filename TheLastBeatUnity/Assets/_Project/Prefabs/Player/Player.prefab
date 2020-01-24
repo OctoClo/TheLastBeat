@@ -5184,7 +5184,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3489716977114045591}
   serializedVersion: 2
-  m_Mass: 12.04
+  m_Mass: 40
   m_Drag: 1.96
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -5199,7 +5199,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3489716977114045591}
-  m_Material: {fileID: 13400000, guid: 556eb58a48e3b114cb536c8cff1ce6de, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.28
@@ -5219,16 +5219,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitFreezeFrameDuration: 0.2
-  maxSpeed: 10
+  maxSpeed: 12
   thrust: 1500
   rotationSpeed: 8
   holdlessThreshold: 0.7
   blinkParameters:
-    AttachedPlayer: {fileID: 0}
-    HealPerCorrectBeat: 0
+    AttachedPlayer: {fileID: 3489716977114045609}
+    HealPerCorrectBeat: 1
     Distance: 5
     TimeToReach: 0.1
-    PulseCost: 4
+    PulseCost: 1
     timeWait: 0.1
     prefabMark: {fileID: 4225803668478646523, guid: f31c8f95b4ca0bc499aef6b862b213c0,
       type: 3}
@@ -5247,12 +5247,13 @@ MonoBehaviour:
     OffBeatSound:
       idInternal: 0
       valueGuidInternal: 
-      WwiseObjectReference: {fileID: 0}
+      WwiseObjectReference: {fileID: 11400000, guid: 1caacd3a319828e4da6e25438e025e22,
+        type: 2}
   rushParameters:
-    AttachedPlayer: {fileID: 0}
-    HealPerCorrectBeat: 3
+    AttachedPlayer: {fileID: 3489716977114045609}
+    HealPerCorrectBeat: 1
     distanceDash: 1.5
-    PulseCost: 5
+    PulseCost: 1
     damageMultiplier: 1
     freezeFrameBeginDuration: 0.05
     timeToReachDist: 0.3
@@ -5269,7 +5270,8 @@ MonoBehaviour:
     PerfectBeatSound:
       idInternal: 0
       valueGuidInternal: 
-      WwiseObjectReference: {fileID: 0}
+      WwiseObjectReference: {fileID: 11400000, guid: 320a83d82248c5648a81148049e8f9de,
+        type: 2}
     Cooldown: 0.5
     RushMarkPrefab: {fileID: 3234649817364588464, guid: 8c3de31bc6b9f0e46ae2cb9e67a8d733,
       type: 3}
@@ -5288,11 +5290,11 @@ MonoBehaviour:
     rumbleDuration: 0.4
     freezeFrameImpactDuration: 0.05
   rushRewindParameters:
-    AttachedPlayer: {fileID: 0}
-    HealPerCorrectBeat: 6
+    AttachedPlayer: {fileID: 3489716977114045609}
+    HealPerCorrectBeat: 1
     Duration: 0.2
-    PulseCost: 5
-    Cooldown: 5
+    PulseCost: 1
+    Cooldown: 3.2
     MaxTimeBeforeResetMarks: 3
     RewindState:
       idInternal: 0
@@ -5330,7 +5332,7 @@ MonoBehaviour:
       type: 2}
   RushParticles: {fileID: 5431658358474403458}
   LoseLifeOnAbilities: 1
-  ColliderObject: {fileID: 0}
+  ColliderObject: {fileID: 3489716977114045591}
 --- !u!114 &75586183539498471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5350,7 +5352,7 @@ MonoBehaviour:
   stunMusicSXF:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: c9a3feedb831db34e802055ebcc8eff8,
+    WwiseObjectReference: {fileID: 11400000, guid: a5f274bafb65fa448a1e74f2757e0f90,
       type: 2}
   Animator: {fileID: 7120592206037223947}
 --- !u!114 &1926157152812919367
@@ -5370,12 +5372,14 @@ MonoBehaviour:
   leftFootSound:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: 4e178d6285ff6634eb3bfc95ad86dd06,
+      type: 2}
   rightFoot: {fileID: 961969909924380544}
   rightFootSound:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: 968559257f03d0943af9e51ede9b0bdd,
+      type: 2}
 --- !u!1 &4207592249565707013
 GameObject:
   m_ObjectHideFlags: 0
@@ -15307,6 +15311,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2086426542783193144}
     m_Modifications:
+    - target: {fileID: -927199367670048503, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
+        type: 3}
+      propertyPath: m_Name
+      value: Sio
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -15361,11 +15370,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
-        type: 3}
-      propertyPath: m_Name
-      value: Sio
       objectReference: {fileID: 0}
     - target: {fileID: -6057140222963153312, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
         type: 3}

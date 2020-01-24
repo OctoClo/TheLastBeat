@@ -31,8 +31,10 @@ namespace AK
         static const AkUniqueID PLAY_EXPLOSION = 4030404899U;
         static const AkUniqueID PLAY_HIT_ENEMY = 3889018732U;
         static const AkUniqueID PLAY_HIT_PLAYER = 2257378511U;
+        static const AkUniqueID PLAY_LEFTFOOT = 1674468585U;
         static const AkUniqueID PLAY_MUSIC = 2932040671U;
         static const AkUniqueID PLAY_REWIND = 869704911U;
+        static const AkUniqueID PLAY_RIGHTFOOT = 3723441664U;
         static const AkUniqueID PLAY_RUSHFXOFFBEAT = 3852757989U;
         static const AkUniqueID PLAY_RUSHFXONBEAT = 2567002569U;
         static const AkUniqueID PLAY_RUSHFXONPERFECT = 3119437920U;
@@ -136,6 +138,18 @@ namespace AK
 
     namespace SWITCHES
     {
+        namespace FOOTSTEPSMATERIAL
+        {
+            static const AkUniqueID GROUP = 982447677U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID GRASS = 4248645337U;
+                static const AkUniqueID ROCK = 2144363834U;
+                static const AkUniqueID SAND = 803837735U;
+            } // namespace SWITCH
+        } // namespace FOOTSTEPSMATERIAL
+
         namespace MUSICLAYER
         {
             static const AkUniqueID GROUP = 2074789557U;
