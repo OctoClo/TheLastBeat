@@ -173,11 +173,13 @@ public class RushAbility : Ability
             if (target && RewindRush != null)
                 RewindRush.AddChainEnemy(target.GetComponent<Enemy>());
 
-            Sequence seq = DOTween.Sequence();
-            seq.AppendCallback(() => coll.gameObject.GetComponent<Enemy>().Timescale = 0.5f)
-                .AppendInterval(0.2f)
-                .AppendCallback(() => coll.gameObject.GetComponent<Enemy>().Timescale = 1);
-
+            if (onRythm)
+            {
+                Sequence seq = DOTween.Sequence();
+                seq.AppendCallback(() => coll.gameObject.GetComponent<Enemy>().Timescale = 0.5f)
+                    .AppendInterval(0.2f)
+                    .AppendCallback(() => coll.gameObject.GetComponent<Enemy>().Timescale = 1);
+            }
         }
     }
 
