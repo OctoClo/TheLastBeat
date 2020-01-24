@@ -11,7 +11,13 @@ public class PlayerAnimFeetPosition : MonoBehaviour
     Transform leftFoot = null;
 
     [SerializeField]
+    AK.Wwise.Event leftFootSound = null;
+
+    [SerializeField]
     Transform rightFoot = null;
+
+    [SerializeField]
+    AK.Wwise.Event rightFootSound = null;
 
     public enum FootStatus
     {
@@ -26,10 +32,12 @@ public class PlayerAnimFeetPosition : MonoBehaviour
         {
             case FootStatus.LEFTFOOT:
                 plyr.SetFoot(leftFoot);
+                leftFootSound.Post(gameObject);
                 break;
 
             case FootStatus.RIGHTFOOT:
                 plyr.SetFoot(rightFoot);
+                rightFootSound.Post(gameObject);
                 break;
 
             default:
