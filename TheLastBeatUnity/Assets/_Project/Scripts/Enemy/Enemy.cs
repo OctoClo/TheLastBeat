@@ -8,7 +8,7 @@ using UnityEngine.AI;
 
 public class EnemyDeadEvent : GameEvent { public Enemy enemy = null; }
 
-public class Enemy : MonoBehaviour
+public class Enemy : Slowable
 {
     [TabGroup("General")] [SerializeField]
     float speed = 8f;

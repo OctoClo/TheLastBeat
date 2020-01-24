@@ -57,6 +57,11 @@ public class RewindRushAbility : Ability
 
     void RewindRush()
     {
+        foreach(Enemy enn in chainedEnemies)
+        {
+            enn.Timescale = 0;
+        }
+
         // Init
         currentCooldown = cooldown;
         player.RushParticles.SetActive(true);
@@ -135,6 +140,11 @@ public class RewindRushAbility : Ability
     {
         foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
             ce.StartScreenShake(parameters.screenShakeDuration, parameters.screenShakeIntensity);
+
+        foreach (Enemy enn in chainedEnemies)
+        {
+            enn.Timescale = 1;
+        }
 
         player.RushParticles.SetActive(false);
         CameraManager.Instance.SetBoolCamera(false, "Rewinding");

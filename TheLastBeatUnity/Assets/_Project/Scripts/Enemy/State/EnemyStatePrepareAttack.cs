@@ -24,7 +24,7 @@ public class EnemyStatePrepareAttack : EnemyState
         enemy.SetStateText("prepare");
 
         animationFinished = false;
-        animation = DOTween.Sequence();
+        animation = enemy.CreateSequence();
 
         animation.Insert(waitBeforeAnimDuration, enemy.transform.DOShakePosition(animDuration, 0.5f, 100));
         animation.Insert(waitBeforeAnimDuration, enemy.model.transform.DOScale(scaleEndValues, animDuration));

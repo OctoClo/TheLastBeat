@@ -31,7 +31,7 @@ public class EnemyStateAttack : EnemyState
         Vector3 goalPos = enemy.transform.forward * impulseForce;
         goalPos += enemy.transform.position;
 
-        animation = DOTween.Sequence();
+        animation = enemy.CreateSequence();
 
         animation.Insert(waitBeforeAnimDuration, enemy.model.transform.DOScale(scaleEndValues, animDuration).SetEase(Ease.OutBounce));
         animation.Insert(waitBeforeAnimDuration, enemy.transform.DOMove(goalPos, animDuration).SetEase(Ease.OutBounce));
