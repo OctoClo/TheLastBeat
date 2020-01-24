@@ -11,13 +11,15 @@ public class EnemyStatePrepareAttack : EnemyState
     float waitBeforeAnimDuration = 0;
     int animDurationBeats = 0;
     float animDurationSeconds = 0;
+    float waitAfterAnimDuration = 0;
 
-    public EnemyStatePrepareAttack(Enemy newEnemy, float waitBefore, int durationBeats) : base(newEnemy)
+    public EnemyStatePrepareAttack(Enemy newEnemy, float waitBefore, int durationBeats, float waitAfter) : base(newEnemy)
     {
         stateEnum = EEnemyState.PREPARE_ATTACK;
         scaleEndValues = new Vector3(1.5f, 1.5f, 1.5f);
         waitBeforeAnimDuration = waitBefore;
         animDurationBeats = durationBeats;
+        waitAfterAnimDuration = waitAfter;
     }
 
     public override void Enter()
@@ -25,7 +27,7 @@ public class EnemyStatePrepareAttack : EnemyState
         enemy.SetStateText("prepare");
 
         animationFinished = false;
-        animDurationSeconds = animDurationBeats * SoundManager.Instance.TimePerBeat - 0.2f;
+        animDurationSeconds = animDurationBeats * SoundManager.Instance.TimePerBeat - waitAfterAnimDuration;
         animation = DOTween.Sequence();
 
         animation.Insert(waitBeforeAnimDuration, enemy.transform.DOShakePosition(animDurationSeconds, 0.5f, 100));
