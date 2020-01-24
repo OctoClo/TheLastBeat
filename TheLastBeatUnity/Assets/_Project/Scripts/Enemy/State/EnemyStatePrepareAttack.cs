@@ -9,39 +9,30 @@ public class EnemyStatePrepareAttack : EnemyState
     Sequence animation = null;
     bool animationFinished = false;
     float waitBeforeAnimDuration = 0;
-    
     int animDurationBeats = 0;
     float animDurationSeconds = 0;
-    int beatCounter = 0;
 
-    public EnemyStatePrepareAttack(Enemy newEnemy, float waitBefore, int duration) : base(newEnemy)
+    public EnemyStatePrepareAttack(Enemy newEnemy, float waitBefore, int durationBeats) : base(newEnemy)
     {
         stateEnum = EEnemyState.PREPARE_ATTACK;
         scaleEndValues = new Vector3(1.5f, 1.5f, 1.5f);
         waitBeforeAnimDuration = waitBefore;
-        animDurationBeats = duration;
-        animDurationSeconds = animDurationBeats * 0.78f;
+        animDurationBeats = durationBeats;
     }
 
     public override void Enter()
     {
         enemy.SetStateText("prepare");
 
-        beatCounter = 0;
         animationFinished = false;
+        animDurationSeconds = animDurationBeats * SoundManager.Instance.TimePerBeat - 0.2f;
         animation = DOTween.Sequence();
 
         animation.Insert(waitBeforeAnimDuration, enemy.transform.DOShakePosition(animDurationSeconds, 0.5f, 100));
         animation.Insert(waitBeforeAnimDuration, enemy.model.transform.DOScale(scaleEndValues, animDurationSeconds));
+        animation.AppendCallback(() => animationFinished = true);
 
         animation.Play();
-    }
-
-    public override void OnBeat()
-    {
-        beatCounter++;
-        if (beatCounter == animDurationBeats)
-            animationFinished = true;
     }
 
     public override EEnemyState UpdateState(float deltaTime)
@@ -49,7 +40,12 @@ public class EnemyStatePrepareAttack : EnemyState
         if (animationFinished)
             return EEnemyState.ATTACK;
         else
-            enemy.transform.LookAt(enemy.Player.transform, Vector3.up);
+        {
+            Vector3 lookAt = enemy.Player.transform.position;
+            lookAt.y = enemy.transform.position.y;
+            enemy.transform.LookAt(lookAt, Vector3.up);
+        }
+            
         
         return stateEnum;
     }
