@@ -446,7 +446,7 @@ PrefabInstance:
     - target: {fileID: 3858186076747751879, guid: 5c7d60c11c78e8e4bbd268f775ce8327,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1
+      value: 5.55
       objectReference: {fileID: 0}
     - target: {fileID: 3858186076747751879, guid: 5c7d60c11c78e8e4bbd268f775ce8327,
         type: 3}
@@ -506,7 +506,7 @@ PrefabInstance:
     - target: {fileID: 3858186076747751878, guid: 5c7d60c11c78e8e4bbd268f775ce8327,
         type: 3}
       propertyPath: speed
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3858186076747751878, guid: 5c7d60c11c78e8e4bbd268f775ce8327,
         type: 3}
@@ -521,17 +521,22 @@ PrefabInstance:
     - target: {fileID: 3858186076747751878, guid: 5c7d60c11c78e8e4bbd268f775ce8327,
         type: 3}
       propertyPath: prepareAnimDuration
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3858186076747751878, guid: 5c7d60c11c78e8e4bbd268f775ce8327,
         type: 3}
       propertyPath: waitBeforeAttackAnim
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 3858186076747751878, guid: 5c7d60c11c78e8e4bbd268f775ce8327,
+        type: 3}
+      propertyPath: maxLives
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4341153334640488347, guid: 5c7d60c11c78e8e4bbd268f775ce8327,
         type: 3}
       propertyPath: m_Acceleration
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2121662975177549401, guid: 5c7d60c11c78e8e4bbd268f775ce8327,
         type: 3}
@@ -7460,7 +7465,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 553602192}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 216, y: 6, z: -39}
+  m_LocalPosition: {x: 231.23, y: 6, z: -34.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 739203328}
@@ -12265,7 +12270,7 @@ PrefabInstance:
     - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
         type: 3}
       propertyPath: rushParameters.HealPerCorrectBeat
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
         type: 3}
@@ -12604,7 +12609,7 @@ PrefabInstance:
     - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
       propertyPath: speed
-      value: 10
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
@@ -12614,7 +12619,7 @@ PrefabInstance:
     - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
       propertyPath: prepareAnimDuration
-      value: 0.4
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
@@ -12645,6 +12650,11 @@ PrefabInstance:
         type: 3}
       propertyPath: waitBeforePrepareAnim
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
+        type: 3}
+      propertyPath: maxLives
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5702991526914210722, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
@@ -12689,12 +12699,12 @@ PrefabInstance:
     - target: {fileID: 7956293027968414304, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
       propertyPath: m_Speed
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7956293027968414304, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
       propertyPath: m_Acceleration
-      value: 12
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7956293027968414304, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
@@ -13382,7 +13392,7 @@ PrefabInstance:
     - target: {fileID: 7484901647461563452, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 14.15
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 7484901647461563452, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
@@ -13392,7 +13402,7 @@ PrefabInstance:
     - target: {fileID: 7484901647461563452, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -12.81
+      value: -0.07
       objectReference: {fileID: 0}
     - target: {fileID: 7484901647461563452, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
@@ -13437,12 +13447,22 @@ PrefabInstance:
     - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
       propertyPath: speed
-      value: 0.2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
       propertyPath: attackDamage
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
+        type: 3}
+      propertyPath: maxLives
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
+        type: 3}
+      propertyPath: prepareAnimDuration
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 5702991526914210722, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
@@ -13487,12 +13507,12 @@ PrefabInstance:
     - target: {fileID: 7956293027968414304, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
       propertyPath: m_Speed
-      value: 0.2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7956293027968414304, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
       propertyPath: m_Acceleration
-      value: 0.2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7956293027968414304, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
@@ -15002,7 +15022,7 @@ PrefabInstance:
     - target: {fileID: 7484901647461563452, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7
+      value: 0.28
       objectReference: {fileID: 0}
     - target: {fileID: 7484901647461563452, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
@@ -15012,7 +15032,7 @@ PrefabInstance:
     - target: {fileID: 7484901647461563452, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.5
+      value: -9.62
       objectReference: {fileID: 0}
     - target: {fileID: 7484901647461563452, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
@@ -15067,12 +15087,17 @@ PrefabInstance:
     - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
       propertyPath: prepareAnimDuration
-      value: 1.2
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
       propertyPath: waitBeforeAttackAnim
       value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
+        type: 3}
+      propertyPath: maxLives
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5702991526914210722, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
@@ -17578,7 +17603,7 @@ PrefabInstance:
     - target: {fileID: 5976558112347593850, guid: e77bb5f296f63254db751a24c179b1b0,
         type: 3}
       propertyPath: speed
-      value: 13
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5976558112347593850, guid: e77bb5f296f63254db751a24c179b1b0,
         type: 3}
@@ -17595,6 +17620,11 @@ PrefabInstance:
       propertyPath: explosionDamageToEnemies
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5976558112347593850, guid: e77bb5f296f63254db751a24c179b1b0,
+        type: 3}
+      propertyPath: maxLives
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5702991526914210722, guid: e77bb5f296f63254db751a24c179b1b0,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -17634,6 +17664,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_textInfo.pageCount
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7956293027968414304, guid: e77bb5f296f63254db751a24c179b1b0,
+        type: 3}
+      propertyPath: m_Acceleration
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e77bb5f296f63254db751a24c179b1b0, type: 3}
@@ -19513,12 +19548,17 @@ PrefabInstance:
     - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
       propertyPath: prepareAnimDuration
-      value: 0.4
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
       propertyPath: waitBeforePrepareAnim
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
+        type: 3}
+      propertyPath: maxLives
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5702991526914210722, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
@@ -19563,12 +19603,12 @@ PrefabInstance:
     - target: {fileID: 7956293027968414304, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
       propertyPath: m_Speed
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7956293027968414304, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
       propertyPath: m_Acceleration
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7956293027968414304, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
@@ -23447,13 +23487,28 @@ PrefabInstance:
     - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
       propertyPath: speed
-      value: 12
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
       propertyPath: attackDamage
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
+        type: 3}
+      propertyPath: maxLives
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
+        type: 3}
+      propertyPath: prepareAnimDuration
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
+        type: 3}
+      propertyPath: waitBeforeAttackAnim
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 5702991526914210722, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -23493,6 +23548,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_textInfo.pageCount
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7956293027968414304, guid: abdf3400b3417834db1e415f63b0d963,
+        type: 3}
+      propertyPath: m_Acceleration
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: abdf3400b3417834db1e415f63b0d963, type: 3}
@@ -29614,7 +29674,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2068535721}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 218, y: 24, z: 103}
+  m_LocalPosition: {x: 229.3, y: 18.5, z: 60.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 338268641}
@@ -30697,7 +30757,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &8828088101886968703
 GameObject:
   m_ObjectHideFlags: 0
