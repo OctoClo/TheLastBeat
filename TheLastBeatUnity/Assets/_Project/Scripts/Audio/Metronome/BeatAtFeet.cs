@@ -35,10 +35,28 @@ public class BeatAtFeet : Beatable
     [SerializeField]
     GameObject goodPrefab = null;
 
+    bool mustBeDisplayed = false;
+
     Queue<SequenceAndTarget> allInstances = new Queue<SequenceAndTarget>();
+    Sequence transitionSequence = null;
+
+
+    protected override void Start()
+    {
+        base.Start();
+        CombatStatusChange(false);
+        SceneHelper.Instance.OnCombatStatusChange += CombatStatusChange;
+    }
+
+    private void OnDisable()
+    {
+        SceneHelper.Instance.OnCombatStatusChange -= CombatStatusChange;
+    }
 
     public override void Beat()
     {
+        if (!mustBeDisplayed)
+            return;
         SoundManager sm = SoundManager.Instance;
         float timeLeft = (sm.LastBeat.lastTimeBeat + sm.LastBeat.beatInterval) - TimeManager.Instance.SampleCurrentTime();
         timeLeft += sm.LastBeat.beatInterval;
@@ -74,6 +92,9 @@ public class BeatAtFeet : Beatable
 
     public void CorrectInput()
     {
+        if (!mustBeDisplayed)
+            return;
+
         CircleDisappear(goodInput);
         GameObject instantiated = Instantiate(goodPrefab, transform);
         instantiated.transform.localPosition = Vector3.up * 0.45f;
@@ -82,6 +103,9 @@ public class BeatAtFeet : Beatable
 
     public void PerfectInput()
     {
+        if (!mustBeDisplayed)
+            return;
+
         CircleDisappear(perfectInput);
         GameObject instantiated = Instantiate(perfectPrefab, transform);
         instantiated.transform.localScale = Vector3.one * 5.5f;
@@ -91,6 +115,9 @@ public class BeatAtFeet : Beatable
 
     public void WrongInput()
     {
+        if (!mustBeDisplayed)
+            return;
+
         CircleDisappear(wrongInput);
     }
 
@@ -99,5 +126,24 @@ public class BeatAtFeet : Beatable
         SequenceAndTarget seqTar = allInstances.Peek();
         Color tempColor = new Color(col.r, col.g, col.b, 0);
         seqTar.target.GetComponent<MeshRenderer>().material.color = col;
+    }
+
+    void CombatStatusChange(bool value)
+    {
+        transitionSequence.Kill();
+        mustBeDisplayed = value;
+
+        if (!mustBeDisplayed)
+        {
+            while (allInstances.Count != 0)
+            {
+                SequenceAndTarget seqTar = allInstances.Dequeue();
+                seqTar.sequence.Kill();
+                Destroy(seqTar.target);
+            }
+        }
+
+        transitionSequence = DOTween.Sequence()
+                    .Append(rootParent.GetComponent<MeshRenderer>().material.DOColor(mustBeDisplayed ? Color.white : Color.clear , 1));
     }
 }

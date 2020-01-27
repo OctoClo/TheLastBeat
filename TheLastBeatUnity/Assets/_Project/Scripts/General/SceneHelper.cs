@@ -27,6 +27,8 @@ public class SceneHelper : MonoBehaviour
     List<EnemyZone> zonesChasingPlayer = new List<EnemyZone>();
 
     Dictionary<Transform, Vector3> screenShakeMemory = new Dictionary<Transform, Vector3>();
+    public delegate void boolParams(bool value);
+    public event boolParams OnCombatStatusChange;
 
     private void Start()
     {
@@ -46,7 +48,7 @@ public class SceneHelper : MonoBehaviour
 
         if (!wasInCombat && zonesChasingPlayer.Count > 0)
         {
-            // Entering combat mode
+            OnCombatStatusChange?.Invoke(true);
         }
     }
 
@@ -59,7 +61,7 @@ public class SceneHelper : MonoBehaviour
         
         if (wasInCombat && zonesChasingPlayer.Count == 0)
         {
-            // Exiting combat mode
+            OnCombatStatusChange?.Invoke(false);
         }
     }
     
