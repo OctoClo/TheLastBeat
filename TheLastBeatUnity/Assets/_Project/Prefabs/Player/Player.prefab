@@ -15224,6 +15224,7 @@ MonoBehaviour:
   perfectInput: {r: 1, g: 1, b: 1, a: 1}
   perfectPrefab: {fileID: 4513129306177862933, guid: 0fb685f0340bad445857d7e327986613,
     type: 3}
+  speedFadeWhite: 3
   goodPrefab: {fileID: 1531867778023654895, guid: 4704f6eca92512f4a9ed6db0e69096d0,
     type: 3}
 --- !u!33 &410418666680667024
@@ -15311,11 +15312,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2086426542783193144}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
-        type: 3}
-      propertyPath: m_Name
-      value: Sio
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -15370,6 +15366,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
+        type: 3}
+      propertyPath: m_Name
+      value: Sio
       objectReference: {fileID: 0}
     - target: {fileID: -6057140222963153312, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
         type: 3}

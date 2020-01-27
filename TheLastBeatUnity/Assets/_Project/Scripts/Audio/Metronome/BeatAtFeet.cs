@@ -30,6 +30,9 @@ public class BeatAtFeet : Beatable
     GameObject perfectPrefab = null;
 
     [SerializeField]
+    float speedFadeWhite = 0;
+
+    [SerializeField]
     GameObject goodPrefab = null;
 
     Queue<SequenceAndTarget> allInstances = new Queue<SequenceAndTarget>();
@@ -47,10 +50,20 @@ public class BeatAtFeet : Beatable
         instantiated.GetComponent<MeshRenderer>().material.color = col;
         Sequence seq = DOTween.Sequence()
             .Append(instantiated.transform.DOScale(finalSize, timeLeft).SetEase(curve))
-            .Insert(0, DOTween.To(() => instantiated.GetComponent<MeshRenderer>().material.color, x => instantiated.GetComponent<MeshRenderer>().material.color = x, Color.white, timeLeft))
+            .Insert(0, DOTween.To(() => instantiated.GetComponent<MeshRenderer>().material.color, x =>
+            {
+                instantiated.GetComponent<MeshRenderer>().material.color += new Color(speedFadeWhite, speedFadeWhite, speedFadeWhite, 0) * Time.deltaTime;
+                Color colorTemp = instantiated.GetComponent<MeshRenderer>().material.color;
+                instantiated.GetComponent<MeshRenderer>().material.color = new Color(colorTemp.r, colorTemp.g, colorTemp.b, x.a);
+            }, Color.white, timeLeft))
             .Append(DOTween.To(() => instantiated.GetComponent<MeshRenderer>().material.color, x => instantiated.GetComponent<MeshRenderer>().material.color = x, Color.clear, 0.2f))
             .AppendCallback(() => Destroy(instantiated))
-            .AppendCallback(() => allInstances.Dequeue());
+            .AppendCallback(() =>
+            {
+                SequenceAndTarget seqTar = allInstances.Dequeue();
+                Destroy(seqTar.target);
+                seqTar.sequence.Kill();
+            });
 
         SequenceAndTarget seqAndTar = new SequenceAndTarget();
         seqAndTar.target = instantiated;
@@ -77,17 +90,13 @@ public class BeatAtFeet : Beatable
 
     public void WrongInput()
     {
-        CircleDisappear(wrongInput);;
+        CircleDisappear(wrongInput);
     }
 
     void CircleDisappear(Color col)
     {
-        SequenceAndTarget seqTar = allInstances.Dequeue();
-        seqTar.sequence.Kill();
-        seqTar.target.GetComponent<MeshRenderer>().material.color = col;
+        SequenceAndTarget seqTar = allInstances.Peek();
         Color tempColor = new Color(col.r, col.g, col.b, 0);
-        Sequence seq = DOTween.Sequence()
-            .Append(DOTween.To(() => seqTar.target.GetComponent<MeshRenderer>().material.color, x => seqTar.target.GetComponent<MeshRenderer>().material.color = x, tempColor, 0.2f))
-            .AppendCallback(() => Destroy(seqTar.target));
+        seqTar.target.GetComponent<MeshRenderer>().material.color = col;
     }
 }
