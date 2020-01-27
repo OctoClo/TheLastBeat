@@ -83,8 +83,7 @@ public class EnemyZone : MonoBehaviour
             if (enemies.Count > 0 && enemies[0].CurrentStateEnum == EEnemyState.CHASE && detectionZone.PlayerInZone)
             {
                 chasing = true;
-                if (!SceneHelper.Instance.ZonesChasingPlayer.Contains(this))
-                    SceneHelper.Instance.ZonesChasingPlayer.Add(this);
+                SceneHelper.Instance.AddZoneChasing(this);
             }
         }
     }
@@ -132,8 +131,7 @@ public class EnemyZone : MonoBehaviour
 
         comingBack = true;
         chasing = false;
-        if (SceneHelper.Instance.ZonesChasingPlayer.Contains(this))
-            SceneHelper.Instance.ZonesChasingPlayer.Remove(this);
+        SceneHelper.Instance.RemoveZoneChasing(this);
     }
 
     private void TellEnemiesToChaseAgain()
@@ -145,8 +143,7 @@ public class EnemyZone : MonoBehaviour
 
         comingBack = false;
         chasing = true;
-        if (!SceneHelper.Instance.ZonesChasingPlayer.Contains(this))
-            SceneHelper.Instance.ZonesChasingPlayer.Add(this);
+        SceneHelper.Instance.AddZoneChasing(this);
     }
 
     private bool IsEveryoneBack()
@@ -169,8 +166,7 @@ public class EnemyZone : MonoBehaviour
             enemies.Remove(e.enemy);
             if (enemies.Count == 0)
             {
-                if (SceneHelper.Instance.ZonesChasingPlayer.Contains(this))
-                    SceneHelper.Instance.ZonesChasingPlayer.Remove(this);
+                SceneHelper.Instance.RemoveZoneChasing(this);
                 Destroy(gameObject);
             }
         }

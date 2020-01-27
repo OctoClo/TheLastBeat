@@ -24,14 +24,7 @@ public class SceneHelper : MonoBehaviour
     public static Vector3 LastDeathPosition = Vector3.zero;
     public static int DeathCount = 0;
 
-    public bool InCombat
-    {
-        get
-        {
-            return (ZonesChasingPlayer.Count > 0);
-        }
-    }
-    public List<EnemyZone> ZonesChasingPlayer = new List<EnemyZone>();
+    List<EnemyZone> zonesChasingPlayer = new List<EnemyZone>();
 
     Dictionary<Transform, Vector3> screenShakeMemory = new Dictionary<Transform, Vector3>();
 
@@ -41,6 +34,32 @@ public class SceneHelper : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+        }
+    }
+
+    public void AddZoneChasing(EnemyZone zone)
+    {
+        bool wasInCombat = (zonesChasingPlayer.Count > 0);
+
+        if (!zonesChasingPlayer.Contains(zone))
+            zonesChasingPlayer.Add(zone);
+
+        if (!wasInCombat && zonesChasingPlayer.Count > 0)
+        {
+            // Entering combat mode
+        }
+    }
+
+    public void RemoveZoneChasing(EnemyZone zone)
+    {
+        bool wasInCombat = (zonesChasingPlayer.Count > 0);
+
+        if (zonesChasingPlayer.Contains(zone))
+            zonesChasingPlayer.Remove(zone);
+        
+        if (wasInCombat && zonesChasingPlayer.Count == 0)
+        {
+            // Exiting combat mode
         }
     }
     
