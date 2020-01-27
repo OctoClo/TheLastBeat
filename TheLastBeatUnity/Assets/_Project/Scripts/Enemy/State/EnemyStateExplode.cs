@@ -40,6 +40,7 @@ public class EnemyStateExplode : EnemyState
         beatCounter = 0;
         enemy.Agent.speed = speedFollow;
         enemy.Agent.acceleration = speedFollow;
+        enemy.Agent.autoBraking = true;
     }
 
     public override void OnBeat()
