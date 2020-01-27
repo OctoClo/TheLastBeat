@@ -19,6 +19,8 @@ public class Enemy : MonoBehaviour
 
     [TabGroup("Behaviour")] [Header("Wander")] [SerializeField] [Tooltip("How much time the enemy will wait before going to another spot (random in [x, y]")]
     protected Vector2 waitBeforeNextMove = new Vector2(2, 5);
+    [TabGroup("Behaviour")] [Header("Chase")] [SerializeField] [Tooltip("How close to the player the enemy will follow")]
+    protected float chaseDistance = 2.5f;
     [TabGroup("Behaviour")] [Header("Prepare Attack")] [SerializeField] [Tooltip("How much time the enemy will wait between chasing and prepare attack animation")]
     protected float waitBeforePrepareAnim = 0.5f;
     [TabGroup("Behaviour")] [SerializeField] [Tooltip("How long the prepare attack animation will be, in beats")]
@@ -123,7 +125,7 @@ public class Enemy : MonoBehaviour
     virtual protected void CreateStates()
     {
         states.Add(EEnemyState.WANDER, new EnemyStateWander(this, waitBeforeNextMove));
-        states.Add(EEnemyState.CHASE, new EnemyStateChase(this));
+        states.Add(EEnemyState.CHASE, new EnemyStateChase(this, chaseDistance));
         states.Add(EEnemyState.PREPARE_ATTACK, new EnemyStatePrepareAttack(this, waitBeforePrepareAnim, prepareAnimDurationBeats, waitAfterPrepareAnim));
         states.Add(EEnemyState.ATTACK, new EnemyStateAttack(this, waitBeforeAttackAnim + waitAfterPrepareAnim, attackAnimDuration, attackAnimDistance));
         states.Add(EEnemyState.RECOVER_ATTACK, new EnemyStateRecoverAttack(this, recoverAnimDuration));

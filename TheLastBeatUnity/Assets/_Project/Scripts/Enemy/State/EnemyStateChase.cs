@@ -1,14 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class EnemyStateChase : EnemyState
 {
     bool launchAttack = false;
+    float distanceMax = 0;
 
-    public EnemyStateChase(Enemy newEnemy) : base(newEnemy)
+    public EnemyStateChase(Enemy newEnemy, float distanceChase) : base(newEnemy)
     {
         stateEnum = EEnemyState.CHASE;
+        distanceMax = distanceChase;
     }
 
     public override void Enter()
@@ -27,6 +30,7 @@ public class EnemyStateChase : EnemyState
 
     public override EEnemyState UpdateState(float deltaTime)
     {
+        
         if (launchAttack)
         {
             return EEnemyState.PREPARE_ATTACK;
@@ -36,11 +40,22 @@ public class EnemyStateChase : EnemyState
             enemy.ComeBack = false;
             return EEnemyState.COME_BACK;
         }
+        else if (Vector3.SqrMagnitude(enemy.transform.position - enemy.Player.transform.position) < distanceMax)
+        {
+            // Player is too close, only look at him
+            enemy.Agent.ResetPath();
+            Vector3 targetDirection = enemy.Player.transform.position - enemy.transform.position;
+            float singleStep = 2 * deltaTime;
+            Vector3 newDirection = Vector3.RotateTowards(enemy.transform.forward, targetDirection, singleStep, 0.0f);
+            enemy.transform.rotation = Quaternion.LookRotation(newDirection);
+        }
         else
         {
+            // Follow player
             enemy.Agent.SetDestination(enemy.Player.transform.position);
-            launchAttack = false;
-            return stateEnum;
         }
+
+        launchAttack = false;
+        return stateEnum;
     }
 }
