@@ -6,12 +6,12 @@ using DG.Tweening;
 public class EnemyStateChase : EnemyState
 {
     bool launchAttack = false;
-    float distanceMax = 0;
+    float distanceFollowMax = 0;
 
-    public EnemyStateChase(Enemy newEnemy, float distanceChase) : base(newEnemy)
+    public EnemyStateChase(Enemy newEnemy, float distanceFollow) : base(newEnemy)
     {
         stateEnum = EEnemyState.CHASE;
-        distanceMax = distanceChase;
+        distanceFollowMax = distanceFollow;
     }
 
     public override void Enter()
@@ -40,7 +40,7 @@ public class EnemyStateChase : EnemyState
             enemy.ComeBack = false;
             return EEnemyState.COME_BACK;
         }
-        else if (Vector3.SqrMagnitude(enemy.transform.position - enemy.Player.transform.position) < distanceMax)
+        else if (Vector3.SqrMagnitude(enemy.transform.position - enemy.Player.transform.position) < distanceFollowMax)
         {
             // Player is too close, only look at him
             enemy.Agent.ResetPath();
