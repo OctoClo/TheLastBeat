@@ -24,6 +24,15 @@ public class SceneHelper : MonoBehaviour
     public static Vector3 LastDeathPosition = Vector3.zero;
     public static int DeathCount = 0;
 
+    public bool InCombat
+    {
+        get
+        {
+            return (ZonesChasingPlayer.Count > 0);
+        }
+    }
+    public List<EnemyZone> ZonesChasingPlayer = new List<EnemyZone>();
+
     Dictionary<Transform, Vector3> screenShakeMemory = new Dictionary<Transform, Vector3>();
 
     private void Start()
