@@ -12,7 +12,7 @@ public class Slowable : MonoBehaviour
     bool overrideByTime = false;
     float timeToEnd = 0;
 
-    public float Timescale
+    public virtual float Timescale
     {
         get
         {

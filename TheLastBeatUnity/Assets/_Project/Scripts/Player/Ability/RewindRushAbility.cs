@@ -57,7 +57,7 @@ public class RewindRushAbility : Ability
 
     void RewindRush()
     {
-        foreach(Enemy enn in chainedEnemies)
+        foreach(Enemy enn in GameObject.FindObjectsOfType<Enemy>())
         {
             enn.Timescale = 0;
         }
@@ -141,7 +141,7 @@ public class RewindRushAbility : Ability
         foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
             ce.StartScreenShake(parameters.screenShakeDuration, parameters.screenShakeIntensity);
 
-        foreach (Enemy enn in chainedEnemies)
+        foreach (Enemy enn in GameObject.FindObjectsOfType<Enemy>())
         {
             enn.Timescale = 1;
         }

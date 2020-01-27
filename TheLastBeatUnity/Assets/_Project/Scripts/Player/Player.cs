@@ -66,8 +66,12 @@ public class Player : Inputable
     public GameObject ColliderObject = null;
     public Collider CurrentTarget => pyramid.NearestEnemy;
 
+    //Used for blink
+    public bool InDanger {get; set;}
+
     private void Start()
     {
+        InDanger = false;
         Status = GetComponent<PlayerStatus>();
         ColliderObject = GetComponent<CapsuleCollider>().gameObject;
         rb = GetComponent<Rigidbody>();

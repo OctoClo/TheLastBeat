@@ -85,6 +85,21 @@ public class Enemy : Slowable
 
     public delegate void noParams();
     public event noParams EnemyKilled;
+    float baseAngularSpeed = 0;
+
+    public override float Timescale
+    {
+        get
+        {
+            return base.Timescale;
+        }
+        set
+        {
+            base.Timescale = value;
+            Agent.speed = speed * value;
+            Agent.angularSpeed = baseAngularSpeed * value;
+        }
+    }
 
     protected virtual void Awake()
     {
@@ -98,6 +113,7 @@ public class Enemy : Slowable
 
         lives = maxLives;
         lifeText.text = lives.ToString();
+        baseAngularSpeed = Agent.angularSpeed;
     }
 
     public void ZoneInitialize(EEnemyType newType, EnemyWanderZone newWanderZone, EnemyDetectionZone newDetectionZone, Player newPlayer)
