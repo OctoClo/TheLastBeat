@@ -74,6 +74,8 @@ public class PlayerStatus : MonoBehaviour
         if (stunCoroutine != null)
         {
             StopCoroutine(stunCoroutine);
+            Animator.ResetTrigger("rush");
+            Animator.ResetTrigger("rushEnd");
             Animator.SetBool("stunned", false);
             CurrentStatus = EPlayerStatus.DEFAULT;
         }
@@ -98,12 +100,13 @@ public class PlayerStatus : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(stunDuration);
         Animator.SetBool("stunned", false);
-        StartCoroutine(WaitBeforeStunEnd());
+        stunCoroutine = StartCoroutine(WaitBeforeStunEnd());
     }
 
     private IEnumerator WaitBeforeStunEnd()
     {
         yield return new WaitForSecondsRealtime(stunRecoverAnim.length);
         CurrentStatus = EPlayerStatus.DEFAULT;
+        stunCoroutine = null;
     }
 }

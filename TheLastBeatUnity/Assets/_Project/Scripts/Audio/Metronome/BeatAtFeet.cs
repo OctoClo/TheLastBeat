@@ -95,7 +95,7 @@ public class BeatAtFeet : Beatable
         if (!mustBeDisplayed)
             return;
 
-        CircleDisappear(goodInput);
+        ChangeFirstCircleColor(goodInput);
         GameObject instantiated = Instantiate(goodPrefab, transform);
         instantiated.transform.localPosition = Vector3.up * 0.45f;
         Destroy(instantiated, 2);
@@ -106,7 +106,7 @@ public class BeatAtFeet : Beatable
         if (!mustBeDisplayed)
             return;
 
-        CircleDisappear(perfectInput);
+        ChangeFirstCircleColor(perfectInput);
         GameObject instantiated = Instantiate(perfectPrefab, transform);
         instantiated.transform.localScale = Vector3.one * 5.5f;
         instantiated.transform.localPosition = Vector3.up * 0.45f;
@@ -118,14 +118,17 @@ public class BeatAtFeet : Beatable
         if (!mustBeDisplayed)
             return;
 
-        CircleDisappear(wrongInput);
+        ChangeFirstCircleColor(wrongInput);
     }
 
-    void CircleDisappear(Color col)
+    void ChangeFirstCircleColor(Color col)
     {
-        SequenceAndTarget seqTar = allInstances.Peek();
-        Color tempColor = new Color(col.r, col.g, col.b, 0);
-        seqTar.target.GetComponent<MeshRenderer>().material.color = col;
+        if (allInstances.Count > 0)
+        {
+            SequenceAndTarget seqTar = allInstances.Peek();
+            Color tempColor = new Color(col.r, col.g, col.b, 0);
+            seqTar.target.GetComponent<MeshRenderer>().material.color = col;
+        }
     }
 
     void CombatStatusChange(bool value)

@@ -30,7 +30,7 @@ public class Player : Inputable
     float holdlessThreshold = 0.7f;
 
     //If you are doing something (dash , attack animation, etc...) or if game paused, temporary block input
-    public override bool BlockInput => blockInput;
+    public override bool BlockInput => blockInput || Status.CurrentStatus != EPlayerStatus.DEFAULT;
 
     [TabGroup("Blink")] [SerializeField]
     BlinkParams blinkParameters = null;

@@ -75,7 +75,7 @@ public class RewindRushAbility : Ability
 
         foreach (Enemy enemy in chainedEnemies.Reverse())
         {
-            if (enemy.gameObject != null)
+            if (enemy != null)
             {
                 direction = new Vector3(enemy.transform.position.x, goalPosition.y, enemy.transform.position.z) - goalPosition;
                 direction *= 1.3f;
@@ -83,7 +83,11 @@ public class RewindRushAbility : Ability
                 goalPosition += direction;
                 seq.AppendCallback(() => SceneHelper.Instance.FreezeFrameTween(parameters.freezeFrameDuration));
                 seq.Append(player.transform.DOMove(goalPosition, parameters.Duration));
-                seq.AppendCallback(() => { enemy.GetAttacked(attackOnRythm); });
+                seq.AppendCallback(() =>
+                {
+                    if (enemy)
+                        enemy.GetAttacked(attackOnRythm);
+                });
             }
         }
 
