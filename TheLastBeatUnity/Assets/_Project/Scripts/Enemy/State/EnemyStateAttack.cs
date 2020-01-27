@@ -39,7 +39,7 @@ public class EnemyStateAttack : EnemyState
 
         animation.Play();
 
-        GameObject.FindObjectOfType<Player>().InDanger = true;
+        SceneHelper.Instance.mainPlayer.InDanger = true;
     }
 
     public override EEnemyState UpdateState(float deltaTime)
@@ -53,7 +53,7 @@ public class EnemyStateAttack : EnemyState
     public override void Exit()
     {
         enemy.model.transform.localScale = scaleEndValues;
-        GameObject.FindObjectOfType<Player>().InDanger = false;
+        SceneHelper.Instance.mainPlayer.InDanger = false;
         enemy.StopAttacking();
     }
 }

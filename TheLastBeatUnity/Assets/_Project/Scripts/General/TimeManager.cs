@@ -34,4 +34,6 @@ public class TimeManager
             return timeManager;
         }
     }
+
+    public const float JUST_IN_TIME_RATIO = 0.2f;
 }

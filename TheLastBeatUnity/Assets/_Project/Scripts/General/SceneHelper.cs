@@ -25,12 +25,14 @@ public class SceneHelper : MonoBehaviour
     public static int DeathCount = 0;
 
     Dictionary<Transform, Vector3> screenShakeMemory = new Dictionary<Transform, Vector3>();
+    public Player mainPlayer { get; private set; }
 
     private void Start()
     {
         if (Instance == null)
         {
             Instance = this;
+            mainPlayer = GameObject.FindObjectOfType<Player>();
             DontDestroyOnLoad(gameObject);
         }
     }
