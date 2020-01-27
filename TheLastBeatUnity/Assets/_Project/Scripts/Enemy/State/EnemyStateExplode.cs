@@ -5,7 +5,8 @@ using DG.Tweening;
 
 public class EnemyStateExplode : EnemyState
 {
-    float waitBeforeExplosion = 0;
+    int waitBeats = 0;
+    int beatCounter = 0;
     float blastForce = 0;
     int blastDamageToPlayer = 0;
     int blastDamageToEnemies = 0;
@@ -13,11 +14,11 @@ public class EnemyStateExplode : EnemyState
     GameObject explosionPrefab = null;
     EnemyExplosionArea explosionArea = null;
 
-    public EnemyStateExplode(Enemy newEnemy, float waitBefore, float force, int damageToPlayer, int damageToEnemies, GameObject newExplosionPrefab, EnemyExplosionArea newExplosionArea) : base(newEnemy)
+    public EnemyStateExplode(Enemy newEnemy, int waitBefore, float force, int damageToPlayer, int damageToEnemies, GameObject newExplosionPrefab, EnemyExplosionArea newExplosionArea) : base(newEnemy)
     {
         stateEnum = EEnemyState.EXPLODE;
 
-        waitBeforeExplosion = waitBefore;
+        waitBeats = waitBefore;
         blastForce = force;
         blastDamageToPlayer = damageToPlayer;
         blastDamageToEnemies = damageToEnemies;
@@ -29,18 +30,27 @@ public class EnemyStateExplode : EnemyState
     public override void Enter()
     {
         enemy.SetStateText("explode");
+        beatCounter = 0;
+    }
 
-        Sequence animation = DOTween.Sequence();
+    public override void OnBeat()
+    {
+        beatCounter++;
 
-        animation.InsertCallback(waitBeforeExplosion, () =>
+        if (beatCounter == waitBeats)
         {
-            enemy.model.SetActive(false);
-            GameObject explosion = GameObject.Instantiate(explosionPrefab, enemy.transform.position, Quaternion.identity);
-            explosion.transform.SetParent(SceneHelper.Instance.VfxFolder);
-            explosionArea.Explode(blastForce, blastDamageToPlayer, blastDamageToEnemies, enemy.Player);
-        });
+            Sequence animation = DOTween.Sequence();
 
-        animation.Play();
+            animation.AppendCallback(() =>
+            {
+                enemy.model.SetActive(false);
+                GameObject explosion = GameObject.Instantiate(explosionPrefab, enemy.transform.position, Quaternion.identity);
+                explosion.transform.SetParent(SceneHelper.Instance.VfxFolder);
+                explosionArea.Explode(blastForce, blastDamageToPlayer, blastDamageToEnemies, enemy.Player);
+            });
+
+            animation.Play();
+        }
     }
 
     public override EEnemyState UpdateState(float deltaTime)
