@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -63,7 +63,8 @@ public class BeatAtFeet : Beatable
                 SequenceAndTarget seqTar = allInstances.Dequeue();
                 Destroy(seqTar.target);
                 seqTar.sequence.Kill();
-            });
+            })
+            .SetUpdate(true);
 
         SequenceAndTarget seqAndTar = new SequenceAndTarget();
         seqAndTar.target = instantiated;
