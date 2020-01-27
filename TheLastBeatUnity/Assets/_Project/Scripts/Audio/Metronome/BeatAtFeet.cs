@@ -37,7 +37,7 @@ public class BeatAtFeet : Beatable
     public override void Beat()
     {
         SoundManager sm = SoundManager.Instance;
-        float timeLeft = (sm.LastBeat.lastTimeBeat + sm.LastBeat.beatInterval) - TimeManager.Instance.SampleCurrentTime();
+        float timeLeft = sm.GetTimeLeftNextBeat();
         timeLeft += sm.LastBeat.beatInterval;
         GameObject instantiated = Instantiate(prefab, rootParent);
         instantiated.transform.localPosition = Vector3.up * 0.01f;

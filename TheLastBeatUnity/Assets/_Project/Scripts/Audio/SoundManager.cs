@@ -175,6 +175,11 @@ public class SoundManager : MonoBehaviour
         StartCoroutine(DelayedBeat(tb));
     }
 
+    public float GetTimeLeftNextBeat()
+    {
+        return (LastBeat.lastTimeBeat + LastBeat.beatInterval) - TimeManager.Instance.SampleCurrentTime();
+    }
+
     IEnumerator DelayedBeat(TypeBeat tb)
     {
         yield return new WaitForSeconds(visualDelay);

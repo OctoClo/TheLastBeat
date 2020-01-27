@@ -52,6 +52,26 @@ public class BlinkAbility : Ability
         player.Status.StartBlink();
         CheckRhythm();
 
+        if (player.InDanger)
+        {
+            DOTween.Sequence()
+                .AppendCallback(() =>
+                {
+                    foreach (Enemy enn in GameObject.FindObjectsOfType<Enemy>())
+                    {
+                        enn.Timescale = 0.5f;
+                    }
+                })
+                .AppendInterval(SoundManager.Instance.GetTimeLeftNextBeat())
+                .AppendCallback(() =>
+                {
+                    foreach (Enemy enn in GameObject.FindObjectsOfType<Enemy>())
+                    {
+                        enn.Timescale = 1;
+                    }
+                });
+        }
+
         // Determine direction
         Vector3 startSize = player.VisualPart.localScale;
         Vector3 direction = player.CurrentDirection;

@@ -38,6 +38,8 @@ public class EnemyStateAttack : EnemyState
         animation.AppendCallback(() => animationFinished = true);
 
         animation.Play();
+
+        GameObject.FindObjectOfType<Player>().InDanger = true;
     }
 
     public override EEnemyState UpdateState(float deltaTime)
@@ -51,6 +53,7 @@ public class EnemyStateAttack : EnemyState
     public override void Exit()
     {
         enemy.model.transform.localScale = scaleEndValues;
+        GameObject.FindObjectOfType<Player>().InDanger = false;
         enemy.StopAttacking();
     }
 }
