@@ -218,30 +218,28 @@ public class Player : Inputable
 
     public void ModifyPulseValue(float value, bool fromEnemy = false)
     {
-        if (healthSystem.InCriticMode)
-        { 
-            if (value > 0)
-                Die();
-        }
-        else
+        if (healthSystem.InCriticMode && value > 0)
         {
-            if (fromEnemy)
-            {
-                DOTween.Sequence()
-                    .AppendCallback(() => SceneHelper.Instance.StartFade(() => { }, 0.2f, SceneHelper.Instance.ColorSlow, true))
-                    .InsertCallback(0, () => SceneHelper.Instance.FreezeFrameTween(0.2f))
-                    .AppendCallback(() => SceneHelper.Instance.StartFade(() => { }, 0.2f, Color.clear, true));
-            }
+            Die();
+            return;
+        }
 
-            if (!fromEnemy)
-                healthSystem.ModifyPulseValue(value);
-            else if (Status.CurrentStatus != EPlayerStatus.RUSHING && Status.CurrentStatus != EPlayerStatus.BLINKING)
-            {
-                Ability rewindRush;
-                if (abilities.TryGetValue(EInputAction.REWINDRUSH, out rewindRush))
-                    ((RewindRushAbility)rewindRush).ResetCooldown();
-                StartCoroutine(SioHitAnim(value));
-            }
+        if (fromEnemy)
+        {
+            DOTween.Sequence()
+                .AppendCallback(() => SceneHelper.Instance.StartFade(() => { }, 0.2f, SceneHelper.Instance.ColorSlow, true))
+                .InsertCallback(0, () => SceneHelper.Instance.FreezeFrameTween(0.2f))
+                .AppendCallback(() => SceneHelper.Instance.StartFade(() => { }, 0.2f, Color.clear, true));
+        }
+
+        if (!fromEnemy)
+            healthSystem.ModifyPulseValue(value);
+        else if (Status.CurrentStatus != EPlayerStatus.RUSHING && Status.CurrentStatus != EPlayerStatus.BLINKING)
+        {
+            Ability rewindRush;
+            if (abilities.TryGetValue(EInputAction.REWINDRUSH, out rewindRush))
+                ((RewindRushAbility)rewindRush).ResetCooldown();
+            StartCoroutine(SioHitAnim(value));
         }
     }
 
