@@ -8,7 +8,7 @@ using UnityEngine.AI;
 
 public class EnemyDeadEvent : GameEvent { public Enemy enemy = null; }
 
-public class Enemy : MonoBehaviour
+public class Enemy : Slowable
 {
     [TabGroup("General")] [SerializeField]
     float speed = 8f;
@@ -85,6 +85,21 @@ public class Enemy : MonoBehaviour
 
     public delegate void noParams();
     public event noParams EnemyKilled;
+    float baseAngularSpeed = 0;
+
+    public override float Timescale
+    {
+        get
+        {
+            return base.Timescale;
+        }
+        set
+        {
+            base.Timescale = value;
+            Agent.speed = speed * value;
+            Agent.angularSpeed = baseAngularSpeed * value;
+        }
+    }
 
     protected virtual void Awake()
     {
@@ -98,6 +113,7 @@ public class Enemy : MonoBehaviour
 
         lives = maxLives;
         lifeText.text = lives.ToString();
+        baseAngularSpeed = Agent.angularSpeed;
     }
 
     public void ZoneInitialize(EEnemyType newType, EnemyWanderZone newWanderZone, EnemyDetectionZone newDetectionZone, Player newPlayer)
@@ -122,7 +138,7 @@ public class Enemy : MonoBehaviour
     {
         states.Add(EEnemyState.WANDER, new EnemyStateWander(this, waitBeforeNextMove));
         states.Add(EEnemyState.CHASE, new EnemyStateChase(this));
-        states.Add(EEnemyState.PREPARE_ATTACK, new EnemyStatePrepareAttack(this, waitBeforePrepareAnim, prepareAnimDuration));
+        states.Add(EEnemyState.PREPARE_ATTACK, new EnemyStatePrepareAttack(this, waitBeforePrepareAnim, prepareAnimDuration, SceneHelper.Instance.JitRatio));
         states.Add(EEnemyState.ATTACK, new EnemyStateAttack(this, waitBeforeAttackAnim, attackAnimDuration, attackAnimDistance));
         states.Add(EEnemyState.RECOVER_ATTACK, new EnemyStateRecoverAttack(this, recoverAnimDuration));
         states.Add(EEnemyState.COME_BACK, new EnemyStateComeBack(this));

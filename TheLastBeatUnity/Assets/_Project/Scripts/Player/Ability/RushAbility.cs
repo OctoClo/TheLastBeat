@@ -177,6 +177,27 @@ public class RushAbility : Ability
             
             if (target && RewindRush != null)
                 RewindRush.AddChainEnemy(target.GetComponent<Enemy>());
+
+            if (onRythm)
+            {
+                DOTween.Sequence().AppendCallback(() =>
+                {
+                    foreach (Enemy enn in GameObject.FindObjectsOfType<Enemy>())
+                    {
+                        enn.Timescale = 0.5f;
+                    }
+                })
+                .InsertCallback(0, () => SceneHelper.Instance.StartFade(() => { }, 0.2f, SceneHelper.Instance.ColorSlow))
+                .InsertCallback(0.2f, () => SceneHelper.Instance.StartFade(() => { }, 0.2f, Color.clear))
+                .AppendInterval(0.2f)
+                .AppendCallback(() =>
+                {
+                    foreach (Enemy enn in GameObject.FindObjectsOfType<Enemy>())
+                    {
+                        enn.Timescale = 1;
+                    }
+                });
+            }
         }
     }
 
@@ -245,12 +266,12 @@ public class RushAbility : Ability
             mat.SetFloat("_BlurRatio", 0.25f);
             mat.SetVector("_CenterUV", new Vector4(0.5f, 0, 0, 0));
             mat.SetVector("_ToBorder", new Vector4(0.5f, 1, 0, 0));
-            Sequence seq = DOTween.Sequence();
-            seq.Append(DOTween.To(() => mat.GetFloat("_CoeffDissolve"), x => mat.SetFloat("_CoeffDissolve", x), 1, parameters.speedAnimMark));
-            seq.AppendInterval(parameters.markPersistDuration);
-            seq.Append(DOTween.To(() => mat.GetFloat("_CoeffDissolve"), x => mat.SetFloat("_CoeffDissolve", x), 0, parameters.speedAnimMark));
-            seq.AppendCallback(() => GameObject.Destroy(instanciatedTrail));
-            seq.Play();
+            Sequence seqMark = DOTween.Sequence();
+            seqMark.Append(DOTween.To(() => mat.GetFloat("_CoeffDissolve"), x => mat.SetFloat("_CoeffDissolve", x), 1, parameters.speedAnimMark));
+            seqMark.AppendInterval(parameters.markPersistDuration);
+            seqMark.Append(DOTween.To(() => mat.GetFloat("_CoeffDissolve"), x => mat.SetFloat("_CoeffDissolve", x), 0, parameters.speedAnimMark));
+            seqMark.AppendCallback(() => GameObject.Destroy(instanciatedTrail));
+            seqMark.Play();
         }
     }
 

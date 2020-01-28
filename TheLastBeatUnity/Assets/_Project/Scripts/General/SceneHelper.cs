@@ -29,12 +29,20 @@ public class SceneHelper : MonoBehaviour
     Dictionary<Transform, Vector3> screenShakeMemory = new Dictionary<Transform, Vector3>();
     public delegate void boolParams(bool value);
     public event boolParams OnCombatStatusChange;
+    public Player MainPlayer { get; private set; }
+
+    [SerializeField]
+    public Color ColorSlow = Color.gray;
+
+    [SerializeField]
+    public float JitRatio = 0.2f;
 
     private void Start()
     {
         if (Instance == null)
         {
             Instance = this;
+            MainPlayer = GameObject.FindObjectOfType<Player>();
             DontDestroyOnLoad(gameObject);
         }
     }
@@ -77,11 +85,12 @@ public class SceneHelper : MonoBehaviour
         target.position = respawnPlace.position + Vector3.up;
     }
 
-    public void StartFade(UnityAction lambda, float duration , Color color)
+    public void StartFade(UnityAction lambda, float duration , Color color, bool independant = false)
     {
         seq = DOTween.Sequence();
         seq.Append(img.DOColor(color, duration));
         seq.AppendCallback(() => lambda());
+        seq.SetUpdate(independant);
         seq.Play();
     }
 

@@ -66,8 +66,12 @@ public class Player : Inputable
     public GameObject ColliderObject = null;
     public Collider CurrentTarget => pyramid.NearestEnemy;
 
+    //Used for blink
+    public bool InDanger {get; set;}
+
     private void Start()
     {
+        InDanger = false;
         Status = GetComponent<PlayerStatus>();
         ColliderObject = GetComponent<CapsuleCollider>().gameObject;
         rb = GetComponent<Rigidbody>();
@@ -221,6 +225,14 @@ public class Player : Inputable
         }
         else
         {
+            if (fromEnemy)
+            {
+                DOTween.Sequence()
+                    .AppendCallback(() => SceneHelper.Instance.StartFade(() => { }, 0.2f, SceneHelper.Instance.ColorSlow, true))
+                    .InsertCallback(0, () => SceneHelper.Instance.FreezeFrameTween(0.2f))
+                    .AppendCallback(() => SceneHelper.Instance.StartFade(() => { }, 0.2f, Color.clear, true));
+            }
+
             if (!fromEnemy)
                 healthSystem.ModifyPulseValue(value);
             else if (Status.CurrentStatus != EPlayerStatus.RUSHING && Status.CurrentStatus != EPlayerStatus.BLINKING)

@@ -57,6 +57,12 @@ public class RewindRushAbility : Ability
 
     void RewindRush()
     {
+        SceneHelper.Instance.StartFade(() => { }, 0.2f, SceneHelper.Instance.ColorSlow);
+        foreach(Enemy enn in GameObject.FindObjectsOfType<Enemy>())
+        {
+            enn.Timescale = 0;
+        }
+
         // Init
         currentCooldown = cooldown;
         player.RushParticles.SetActive(true);
@@ -139,6 +145,13 @@ public class RewindRushAbility : Ability
     {
         foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
             ce.StartScreenShake(parameters.screenShakeDuration, parameters.screenShakeIntensity);
+
+        foreach (Enemy enn in GameObject.FindObjectsOfType<Enemy>())
+        {
+            enn.Timescale = 1;
+        }
+
+        SceneHelper.Instance.StartFade(() => { }, 0.2f, Color.clear);
 
         player.RushParticles.SetActive(false);
         CameraManager.Instance.SetBoolCamera(false, "Rewinding");
