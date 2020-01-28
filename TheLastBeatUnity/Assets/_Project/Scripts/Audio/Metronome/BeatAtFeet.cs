@@ -9,6 +9,9 @@ public class BeatAtFeet : Beatable
     Transform rootParent = null;
 
     [SerializeField]
+    GameObject arrow = null;
+
+    [SerializeField]
     GameObject prefab = null;
 
     [SerializeField]
@@ -147,6 +150,7 @@ public class BeatAtFeet : Beatable
         }
 
         transitionSequence = DOTween.Sequence()
-                    .Append(rootParent.GetComponent<MeshRenderer>().material.DOColor(mustBeDisplayed ? Color.white : Color.clear , 1));
+                    .Append(rootParent.GetComponent<MeshRenderer>().material.DOColor(mustBeDisplayed ? Color.white : Color.clear, 1))
+                    .Insert(0, arrow.GetComponent<MeshRenderer>().material.DOColor(mustBeDisplayed ? new Color(1, 1, 1, 0.6f) : Color.clear, 1));
     }
 }
