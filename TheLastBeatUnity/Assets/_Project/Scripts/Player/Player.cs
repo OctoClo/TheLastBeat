@@ -226,7 +226,12 @@ public class Player : Inputable
         else
         {
             if (fromEnemy)
-                SceneHelper.Instance.FreezeFrameTween(0.2f);
+            {
+                DOTween.Sequence()
+                    .AppendCallback(() => SceneHelper.Instance.StartFade(() => { }, 0.2f, SceneHelper.Instance.ColorSlow, true))
+                    .InsertCallback(0, () => SceneHelper.Instance.FreezeFrameTween(0.2f))
+                    .AppendCallback(() => SceneHelper.Instance.StartFade(() => { }, 0.2f, Color.clear, true));
+            }
 
             if (!fromEnemy)
                 healthSystem.ModifyPulseValue(value);

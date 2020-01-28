@@ -182,6 +182,8 @@ public class RushAbility : Ability
                         enn.Timescale = 0.5f;
                     }
                 })
+                .InsertCallback(0, () => SceneHelper.Instance.StartFade(() => { }, 0.2f, SceneHelper.Instance.ColorSlow))
+                .InsertCallback(0.2f, () => SceneHelper.Instance.StartFade(() => { }, 0.2f, Color.clear))
                 .AppendInterval(0.2f)
                 .AppendCallback(() =>
                 {
