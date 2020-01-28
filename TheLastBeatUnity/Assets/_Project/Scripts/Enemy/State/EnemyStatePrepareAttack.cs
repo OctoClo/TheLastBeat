@@ -25,7 +25,7 @@ public class EnemyStatePrepareAttack : EnemyState
     {
         DOTween.Sequence()
             .AppendInterval(animDuration * (1 - inDangerSince))
-            .AppendCallback(() => SceneHelper.Instance.mainPlayer.InDanger = true);
+            .AppendCallback(() => SceneHelper.Instance.MainPlayer.InDanger = true);
 
         enemy.SetStateText("prepare");
 
@@ -49,7 +49,7 @@ public class EnemyStatePrepareAttack : EnemyState
 
     public override void Exit()
     {
-        SceneHelper.Instance.mainPlayer.InDanger = false;
+        SceneHelper.Instance.MainPlayer.InDanger = false;
         enemy.model.transform.localScale = scaleEndValues;
     }
 }
