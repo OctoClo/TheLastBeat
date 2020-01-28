@@ -10,16 +10,11 @@ public class ChangeCameraEvent : GameEvent {}
 public class CameraManager : MonoBehaviour
 {
     public static CameraManager Instance { get; private set; }
-
-    [SerializeField]
-    CinemachineVirtualCamera cameraOutOfCombat = null;
-    [SerializeField]
-    CinemachineVirtualCamera cameraInCombat = null;
     [SerializeField]
     CinemachineStateDrivenCamera stateDrive = null;
+    public CinemachineStateDrivenCamera StateDrive => stateDrive;
     Animator anim = null;
 
-    public CinemachineVirtualCamera LiveCamera { get; private set; }
     public CameraEffect[] AllCameras => GameObject.FindObjectsOfType<CameraEffect>();
     public bool InCombat { get; private set; }
 
@@ -35,27 +30,34 @@ public class CameraManager : MonoBehaviour
             anim = stateDrive.m_AnimatedTarget;
             defaultBlendingTime = stateDrive.m_CustomBlends.m_CustomBlends.Select(x => x.m_Blend.m_Time).ToList();
         }
-        
+
+        DOTween.Sequence()
+            .AppendInterval(0.1f)
+            .AppendCallback(() => SceneHelper.Instance.OnCombatStatusChange += CombatChange);
+       
         InCombat = false;
-        ChangeCamera();
+    }
+
+    private void OnDisable()
+    {
+        SceneHelper.Instance.OnCombatStatusChange -= CombatChange;
+    }
+
+    public void CombatChange(bool value)
+    {
+        CameraStateChange(value ? "Combat" : "OutOfCombat");
     }
 
     public void CameraStateChange(string triggerName)
     {
         anim.SetTrigger(triggerName);
         InCombat = !InCombat;
-        ChangeCamera();
     }
 
     public void SetBoolCamera(bool value , string paramName)
     {
         anim.SetBool(paramName, value);
-    }
 
-    private void ChangeCamera()
-    {
-        LiveCamera = (InCombat ? cameraInCombat : cameraOutOfCombat);
-        EventManager.Instance.Raise(new ChangeCameraEvent());
     }
 
     public void SetBlend(string from , string to , float tempValue)
