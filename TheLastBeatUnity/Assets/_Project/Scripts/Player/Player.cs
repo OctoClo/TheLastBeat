@@ -231,6 +231,7 @@ public class Player : Inputable
                     .AppendCallback(() => SceneHelper.Instance.StartFade(() => { }, 0.2f, SceneHelper.Instance.ColorSlow, true))
                     .InsertCallback(0, () => SceneHelper.Instance.FreezeFrameTween(0.2f))
                     .AppendCallback(() => SceneHelper.Instance.StartFade(() => { }, 0.2f, Color.clear, true));
+                (abilities[EInputAction.RUSH] as RushAbility).LayerLost();
             }
 
             if (!fromEnemy)

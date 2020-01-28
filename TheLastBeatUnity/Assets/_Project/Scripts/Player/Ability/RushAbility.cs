@@ -16,7 +16,10 @@ public class RushParams : AbilityParams
     public AK.Wwise.Event OnBeatSound = null;
     public AK.Wwise.Event OffBeatSound = null;
     public AK.Wwise.Event PerfectBeatSound = null;
+    public List<AK.Wwise.State> MusicLayerState = new List<AK.Wwise.State>();
     public float Cooldown = 0;
+    public float stepsPerLayer = 5;
+    public float stepsLost = 2;
 
     [HideInInspector]
     public BlinkAbility blinkAbility;
@@ -50,12 +53,21 @@ public class RushAbility : Ability
     float debt = 0;
     bool onRythm = false;
     bool hitShield = false;
-    
+
+    //MusicalLayer
+    float comboValue;
+    float maxComboValue;
+    List<float> musiclayer = new List<float>();
+
     public RewindRushAbility RewindRush { get; set; }
 
     public RushAbility(RushParams rp, float healCorrect) : base(rp.AttachedPlayer, healCorrect)
     {
         parameters = rp;
+        for (int i = 0; i < parameters.MusicLayerState.Count; i++)
+        {
+            musiclayer.Add(parameters.stepsPerLayer * i);
+        }
     }
 
     public override void Launch()
@@ -82,6 +94,7 @@ public class RushAbility : Ability
         parameters.blinkAbility.ResetCooldown();
         player.Status.StartRushing();
         CheckRhythm();
+        LayerCounter(onRythm, parameters.stepsPerLayer, parameters.stepsLost, musiclayer);
 
         // Game feel
         SceneHelper.Instance.FreezeFrameTween(parameters.freezeFrameBeginDuration);
@@ -272,6 +285,74 @@ public class RushAbility : Ability
             seqMark.Append(DOTween.To(() => mat.GetFloat("_CoeffDissolve"), x => mat.SetFloat("_CoeffDissolve", x), 0, parameters.speedAnimMark));
             seqMark.AppendCallback(() => GameObject.Destroy(instanciatedTrail));
             seqMark.Play();
+        }
+    }
+
+    void LayerCounter(bool onRythm, float stepsPerLayer, float stepsPerLost, List<float> musicLayer)
+    {
+        maxComboValue = stepsPerLayer*musicLayer.Count;
+        if (onRythm && !hitShield)
+        {
+            
+            if (comboValue < maxComboValue)
+            {
+                comboValue++;
+                LayerSwitch(comboValue, parameters.stepsPerLayer, musiclayer);
+            }
+        }
+        else
+        {
+            if (comboValue > 0)
+            {
+                comboValue = Mathf.Clamp(comboValue - stepsPerLost, 0, maxComboValue);
+                LayerSwitch(comboValue, parameters.stepsPerLayer, musiclayer);
+            }
+        }
+    }
+
+    public void LayerLost()
+    {
+        for (int i = 0; i < musiclayer.Count; i++)
+        {
+            if(comboValue <= musiclayer[0])
+            {
+                comboValue = 0;
+                LayerSwitch(comboValue, parameters.stepsPerLayer, musiclayer);
+            }
+            else if (i + 1 < musiclayer.Count)
+            {
+                if (comboValue >= musiclayer[i] && comboValue < musiclayer[i + 1])
+                    {
+                    comboValue = musiclayer[i] - 1;
+                    LayerSwitch(comboValue, parameters.stepsPerLayer, musiclayer);
+                }
+            }
+            else if (comboValue >= musiclayer[i])
+                {
+                comboValue = musiclayer[i] - 1;
+                LayerSwitch(comboValue, parameters.stepsPerLayer, musiclayer);
+            }
+        }
+             
+        
+    }
+
+    void LayerSwitch(float comboValue, float stepsPerLayer, List<float> musicLayer)
+    {
+        Debug.Log(comboValue);
+        for (int i = 0; i < musiclayer.Count; i++)
+        { 
+            if (i+1 < musiclayer.Count)
+            {
+                if (comboValue >= musiclayer[i] && comboValue < musiclayer[i + 1])
+                    {
+                        parameters.MusicLayerState[i].SetValue();
+                    }
+            }
+            else if (comboValue >= musiclayer[i])
+            {
+                parameters.MusicLayerState[i].SetValue();
+            }
         }
     }
 

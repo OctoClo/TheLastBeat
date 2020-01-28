@@ -89,16 +89,17 @@ namespace AK
             } // namespace STATE
         } // namespace MUSIC_CRITICLEVEL
 
-        namespace MUSIC_LIMIT_SWITCH
+        namespace MUSIC_LAYER
         {
-            static const AkUniqueID GROUP = 960036381U;
+            static const AkUniqueID GROUP = 2945091192U;
 
             namespace STATE
             {
-                static const AkUniqueID COMBAT_CALM = 2894236345U;
-                static const AkUniqueID COMBAT_LIMIT = 2902872313U;
+                static const AkUniqueID LAYER1 = 3298531297U;
+                static const AkUniqueID LAYER2 = 3298531298U;
+                static const AkUniqueID LAYER3 = 3298531299U;
             } // namespace STATE
-        } // namespace MUSIC_LIMIT_SWITCH
+        } // namespace MUSIC_LAYER
 
         namespace MUSIC_SWITCH
         {
@@ -149,21 +150,6 @@ namespace AK
                 static const AkUniqueID SAND = 803837735U;
             } // namespace SWITCH
         } // namespace FOOTSTEPSMATERIAL
-
-        namespace MUSICLAYER
-        {
-            static const AkUniqueID GROUP = 2074789557U;
-
-            namespace SWITCH
-            {
-                static const AkUniqueID LAYER1 = 3298531297U;
-                static const AkUniqueID LAYER2 = 3298531298U;
-                static const AkUniqueID LAYER3 = 3298531299U;
-                static const AkUniqueID LAYER4 = 3298531300U;
-                static const AkUniqueID LAYER5 = 3298531301U;
-                static const AkUniqueID LAYER6 = 3298531302U;
-            } // namespace SWITCH
-        } // namespace MUSICLAYER
 
     } // namespace SWITCHES
 
