@@ -43,7 +43,6 @@ public class SceneHelper : MonoBehaviour
         {
             Instance = this;
             MainPlayer = GameObject.FindObjectOfType<Player>();
-            DontDestroyOnLoad(gameObject);
         }
     }
 
