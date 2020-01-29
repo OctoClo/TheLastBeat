@@ -27,7 +27,7 @@ public class EnemyStatePrepareAttack : EnemyState
     public override void Enter()
     {
         DOTween.Sequence()
-            .AppendInterval(animDuration * (1 - inDangerSince))
+            .AppendInterval(animDurationSeconds * (1 - inDangerSince))
             .AppendCallback(() => SceneHelper.Instance.MainPlayer.InDanger = true);
 
         enemy.SetStateText("prepare");

@@ -166,12 +166,14 @@ public class Enemy : Slowable
 
     public void OnBeat()
     {
-        currentState.OnBeat();
+        if (type == EEnemyType.DEFAULT)
+            currentState.OnBeat();
     }
 
     public void OnBar()
     {
-        currentState.OnBar();
+        if (type == EEnemyType.DEFAULT)
+            currentState.OnBar();
     }
 
     public void GetPushedBack()
