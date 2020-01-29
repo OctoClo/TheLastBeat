@@ -38,7 +38,7 @@ public class CameraClearSight : MonoBehaviour
             Debug.DrawLine(capsuleBottom, capsuleBottom + direction, Color.cyan, 0.5f);
         }
 
-        RaycastHit[] hits = Physics.CapsuleCastAll(capsuleTop, capsuleBottom, playerCapsule.radius, direction, distanceToPlayer, ~(1 << LayerMask.NameToLayer("Enemies")));
+        RaycastHit[] hits = Physics.CapsuleCastAll(capsuleTop, capsuleBottom, playerCapsule.radius, direction, distanceToPlayer, (1 << LayerMask.NameToLayer("ClearCamera")));
         
         foreach (RaycastHit hit in hits)
         {
