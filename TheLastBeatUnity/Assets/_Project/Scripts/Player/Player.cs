@@ -30,7 +30,7 @@ public class Player : Inputable
     float holdlessThreshold = 0.7f;
 
     //If you are doing something (dash , attack animation, etc...) or if game paused, temporary block input
-    public override bool BlockInput => blockInput || Status.CurrentStatus != EPlayerStatus.DEFAULT;
+    public override bool BlockInput => blockInput;
 
     [TabGroup("Blink")] [SerializeField]
     BlinkParams blinkParameters = null;
@@ -99,16 +99,11 @@ public class Player : Inputable
         CurrentDirection = new Vector3(player.GetAxis("MoveX"), 0, player.GetAxis("MoveY"));
         pyramid.LeftStickEnabled = (CurrentDirection != Vector3.zero);
 
-        // Abilities Inputs
-        if (Status.CurrentStatus == EPlayerStatus.DEFAULT)
+        Ability ability = null;
+        foreach (EInputAction action in (EInputAction[])Enum.GetValues(typeof(EInputAction)))
         {
-            Ability ability = null;
-
-            foreach (EInputAction action in (EInputAction[])Enum.GetValues(typeof(EInputAction)))
-            {
-                if (player.GetButtonDown(action.ToString()) && abilities.TryGetValue(action, out ability))
-                    ability.Launch();
-            }
+            if (player.GetButtonDown(action.ToString()) && abilities.TryGetValue(action, out ability))
+                ability.Launch();
         }
 
         HandlePyramid(player);
@@ -161,6 +156,11 @@ public class Player : Inputable
         }
         else
             Status.SetMoving(false);
+    }
+
+    public void CancelRush()
+    {
+        (abilities[EInputAction.RUSH] as RushAbility).Cancel();
     }
 
     private void Update()
@@ -218,30 +218,28 @@ public class Player : Inputable
 
     public void ModifyPulseValue(float value, bool fromEnemy = false)
     {
-        if (healthSystem.InCriticMode)
-        { 
-            if (value > 0)
-                Die();
-        }
-        else
+        if (healthSystem.InCriticMode && value > 0)
         {
-            if (fromEnemy)
-            {
-                DOTween.Sequence()
-                    .AppendCallback(() => SceneHelper.Instance.StartFade(() => { }, 0.2f, SceneHelper.Instance.ColorSlow, true))
-                    .InsertCallback(0, () => SceneHelper.Instance.FreezeFrameTween(0.2f))
-                    .AppendCallback(() => SceneHelper.Instance.StartFade(() => { }, 0.2f, Color.clear, true));
-            }
+            Die();
+            return;
+        }
 
-            if (!fromEnemy)
-                healthSystem.ModifyPulseValue(value);
-            else if (Status.CurrentStatus != EPlayerStatus.RUSHING && Status.CurrentStatus != EPlayerStatus.BLINKING)
-            {
-                Ability rewindRush;
-                if (abilities.TryGetValue(EInputAction.REWINDRUSH, out rewindRush))
-                    ((RewindRushAbility)rewindRush).ResetCooldown();
-                StartCoroutine(SioHitAnim(value));
-            }
+        if (fromEnemy)
+        {
+            DOTween.Sequence()
+                .AppendCallback(() => SceneHelper.Instance.StartFade(() => { }, 0.2f, SceneHelper.Instance.ColorSlow, true))
+                .InsertCallback(0, () => SceneHelper.Instance.FreezeFrameTween(0.2f))
+                .AppendCallback(() => SceneHelper.Instance.StartFade(() => { }, 0.2f, Color.clear, true));
+        }
+
+        if (!fromEnemy)
+            healthSystem.ModifyPulseValue(value);
+        else if (Status.CurrentStatus != EPlayerStatus.RUSHING && Status.CurrentStatus != EPlayerStatus.BLINKING)
+        {
+            Ability rewindRush;
+            if (abilities.TryGetValue(EInputAction.REWINDRUSH, out rewindRush))
+                ((RewindRushAbility)rewindRush).ResetCooldown();
+            StartCoroutine(SioHitAnim(value));
         }
     }
 

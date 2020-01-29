@@ -20,7 +20,7 @@ public class CameraManager : MonoBehaviour
 
     List<float> defaultBlendingTime = new List<float>();
 
-    void Start()
+    void Awake()
     {
         if (Instance == null)
             Instance = this;

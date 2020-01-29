@@ -33,6 +33,8 @@ public class SoundManager : MonoBehaviour
     [SerializeField]
     float visualDelay = 0;
 
+    bool destroyed = false;
+
     public enum TypeBeat
     {
         BEAT,
@@ -78,6 +80,11 @@ public class SoundManager : MonoBehaviour
 
     void SyncReference(object in_cookie, AkCallbackType in_type, object in_info)
     {
+        if (destroyed)
+        {
+            return;
+        }
+
         AkMusicSyncCallbackInfo musicInfo = in_info as AkMusicSyncCallbackInfo;
         switch (in_type)
         {
@@ -208,6 +215,7 @@ public class SoundManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        destroyed = true;
         StopAllCoroutines();
         OnBeatTriggered = null;
     }
