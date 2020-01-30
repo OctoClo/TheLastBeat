@@ -1298,6 +1298,11 @@ MonoBehaviour:
   attackAnimDuration: 0.5
   attackAnimDistance: 10
   attackDamage: 5
+  callAttackEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: e4847e86c949be04abcadf028a71856d,
+      type: 2}
   recoverAnimDuration: 1.5
   chancesToGetStunned:
   - 1
@@ -1323,10 +1328,15 @@ MonoBehaviour:
   Agent: {fileID: 0}
   HasAttackedPlayer: 0
   followSpeed: 20
-  beatsBeforeExplosion: 2
+  beatsBeforeExplosion: 3
   explosionBlastForce: 35
   explosionDamageToPlayer: 10
   explosionDamageToEnemies: 2
+  explosionEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 836409915a9336e4bacad02ed2efb07b,
+      type: 2}
   explosionArea: {fileID: 8494787692734404405}
   explosionPrefab: {fileID: 100010, guid: 031d08f52af1daa4f929b85221519426, type: 3}
 --- !u!114 &7770880651889918907

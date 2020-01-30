@@ -28,11 +28,13 @@ namespace AK
         static const AkUniqueID PLAY_BLINKFXOFFBEAT = 3832364417U;
         static const AkUniqueID PLAY_BLINKFXONBEAT = 2655647461U;
         static const AkUniqueID PLAY_BOUNCE_SHIELD = 5903894U;
+        static const AkUniqueID PLAY_CALL_ENNEMY = 4010154793U;
         static const AkUniqueID PLAY_EXPLOSION = 4030404899U;
         static const AkUniqueID PLAY_HIT_ENEMY = 3889018732U;
         static const AkUniqueID PLAY_HIT_PLAYER = 2257378511U;
         static const AkUniqueID PLAY_LEFTFOOT = 1674468585U;
         static const AkUniqueID PLAY_MUSIC = 2932040671U;
+        static const AkUniqueID PLAY_PRESENCE = 4155730121U;
         static const AkUniqueID PLAY_REWIND = 869704911U;
         static const AkUniqueID PLAY_RIGHTFOOT = 3723441664U;
         static const AkUniqueID PLAY_RUSHFXOFFBEAT = 3852757989U;
@@ -45,6 +47,7 @@ namespace AK
         static const AkUniqueID SETREWIND_LOOPC = 4276712658U;
         static const AkUniqueID STOP_ALL = 452547817U;
         static const AkUniqueID STOP_AMB = 435770000U;
+        static const AkUniqueID STOP_PRESENCE = 3485622663U;
         static const AkUniqueID STOP_REWIND = 564679353U;
     } // namespace EVENTS
 
@@ -89,16 +92,17 @@ namespace AK
             } // namespace STATE
         } // namespace MUSIC_CRITICLEVEL
 
-        namespace MUSIC_LIMIT_SWITCH
+        namespace MUSIC_LAYER
         {
-            static const AkUniqueID GROUP = 960036381U;
+            static const AkUniqueID GROUP = 2945091192U;
 
             namespace STATE
             {
-                static const AkUniqueID COMBAT_CALM = 2894236345U;
-                static const AkUniqueID COMBAT_LIMIT = 2902872313U;
+                static const AkUniqueID LAYER1 = 3298531297U;
+                static const AkUniqueID LAYER2 = 3298531298U;
+                static const AkUniqueID LAYER3 = 3298531299U;
             } // namespace STATE
-        } // namespace MUSIC_LIMIT_SWITCH
+        } // namespace MUSIC_LAYER
 
         namespace MUSIC_SWITCH
         {
@@ -150,25 +154,11 @@ namespace AK
             } // namespace SWITCH
         } // namespace FOOTSTEPSMATERIAL
 
-        namespace MUSICLAYER
-        {
-            static const AkUniqueID GROUP = 2074789557U;
-
-            namespace SWITCH
-            {
-                static const AkUniqueID LAYER1 = 3298531297U;
-                static const AkUniqueID LAYER2 = 3298531298U;
-                static const AkUniqueID LAYER3 = 3298531299U;
-                static const AkUniqueID LAYER4 = 3298531300U;
-                static const AkUniqueID LAYER5 = 3298531301U;
-                static const AkUniqueID LAYER6 = 3298531302U;
-            } // namespace SWITCH
-        } // namespace MUSICLAYER
-
     } // namespace SWITCHES
 
     namespace GAME_PARAMETERS
     {
+        static const AkUniqueID CHARACHTERSPEED = 3971683557U;
         static const AkUniqueID INT_MUSICCOMBOSTATE = 4043924749U;
         static const AkUniqueID INT_MUSICCOMBOVALUE = 609762841U;
         static const AkUniqueID INT_MUSICCRUSHER = 807022328U;

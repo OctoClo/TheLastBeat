@@ -15,6 +15,9 @@ public class EnemyExplosive : Enemy
     int explosionDamageToPlayer = 0;
     [TabGroup("Behaviour")] [SerializeField] [Tooltip("How many HP the enemies will lose if hit")]
     int explosionDamageToEnemies = 0;
+    [TabGroup("Behaviour")] [SerializeField]
+    AK.Wwise.Event explosionEvent = null;
+
 
     [TabGroup("References")] [SerializeField]
     EnemyExplosionArea explosionArea = null;
@@ -30,7 +33,7 @@ public class EnemyExplosive : Enemy
     protected override void CreateStates()
     {
         base.CreateStates();
-        states.Add(EEnemyState.EXPLODE, new EnemyStateExplode(this, beatsBeforeExplosion, chaseDistance, followSpeed, explosionBlastForce, explosionDamageToPlayer, explosionDamageToEnemies, explosionPrefab, explosionArea));
+        states.Add(EEnemyState.EXPLODE, new EnemyStateExplode(this, beatsBeforeExplosion, chaseDistance, followSpeed, explosionBlastForce, explosionDamageToPlayer, explosionDamageToEnemies, explosionPrefab, explosionArea, explosionEvent));
     }
 
     public override void StartDying()
