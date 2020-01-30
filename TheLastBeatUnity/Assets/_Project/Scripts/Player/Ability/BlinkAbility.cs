@@ -60,7 +60,7 @@ public class BlinkAbility : Ability
             DOTween.Sequence()
                 .AppendCallback(() =>
                 {
-                    SceneHelper.Instance.StartFade(() => { }, 0.2f, SceneHelper.Instance.ColorSlow);
+                    //SceneHelper.Instance.StartFade(() => { }, 0.2f, SceneHelper.Instance.ColorSlow);
                     foreach (Enemy enn in GameObject.FindObjectsOfType<Enemy>())
                     {
                         enn.Timescale = 0.5f;
@@ -69,7 +69,7 @@ public class BlinkAbility : Ability
                 .AppendInterval(SoundManager.Instance.GetTimeLeftNextBeat())
                 .AppendCallback(() =>
                 {
-                    SceneHelper.Instance.StartFade(() => { }, 0.2f, Color.clear);
+                    //SceneHelper.Instance.StartFade(() => { }, 0.2f, Color.clear);
                     foreach (Enemy enn in GameObject.FindObjectsOfType<Enemy>())
                     {
                         enn.Timescale = 1;
