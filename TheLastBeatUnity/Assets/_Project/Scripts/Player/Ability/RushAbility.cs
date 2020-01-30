@@ -348,7 +348,6 @@ public class RushAbility : Ability
 
     void LayerSwitch(float comboValue, float stepsPerLayer, List<float> musicLayer)
     {
-        Debug.Log(comboValue);
         for (int i = 0; i < musiclayer.Count; i++)
         { 
             if (i+1 < musiclayer.Count)

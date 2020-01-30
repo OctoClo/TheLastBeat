@@ -1370,12 +1370,19 @@ MonoBehaviour:
   speed: 7
   maxLives: 5
   waitBeforeNextMove: {x: 1, y: 3}
+  chaseDistance: 2.5
   waitBeforePrepareAnim: 0
-  prepareAnimDuration: 0.3
+  prepareAnimDurationBeats: 2
+  waitAfterPrepareAnim: 0.5
   waitBeforeAttackAnim: 0.2
   attackAnimDuration: 0.5
   attackAnimDistance: 10
   attackDamage: 10
+  callAttackEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: e4847e86c949be04abcadf028a71856d,
+      type: 2}
   recoverAnimDuration: 1.5
   chancesToGetStunned:
   - 0.8

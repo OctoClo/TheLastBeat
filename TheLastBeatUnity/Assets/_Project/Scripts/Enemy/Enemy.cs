@@ -35,6 +35,8 @@ public class Enemy : Slowable
     protected float attackAnimDistance = 10;
     [TabGroup("Behaviour")] [SerializeField] [Tooltip("How many HP the player will lose if hit")]
     protected int attackDamage = 5;
+    [TabGroup("Behaviour")] [SerializeField]
+    AK.Wwise.Event callAttackEvent = null;
     [TabGroup("Behaviour")] [Header("Recover")] [SerializeField] [Tooltip("How much time the enemy will wait after an attack")]
     protected float recoverAnimDuration = 2;
     [TabGroup("Behaviour")] [Header("Stun")] [SerializeField] [Range(0.0f, 1.0f)]
@@ -143,7 +145,7 @@ public class Enemy : Slowable
         states.Add(EEnemyState.WANDER, new EnemyStateWander(this, waitBeforeNextMove));
         states.Add(EEnemyState.CHASE, new EnemyStateChase(this, chaseDistance));
         states.Add(EEnemyState.PREPARE_ATTACK, new EnemyStatePrepareAttack(this, waitBeforePrepareAnim, prepareAnimDurationBeats, waitAfterPrepareAnim, SceneHelper.Instance.JitRatio));
-        states.Add(EEnemyState.ATTACK, new EnemyStateAttack(this, waitBeforeAttackAnim + waitAfterPrepareAnim, attackAnimDuration, attackAnimDistance));
+        states.Add(EEnemyState.ATTACK, new EnemyStateAttack(this, waitBeforeAttackAnim + waitAfterPrepareAnim, attackAnimDuration, attackAnimDistance, callAttackEvent));
         states.Add(EEnemyState.RECOVER_ATTACK, new EnemyStateRecoverAttack(this, recoverAnimDuration));
         states.Add(EEnemyState.COME_BACK, new EnemyStateComeBack(this));
         states.Add(EEnemyState.STUN, new EnemyStateStun(this));
