@@ -183,7 +183,7 @@ public class Enemy : Slowable
     public void LookAtPlayer(float deltaTime)
     {
         Vector3 targetDirection = Player.transform.position - transform.position;
-        targetDirection.y = transform.position.y;
+        targetDirection.y = 0;
         Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, turnSpeed * deltaTime, 0.0f);
         transform.rotation = Quaternion.LookRotation(newDirection);
     }

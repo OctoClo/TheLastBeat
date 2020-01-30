@@ -30,6 +30,7 @@ public class PlayerStatus : MonoBehaviour
     public Animator Animator = null;
     private Coroutine stunCoroutine = null;
     private Rigidbody rb = null;
+    private float rushTimer = 0;
 
     private void Awake()
     {
@@ -40,6 +41,20 @@ public class PlayerStatus : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         stunDuration -= stunRecoverAnim.length;
+    }
+
+    private void Update()
+    {
+        if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Rush"))
+        {
+            rushTimer += Time.deltaTime;
+            if (rushTimer > 0.5f)
+                Animator.SetTrigger("rushEnd");
+        }
+        else
+        {
+            rushTimer = 0;
+        }
     }
 
     public void SetMoving(bool moving)
