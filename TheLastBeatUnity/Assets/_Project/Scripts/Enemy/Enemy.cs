@@ -19,10 +19,14 @@ public class Enemy : Slowable
 
     [TabGroup("Behaviour")] [Header("Wander")] [SerializeField] [Tooltip("How much time the enemy will wait before going to another spot (random in [x, y]")]
     protected Vector2 waitBeforeNextMove = new Vector2(2, 5);
+    [TabGroup("Behaviour")] [Header("Chase")] [SerializeField] [Tooltip("How close to the player the enemy will follow")]
+    protected float chaseDistance = 2.5f;
     [TabGroup("Behaviour")] [Header("Prepare Attack")] [SerializeField] [Tooltip("How much time the enemy will wait between chasing and prepare attack animation")]
     protected float waitBeforePrepareAnim = 0.5f;
-    [TabGroup("Behaviour")] [SerializeField] [Tooltip("How long the prepare attack animation will be")]
-    protected float prepareAnimDuration = 2;
+    [TabGroup("Behaviour")] [SerializeField] [Tooltip("How long the prepare attack animation will be, in beats")]
+    protected int prepareAnimDurationBeats = 2;
+    [TabGroup("Behaviour")] [SerializeField] [Tooltip("How much time the enemy will wait not moving after prepare anim")]
+    protected float waitAfterPrepareAnim = 0.5f;
     [TabGroup("Behaviour")] [Header("Attack")] [SerializeField] [Tooltip("How much time the enemy will wait between preparing attack animation and attacking animation")]
     protected float waitBeforeAttackAnim = 0.25f;
     [TabGroup("Behaviour")] [SerializeField] [Tooltip("How long the attack animation will be")]
@@ -137,9 +141,9 @@ public class Enemy : Slowable
     virtual protected void CreateStates()
     {
         states.Add(EEnemyState.WANDER, new EnemyStateWander(this, waitBeforeNextMove));
-        states.Add(EEnemyState.CHASE, new EnemyStateChase(this));
-        states.Add(EEnemyState.PREPARE_ATTACK, new EnemyStatePrepareAttack(this, waitBeforePrepareAnim, prepareAnimDuration, SceneHelper.Instance.JitRatio));
-        states.Add(EEnemyState.ATTACK, new EnemyStateAttack(this, waitBeforeAttackAnim, attackAnimDuration, attackAnimDistance));
+        states.Add(EEnemyState.CHASE, new EnemyStateChase(this, chaseDistance));
+        states.Add(EEnemyState.PREPARE_ATTACK, new EnemyStatePrepareAttack(this, waitBeforePrepareAnim, prepareAnimDurationBeats, waitAfterPrepareAnim, SceneHelper.Instance.JitRatio));
+        states.Add(EEnemyState.ATTACK, new EnemyStateAttack(this, waitBeforeAttackAnim + waitAfterPrepareAnim, attackAnimDuration, attackAnimDistance));
         states.Add(EEnemyState.RECOVER_ATTACK, new EnemyStateRecoverAttack(this, recoverAnimDuration));
         states.Add(EEnemyState.COME_BACK, new EnemyStateComeBack(this));
         states.Add(EEnemyState.STUN, new EnemyStateStun(this));
@@ -158,6 +162,18 @@ public class Enemy : Slowable
                 HasAttackedPlayer = true;
             }
         }
+    }
+
+    public void OnBeat()
+    {
+        if (type == EEnemyType.DEFAULT)
+            currentState.OnBeat();
+    }
+
+    public void OnBar()
+    {
+        if (type == EEnemyType.DEFAULT)
+            currentState.OnBar();
     }
 
     public void GetPushedBack()

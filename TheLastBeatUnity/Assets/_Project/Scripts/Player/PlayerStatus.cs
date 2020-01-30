@@ -79,11 +79,14 @@ public class PlayerStatus : MonoBehaviour
             Animator.SetBool("stunned", false);
             CurrentStatus = EPlayerStatus.DEFAULT;
         }
+        
+        Animator.ResetTrigger("hitEnd");
         Animator.SetTrigger("hit");
     }
 
     public void StopHit()
     {
+        Animator.ResetTrigger("hit");
         Animator.SetTrigger("hitEnd");
     }
 

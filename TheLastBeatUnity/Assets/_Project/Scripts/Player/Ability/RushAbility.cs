@@ -116,6 +116,15 @@ public class RushAbility : Ability
         seq.Play();
     }
 
+    public void Cancel()
+    {
+        if (seq != null)
+        {
+            seq.Kill();
+            End();
+        }
+    }
+
     void RushVFX()
     {
         player.RushParticles.SetActive(true);

@@ -34,6 +34,10 @@ public abstract class EnemyState
         return stateEnum;
     }
 
+    public virtual void OnBeat() {}
+
+    public virtual void OnBar() {}
+
     public virtual void Exit()
     {
         enemy.Agent.ResetPath();

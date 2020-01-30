@@ -613,6 +613,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 20774282}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!136 &22679334 stripped
+CapsuleCollider:
+  m_CorrespondingSourceObject: {fileID: 946689487, guid: 07801b51c158daf499d145da957e6459,
+    type: 3}
+  m_PrefabInstance: {fileID: 911424942}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &37742523
 GameObject:
   m_ObjectHideFlags: 0
@@ -704,6 +710,7 @@ GameObject:
   - component: {fileID: 62897106}
   - component: {fileID: 62897105}
   - component: {fileID: 62897108}
+  - component: {fileID: 62897109}
   m_Layer: 0
   m_Name: Monotlith6 (21)
   m_TagString: Untagged
@@ -827,6 +834,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &62897109
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 62897103}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &70888336
 GameObject:
   m_ObjectHideFlags: 0
@@ -1209,6 +1229,7 @@ GameObject:
   - component: {fileID: 90412934}
   - component: {fileID: 90412933}
   - component: {fileID: 90412936}
+  - component: {fileID: 90412937}
   m_Layer: 0
   m_Name: Monotlith6 (52)
   m_TagString: Untagged
@@ -1332,6 +1353,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &90412937
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 90412931}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &113455237
 GameObject:
   m_ObjectHideFlags: 0
@@ -1379,7 +1413,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh581204
+  m_Name: pb_Mesh225616
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2042,6 +2076,7 @@ GameObject:
   - component: {fileID: 131106500}
   - component: {fileID: 131106499}
   - component: {fileID: 131106502}
+  - component: {fileID: 131106503}
   m_Layer: 0
   m_Name: Monotlith6 (7)
   m_TagString: Untagged
@@ -2165,6 +2200,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &131106503
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131106497}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &134105588
 GameObject:
   m_ObjectHideFlags: 0
@@ -2178,6 +2226,7 @@ GameObject:
   - component: {fileID: 134105591}
   - component: {fileID: 134105590}
   - component: {fileID: 134105593}
+  - component: {fileID: 134105594}
   m_Layer: 0
   m_Name: Monotlith6 (55)
   m_TagString: Untagged
@@ -2301,6 +2350,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &134105594
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 134105588}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &135323336
 GameObject:
   m_ObjectHideFlags: 0
@@ -2623,6 +2685,7 @@ GameObject:
   - component: {fileID: 135328283}
   - component: {fileID: 135328282}
   - component: {fileID: 135328285}
+  - component: {fileID: 135328286}
   m_Layer: 0
   m_Name: Monotlith6 (41)
   m_TagString: Untagged
@@ -2746,6 +2809,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &135328286
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135328280}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &135967979
 GameObject:
   m_ObjectHideFlags: 0
@@ -2759,6 +2835,7 @@ GameObject:
   - component: {fileID: 135967982}
   - component: {fileID: 135967981}
   - component: {fileID: 135967984}
+  - component: {fileID: 135967985}
   m_Layer: 0
   m_Name: Monotlith6 (16)
   m_TagString: Untagged
@@ -2882,6 +2959,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &135967985
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135967979}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &140107539
 GameObject:
   m_ObjectHideFlags: 0
@@ -3091,6 +3181,7 @@ GameObject:
   - component: {fileID: 144241303}
   - component: {fileID: 144241302}
   - component: {fileID: 144241305}
+  - component: {fileID: 144241306}
   m_Layer: 0
   m_Name: Monotlith6 (23)
   m_TagString: Untagged
@@ -3214,6 +3305,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &144241306
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 144241300}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &148224202
 GameObject:
   m_ObjectHideFlags: 0
@@ -3227,6 +3331,7 @@ GameObject:
   - component: {fileID: 148224205}
   - component: {fileID: 148224204}
   - component: {fileID: 148224207}
+  - component: {fileID: 148224208}
   m_Layer: 0
   m_Name: Monotlith6 (54)
   m_TagString: Untagged
@@ -3350,6 +3455,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &148224208
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148224202}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &150942068
 GameObject:
   m_ObjectHideFlags: 0
@@ -3485,6 +3603,7 @@ GameObject:
   - component: {fileID: 174656657}
   - component: {fileID: 174656656}
   - component: {fileID: 174656659}
+  - component: {fileID: 174656660}
   m_Layer: 0
   m_Name: Monotlith6 (37)
   m_TagString: Untagged
@@ -3608,6 +3727,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &174656660
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174656654}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1001 &183851234
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3789,7 +3921,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh581062
+  m_Name: pb_Mesh225468
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3952,7 +4084,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh581040
+  m_Name: pb_Mesh225446
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -4115,7 +4247,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh580622
+  m_Name: pb_Mesh225000
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -4285,6 +4417,7 @@ GameObject:
   - component: {fileID: 272974172}
   - component: {fileID: 272974171}
   - component: {fileID: 272974174}
+  - component: {fileID: 272974175}
   m_Layer: 0
   m_Name: Monotlith6 (46)
   m_TagString: Untagged
@@ -4408,6 +4541,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &272974175
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 272974169}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &274488925
 GameObject:
   m_ObjectHideFlags: 0
@@ -4538,7 +4684,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh579510
+  m_Name: pb_Mesh223810
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -4708,6 +4854,7 @@ GameObject:
   - component: {fileID: 293616020}
   - component: {fileID: 293616019}
   - component: {fileID: 293616022}
+  - component: {fileID: 293616023}
   m_Layer: 0
   m_Name: Monotlith6 (48)
   m_TagString: Untagged
@@ -4831,6 +4978,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &293616023
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 293616017}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!4 &349706484 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 392440722723439595, guid: 994c5ae2b244fbf4ab8a38cecf1de693,
@@ -4850,6 +5010,7 @@ GameObject:
   - component: {fileID: 353150646}
   - component: {fileID: 353150645}
   - component: {fileID: 353150648}
+  - component: {fileID: 353150649}
   m_Layer: 0
   m_Name: Monotlith6 (32)
   m_TagString: Untagged
@@ -4973,13 +5134,26 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &353150649
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 353150643}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!43 &364532649
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh580944
+  m_Name: pb_Mesh225342
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -5253,6 +5427,7 @@ GameObject:
   - component: {fileID: 373185359}
   - component: {fileID: 373185358}
   - component: {fileID: 373185361}
+  - component: {fileID: 373185362}
   m_Layer: 0
   m_Name: Monotlith6 (29)
   m_TagString: Untagged
@@ -5376,6 +5551,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &373185362
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373185356}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!114 &378197664 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 378197664, guid: a8349b01b25f1614ea9c0f1631c84bb8,
@@ -5401,6 +5589,7 @@ GameObject:
   - component: {fileID: 384967661}
   - component: {fileID: 384967660}
   - component: {fileID: 384967663}
+  - component: {fileID: 384967664}
   m_Layer: 0
   m_Name: Monotlith6 (1)
   m_TagString: Untagged
@@ -5416,7 +5605,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 384967658}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3, y: -4, z: -9}
+  m_LocalPosition: {x: -18.97, y: -4, z: -3.59}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1381583575}
@@ -5524,6 +5713,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &384967664
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 384967658}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &391290246
 GameObject:
   m_ObjectHideFlags: 0
@@ -5537,6 +5739,7 @@ GameObject:
   - component: {fileID: 391290249}
   - component: {fileID: 391290248}
   - component: {fileID: 391290251}
+  - component: {fileID: 391290252}
   m_Layer: 0
   m_Name: Monotlith6 (3)
   m_TagString: Untagged
@@ -5660,6 +5863,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &391290252
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 391290246}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &417393013
 GameObject:
   m_ObjectHideFlags: 0
@@ -5807,6 +6023,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
+        type: 3}
+      propertyPath: maxLives
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5702991526914210722, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -5852,11 +6078,6 @@ PrefabInstance:
       propertyPath: m_textInfo.pageCount
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
-        type: 3}
-      propertyPath: maxLives
-      value: 1000
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: abdf3400b3417834db1e415f63b0d963, type: 3}
 --- !u!1 &434416470
@@ -5872,6 +6093,7 @@ GameObject:
   - component: {fileID: 434416473}
   - component: {fileID: 434416472}
   - component: {fileID: 434416475}
+  - component: {fileID: 434416476}
   m_Layer: 0
   m_Name: Monotlith6 (56)
   m_TagString: Untagged
@@ -5995,6 +6217,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &434416476
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434416470}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &476394738
 GameObject:
   m_ObjectHideFlags: 0
@@ -6317,6 +6552,7 @@ GameObject:
   - component: {fileID: 479882891}
   - component: {fileID: 479882890}
   - component: {fileID: 479882893}
+  - component: {fileID: 479882894}
   m_Layer: 0
   m_Name: Monotlith6 (10)
   m_TagString: Untagged
@@ -6440,6 +6676,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &479882894
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 479882888}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &489693945
 GameObject:
   m_ObjectHideFlags: 0
@@ -6483,6 +6732,7 @@ GameObject:
   - component: {fileID: 498382382}
   - component: {fileID: 498382381}
   - component: {fileID: 498382384}
+  - component: {fileID: 498382385}
   m_Layer: 0
   m_Name: Monotlith6 (20)
   m_TagString: Untagged
@@ -6606,6 +6856,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &498382385
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 498382379}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &510946724
 GameObject:
   m_ObjectHideFlags: 0
@@ -6868,6 +7131,7 @@ GameObject:
   - component: {fileID: 530111470}
   - component: {fileID: 530111469}
   - component: {fileID: 530111472}
+  - component: {fileID: 530111473}
   m_Layer: 0
   m_Name: Monotlith6 (39)
   m_TagString: Untagged
@@ -6991,13 +7255,26 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &530111473
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530111467}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!43 &532591611
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh580984
+  m_Name: pb_Mesh225384
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -7160,7 +7437,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh580652
+  m_Name: pb_Mesh225030
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -7452,6 +7729,7 @@ GameObject:
   - component: {fileID: 636312219}
   - component: {fileID: 636312218}
   - component: {fileID: 636312221}
+  - component: {fileID: 636312222}
   m_Layer: 0
   m_Name: Monotlith6 (53)
   m_TagString: Untagged
@@ -7575,13 +7853,26 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &636312222
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 636312216}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!43 &636698148
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh579560
+  m_Name: pb_Mesh223864
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -7843,6 +8134,7 @@ GameObject:
   - component: {fileID: 657095294}
   - component: {fileID: 657095293}
   - component: {fileID: 657095296}
+  - component: {fileID: 657095297}
   m_Layer: 0
   m_Name: Monotlith6 (12)
   m_TagString: Untagged
@@ -7966,13 +8258,26 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &657095297
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 657095291}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!43 &663945153
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh580290
+  m_Name: pb_Mesh224644
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -8343,6 +8648,7 @@ GameObject:
   - component: {fileID: 687933910}
   - component: {fileID: 687933909}
   - component: {fileID: 687933912}
+  - component: {fileID: 687933913}
   m_Layer: 0
   m_Name: Monotlith6 (26)
   m_TagString: Untagged
@@ -8466,6 +8772,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &687933913
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 687933907}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1001 &690266678
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9118,6 +9437,7 @@ GameObject:
   - component: {fileID: 725966765}
   - component: {fileID: 725966764}
   - component: {fileID: 725966767}
+  - component: {fileID: 725966768}
   m_Layer: 0
   m_Name: Monotlith6 (45)
   m_TagString: Untagged
@@ -9241,6 +9561,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &725966768
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 725966762}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &741497951
 GameObject:
   m_ObjectHideFlags: 0
@@ -10086,6 +10419,7 @@ GameObject:
   - component: {fileID: 776048765}
   - component: {fileID: 776048764}
   - component: {fileID: 776048767}
+  - component: {fileID: 776048768}
   m_Layer: 0
   m_Name: Monotlith6 (28)
   m_TagString: Untagged
@@ -10209,6 +10543,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &776048768
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 776048762}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &779323443
 GameObject:
   m_ObjectHideFlags: 0
@@ -10314,6 +10661,7 @@ GameObject:
   - component: {fileID: 815333562}
   - component: {fileID: 815333561}
   - component: {fileID: 815333564}
+  - component: {fileID: 815333565}
   m_Layer: 0
   m_Name: Monotlith6 (31)
   m_TagString: Untagged
@@ -10437,6 +10785,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &815333565
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 815333559}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &822036061
 GameObject:
   m_ObjectHideFlags: 0
@@ -10615,7 +10976,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh581156
+  m_Name: pb_Mesh225566
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -10839,6 +11200,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7110494032866649799, guid: 994c5ae2b244fbf4ab8a38cecf1de693,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7110494032866649799, guid: 994c5ae2b244fbf4ab8a38cecf1de693,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -9
+      objectReference: {fileID: 0}
+    - target: {fileID: 392440723529914886, guid: 994c5ae2b244fbf4ab8a38cecf1de693,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.4500008
+      objectReference: {fileID: 0}
+    - target: {fileID: 392440723529914886, guid: 994c5ae2b244fbf4ab8a38cecf1de693,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 392440723176824662, guid: 994c5ae2b244fbf4ab8a38cecf1de693,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 392440723176824662, guid: 994c5ae2b244fbf4ab8a38cecf1de693,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.45000076
+      objectReference: {fileID: 0}
+    - target: {fileID: 392440723176824651, guid: 994c5ae2b244fbf4ab8a38cecf1de693,
+        type: 3}
+      propertyPath: m_Radius
+      value: 17.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 392440723529914936, guid: 994c5ae2b244fbf4ab8a38cecf1de693,
+        type: 3}
+      propertyPath: m_Radius
+      value: 13.41
+      objectReference: {fileID: 0}
     - target: {fileID: 392440722723439594, guid: 994c5ae2b244fbf4ab8a38cecf1de693,
         type: 3}
       propertyPath: player
@@ -10848,6 +11249,16 @@ PrefabInstance:
         type: 3}
       propertyPath: enemiesType
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7110494032866649798, guid: 994c5ae2b244fbf4ab8a38cecf1de693,
+        type: 3}
+      propertyPath: maxLives
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7110494032866649798, guid: 994c5ae2b244fbf4ab8a38cecf1de693,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5356788017026244953, guid: 994c5ae2b244fbf4ab8a38cecf1de693,
         type: 3}
@@ -10893,51 +11304,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_textInfo.pageCount
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 392440723529914886, guid: 994c5ae2b244fbf4ab8a38cecf1de693,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1.4500008
-      objectReference: {fileID: 0}
-    - target: {fileID: 392440723529914886, guid: 994c5ae2b244fbf4ab8a38cecf1de693,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -1.78
-      objectReference: {fileID: 0}
-    - target: {fileID: 392440723176824662, guid: 994c5ae2b244fbf4ab8a38cecf1de693,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -1.78
-      objectReference: {fileID: 0}
-    - target: {fileID: 392440723176824662, guid: 994c5ae2b244fbf4ab8a38cecf1de693,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.45000076
-      objectReference: {fileID: 0}
-    - target: {fileID: 7110494032866649799, guid: 994c5ae2b244fbf4ab8a38cecf1de693,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7110494032866649799, guid: 994c5ae2b244fbf4ab8a38cecf1de693,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -9
-      objectReference: {fileID: 0}
-    - target: {fileID: 392440723176824651, guid: 994c5ae2b244fbf4ab8a38cecf1de693,
-        type: 3}
-      propertyPath: m_Radius
-      value: 17.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 392440723529914936, guid: 994c5ae2b244fbf4ab8a38cecf1de693,
-        type: 3}
-      propertyPath: m_Radius
-      value: 13.41
-      objectReference: {fileID: 0}
-    - target: {fileID: 7110494032866649798, guid: 994c5ae2b244fbf4ab8a38cecf1de693,
-        type: 3}
-      propertyPath: maxLives
-      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 994c5ae2b244fbf4ab8a38cecf1de693, type: 3}
@@ -11085,6 +11451,7 @@ GameObject:
   - component: {fileID: 898703977}
   - component: {fileID: 898703976}
   - component: {fileID: 898703979}
+  - component: {fileID: 898703980}
   m_Layer: 0
   m_Name: Monotlith6 (14)
   m_TagString: Untagged
@@ -11208,13 +11575,26 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &898703980
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 898703974}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!43 &899656677
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh580784
+  m_Name: pb_Mesh225170
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -11383,11 +11763,50 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 946689487, guid: 07801b51c158daf499d145da957e6459, type: 3}
+      propertyPath: m_Radius
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
         type: 3}
       propertyPath: healthSystem
       value: 
       objectReference: {fileID: 1857280290}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: blinkParameters.HealPerCorrectBeat
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: rushParameters.timeToReachDist
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: rushParameters.rumbleDuration
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: rushParameters.freezeFrameImpactDuration
+      value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: rushParameters.freezeFrameBeginDuration
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: holdlessThreshold
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: rushParameters.distanceDash
+      value: 1.4
+      objectReference: {fileID: 0}
     - target: {fileID: 3489716977114045590, guid: 07801b51c158daf499d145da957e6459,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11447,6 +11866,16 @@ PrefabInstance:
       propertyPath: groupTarget
       value: 
       objectReference: {fileID: 1035569839}
+    - target: {fileID: 2872187011401476631, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: angle
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 2872187011401476631, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: length
+      value: 4.8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07801b51c158daf499d145da957e6459, type: 3}
 --- !u!4 &911424943 stripped
@@ -11652,6 +12081,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
+        type: 3}
+      propertyPath: maxLives
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5702991526914210722, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -11697,11 +12136,6 @@ PrefabInstance:
       propertyPath: m_textInfo.pageCount
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
-        type: 3}
-      propertyPath: maxLives
-      value: 1000
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: abdf3400b3417834db1e415f63b0d963, type: 3}
 --- !u!43 &942637789
@@ -11710,7 +12144,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh580256
+  m_Name: pb_Mesh224608
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -12498,6 +12932,7 @@ GameObject:
   - component: {fileID: 976549305}
   - component: {fileID: 976549304}
   - component: {fileID: 976549307}
+  - component: {fileID: 976549308}
   m_Layer: 0
   m_Name: Monotlith6 (49)
   m_TagString: Untagged
@@ -12621,6 +13056,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &976549308
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 976549302}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &986462197
 GameObject:
   m_ObjectHideFlags: 0
@@ -13337,7 +13785,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh580882
+  m_Name: pb_Mesh225276
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -13726,7 +14174,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh580922
+  m_Name: pb_Mesh225320
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -13896,6 +14344,7 @@ GameObject:
   - component: {fileID: 1068508397}
   - component: {fileID: 1068508396}
   - component: {fileID: 1068508399}
+  - component: {fileID: 1068508400}
   m_Layer: 0
   m_Name: Monotlith6 (4)
   m_TagString: Untagged
@@ -14019,6 +14468,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &1068508400
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1068508394}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &1071950412
 GameObject:
   m_ObjectHideFlags: 0
@@ -14518,7 +14980,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh580376
+  m_Name: pb_Mesh224732
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -14688,6 +15150,7 @@ GameObject:
   - component: {fileID: 1086174198}
   - component: {fileID: 1086174197}
   - component: {fileID: 1086174200}
+  - component: {fileID: 1086174201}
   m_Layer: 0
   m_Name: Monotlith6 (50)
   m_TagString: Untagged
@@ -14811,6 +15274,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &1086174201
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1086174195}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1001 &1094218167
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15135,6 +15611,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
+        type: 3}
+      propertyPath: maxLives
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5702991526914210722, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -15179,11 +15665,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_textInfo.pageCount
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
-        type: 3}
-      propertyPath: maxLives
-      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: abdf3400b3417834db1e415f63b0d963, type: 3}
@@ -15292,6 +15773,7 @@ GameObject:
   - component: {fileID: 1105818590}
   - component: {fileID: 1105818589}
   - component: {fileID: 1105818592}
+  - component: {fileID: 1105818593}
   m_Layer: 0
   m_Name: Monotlith6 (2)
   m_TagString: Untagged
@@ -15415,6 +15897,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &1105818593
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105818587}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &1119008403
 GameObject:
   m_ObjectHideFlags: 0
@@ -15428,6 +15923,7 @@ GameObject:
   - component: {fileID: 1119008406}
   - component: {fileID: 1119008405}
   - component: {fileID: 1119008408}
+  - component: {fileID: 1119008409}
   m_Layer: 0
   m_Name: Monotlith6 (30)
   m_TagString: Untagged
@@ -15551,6 +16047,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &1119008409
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1119008403}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &1123025859
 GameObject:
   m_ObjectHideFlags: 0
@@ -15564,6 +16073,7 @@ GameObject:
   - component: {fileID: 1123025862}
   - component: {fileID: 1123025861}
   - component: {fileID: 1123025864}
+  - component: {fileID: 1123025865}
   m_Layer: 0
   m_Name: Monotlith6 (35)
   m_TagString: Untagged
@@ -15687,13 +16197,26 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &1123025865
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1123025859}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!43 &1128771946
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh580126
+  m_Name: pb_Mesh224472
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -15955,6 +16478,7 @@ GameObject:
   - component: {fileID: 1149843753}
   - component: {fileID: 1149843752}
   - component: {fileID: 1149843755}
+  - component: {fileID: 1149843756}
   m_Layer: 0
   m_Name: Monotlith6 (42)
   m_TagString: Untagged
@@ -16078,6 +16602,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &1149843756
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149843750}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &1163403364
 GameObject:
   m_ObjectHideFlags: 0
@@ -16790,6 +17327,7 @@ GameObject:
   - component: {fileID: 1173221995}
   - component: {fileID: 1173221994}
   - component: {fileID: 1173221997}
+  - component: {fileID: 1173221998}
   m_Layer: 0
   m_Name: Monotlith6 (47)
   m_TagString: Untagged
@@ -16913,6 +17451,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &1173221998
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173221992}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &1186830605
 GameObject:
   m_ObjectHideFlags: 0
@@ -16926,6 +17477,7 @@ GameObject:
   - component: {fileID: 1186830608}
   - component: {fileID: 1186830607}
   - component: {fileID: 1186830610}
+  - component: {fileID: 1186830611}
   m_Layer: 0
   m_Name: Monotlith6 (6)
   m_TagString: Untagged
@@ -17049,13 +17601,26 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &1186830611
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1186830605}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!43 &1191038159
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh581074
+  m_Name: pb_Mesh225480
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -17289,7 +17854,64 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 368058109}
-    m_RemovedComponents: []
+    - target: {fileID: 1490012365261172913, guid: 1180318077266a64f954365deaddf25b,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3654852043529103579, guid: 1180318077266a64f954365deaddf25b,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4496259795493942233, guid: 1180318077266a64f954365deaddf25b,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5188555079212821202, guid: 1180318077266a64f954365deaddf25b,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5603640568910204301, guid: 1180318077266a64f954365deaddf25b,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6446982070779857773, guid: 1180318077266a64f954365deaddf25b,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7262082117091719639, guid: 1180318077266a64f954365deaddf25b,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5789848791175517081, guid: 1180318077266a64f954365deaddf25b,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563534245091794467, guid: 1180318077266a64f954365deaddf25b,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8023923951517554801, guid: 1180318077266a64f954365deaddf25b,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8693827111611453260, guid: 1180318077266a64f954365deaddf25b,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 157736926257002347, guid: 1180318077266a64f954365deaddf25b, type: 3}
+    - {fileID: 4936124123321915214, guid: 1180318077266a64f954365deaddf25b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1180318077266a64f954365deaddf25b, type: 3}
 --- !u!4 &1195361526 stripped
 Transform:
@@ -17316,6 +17938,7 @@ GameObject:
   - component: {fileID: 1198688322}
   - component: {fileID: 1198688321}
   - component: {fileID: 1198688324}
+  - component: {fileID: 1198688325}
   m_Layer: 0
   m_Name: Monotlith6 (8)
   m_TagString: Untagged
@@ -17439,6 +18062,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &1198688325
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1198688319}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &1199995758
 GameObject:
   m_ObjectHideFlags: 0
@@ -17482,6 +18118,7 @@ GameObject:
   - component: {fileID: 1209582990}
   - component: {fileID: 1209582989}
   - component: {fileID: 1209582992}
+  - component: {fileID: 1209582993}
   m_Layer: 0
   m_Name: Monotlith6 (19)
   m_TagString: Untagged
@@ -17605,6 +18242,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &1209582993
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1209582987}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &1211634034
 GameObject:
   m_ObjectHideFlags: 0
@@ -17710,6 +18360,7 @@ GameObject:
   - component: {fileID: 1239854976}
   - component: {fileID: 1239854975}
   - component: {fileID: 1239854978}
+  - component: {fileID: 1239854979}
   m_Layer: 0
   m_Name: Monotlith6 (34)
   m_TagString: Untagged
@@ -17833,6 +18484,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &1239854979
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1239854973}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &1257316536
 GameObject:
   m_ObjectHideFlags: 0
@@ -17882,6 +18546,7 @@ GameObject:
   - component: {fileID: 1267442827}
   - component: {fileID: 1267442826}
   - component: {fileID: 1267442829}
+  - component: {fileID: 1267442830}
   m_Layer: 0
   m_Name: Monotlith6 (25)
   m_TagString: Untagged
@@ -18005,6 +18670,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &1267442830
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267442824}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &1271194981
 GameObject:
   m_ObjectHideFlags: 0
@@ -18972,6 +19650,7 @@ GameObject:
   - component: {fileID: 1354250401}
   - component: {fileID: 1354250400}
   - component: {fileID: 1354250403}
+  - component: {fileID: 1354250404}
   m_Layer: 0
   m_Name: Monotlith6 (43)
   m_TagString: Untagged
@@ -19095,13 +19774,26 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &1354250404
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354250398}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!43 &1363753443
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh580090
+  m_Name: pb_Mesh224436
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -19508,6 +20200,7 @@ GameObject:
   - component: {fileID: 1390465690}
   - component: {fileID: 1390465689}
   - component: {fileID: 1390465692}
+  - component: {fileID: 1390465693}
   m_Layer: 0
   m_Name: Monotlith6 (51)
   m_TagString: Untagged
@@ -19631,6 +20324,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &1390465693
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390465687}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &1401985716
 GameObject:
   m_ObjectHideFlags: 0
@@ -19736,6 +20442,7 @@ GameObject:
   - component: {fileID: 1407348373}
   - component: {fileID: 1407348372}
   - component: {fileID: 1407348375}
+  - component: {fileID: 1407348376}
   m_Layer: 0
   m_Name: Monotlith6 (15)
   m_TagString: Untagged
@@ -19859,6 +20566,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &1407348376
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407348370}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &1415315045
 GameObject:
   m_ObjectHideFlags: 0
@@ -19956,6 +20676,7 @@ GameObject:
   - component: {fileID: 1425308852}
   - component: {fileID: 1425308851}
   - component: {fileID: 1425308854}
+  - component: {fileID: 1425308855}
   m_Layer: 0
   m_Name: Monotlith6 (11)
   m_TagString: Untagged
@@ -20079,6 +20800,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &1425308855
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1425308849}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1001 &1433489702
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20934,6 +21668,7 @@ GameObject:
   - component: {fileID: 1498884045}
   - component: {fileID: 1498884044}
   - component: {fileID: 1498884047}
+  - component: {fileID: 1498884048}
   m_Layer: 0
   m_Name: Monotlith6 (9)
   m_TagString: Untagged
@@ -21057,6 +21792,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &1498884048
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1498884042}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &1509679433
 GameObject:
   m_ObjectHideFlags: 0
@@ -21199,6 +21947,7 @@ GameObject:
   - component: {fileID: 1546204984}
   - component: {fileID: 1546204983}
   - component: {fileID: 1546204986}
+  - component: {fileID: 1546204987}
   m_Layer: 0
   m_Name: Monotlith6 (58)
   m_TagString: Untagged
@@ -21322,6 +22071,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &1546204987
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1546204981}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &1550895534
 GameObject:
   m_ObjectHideFlags: 0
@@ -21335,6 +22097,7 @@ GameObject:
   - component: {fileID: 1550895537}
   - component: {fileID: 1550895536}
   - component: {fileID: 1550895539}
+  - component: {fileID: 1550895540}
   m_Layer: 0
   m_Name: Monotlith6 (18)
   m_TagString: Untagged
@@ -21458,6 +22221,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &1550895540
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1550895534}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &1552389850
 GameObject:
   m_ObjectHideFlags: 0
@@ -21471,6 +22247,7 @@ GameObject:
   - component: {fileID: 1552389853}
   - component: {fileID: 1552389852}
   - component: {fileID: 1552389855}
+  - component: {fileID: 1552389856}
   m_Layer: 0
   m_Name: Monotlith6 (44)
   m_TagString: Untagged
@@ -21594,6 +22371,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &1552389856
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552389850}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &1559611752
 GameObject:
   m_ObjectHideFlags: 0
@@ -22117,7 +22907,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh580244
+  m_Name: pb_Mesh224596
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -22287,6 +23077,7 @@ GameObject:
   - component: {fileID: 1595919622}
   - component: {fileID: 1595919621}
   - component: {fileID: 1595919624}
+  - component: {fileID: 1595919625}
   m_Layer: 0
   m_Name: Monotlith6 (22)
   m_TagString: Untagged
@@ -22410,6 +23201,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &1595919625
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1595919619}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &1596633510
 GameObject:
   m_ObjectHideFlags: 0
@@ -23225,6 +24029,7 @@ GameObject:
   - component: {fileID: 1607087497}
   - component: {fileID: 1607087496}
   - component: {fileID: 1607087499}
+  - component: {fileID: 1607087500}
   m_Layer: 0
   m_Name: Monotlith6 (17)
   m_TagString: Untagged
@@ -23348,6 +24153,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &1607087500
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1607087494}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &1624676713
 GameObject:
   m_ObjectHideFlags: 0
@@ -23480,7 +24298,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh580488
+  m_Name: pb_Mesh224854
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -23952,7 +24770,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh581254
+  m_Name: pb_Mesh225668
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -24122,6 +24940,7 @@ GameObject:
   - component: {fileID: 1672670348}
   - component: {fileID: 1672670347}
   - component: {fileID: 1672670350}
+  - component: {fileID: 1672670351}
   m_Layer: 0
   m_Name: Monotlith6 (40)
   m_TagString: Untagged
@@ -24245,6 +25064,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &1672670351
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1672670345}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1001 &1675065503
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24502,7 +25334,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh579654
+  m_Name: pb_Mesh223964
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -24842,6 +25674,11 @@ PrefabInstance:
       propertyPath: visualParams.riftAnimator
       value: 
       objectReference: {fileID: 4503622671163791453}
+    - target: {fileID: 1855074841851943534, guid: e0b5776d33d81194499f12bbaf555111,
+        type: 3}
+      propertyPath: maximalPulse
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1509530214, guid: e0b5776d33d81194499f12bbaf555111, type: 3}
       propertyPath: player
       value: 
@@ -24925,6 +25762,7 @@ GameObject:
   - component: {fileID: 1719967996}
   - component: {fileID: 1719967995}
   - component: {fileID: 1719967998}
+  - component: {fileID: 1719967999}
   m_Layer: 0
   m_Name: Monotlith6 (57)
   m_TagString: Untagged
@@ -25048,6 +25886,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &1719967999
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719967993}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &1740051000
 GameObject:
   m_ObjectHideFlags: 0
@@ -26564,6 +27415,7 @@ GameObject:
   - component: {fileID: 1831964173}
   - component: {fileID: 1831964172}
   - component: {fileID: 1831964175}
+  - component: {fileID: 1831964176}
   m_Layer: 0
   m_Name: Monotlith6 (36)
   m_TagString: Untagged
@@ -26687,6 +27539,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &1831964176
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831964170}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &1834478987
 GameObject:
   m_ObjectHideFlags: 0
@@ -26700,6 +27565,7 @@ GameObject:
   - component: {fileID: 1834478990}
   - component: {fileID: 1834478989}
   - component: {fileID: 1834478992}
+  - component: {fileID: 1834478993}
   m_Layer: 0
   m_Name: Monotlith6 (24)
   m_TagString: Untagged
@@ -26823,13 +27689,26 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &1834478993
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1834478987}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!43 &1837003527
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh579598
+  m_Name: pb_Mesh223904
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -27400,6 +28279,7 @@ GameObject:
   - component: {fileID: 1854846342}
   - component: {fileID: 1854846341}
   - component: {fileID: 1854846344}
+  - component: {fileID: 1854846345}
   m_Layer: 0
   m_Name: Monotlith6 (5)
   m_TagString: Untagged
@@ -27523,6 +28403,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &1854846345
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1854846339}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!114 &1857280290 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1855074841851943534, guid: e0b5776d33d81194499f12bbaf555111,
@@ -27992,6 +28885,7 @@ GameObject:
   - component: {fileID: 1889511726}
   - component: {fileID: 1889511725}
   - component: {fileID: 1889511728}
+  - component: {fileID: 1889511729}
   m_Layer: 0
   m_Name: Monotlith6 (33)
   m_TagString: Untagged
@@ -28115,6 +29009,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &1889511729
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1889511723}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &1913360633
 GameObject:
   m_ObjectHideFlags: 0
@@ -28213,7 +29120,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh579898
+  m_Name: pb_Mesh224230
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -28879,7 +29786,53 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 368058109}
-    m_RemovedComponents: []
+    - target: {fileID: 686333821797376317, guid: 6232bc8e94559fc468b3df4c1eacfe91,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4105051555660444296, guid: 6232bc8e94559fc468b3df4c1eacfe91,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2708436918947485016, guid: 6232bc8e94559fc468b3df4c1eacfe91,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358792143481807360, guid: 6232bc8e94559fc468b3df4c1eacfe91,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639219904200170834, guid: 6232bc8e94559fc468b3df4c1eacfe91,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8252324006792515015, guid: 6232bc8e94559fc468b3df4c1eacfe91,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5580044226064474302, guid: 6232bc8e94559fc468b3df4c1eacfe91,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8201335922154814740, guid: 6232bc8e94559fc468b3df4c1eacfe91,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8458856771887894312, guid: 6232bc8e94559fc468b3df4c1eacfe91,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 3283683522579058651, guid: 6232bc8e94559fc468b3df4c1eacfe91, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 6232bc8e94559fc468b3df4c1eacfe91, type: 3}
 --- !u!4 &1980038462 stripped
 Transform:
@@ -28936,6 +29889,7 @@ GameObject:
   - component: {fileID: 2008196124}
   - component: {fileID: 2008196123}
   - component: {fileID: 2008196126}
+  - component: {fileID: 2008196127}
   m_Layer: 0
   m_Name: Monotlith6 (27)
   m_TagString: Untagged
@@ -29059,6 +30013,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &2008196127
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2008196121}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &2009675925
 GameObject:
   m_ObjectHideFlags: 0
@@ -29112,6 +30079,7 @@ GameObject:
   - component: {fileID: 2014701357}
   - component: {fileID: 2014701356}
   - component: {fileID: 2014701359}
+  - component: {fileID: 2014701360}
   m_Layer: 0
   m_Name: Monotlith6 (38)
   m_TagString: Untagged
@@ -29235,6 +30203,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &2014701360
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2014701354}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1 &2018960694
 GameObject:
   m_ObjectHideFlags: 0
@@ -29279,6 +30260,7 @@ GameObject:
   - component: {fileID: 2029384221}
   - component: {fileID: 2029384220}
   - component: {fileID: 2029384223}
+  - component: {fileID: 2029384224}
   m_Layer: 0
   m_Name: Monotlith6 (13)
   m_TagString: Untagged
@@ -29402,13 +30384,26 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &2029384224
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2029384218}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!43 &2029904011
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh580302
+  m_Name: pb_Mesh224656
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -29892,6 +30887,7 @@ GameObject:
   - component: {fileID: 1332683586156903127}
   - component: {fileID: 56538197}
   - component: {fileID: 638537366984033625}
+  - component: {fileID: 638537366984033626}
   m_Layer: 0
   m_Name: Monotlith6
   m_TagString: Untagged
@@ -29915,6 +30911,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.08400001, y: 1.2800001, z: 0.126}
   m_TimeToStationary: 0.5
+--- !u!135 &638537366984033626
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638537366984033624}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8028033
+  m_Center: {x: 0.083853185, y: 1.2802253, z: 0.12566239}
 --- !u!1001 &1160262165656575229
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29987,6 +30996,156 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 368058109}
+    - target: {fileID: 595465217790457469, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: speed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 595465217790457469, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: chaseDistance
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 595465217790457469, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 141401917142595616, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: m_Radius
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2500560870125521713, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: chaseDistance
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2500560870125521713, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3100199351319070060, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: m_Radius
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3312703475291847896, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: chaseDistance
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3312703475291847896, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2615692519554364037, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: m_Radius
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3533806443812843477, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: speed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3533806443812843477, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: chaseDistance
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3533806443812843477, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4089059564427977096, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: m_Radius
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3894332126346967139, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: speed
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3894332126346967139, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: chaseDistance
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3894332126346967139, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4593295935288292926, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: m_Radius
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4014396421890569944, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: speed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4014396421890569944, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: chaseDistance
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4014396421890569944, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4468653266350454917, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: m_Radius
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4161960674123924080, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: speed
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4161960674123924080, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: chaseDistance
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4161960674123924080, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3492428330334587949, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: m_Radius
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8892121533599037305, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: speed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8892121533599037305, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: chaseDistance
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8892121533599037305, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8273940802381707556, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70,
+        type: 3}
+      propertyPath: m_Radius
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b742b25a4a0c6e14e8b9f6c5ce83eb70, type: 3}
 --- !u!4 &1160262165656575230 stripped
@@ -30119,7 +31278,88 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 368058109}
-    m_RemovedComponents: []
+    - target: {fileID: 3284977217078385664, guid: 45da77c59f7d5c14886ac20b12e4941a,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3284977217078385664, guid: 45da77c59f7d5c14886ac20b12e4941a,
+        type: 3}
+      propertyPath: speed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3284977217078385664, guid: 45da77c59f7d5c14886ac20b12e4941a,
+        type: 3}
+      propertyPath: attackAnimDistance
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2604010090040300125, guid: 45da77c59f7d5c14886ac20b12e4941a,
+        type: 3}
+      propertyPath: m_Radius
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3533712031965646622, guid: 45da77c59f7d5c14886ac20b12e4941a,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3533712031965646622, guid: 45da77c59f7d5c14886ac20b12e4941a,
+        type: 3}
+      propertyPath: speed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3533712031965646622, guid: 45da77c59f7d5c14886ac20b12e4941a,
+        type: 3}
+      propertyPath: attackAnimDistance
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4089158924626936131, guid: 45da77c59f7d5c14886ac20b12e4941a,
+        type: 3}
+      propertyPath: m_Radius
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8358314298447360665, guid: 45da77c59f7d5c14886ac20b12e4941a,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8358314298447360665, guid: 45da77c59f7d5c14886ac20b12e4941a,
+        type: 3}
+      propertyPath: speed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8358314298447360665, guid: 45da77c59f7d5c14886ac20b12e4941a,
+        type: 3}
+      propertyPath: attackAnimDistance
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812254397734206660, guid: 45da77c59f7d5c14886ac20b12e4941a,
+        type: 3}
+      propertyPath: m_Radius
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9011465240258312555, guid: 45da77c59f7d5c14886ac20b12e4941a,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9011465240258312555, guid: 45da77c59f7d5c14886ac20b12e4941a,
+        type: 3}
+      propertyPath: speed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9011465240258312555, guid: 45da77c59f7d5c14886ac20b12e4941a,
+        type: 3}
+      propertyPath: attackAnimDistance
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8411316568657999670, guid: 45da77c59f7d5c14886ac20b12e4941a,
+        type: 3}
+      propertyPath: m_Radius
+      value: 3
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 3705763611351306117, guid: 45da77c59f7d5c14886ac20b12e4941a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 45da77c59f7d5c14886ac20b12e4941a, type: 3}
 --- !u!1 &2484246570916690094 stripped
 GameObject:
@@ -30245,7 +31485,43 @@ PrefabInstance:
       propertyPath: m_textInfo.pageCount
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 3521523324661366282, guid: ca421a159e775364cb44ccfb0879c36b,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4890598540479205346, guid: ca421a159e775364cb44ccfb0879c36b,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4968866403066197845, guid: ca421a159e775364cb44ccfb0879c36b,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7226937476780813585, guid: ca421a159e775364cb44ccfb0879c36b,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7318622482415279088, guid: ca421a159e775364cb44ccfb0879c36b,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6539303753927325834, guid: ca421a159e775364cb44ccfb0879c36b,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8570879436302570577, guid: ca421a159e775364cb44ccfb0879c36b,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6118470578465801312, guid: ca421a159e775364cb44ccfb0879c36b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ca421a159e775364cb44ccfb0879c36b, type: 3}
 --- !u!4 &3454609399133936602 stripped
 Transform:
@@ -30336,7 +31612,39 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 368058109}
-    m_RemovedComponents: []
+    - target: {fileID: 218011412213788882, guid: 926f51875aee522449a73d7044c285c0,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2680895398451515282, guid: 926f51875aee522449a73d7044c285c0,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5351779963573608075, guid: 926f51875aee522449a73d7044c285c0,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7324115091093404795, guid: 926f51875aee522449a73d7044c285c0,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6169117243432679507, guid: 926f51875aee522449a73d7044c285c0,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6006038912626769162, guid: 926f51875aee522449a73d7044c285c0,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 3952914208620797470, guid: 926f51875aee522449a73d7044c285c0, type: 3}
+    - {fileID: 6827070634407778074, guid: 926f51875aee522449a73d7044c285c0, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 926f51875aee522449a73d7044c285c0, type: 3}
 --- !u!1 &4466176720515387882 stripped
 GameObject:
@@ -30570,7 +31878,109 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 368058109}
-    m_RemovedComponents: []
+    - target: {fileID: 2196243443103643969, guid: 7e5f57b1d3b6bfa4d83a7a448defe3fb,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2196243443103643969, guid: 7e5f57b1d3b6bfa4d83a7a448defe3fb,
+        type: 3}
+      propertyPath: speed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2196243443103643969, guid: 7e5f57b1d3b6bfa4d83a7a448defe3fb,
+        type: 3}
+      propertyPath: chaseDistance
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2196243443103643969, guid: 7e5f57b1d3b6bfa4d83a7a448defe3fb,
+        type: 3}
+      propertyPath: attackAnimDistance
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4298579898198317180, guid: 7e5f57b1d3b6bfa4d83a7a448defe3fb,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4298579898198317180, guid: 7e5f57b1d3b6bfa4d83a7a448defe3fb,
+        type: 3}
+      propertyPath: speed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4298579898198317180, guid: 7e5f57b1d3b6bfa4d83a7a448defe3fb,
+        type: 3}
+      propertyPath: chaseDistance
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4298579898198317180, guid: 7e5f57b1d3b6bfa4d83a7a448defe3fb,
+        type: 3}
+      propertyPath: attackAnimDistance
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608024982286308897, guid: 7e5f57b1d3b6bfa4d83a7a448defe3fb,
+        type: 3}
+      propertyPath: m_Radius
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5140547783173908563, guid: 7e5f57b1d3b6bfa4d83a7a448defe3fb,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5140547783173908563, guid: 7e5f57b1d3b6bfa4d83a7a448defe3fb,
+        type: 3}
+      propertyPath: speed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5140547783173908563, guid: 7e5f57b1d3b6bfa4d83a7a448defe3fb,
+        type: 3}
+      propertyPath: chaseDistance
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5140547783173908563, guid: 7e5f57b1d3b6bfa4d83a7a448defe3fb,
+        type: 3}
+      propertyPath: attackAnimDistance
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6730297095124699215, guid: 7e5f57b1d3b6bfa4d83a7a448defe3fb,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6730297095124699215, guid: 7e5f57b1d3b6bfa4d83a7a448defe3fb,
+        type: 3}
+      propertyPath: speed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6730297095124699215, guid: 7e5f57b1d3b6bfa4d83a7a448defe3fb,
+        type: 3}
+      propertyPath: chaseDistance
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6730297095124699215, guid: 7e5f57b1d3b6bfa4d83a7a448defe3fb,
+        type: 3}
+      propertyPath: attackAnimDistance
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8606496521378166859, guid: 7e5f57b1d3b6bfa4d83a7a448defe3fb,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8606496521378166859, guid: 7e5f57b1d3b6bfa4d83a7a448defe3fb,
+        type: 3}
+      propertyPath: speed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8606496521378166859, guid: 7e5f57b1d3b6bfa4d83a7a448defe3fb,
+        type: 3}
+      propertyPath: attackAnimDistance
+      value: 8
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 4151087301247037952, guid: 7e5f57b1d3b6bfa4d83a7a448defe3fb, type: 3}
+    - {fileID: 5443902460811107784, guid: 7e5f57b1d3b6bfa4d83a7a448defe3fb, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7e5f57b1d3b6bfa4d83a7a448defe3fb, type: 3}
 --- !u!1 &5691010561952887815 stripped
 GameObject:
@@ -30670,26 +32080,40 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 911424943}
+    - target: {fileID: 1123956443, guid: 89c43181726305d40be5e6617086673b, type: 3}
+      propertyPath: playerCapsule
+      value: 
+      objectReference: {fileID: 22679334}
     - target: {fileID: 6542996926136852941, guid: 89c43181726305d40be5e6617086673b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.569693
+      value: 2.0959604
       objectReference: {fileID: 0}
     - target: {fileID: 6542996926136852941, guid: 89c43181726305d40be5e6617086673b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -52.607536
+      value: -56.937923
+      objectReference: {fileID: 0}
+    - target: {fileID: 6542996926136852941, guid: 89c43181726305d40be5e6617086673b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -18
       objectReference: {fileID: 0}
     - target: {fileID: 6542996926136852936, guid: 89c43181726305d40be5e6617086673b,
         type: 3}
       propertyPath: field of view
-      value: 30
+      value: 30.000002
       objectReference: {fileID: 0}
     - target: {fileID: 2189164314403701388, guid: 89c43181726305d40be5e6617086673b,
         type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 911424943}
+    - target: {fileID: 2189164314403701388, guid: 89c43181726305d40be5e6617086673b,
+        type: 3}
+      propertyPath: playerCapsule
+      value: 
+      objectReference: {fileID: 22679334}
     - target: {fileID: 2972177437851897169, guid: 89c43181726305d40be5e6617086673b,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -30698,7 +32122,12 @@ PrefabInstance:
     - target: {fileID: 2972177437851897169, guid: 89c43181726305d40be5e6617086673b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -59.35178
+      value: -59.351784
+      objectReference: {fileID: 0}
+    - target: {fileID: 2972177437851897169, guid: 89c43181726305d40be5e6617086673b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -7.2410164
       objectReference: {fileID: 0}
     - target: {fileID: 1146722836029997059, guid: 89c43181726305d40be5e6617086673b,
         type: 3}
@@ -30710,19 +32139,29 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 911424943}
+    - target: {fileID: 8535713414409421503, guid: 89c43181726305d40be5e6617086673b,
+        type: 3}
+      propertyPath: playerCapsule
+      value: 
+      objectReference: {fileID: 22679334}
     - target: {fileID: 5997155226829383117, guid: 89c43181726305d40be5e6617086673b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.2688339
+      value: -3.6988733
       objectReference: {fileID: 0}
     - target: {fileID: 5997155226829383117, guid: 89c43181726305d40be5e6617086673b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -52.42338
+      value: -42.248127
+      objectReference: {fileID: 0}
+    - target: {fileID: 5997155226829383117, guid: 89c43181726305d40be5e6617086673b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -7.2410164
       objectReference: {fileID: 0}
     - target: {fileID: 184757914, guid: 89c43181726305d40be5e6617086673b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.4974198
+      value: -3.4974189
       objectReference: {fileID: 0}
     - target: {fileID: 184757914, guid: 89c43181726305d40be5e6617086673b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -30740,11 +32179,25 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 911424943}
+    - target: {fileID: 184757915, guid: 89c43181726305d40be5e6617086673b, type: 3}
+      propertyPath: playerCapsule
+      value: 
+      objectReference: {fileID: 22679334}
     - target: {fileID: 4953025687933130734, guid: 89c43181726305d40be5e6617086673b,
         type: 3}
       propertyPath: m_Follow
       value: 
       objectReference: {fileID: 6542996927091890710}
+    - target: {fileID: 4953025687933130734, guid: 89c43181726305d40be5e6617086673b,
+        type: 3}
+      propertyPath: m_Lens.FieldOfView
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 5046161127219819085, guid: 89c43181726305d40be5e6617086673b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.8213773
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 89c43181726305d40be5e6617086673b, type: 3}
 --- !u!4 &6542996927091890710 stripped
@@ -30830,7 +32283,104 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 368058109}
-    m_RemovedComponents: []
+    - target: {fileID: 9109635549340594528, guid: 0c4b2d980e6bdbc41a65f597810b994b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319154883506536552, guid: 0c4b2d980e6bdbc41a65f597810b994b,
+        type: 3}
+      propertyPath: speed
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319154883506536552, guid: 0c4b2d980e6bdbc41a65f597810b994b,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2016289225132396085, guid: 0c4b2d980e6bdbc41a65f597810b994b,
+        type: 3}
+      propertyPath: m_Radius
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319154884410831428, guid: 0c4b2d980e6bdbc41a65f597810b994b,
+        type: 3}
+      propertyPath: speed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319154884410831428, guid: 0c4b2d980e6bdbc41a65f597810b994b,
+        type: 3}
+      propertyPath: chaseDistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319154884410831428, guid: 0c4b2d980e6bdbc41a65f597810b994b,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2016289226371415065, guid: 0c4b2d980e6bdbc41a65f597810b994b,
+        type: 3}
+      propertyPath: m_Radius
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319154885172297917, guid: 0c4b2d980e6bdbc41a65f597810b994b,
+        type: 3}
+      propertyPath: speed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319154885172297917, guid: 0c4b2d980e6bdbc41a65f597810b994b,
+        type: 3}
+      propertyPath: chaseDistance
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319154885172297917, guid: 0c4b2d980e6bdbc41a65f597810b994b,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2016289226688909024, guid: 0c4b2d980e6bdbc41a65f597810b994b,
+        type: 3}
+      propertyPath: m_Radius
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1674405175277419091, guid: 0c4b2d980e6bdbc41a65f597810b994b,
+        type: 3}
+      propertyPath: speed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1674405175277419091, guid: 0c4b2d980e6bdbc41a65f597810b994b,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2200420306360448014, guid: 0c4b2d980e6bdbc41a65f597810b994b,
+        type: 3}
+      propertyPath: m_Radius
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1674405175474750219, guid: 0c4b2d980e6bdbc41a65f597810b994b,
+        type: 3}
+      propertyPath: speed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1674405175474750219, guid: 0c4b2d980e6bdbc41a65f597810b994b,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9109635549340594542, guid: 0c4b2d980e6bdbc41a65f597810b994b,
+        type: 3}
+      propertyPath: speed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 9109635549340594542, guid: 0c4b2d980e6bdbc41a65f597810b994b,
+        type: 3}
+      propertyPath: attackDamage
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 8134372594081643140, guid: 0c4b2d980e6bdbc41a65f597810b994b, type: 3}
+    - {fileID: 8134372593876288476, guid: 0c4b2d980e6bdbc41a65f597810b994b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 0c4b2d980e6bdbc41a65f597810b994b, type: 3}
 --- !u!1 &8471589778154728125 stripped
 GameObject:

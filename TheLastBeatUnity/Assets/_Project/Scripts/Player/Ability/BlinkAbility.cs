@@ -36,7 +36,7 @@ public class BlinkAbility : Ability
 
     public override void Launch()
     {
-        if (player.CurrentDirection != Vector3.zero && currentCooldown == 0 && player.Status.CurrentStatus == EPlayerStatus.DEFAULT)
+        if (player.CurrentDirection != Vector3.zero && currentCooldown == 0 && player.Status.CurrentStatus != EPlayerStatus.BLINKING && player.Status.CurrentStatus != EPlayerStatus.STUNNED)
             Blink();
     }
 
@@ -48,9 +48,12 @@ public class BlinkAbility : Ability
 
     private void Blink()
     {
+        player.CancelRush();
+
         // Init
         player.Status.StartBlink();
         CheckRhythm();
+        player.ColliderObject.layer = LayerMask.NameToLayer("Player Blinking");
 
         if (player.InDanger)
         {
@@ -92,6 +95,7 @@ public class BlinkAbility : Ability
         currentSequence.AppendCallback(() => player.Rb.velocity = Vector3.zero);
         currentSequence.Append(player.VisualPart.DOScale(startSize, parameters.SpeedAnimShrink));
         currentSequence.AppendCallback(() => player.Status.StopBlink());
+        currentSequence.AppendCallback(() => player.ColliderObject.layer = LayerMask.NameToLayer("Default"));
         currentSequence.Play();
     }
 

@@ -11,7 +11,7 @@ public abstract class Beatable : MonoBehaviour
 
     bool pause;
     [SerializeField]
-    SoundManager.TypeBeat recordAs = SoundManager.TypeBeat.BEAT;
+    protected SoundManager.TypeBeat recordAs = SoundManager.TypeBeat.BEAT;
 
     public abstract void Beat();
 
