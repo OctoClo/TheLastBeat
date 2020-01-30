@@ -53,7 +53,6 @@ public class EnemyStatePrepareAttack : EnemyState
             lookAt.y = enemy.transform.position.y;
             enemy.transform.LookAt(lookAt, Vector3.up);
         }
-            
         
         return stateEnum;
     }
