@@ -229,7 +229,8 @@ public class Player : Inputable
             DOTween.Sequence()
                 .AppendCallback(() => SceneHelper.Instance.StartFade(() => { }, 0.2f, SceneHelper.Instance.ColorSlow, true))
                 .InsertCallback(0, () => SceneHelper.Instance.FreezeFrameTween(0.2f))
-                .AppendCallback(() => SceneHelper.Instance.StartFade(() => { }, 0.2f, Color.clear, true));
+                .AppendCallback(() => SceneHelper.Instance.StartFade(() => { }, 0.2f, Color.clear, true))
+                .Play();
         }
 
         if (!fromEnemy)

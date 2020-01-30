@@ -33,7 +33,8 @@ public class CameraManager : MonoBehaviour
 
         DOTween.Sequence()
             .AppendInterval(0.1f)
-            .AppendCallback(() => SceneHelper.Instance.OnCombatStatusChange += CombatChange);
+            .AppendCallback(() => SceneHelper.Instance.OnCombatStatusChange += CombatChange)
+            .Play();
        
         InCombat = false;
     }

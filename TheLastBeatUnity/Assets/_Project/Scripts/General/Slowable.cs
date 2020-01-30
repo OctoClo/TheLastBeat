@@ -40,6 +40,7 @@ public class Slowable : MonoBehaviour
             seq.timeScale = SceneHelper.Instance.ComputeTimeScale(seq, timeToEnd);
 
         seq.onKill += () => allSequences.Remove(seq);
+        seq.Play();
         return seq;
     }
 

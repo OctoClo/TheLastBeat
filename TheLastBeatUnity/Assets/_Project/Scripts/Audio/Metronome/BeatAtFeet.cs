@@ -85,7 +85,8 @@ public class BeatAtFeet : Beatable
                 Destroy(seqTar.target);
                 seqTar.sequence.Kill();
             })
-            .SetUpdate(true);
+            .SetUpdate(true)
+            .Play();
 
         SequenceAndTarget seqAndTar = new SequenceAndTarget();
         seqAndTar.target = instantiated;
@@ -153,6 +154,7 @@ public class BeatAtFeet : Beatable
 
         transitionSequence = DOTween.Sequence()
                     .Append(rootParent.GetComponent<MeshRenderer>().material.DOColor(mustBeDisplayed ? Color.white : Color.clear, 1))
-                    .Insert(0, arrow.GetComponent<MeshRenderer>().material.DOColor(mustBeDisplayed ? new Color(0, 0, 0, 1) : Color.clear, 1));
+                    .Insert(0, arrow.GetComponent<MeshRenderer>().material.DOColor(mustBeDisplayed ? new Color(0, 0, 0, 1) : Color.clear, 1))
+                    .Play();
     }
 }

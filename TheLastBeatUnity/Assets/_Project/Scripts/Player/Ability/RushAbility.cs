@@ -205,7 +205,8 @@ public class RushAbility : Ability
                     {
                         enn.Timescale = 1;
                     }
-                });
+                })
+                .Play();
             }
         }
     }

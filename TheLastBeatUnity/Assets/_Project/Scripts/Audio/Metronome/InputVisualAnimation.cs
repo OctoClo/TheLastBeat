@@ -49,7 +49,8 @@ public class InputVisualAnimation : Beatable
             })
             .Insert(0, instantiatedPrefab.GetComponent<UnityEngine.UI.Image>().DOColor(Color.white, timeLeft).SetEase(Ease.Linear))
             .Insert(timeLeft, DOTween.To(() => 1, x => rect.localScale = new Vector3(x, x, 1), 1.4f, SoundManager.Instance.Tolerance).SetEase(Ease.Linear))
-            .SetUpdate(true);
+            .SetUpdate(true)
+            .Play();
 
         SequenceAndTarget seqTar = new SequenceAndTarget();
         seqTar.sequence = seq;

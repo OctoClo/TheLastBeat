@@ -74,7 +74,8 @@ public class BlinkAbility : Ability
                     {
                         enn.Timescale = 1;
                     }
-                });
+                })
+                .Play();
         }
 
         // Determine direction

@@ -25,7 +25,8 @@ public class EnemyStatePrepareAttack : EnemyState
     {
         DOTween.Sequence()
             .AppendInterval(animDuration * (1 - inDangerSince))
-            .AppendCallback(() => SceneHelper.Instance.MainPlayer.InDanger = true);
+            .AppendCallback(() => SceneHelper.Instance.MainPlayer.InDanger = true)
+            .Play();
 
         enemy.SetStateText("prepare");
 
