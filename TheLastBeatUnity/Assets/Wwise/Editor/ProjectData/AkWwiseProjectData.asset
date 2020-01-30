@@ -44,7 +44,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 00607f23f4bb1c4ba4ba719fd5871f3f
     GuidInternal: 
-    m_lastTime: -8586214842430615903
+    m_lastTime: -8586212082374921070
     List:
     - name: TheLastBank
       guid: ba44c042ce392242af9fd5c1beb6de48
@@ -60,7 +60,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 8758d50e9a0ca842a9ceccd260c5af42
     GuidInternal: 
-    m_lastTime: -8586213752150410787
+    m_lastTime: -8586212082396772855
     List:
     - name: Int_Chord01
       guid: eaee35c708d9eb47b66fd56d667bc9eb
@@ -288,6 +288,20 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: Play_Call_Ennemy
+      guid: e30d10e51e68af4d8c32a55fcbbdc013
+      id: 4010154793
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: 03_NME
+        ObjectType: 4
+      - ElementName: Play_Call_Ennemy
+        ObjectType: 3
+      Path: Default Work Unit\03_NME\Play_Call_Ennemy
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Play_Explosion
       guid: 0c7b6cbec965a54ba94c673da4258f75
       id: 4030404899
@@ -353,6 +367,20 @@ MonoBehaviour:
       - ElementName: Play_Music
         ObjectType: 3
       Path: Default Work Unit\Play_Music
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_Presence
+      guid: 7b140ebb3a96434f90db174235fe6fbc
+      id: 4155730121
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: 02_Player
+        ObjectType: 4
+      - ElementName: Play_Presence
+        ObjectType: 3
+      Path: Default Work Unit\02_Player\Play_Presence
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -530,6 +558,20 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: Stop_Presence
+      guid: 1a51eac5ec3fcd43a73e94fee466d287
+      id: 3485622663
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: 02_Player
+        ObjectType: 4
+      - ElementName: Stop_Presence
+        ObjectType: 3
+      Path: Default Work Unit\02_Player\Stop_Presence
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Stop_Rewind
       guid: 62882cab24a0b14fa76597235054b940
       id: 564679353
@@ -557,8 +599,17 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 0e2ba2ef49d7a9468a71f885a9d96179
     GuidInternal: 
-    m_lastTime: -8586218933382282669
+    m_lastTime: -8586212082396752909
     List:
+    - name: CharachterSpeed
+      guid: dc604e5c93a6bb45835923bc07265ce8
+      id: 3971683557
+      PathAndIcons:
+      - ElementName: TheLastBeat
+        ObjectType: 12
+      - ElementName: CharachterSpeed
+        ObjectType: 13
+      Path: TheLastBeat\CharachterSpeed
     - name: Int_MusicComboState
       guid: ad16e64868eca740ae9e19545924af0d
       id: 4043924749
@@ -615,7 +666,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: f97624b2970aec4088365c8371d57a2e
     GuidInternal: 
-    m_lastTime: -8586213863399107749
+    m_lastTime: -8586212082374841054
     List:
     - name: Int_Land_Chord
       guid: 0aa30c6240435e45a7a36f62c52db2f0
@@ -907,7 +958,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 3af7dc8d80519e43aa87a0e9a3e8afdb
     GuidInternal: 
-    m_lastTime: -8586213859815143875
+    m_lastTime: -8586212082374821102
     List:
     - name: FootstepsMaterial
       guid: f8a8b4e1ebb69944a3e54fee02df5e8e
@@ -991,9 +1042,10 @@ MonoBehaviour:
       Path: TheLastBeat\OnPerfectRush
   ExpandedItems:
   - /TheLastBeatAudio
-  - /TheLastBeatAudio/States
-  - /TheLastBeatAudio/States/TheLastBeat
-  - /TheLastBeatAudio/States/TheLastBeat/MusicState
-  - /TheLastBeatAudio/States/TheLastBeat/MusicState/Music_Switch
+  - /TheLastBeatAudio/Events
+  - /TheLastBeatAudio/Events/Default Work Unit
+  - /TheLastBeatAudio/Events/Default Work Unit/00_Internal
+  - /TheLastBeatAudio/Events/Default Work Unit/00_Internal/Chord
+  - /TheLastBeatAudio/Events/Default Work Unit/03_NME
   autoPopulateEnabled: 1
   CurrentPluginConfig: 
