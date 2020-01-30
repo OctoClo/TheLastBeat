@@ -42,7 +42,7 @@ public class CameraClearSight : MonoBehaviour
         
         foreach (RaycastHit hit in hits)
         {
-            Renderer renderer = hit.collider.GetComponent<Renderer>();
+            Renderer renderer = hit.collider.GetComponentInChildren<Renderer>();
             
             if (!renderer || hit.collider.isTrigger)
                 continue;

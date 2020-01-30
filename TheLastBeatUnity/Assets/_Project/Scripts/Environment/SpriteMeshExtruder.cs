@@ -78,7 +78,6 @@ public class SpriteMeshExtruder : MonoBehaviour
         mesh.triangles = indices.ToArray();
 
         GameObject gob = new GameObject();
-        gob.AddComponent<MeshFilter>().mesh = mesh;
         gob.AddComponent<MeshCollider>().convex = true;
         transform.parent = gob.transform;
 

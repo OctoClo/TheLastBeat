@@ -10,6 +10,17 @@ public class AutoTransparent : MonoBehaviour
     bool shouldBeTransparent = true;
     Color currentColor = Color.white;
 
+    Material[] materialsList;
+
+    private void Start()
+    {
+        Renderer renderer = null;
+        if (TryGetComponent<Renderer>(out renderer))
+            materialsList = renderer.materials;
+        else
+            materialsList = GetComponentInChildren<Renderer>().materials;
+    }
+
     public void BeTransparent()
     {
         shouldBeTransparent = true;
@@ -32,7 +43,7 @@ public class AutoTransparent : MonoBehaviour
 
     private void SetAllMaterialsAlpha(float alpha)
     {
-        Material[] materialsList = GetComponent<Renderer>().materials;
+        
         for (int i = 0; i < materialsList.Length; i++)
         {
             currentColor = materialsList[i].GetColor("_Color");
