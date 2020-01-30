@@ -83,10 +83,7 @@ public class EnemyStateExplode : EnemyState
             {
                 // Player is too close, only look at him
                 enemy.Agent.ResetPath();
-                Vector3 targetDirection = enemy.Player.transform.position - enemy.transform.position;
-                float singleStep = 2 * deltaTime;
-                Vector3 newDirection = Vector3.RotateTowards(enemy.transform.forward, targetDirection, singleStep, 0.0f);
-                enemy.transform.rotation = Quaternion.LookRotation(newDirection);
+                enemy.LookAtPlayer(deltaTime);
             }
             else
             {

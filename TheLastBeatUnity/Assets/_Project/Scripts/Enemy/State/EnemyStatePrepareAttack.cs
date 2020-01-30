@@ -47,13 +47,8 @@ public class EnemyStatePrepareAttack : EnemyState
     {
         if (animationFinished)
             return EEnemyState.ATTACK;
-        else
-        {
-            Vector3 lookAt = enemy.Player.transform.position;
-            lookAt.y = enemy.transform.position.y;
-            enemy.transform.LookAt(lookAt, Vector3.up);
-        }
         
+        enemy.LookAtPlayer(deltaTime);
         return stateEnum;
     }
 

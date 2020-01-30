@@ -27,6 +27,8 @@ public class Enemy : Slowable
     protected int prepareAnimDurationBeats = 2;
     [TabGroup("Behaviour")] [SerializeField] [Tooltip("How much time the enemy will wait not moving after prepare anim")]
     protected float waitAfterPrepareAnim = 0.5f;
+    [TabGroup("Behaviour")] [SerializeField] [Tooltip("How fast the enemy will turn towards the player")]
+    protected float turnSpeed = 2.5f;
     [TabGroup("Behaviour")] [Header("Attack")] [SerializeField] [Tooltip("How much time the enemy will wait between preparing attack animation and attacking animation")]
     protected float waitBeforeAttackAnim = 0.25f;
     [TabGroup("Behaviour")] [SerializeField] [Tooltip("How long the attack animation will be")]
@@ -176,6 +178,14 @@ public class Enemy : Slowable
     {
         if (type == EEnemyType.DEFAULT)
             currentState.OnBar();
+    }
+
+    public void LookAtPlayer(float deltaTime)
+    {
+        Vector3 targetDirection = Player.transform.position - transform.position;
+        targetDirection.y = transform.position.y;
+        Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, turnSpeed * deltaTime, 0.0f);
+        transform.rotation = Quaternion.LookRotation(newDirection);
     }
 
     public void GetPushedBack()
