@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1057578390}
   - component: {fileID: 1057578389}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: RockStalagmite2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,7 +91,8 @@ GameObject:
   - component: {fileID: 2268964152793519016}
   - component: {fileID: 8081684283657406898}
   - component: {fileID: 7643324215081849625}
-  m_Layer: 0
+  - component: {fileID: 6915570071426108454}
+  m_Layer: 12
   m_Name: RockStal2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,3 +136,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 14
   m_Mesh: {fileID: 4300000, guid: 503cbf9ed5ffb5846a8233889613d8cb, type: 2}
+--- !u!208 &6915570071426108454
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 147954550653059605}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.555, y: 1.145, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0.48}
+  m_TimeToStationary: 0.5
