@@ -11,14 +11,17 @@ public class EnemyStateExplode : EnemyState
     int blastDamageToPlayer = 0;
     int blastDamageToEnemies = 0;
 
+    bool waitNextBeat = true;
+
     float distanceFollowMax = 0;
     float speedFollow = 0;
 
     GameObject explosionPrefab = null;
     EnemyExplosionArea explosionArea = null;
     bool explosionBegun = false;
+    AK.Wwise.Event explosionEvent = null;
 
-    public EnemyStateExplode(Enemy newEnemy, int waitBefore, float distanceFollow, float speed, float force, int damageToPlayer, int damageToEnemies, GameObject newExplosionPrefab, EnemyExplosionArea newExplosionArea) : base(newEnemy)
+    public EnemyStateExplode(Enemy newEnemy, int waitBefore, float distanceFollow, float speed, float force, int damageToPlayer, int damageToEnemies, GameObject newExplosionPrefab, EnemyExplosionArea newExplosionArea, AK.Wwise.Event newExplosionEvent) : base(newEnemy)
     {
         stateEnum = EEnemyState.EXPLODE;
 
@@ -32,35 +35,39 @@ public class EnemyStateExplode : EnemyState
 
         explosionPrefab = newExplosionPrefab;
         explosionArea = newExplosionArea;
-    }
-
-    public override void Enter()
-    {
-        enemy.SetStateText("explode");
-        beatCounter = 0;
-        enemy.Agent.speed = speedFollow;
-        enemy.Agent.acceleration = speedFollow;
-        enemy.Agent.autoBraking = true;
+        explosionEvent = newExplosionEvent;
     }
 
     public override void OnBeat()
     {
-        beatCounter++;
-
-        if (beatCounter == waitBeats)
+        if (waitNextBeat)
         {
-            explosionBegun = true;
-            Sequence animation = DOTween.Sequence();
+            waitNextBeat = false;
+            beatCounter = 0;
+            enemy.Agent.speed = speedFollow;
+            enemy.Agent.acceleration = speedFollow;
+            enemy.Agent.autoBraking = true;
+            explosionEvent.Post(enemy.gameObject);
+        }
+        else
+        {
+            beatCounter++;
 
-            animation.AppendCallback(() =>
+            if (beatCounter == waitBeats)
             {
-                enemy.model.SetActive(false);
-                GameObject explosion = GameObject.Instantiate(explosionPrefab, enemy.transform.position, Quaternion.identity);
-                explosion.transform.SetParent(SceneHelper.Instance.VfxFolder);
-                explosionArea.Explode(blastForce, blastDamageToPlayer, blastDamageToEnemies, enemy.Player);
-            });
+                explosionBegun = true;
+                Sequence animation = DOTween.Sequence();
 
-            animation.Play();
+                animation.AppendCallback(() =>
+                {
+                    enemy.model.SetActive(false);
+                    GameObject explosion = GameObject.Instantiate(explosionPrefab, enemy.transform.position, Quaternion.identity);
+                    explosion.transform.SetParent(SceneHelper.Instance.VfxFolder);
+                    explosionArea.Explode(blastForce, blastDamageToPlayer, blastDamageToEnemies, enemy.Player);
+                });
+
+                animation.Play();
+            }
         }
     }
 

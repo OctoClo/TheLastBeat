@@ -235,6 +235,11 @@ public class Player : Inputable
                     .InsertCallback(0, () => SceneHelper.Instance.FreezeFrameTween(0.2f))
                     .AppendCallback(() => SceneHelper.Instance.StartFade(() => { }, 0.2f, Color.clear, true));*/
 
+                // Decrease musical layer
+                Ability rush;
+                if (abilities.TryGetValue(EInputAction.RUSH, out rush))
+                    ((RushAbility)rush).LayerLost();
+
                 // Reset rewind cooldown
                 Ability rewindRush;
                 if (abilities.TryGetValue(EInputAction.REWINDRUSH, out rewindRush))

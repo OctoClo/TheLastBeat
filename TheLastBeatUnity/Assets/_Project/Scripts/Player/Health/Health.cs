@@ -26,12 +26,6 @@ public class Health : Beatable
     [SerializeField] [TabGroup("Gameplay")] 
     float limitRatio = 0.1f;
 
-    [SerializeField][TabGroup("Sound")]
-    AK.Wwise.State inLimit = null;
-
-    [SerializeField] [TabGroup("Sound")]
-    AK.Wwise.State outLimit = null;
-
     [SerializeField] [TabGroup("Sound")]
     AK.Wwise.State inCritic = null;
 
@@ -84,10 +78,6 @@ public class Health : Beatable
             visual.ExitCriticState();
             outCritic.SetValue();
         }
-        else if (ratioPulse < limitRatio && currentPulse + deltaValue > limitRatio)
-        {
-            outLimit.SetValue();
-        }
 
         //Hurted
         currentPulse += deltaValue;
@@ -108,10 +98,6 @@ public class Health : Beatable
         {
             inCritic.SetValue();
             visual.EnterCriticState();
-        }
-        else if (ratioPulse < limitRatio && !InCriticMode)
-        {
-            inLimit.SetValue();
         }
     }
 

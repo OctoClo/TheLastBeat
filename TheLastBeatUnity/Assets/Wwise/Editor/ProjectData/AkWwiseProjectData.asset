@@ -44,7 +44,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 00607f23f4bb1c4ba4ba719fd5871f3f
     GuidInternal: 
-    m_lastTime: -8586217267817043691
+    m_lastTime: -8586214842430615903
     List:
     - name: TheLastBank
       guid: ba44c042ce392242af9fd5c1beb6de48
@@ -60,7 +60,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 8758d50e9a0ca842a9ceccd260c5af42
     GuidInternal: 
-    m_lastTime: -8586217267889064967
+    m_lastTime: -8586213752150410787
     List:
     - name: Int_Chord01
       guid: eaee35c708d9eb47b66fd56d667bc9eb
@@ -615,7 +615,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: f97624b2970aec4088365c8371d57a2e
     GuidInternal: 
-    m_lastTime: -8586217403430070344
+    m_lastTime: -8586213863399107749
     List:
     - name: Int_Land_Chord
       guid: 0aa30c6240435e45a7a36f62c52db2f0
@@ -752,32 +752,38 @@ MonoBehaviour:
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
-    - name: Music_Limit_Switch
-      guid: c9b72d2b1ecb37459c8b6d2d7e8d30f6
-      id: 960036381
+    - name: Music_Layer
+      guid: 1dba20ba6e65b149877cf81ad9263c48
+      id: 2945091192
       PathAndIcons:
       - ElementName: TheLastBeat
         ObjectType: 12
       - ElementName: MusicState
         ObjectType: 4
-      - ElementName: Music_Limit_Switch
+      - ElementName: Music_Layer
         ObjectType: 9
-      Path: TheLastBeat\MusicState\Music_Limit_Switch
+      Path: TheLastBeat\MusicState\Music_Layer
       values:
-      - name: Combat_Calm
-        guid: c746a11293c409488faa53cd9f4692cb
-        id: 2894236345
+      - name: Layer1
+        guid: 584fbeb3f4daa446ae6ea171d887d3e9
+        id: 3298531297
         PathAndIcons:
-        - ElementName: Combat_Calm
+        - ElementName: Layer1
           ObjectType: 8
-      - name: Combat_Limit
-        guid: 670d350ac682774883782e97760b729f
-        id: 2902872313
+      - name: Layer2
+        guid: 18cb4bfa627e76498d3424375f2ba9d5
+        id: 3298531298
         PathAndIcons:
-        - ElementName: Combat_Limit
+        - ElementName: Layer2
+          ObjectType: 8
+      - name: Layer3
+        guid: bfbfb59ce3b3514fa178be17c905b133
+        id: 3298531299
+        PathAndIcons:
+        - ElementName: Layer3
           ObjectType: 8
       - name: None
-        guid: 46b2aa1700316b4f9705cd1a133a1e2f
+        guid: 0f62ca00fd0436409d342cdb9c63bfa2
         id: 748895195
         PathAndIcons:
         - ElementName: None
@@ -901,7 +907,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 3af7dc8d80519e43aa87a0e9a3e8afdb
     GuidInternal: 
-    m_lastTime: -8586217270153132051
+    m_lastTime: -8586213859815143875
     List:
     - name: FootstepsMaterial
       guid: f8a8b4e1ebb69944a3e54fee02df5e8e
@@ -930,55 +936,6 @@ MonoBehaviour:
         id: 803837735
         PathAndIcons:
         - ElementName: Sand
-          ObjectType: 10
-      ValueGuids: []
-      ValueIcons: []
-      valuesInternal: []
-    - name: MusicLayer
-      guid: e36780a61df852489bf909c33ce5a862
-      id: 2074789557
-      PathAndIcons:
-      - ElementName: TheLastBeat
-        ObjectType: 12
-      - ElementName: MusicLayer
-        ObjectType: 11
-      Path: TheLastBeat\MusicLayer
-      values:
-      - name: Layer1
-        guid: 71a2a2e19ab3864fa20f625ad31af659
-        id: 3298531297
-        PathAndIcons:
-        - ElementName: Layer1
-          ObjectType: 10
-      - name: Layer2
-        guid: f8441f9bf18d1c4885385d74ae65ae74
-        id: 3298531298
-        PathAndIcons:
-        - ElementName: Layer2
-          ObjectType: 10
-      - name: Layer3
-        guid: 63e2e8afe8db844195fa46bfd5ac9422
-        id: 3298531299
-        PathAndIcons:
-        - ElementName: Layer3
-          ObjectType: 10
-      - name: Layer4
-        guid: a4f74fb5013d41438a6cd5e0fd91fc74
-        id: 3298531300
-        PathAndIcons:
-        - ElementName: Layer4
-          ObjectType: 10
-      - name: Layer5
-        guid: 8a0fe96ccee8c34f8577aa2076c14162
-        id: 3298531301
-        PathAndIcons:
-        - ElementName: Layer5
-          ObjectType: 10
-      - name: Layer6
-        guid: d4999e00f5185741887b3e16d202238a
-        id: 3298531302
-        PathAndIcons:
-        - ElementName: Layer6
           ObjectType: 10
       ValueGuids: []
       ValueIcons: []
@@ -1034,9 +991,9 @@ MonoBehaviour:
       Path: TheLastBeat\OnPerfectRush
   ExpandedItems:
   - /TheLastBeatAudio
-  - /TheLastBeatAudio/Events
-  - /TheLastBeatAudio/Events/Default Work Unit
-  - /TheLastBeatAudio/Events/Default Work Unit/00_Internal
-  - /TheLastBeatAudio/Events/Default Work Unit/03_NME
+  - /TheLastBeatAudio/States
+  - /TheLastBeatAudio/States/TheLastBeat
+  - /TheLastBeatAudio/States/TheLastBeat/MusicState
+  - /TheLastBeatAudio/States/TheLastBeat/MusicState/Music_Switch
   autoPopulateEnabled: 1
   CurrentPluginConfig: 
