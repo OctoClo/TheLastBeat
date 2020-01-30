@@ -37,7 +37,7 @@ public class SceneHelper : MonoBehaviour
     [SerializeField]
     public float JitRatio = 0.2f;
 
-    private void Start()
+    private void Awake()
     {
         if (Instance == null)
         {
@@ -106,7 +106,7 @@ public class SceneHelper : MonoBehaviour
     [RuntimeInitializeOnLoadMethod]
     public static void Init()
     {
-        DOTween.Init(null, null, LogBehaviour.Verbose);
+        DOTween.Init(null, true, LogBehaviour.Verbose);
     }
 
     public List<Vector3> RayCastBackAndForth(Collider coll, Vector3 origin, Vector3 direction, float maxDistance)

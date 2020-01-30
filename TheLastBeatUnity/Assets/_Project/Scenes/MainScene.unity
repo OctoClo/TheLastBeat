@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be731dd40433f684fb40c1f207a2da2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemiesType: 1
+  enemiesType: 0
   player: {fileID: 368058109}
   maxDistanceChase: 20
 --- !u!1 &73517149
@@ -2764,6 +2764,12 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!4 &540578678 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6257483788149977950, guid: 07801b51c158daf499d145da957e6459,
+    type: 3}
+  m_PrefabInstance: {fileID: 911424942}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &559605754
 Mesh:
   m_ObjectHideFlags: 0
@@ -4085,6 +4091,11 @@ PrefabInstance:
       propertyPath: healthSystem
       value: 
       objectReference: {fileID: 1857280290}
+    - target: {fileID: 3489716977114045609, guid: 07801b51c158daf499d145da957e6459,
+        type: 3}
+      propertyPath: rushRewindParameters.groundReference
+      value: 
+      objectReference: {fileID: 540578678}
     - target: {fileID: 3489716977114045590, guid: 07801b51c158daf499d145da957e6459,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7314,6 +7325,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1586167409}
   m_PrefabAsset: {fileID: 0}
+--- !u!136 &1616714328 stripped
+CapsuleCollider:
+  m_CorrespondingSourceObject: {fileID: 946689487, guid: 07801b51c158daf499d145da957e6459,
+    type: 3}
+  m_PrefabInstance: {fileID: 911424942}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1663135475
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10293,6 +10310,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 911424943}
+    - target: {fileID: 1123956443, guid: 89c43181726305d40be5e6617086673b, type: 3}
+      propertyPath: playerCapsule
+      value: 
+      objectReference: {fileID: 1616714328}
     - target: {fileID: 6542996926136852941, guid: 89c43181726305d40be5e6617086673b,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -10318,6 +10339,11 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 911424943}
+    - target: {fileID: 2189164314403701388, guid: 89c43181726305d40be5e6617086673b,
+        type: 3}
+      propertyPath: playerCapsule
+      value: 
+      objectReference: {fileID: 1616714328}
     - target: {fileID: 2972177437851897169, guid: 89c43181726305d40be5e6617086673b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -10343,6 +10369,11 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 911424943}
+    - target: {fileID: 8535713414409421503, guid: 89c43181726305d40be5e6617086673b,
+        type: 3}
+      propertyPath: playerCapsule
+      value: 
+      objectReference: {fileID: 1616714328}
     - target: {fileID: 5997155226829383117, guid: 89c43181726305d40be5e6617086673b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -10351,12 +10382,12 @@ PrefabInstance:
     - target: {fileID: 5997155226829383117, guid: 89c43181726305d40be5e6617086673b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.487826
+      value: -2.4737556
       objectReference: {fileID: 0}
     - target: {fileID: 5997155226829383117, guid: 89c43181726305d40be5e6617086673b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -39.06344
+      value: -39.163555
       objectReference: {fileID: 0}
     - target: {fileID: 184757914, guid: 89c43181726305d40be5e6617086673b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10364,11 +10395,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 184757914, guid: 89c43181726305d40be5e6617086673b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.7137504
+      value: -3.7164197
       objectReference: {fileID: 0}
     - target: {fileID: 184757914, guid: 89c43181726305d40be5e6617086673b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -30.340532
+      value: -30.321537
       objectReference: {fileID: 0}
     - target: {fileID: 184757913, guid: 89c43181726305d40be5e6617086673b, type: 3}
       propertyPath: m_Follow
@@ -10378,6 +10409,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 911424943}
+    - target: {fileID: 184757915, guid: 89c43181726305d40be5e6617086673b, type: 3}
+      propertyPath: playerCapsule
+      value: 
+      objectReference: {fileID: 1616714328}
     - target: {fileID: 4953025687933130734, guid: 89c43181726305d40be5e6617086673b,
         type: 3}
       propertyPath: m_Follow

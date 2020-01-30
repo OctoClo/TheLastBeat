@@ -136,7 +136,9 @@ public class BeatAtFeet : Beatable
 
     void CombatStatusChange(bool value)
     {
-        transitionSequence.Kill();
+        if (transitionSequence != null)
+            transitionSequence.Kill();
+
         mustBeDisplayed = value;
 
         if (!mustBeDisplayed)

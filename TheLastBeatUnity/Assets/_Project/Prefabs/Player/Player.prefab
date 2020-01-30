@@ -5316,6 +5316,9 @@ MonoBehaviour:
     rumbleIntensity: 10
     rumbleDuration: 0.4
     freezeFrameDuration: 0.1
+    prefabGhost: {fileID: 921696600027729335, guid: 770d4f94fce552641b83a28241726a64,
+      type: 3}
+    groundReference: {fileID: 6257483788149977950}
   delegateColl: {fileID: 946689486}
   healthSystem: {fileID: 0}
   pyramid: {fileID: 2872187011401476631}
@@ -15296,6 +15299,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2086426542783193144}
     m_Modifications:
+    - target: {fileID: -927199367670048503, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
+        type: 3}
+      propertyPath: m_Name
+      value: Sio
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -15350,11 +15358,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
-        type: 3}
-      propertyPath: m_Name
-      value: Sio
       objectReference: {fileID: 0}
     - target: {fileID: -6057140222963153312, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
         type: 3}

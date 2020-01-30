@@ -22,7 +22,7 @@ public class CorruptionPulse : Beatable
         materials = GetComponent<SkinnedMeshRenderer>().materials;
 
         if (materials.Length > 0)
-            col = materials[0].GetVector("_EmissionColor");
+            col = materials[0].HasProperty("_EmissionColor") ? materials[0].GetVector("_EmissionColor") : new Vector4(1, 1, 1, 1);
     }
 
     public override void Beat()
