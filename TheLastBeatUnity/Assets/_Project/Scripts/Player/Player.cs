@@ -216,7 +216,7 @@ public class Player : Inputable
         (abilities[EInputAction.RUSH] as RushAbility).AddDebt(value);
     }
 
-    public bool currentlyHit = false;
+    bool currentlyHit = false;
     public void ModifyPulseValue(float value, bool fromEnemy = false)
     {
         if (fromEnemy)
