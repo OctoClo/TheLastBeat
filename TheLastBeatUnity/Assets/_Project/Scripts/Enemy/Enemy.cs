@@ -247,12 +247,6 @@ public class Enemy : Slowable
         }
     }
 
-    IEnumerator BlinkBlue()
-    {
-        Material.color = Color.blue;
-        yield return new WaitForSecondsRealtime(0.3f);
-    }
-
     public void SetStateText(string text)
     {
         stateText.text = text;
@@ -260,14 +254,14 @@ public class Enemy : Slowable
 
     public void StartAttacking()
     {
-        collid.isTrigger = true;
+        //collid.isTrigger = true;
         isAttacking = true;
         HasAttackedPlayer = false;
     }
 
     public void StopAttacking()
     {
-        collid.isTrigger = false;
+        //collid.isTrigger = false;
         isAttacking = false;
     }
 
