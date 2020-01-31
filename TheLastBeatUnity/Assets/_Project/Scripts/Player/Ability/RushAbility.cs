@@ -131,7 +131,7 @@ public class RushAbility : Ability
         EnemyHitVFX();
         bool died = target.GetComponent<Enemy>().GetAttacked(onRythm);
 
-        if (!died && RewindRush != null)
+        if (target && RewindRush != null)
             RewindRush.AddChainEnemy(target.GetComponent<Enemy>());
 
         if (onRythm)
