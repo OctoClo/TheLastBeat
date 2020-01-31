@@ -249,64 +249,6 @@ public class RushAbility : Ability
             debt += value;
     }
 
-    void ImpactEffect(Collider coll)
-    {
-        // Found a shield
-        if (coll.gameObject.layer == LayerMask.NameToLayer("Stun") && Vector3.Dot(coll.transform.forward, player.transform.forward) < 0)
-        {
-            if (seq != null)
-            {
-                seq.Kill();
-                hitShield = true;
-                player.Status.GetStunned(-direction);
-                End();
-            }
-            return;
-        }
-
-        // Found the target
-        if (coll && coll.gameObject == target)
-        {
-            SceneHelper.Instance.FreezeFrameTween(parameters.freezeFrameImpactDuration);
-            List<Cinemachine.CinemachineTargetGroup.Target> allTargets = player.TargetGroup.m_Targets.ToList();
-            int indexTarget = allTargets.FindIndex(x => x.target == target.transform);
-
-            foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
-                ce.StartScreenShake(parameters.durationScreenShake, parameters.intensityScreenShake);
-
-            EnemyHitVFX();
-            bool died = target.GetComponent<Enemy>().GetAttacked(onRythm);
-            
-            if (!died && RewindRush != null)
-                RewindRush.AddChainEnemy(target.GetComponent<Enemy>());
-
-            if (onRythm)
-            {
-                DOTween.Sequence().AppendCallback(() =>
-                {
-                    foreach (Enemy enn in GameObject.FindObjectsOfType<Enemy>())
-                    {
-                        enn.Timescale = 0.5f;
-                    }
-                })
-                .AppendInterval(0.2f)
-                .AppendCallback(() =>
-                {
-                    foreach (Enemy enn in GameObject.FindObjectsOfType<Enemy>())
-                    {
-                        enn.Timescale = 1;
-                    }
-                });
-            }
-
-            if (died && indexTarget >= 0)
-            {
-                allTargets.RemoveAt(indexTarget);
-                player.TargetGroup.m_Targets = allTargets.ToArray();
-            }
-        }
-    }
-
     void EnemyHitVFX()
     {
         List<Vector3> frontAndBack = SceneHelper.Instance.RayCastBackAndForth(target.GetComponent<Collider>(), player.transform.position, direction, direction.magnitude);

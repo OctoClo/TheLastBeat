@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
 
 struct SequenceAndTarget
 {
@@ -25,6 +26,12 @@ public class InputVisualAnimation : Beatable
 
     [SerializeField]
     Color wrong = Color.white;
+
+    [SerializeField]
+    Color goodColor = Color.white;
+
+    [SerializeField]
+    Color perfectColor = Color.white;
 
     Queue<SequenceAndTarget> allInstances = new Queue<SequenceAndTarget>();
 
@@ -69,7 +76,8 @@ public class InputVisualAnimation : Beatable
         seqTar.sequence.Kill();
 
         GameObject instanceAnim = Instantiate(prefabAnimationCorrect, rootPerfectGood);
-        instanceAnim.GetComponent<RectTransform>().localScale = scale;
+        instanceAnim.GetComponent<Image>().color = goodColor;
+        instanceAnim.GetComponent<RectTransform>().localScale = scale * 1.2f;
         Destroy(instanceAnim, 1);
     }
     public void WrongBeat()
@@ -98,7 +106,8 @@ public class InputVisualAnimation : Beatable
         seqTar.sequence.Kill();
 
         GameObject instanceAnim = Instantiate(prefabAnimationPerfect, rootPerfectGood);
-        instanceAnim.GetComponent<RectTransform>().localScale = scale;
+        instanceAnim.GetComponent<Image>().color = perfectColor;
+        instanceAnim.GetComponent<RectTransform>().localScale = scale * 1.2f;
         Destroy(instanceAnim, 1);
     }
 }
