@@ -36,6 +36,7 @@ public class SceneHelper : MonoBehaviour
 
     [SerializeField]
     public float JitRatio = 0.2f;
+    int numberZone = 0;
 
     private void Awake()
     {
@@ -46,17 +47,28 @@ public class SceneHelper : MonoBehaviour
         }
     }
 
+    public void AddZone()
+    {
+        if (numberZone == 0)
+            OnCombatStatusChange?.Invoke(true);
+
+        numberZone++;
+    }
+
+    public void RemoveZone()
+    {
+        numberZone--;
+
+        if (numberZone == 0)
+            OnCombatStatusChange?.Invoke(false);
+    }
+
     public void AddZoneChasing(EnemyZone zone)
     {
         bool wasInCombat = (zonesChasingPlayer.Count > 0);
 
         if (!zonesChasingPlayer.Contains(zone))
             zonesChasingPlayer.Add(zone);
-
-        if (!wasInCombat && zonesChasingPlayer.Count > 0)
-        {
-            OnCombatStatusChange?.Invoke(true);
-        }
     }
 
     public void RemoveZoneChasing(EnemyZone zone)
@@ -65,11 +77,6 @@ public class SceneHelper : MonoBehaviour
 
         if (zonesChasingPlayer.Contains(zone))
             zonesChasingPlayer.Remove(zone);
-        
-        if (wasInCombat && zonesChasingPlayer.Count == 0)
-        {
-            OnCombatStatusChange?.Invoke(false);
-        }
     }
     
     public void RecordDeath(Vector3 position)
