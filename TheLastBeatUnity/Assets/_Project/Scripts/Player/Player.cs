@@ -49,6 +49,11 @@ public class Player : Inputable
     Pyramid pyramid = null;
     [TabGroup("References")] [SerializeField]
     Transform visualPart = null;
+    [TabGroup("References")]
+    [SerializeField]
+    Cinemachine.CinemachineTargetGroup targetGroup = null;
+    public Cinemachine.CinemachineTargetGroup TargetGroup => targetGroup;
+
     public Transform VisualPart => visualPart;
     public Transform CurrentFootOnGround { get; private set; }
     [TabGroup("References")] [SerializeField]

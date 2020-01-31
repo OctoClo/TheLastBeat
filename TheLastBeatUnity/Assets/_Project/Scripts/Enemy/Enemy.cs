@@ -193,18 +193,19 @@ public class Enemy : Slowable
         ChangeState(EEnemyState.STUN);
     }
 
-    public void GetAttacked(bool onRythm, float dmg = 1)
+    public bool GetAttacked(bool onRythm, float dmg = 1)
     {
         if (CurrentStateEnum == EEnemyState.EXPLODE)
-            return;
+            return true;
 
         foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
             ce.StartScreenShake(screenDurationHit, screenIntensityHit);
         
         lives -= (int)dmg;
+        bool dying = (lives > minLives);
         hitEnemy.Post(gameObject);
 
-        if (lives > minLives)
+        if (dying)
         {
             lifeText.text = lives.ToString();
             if (stunCounter < chancesToGetStunned.Length)
@@ -219,6 +220,8 @@ public class Enemy : Slowable
         }
         else
             StartDying();
+
+        return dying;
     }
 
     public virtual void StartDying()

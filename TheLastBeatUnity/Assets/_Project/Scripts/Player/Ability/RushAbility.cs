@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System.Linq;
 
 [System.Serializable]
 public class RushParams : AbilityParams
@@ -190,14 +191,16 @@ public class RushAbility : Ability
         if (coll && coll.gameObject == target)
         {
             SceneHelper.Instance.FreezeFrameTween(parameters.freezeFrameImpactDuration);
+            List<Cinemachine.CinemachineTargetGroup.Target> allTargets = player.TargetGroup.m_Targets.ToList();
+            int indexTarget = allTargets.FindIndex(x => x.target == target.transform);
 
             foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
                 ce.StartScreenShake(parameters.durationScreenShake, parameters.intensityScreenShake);
 
             EnemyHitVFX();
-            target.GetComponent<Enemy>().GetAttacked(onRythm);
+            bool died = target.GetComponent<Enemy>().GetAttacked(onRythm);
             
-            if (target && RewindRush != null)
+            if (!died && RewindRush != null)
                 RewindRush.AddChainEnemy(target.GetComponent<Enemy>());
 
             if (onRythm)
@@ -209,8 +212,6 @@ public class RushAbility : Ability
                         enn.Timescale = 0.5f;
                     }
                 })
-                //.InsertCallback(0, () => SceneHelper.Instance.StartFade(() => { }, 0.2f, SceneHelper.Instance.ColorSlow))
-                //.InsertCallback(0.2f, () => SceneHelper.Instance.StartFade(() => { }, 0.2f, Color.clear))
                 .AppendInterval(0.2f)
                 .AppendCallback(() =>
                 {
@@ -219,6 +220,12 @@ public class RushAbility : Ability
                         enn.Timescale = 1;
                     }
                 });
+            }
+
+            if (died && indexTarget >= 0)
+            {
+                allTargets.RemoveAt(indexTarget);
+                player.TargetGroup.m_Targets = allTargets.ToArray();
             }
         }
     }
