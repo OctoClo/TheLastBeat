@@ -5,13 +5,17 @@ using UnityEngine;
 public class MusicStateTrigger : MonoBehaviour
 {
     [SerializeField]
-    AK.Wwise.State newMusicState = null;
+    List<AK.Wwise.State> newMusicStateList = new List<AK.Wwise.State>();
 
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            newMusicState.SetValue();
+            foreach (AK.Wwise.State state in newMusicStateList)
+            {
+                state.SetValue();
+            }
+            //newMusicState.SetValue();
         }
     }
 }

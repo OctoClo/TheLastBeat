@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 53f38f5348f7094493a66f9c8647d632
     GuidInternal: 
-    m_lastTime: -8586217403430120212
+    m_lastTime: -8586211421270301465
     List:
     - name: MFXRewindVerb
       guid: 82a1ed093669ee4f84717f8fd1429698
@@ -44,7 +44,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 00607f23f4bb1c4ba4ba719fd5871f3f
     GuidInternal: 
-    m_lastTime: -8586212082374921070
+    m_lastTime: -8586211381700383287
     List:
     - name: TheLastBank
       guid: ba44c042ce392242af9fd5c1beb6de48
@@ -60,7 +60,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 8758d50e9a0ca842a9ceccd260c5af42
     GuidInternal: 
-    m_lastTime: -8586212082396772855
+    m_lastTime: -8586211381651980706
     List:
     - name: Int_Chord01
       guid: eaee35c708d9eb47b66fd56d667bc9eb
@@ -288,17 +288,17 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Play_Call_Ennemy
+    - name: Play_Call_Attack_Ennemy
       guid: e30d10e51e68af4d8c32a55fcbbdc013
-      id: 4010154793
+      id: 512965664
       PathAndIcons:
       - ElementName: Default Work Unit
         ObjectType: 12
       - ElementName: 03_NME
         ObjectType: 4
-      - ElementName: Play_Call_Ennemy
+      - ElementName: Play_Call_Attack_Ennemy
         ObjectType: 3
-      Path: Default Work Unit\03_NME\Play_Call_Ennemy
+      Path: Default Work Unit\03_NME\Play_Call_Attack_Ennemy
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -599,7 +599,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 0e2ba2ef49d7a9468a71f885a9d96179
     GuidInternal: 
-    m_lastTime: -8586212082396752909
+    m_lastTime: -8586211255111272472
     List:
     - name: CharachterSpeed
       guid: dc604e5c93a6bb45835923bc07265ce8
@@ -1042,10 +1042,10 @@ MonoBehaviour:
       Path: TheLastBeat\OnPerfectRush
   ExpandedItems:
   - /TheLastBeatAudio
-  - /TheLastBeatAudio/Events
-  - /TheLastBeatAudio/Events/Default Work Unit
-  - /TheLastBeatAudio/Events/Default Work Unit/00_Internal
-  - /TheLastBeatAudio/Events/Default Work Unit/00_Internal/Chord
-  - /TheLastBeatAudio/Events/Default Work Unit/03_NME
+  - /TheLastBeatAudio/States
+  - /TheLastBeatAudio/States/TheLastBeat
+  - /TheLastBeatAudio/States/TheLastBeat/MusicState
+  - /TheLastBeatAudio/States/TheLastBeat/MusicState/Music_CombatExplo_Switch
+  - /TheLastBeatAudio/States/TheLastBeat/MusicState/Music_Switch
   autoPopulateEnabled: 1
   CurrentPluginConfig: 
