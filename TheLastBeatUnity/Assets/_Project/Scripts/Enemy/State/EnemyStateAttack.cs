@@ -26,6 +26,7 @@ public class EnemyStateAttack : EnemyState
         base.Enter();
 
         animationFinished = false;
+        callAttackEvent.Post(enemy.gameObject);
         
         Vector3 goalPos = enemy.transform.forward * impulseForce;
         goalPos += enemy.transform.position;
@@ -34,11 +35,7 @@ public class EnemyStateAttack : EnemyState
 
         animation.Insert(waitBeforeAnimDuration, enemy.model.transform.DOScale(scaleEndValues, animDuration).SetEase(Ease.OutBounce));
         animation.Insert(waitBeforeAnimDuration, enemy.transform.DOMove(goalPos, animDuration).SetEase(Ease.OutBounce));
-        animation.InsertCallback(waitBeforeAnimDuration, () =>
-        {
-            enemy.StartAttacking();
-            callAttackEvent.Post(enemy.gameObject);
-        });
+        animation.InsertCallback(waitBeforeAnimDuration, () => enemy.StartAttacking());
         animation.AppendCallback(() => animationFinished = true);
 
         animation.Play();
