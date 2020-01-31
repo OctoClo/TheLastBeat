@@ -97,8 +97,10 @@ public class Pyramid : MonoBehaviour
 
     private void Update()
     {
+        RecomputePositions();
         CheckOverlap();
         arrowVisual.gameObject.SetActive(RightStickEnabled || LeftStickEnabled);
+        insideCone = insideCone.Distinct().ToList();
         if (!RightStickEnabled && !LeftStickEnabled && NearestEnemy)
         {
             NearestEnemy = null;
@@ -123,16 +125,17 @@ public class Pyramid : MonoBehaviour
 
     void CheckOverlap()
     {
+        insideCone = insideCone.Distinct().ToList();
         foreach (Collider coll in potentialCollisions)
         {
             if (coll)
             {
-                if (IsInsideCone(coll.transform.position, direction) && !insideCone.Contains(coll))
+                if (IsInsideCone(coll.transform.position, direction))
                 {
                     insideCone.Add(coll);
                 }
 
-                if (!IsInsideCone(coll.transform.position, direction) && insideCone.Contains(coll))
+                if (!IsInsideCone(coll.transform.position, direction))
                 {
                     insideCone.Remove(coll);
                 }
@@ -152,7 +155,7 @@ public class Pyramid : MonoBehaviour
         List<Collider> allCandidates = new List<Collider>();
         foreach (Collider coll in potentialCollisions)
         {
-            if (coll && IsInsideCone(coll.transform.position, direct))
+            if (coll && IsInsideCone(coll.transform.position, direct, true))
             {
                 allCandidates.Add(coll);
             }
@@ -179,7 +182,7 @@ public class Pyramid : MonoBehaviour
         Gizmos.DrawLine(left, right);
     }
 
-    bool IsInsideCone(Vector3 position, Vector3 dir)
+    bool IsInsideCone(Vector3 position, Vector3 dir, bool debug = false)
     {
         position = new Vector3(position.x, transform.position.y, position.z);
         Vector3 centerToPos = position - this.position;
