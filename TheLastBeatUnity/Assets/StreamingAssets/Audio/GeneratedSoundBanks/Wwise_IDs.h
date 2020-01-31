@@ -28,7 +28,7 @@ namespace AK
         static const AkUniqueID PLAY_BLINKFXOFFBEAT = 3832364417U;
         static const AkUniqueID PLAY_BLINKFXONBEAT = 2655647461U;
         static const AkUniqueID PLAY_BOUNCE_SHIELD = 5903894U;
-        static const AkUniqueID PLAY_CALL_ENNEMY = 4010154793U;
+        static const AkUniqueID PLAY_CALL_ATTACK_ENNEMY = 512965664U;
         static const AkUniqueID PLAY_EXPLOSION = 4030404899U;
         static const AkUniqueID PLAY_HIT_ENEMY = 3889018732U;
         static const AkUniqueID PLAY_HIT_PLAYER = 2257378511U;
@@ -183,6 +183,8 @@ namespace AK
     namespace BUSSES
     {
         static const AkUniqueID ALLBUTPERC = 4285133355U;
+        static const AkUniqueID CHARACHTER_SFX = 433111961U;
+        static const AkUniqueID ENVIRONEMENT = 3038312493U;
         static const AkUniqueID GAMEPLAYSFX = 4065441226U;
         static const AkUniqueID MASTER_AUDIO_BUS = 3803692087U;
         static const AkUniqueID MFX = 931006280U;
