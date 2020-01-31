@@ -167,6 +167,7 @@ public class EnemyZone : MonoBehaviour
             if (enemies.Count == 0)
             {
                 SceneHelper.Instance.RemoveZoneChasing(this);
+                player.GetComponentInChildren<CombatArea>().CheckGroupTargetEmpty();
                 Destroy(gameObject);
             }
         }
