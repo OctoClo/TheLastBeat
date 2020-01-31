@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System.Linq;
 
 [System.Serializable]
 public class RushParams : AbilityParams
@@ -53,6 +54,8 @@ public class RushAbility : Ability
     float debt = 0;
     bool onRythm = false;
     bool hitShield = false;
+    bool currentlyRushing = false;
+    List<Collider> enemiesRushed = new List<Collider>();
 
     //MusicalLayer
     float comboValue;
@@ -80,6 +83,81 @@ public class RushAbility : Ability
     {
         if (currentCooldown > 0)
             currentCooldown = Mathf.Max(0, currentCooldown - deltaTime);
+        
+        if (currentlyRushing && player.DelegateColl.IsTriggering)
+        {
+            foreach (Collider coll in player.DelegateColl.Triggers)
+            {
+                if (coll != null && !enemiesRushed.Contains(coll))
+                {
+                    if (RushInShield(coll))
+                    {
+                        if (seq != null)
+                        {
+                            seq.Kill();
+                            hitShield = true;
+                            player.Status.GetStunned(-direction);
+                            End();
+                        }
+                        return;
+                    }
+
+                    if (coll.gameObject == target)
+                    {
+                        RushInEnemy();
+                        enemiesRushed.Add(coll);
+                    }
+                }
+            }
+        }
+    }
+
+    bool RushInShield(Collider coll)
+    {
+        return (coll.gameObject.layer == LayerMask.NameToLayer("Stun") && Vector3.Dot(coll.transform.forward, player.transform.forward) < 0);
+    }
+
+    void RushInEnemy()
+    {
+        SceneHelper.Instance.FreezeFrameTween(parameters.freezeFrameImpactDuration);
+        List<Cinemachine.CinemachineTargetGroup.Target> allTargets = player.TargetGroup.m_Targets.ToList();
+        int indexTarget = allTargets.FindIndex(x => x.target == target.transform);
+
+        SceneHelper.Instance.FreezeFrameTween(parameters.freezeFrameImpactDuration);
+
+        foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
+            ce.StartScreenShake(parameters.durationScreenShake, parameters.intensityScreenShake);
+
+        EnemyHitVFX();
+        bool died = target.GetComponent<Enemy>().GetAttacked(onRythm);
+
+        if (target && RewindRush != null)
+            RewindRush.AddChainEnemy(target.GetComponent<Enemy>());
+
+        if (onRythm)
+        {
+            DOTween.Sequence().AppendCallback(() =>
+            {
+                foreach (Enemy enn in GameObject.FindObjectsOfType<Enemy>())
+                {
+                    enn.Timescale = 0.5f;
+                }
+            })
+            .AppendInterval(0.2f)
+            .AppendCallback(() =>
+            {
+                foreach (Enemy enn in GameObject.FindObjectsOfType<Enemy>())
+                {
+                    enn.Timescale = 1;
+                }
+            });
+        }
+
+        if (died && indexTarget >= 0)
+        {
+            allTargets.RemoveAt(indexTarget);
+            player.TargetGroup.m_Targets = allTargets.ToArray();
+        }
     }
 
     void Rush()
@@ -87,10 +165,10 @@ public class RushAbility : Ability
         // Init
         debt = 0;
         hitShield = false;
+        currentlyRushing = true;
         currentCooldown = cooldown;
         target = player.CurrentTarget.gameObject;
         player.ColliderObject.layer = LayerMask.NameToLayer("Player Dashing");
-        player.DelegateColl.OnTriggerEnterDelegate += ImpactEffect;
         parameters.blinkAbility.ResetCooldown();
         player.Status.StartRushing();
         CheckRhythm();
@@ -190,14 +268,16 @@ public class RushAbility : Ability
         if (coll && coll.gameObject == target)
         {
             SceneHelper.Instance.FreezeFrameTween(parameters.freezeFrameImpactDuration);
+            List<Cinemachine.CinemachineTargetGroup.Target> allTargets = player.TargetGroup.m_Targets.ToList();
+            int indexTarget = allTargets.FindIndex(x => x.target == target.transform);
 
             foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
                 ce.StartScreenShake(parameters.durationScreenShake, parameters.intensityScreenShake);
 
             EnemyHitVFX();
-            target.GetComponent<Enemy>().GetAttacked(onRythm);
+            bool died = target.GetComponent<Enemy>().GetAttacked(onRythm);
             
-            if (target && RewindRush != null)
+            if (!died && RewindRush != null)
                 RewindRush.AddChainEnemy(target.GetComponent<Enemy>());
 
             if (onRythm)
@@ -209,8 +289,6 @@ public class RushAbility : Ability
                         enn.Timescale = 0.5f;
                     }
                 })
-                //.InsertCallback(0, () => SceneHelper.Instance.StartFade(() => { }, 0.2f, SceneHelper.Instance.ColorSlow))
-                //.InsertCallback(0.2f, () => SceneHelper.Instance.StartFade(() => { }, 0.2f, Color.clear))
                 .AppendInterval(0.2f)
                 .AppendCallback(() =>
                 {
@@ -219,6 +297,12 @@ public class RushAbility : Ability
                         enn.Timescale = 1;
                     }
                 });
+            }
+
+            if (died && indexTarget >= 0)
+            {
+                allTargets.RemoveAt(indexTarget);
+                player.TargetGroup.m_Targets = allTargets.ToArray();
             }
         }
     }
@@ -342,8 +426,6 @@ public class RushAbility : Ability
                 LayerSwitch(comboValue, parameters.stepsPerLayer, musiclayer);
             }
         }
-             
-        
     }
 
     void LayerSwitch(float comboValue, float stepsPerLayer, List<float> musicLayer)
@@ -367,8 +449,9 @@ public class RushAbility : Ability
     public override void End()
     {
         onRythm = false;
+        enemiesRushed.Clear();
+        currentlyRushing = false;
         player.RushParticles.SetActive(false);
-        player.DelegateColl.OnTriggerEnterDelegate -= ImpactEffect;
         CameraManager.Instance.SetBoolCamera(false, "FOV");
         player.ColliderObject.layer = LayerMask.NameToLayer("Default");
         player.Rb.velocity = Vector3.zero;
