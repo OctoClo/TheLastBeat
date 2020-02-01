@@ -9,24 +9,31 @@ public class Rock : Beatable
     AnimationCurve curve = null;
 
     [SerializeField]
-    float targeValue = 0;
+    float targetValue = 0;
     float originValue = 0;
 
-    Sequence currentSequence;
+    [SerializeField]
+    int countBeforeSetup = 2;
     Material mat;
+    Color col;
 
     protected override void Start()
     {
         base.Start();
         mat = GetComponent<MeshRenderer>().material;
-        originValue = mat.GetFloat("_Bias");
+        originValue = 0;
+        col = mat.GetVector("_EmissionColor");
     }
 
     public override void Beat()
     {
-        currentSequence = DOTween.Sequence();
-        currentSequence.Append(DOTween.To(() => originValue, x => mat.SetFloat("_Bias", x), targeValue, sequenceDuration / 2.0f).SetEase(curve));
-        currentSequence.Append(DOTween.To(() => mat.GetFloat("_Bias"), x => mat.SetFloat("_Bias", x), originValue, sequenceDuration / 2.0f).SetEase(curve));
-        currentSequence.Play();
+        countBeforeSetup--;
+        if (countBeforeSetup <= 0)
+        {
+            DOTween.Sequence()
+                .Append(DOTween.To(() => originValue, x => mat.SetVector("_EmissionColor", col * x), targetValue, sequenceDuration)
+                    .SetEase(curve))
+                .SetUpdate(true);
+        }
     }
 }

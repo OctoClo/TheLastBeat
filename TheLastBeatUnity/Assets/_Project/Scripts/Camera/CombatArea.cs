@@ -17,10 +17,10 @@ public class CombatArea : MonoBehaviour
     float timeTransition = 0;
 
     [SerializeField]
-    AK.Wwise.State inCombat;
+    AK.Wwise.State inCombat = null;
 
     [SerializeField]
-    AK.Wwise.State outCombat;
+    AK.Wwise.State outCombat = null;
 
     int nbTargetsAtThisMoment = 0;
     bool pipelineLock = false;
@@ -90,14 +90,16 @@ public class CombatArea : MonoBehaviour
             seq.Append(DOTween.To(() => GetWeight(coll.transform, maxWeight), x => SetWeight(x, coll.transform), 0, timeTransition));
             seq.AppendCallback(() => runningSequences.Remove(coll.transform));
             seq.AppendCallback(() => groupTarget.RemoveMember(coll.transform));
-            seq.AppendCallback(() =>
-            {
-                if (groupTarget.m_Targets.Count() == 1)
-                {
-                    ExitCombat();
-                }
-            });
+            seq.AppendCallback(() => CheckGroupTargetEmpty());
             seq.Play();
+        }
+    }
+
+    public void CheckGroupTargetEmpty()
+    {
+        if (groupTarget.m_Targets.Count() == 1)
+        {
+            ExitCombat();
         }
     }
 

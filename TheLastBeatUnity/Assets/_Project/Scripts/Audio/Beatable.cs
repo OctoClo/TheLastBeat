@@ -11,13 +11,13 @@ public abstract class Beatable : MonoBehaviour
 
     bool pause;
     [SerializeField]
-    BeatManager.TypeBeat recordAs = BeatManager.TypeBeat.BEAT;
+    protected SoundManager.TypeBeat recordAs = SoundManager.TypeBeat.BEAT;
 
     public abstract void Beat();
 
     protected virtual void Start()
     {
-        SoundManager.Instance.BeatManager.Add(this, recordAs);
+        SoundManager.Instance.Add(this, recordAs);
     }
 
     private void OnEnable()

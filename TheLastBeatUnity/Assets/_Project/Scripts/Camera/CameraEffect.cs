@@ -30,9 +30,14 @@ public class CameraEffect : MonoBehaviour
 
     CinemachineBasicMultiChannelPerlin perlin;
 
-    public void StartScreenShake(float duration, float intensity)
+    public void StartScreenShake(float duration, float intensity, float frequency = 1)
     {
+        if (screenShakeSequence != null)
+            screenShakeSequence.Kill();
+
         perlin = VirtualCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        perlin.m_FrequencyGain = frequency;
+        perlin.m_AmplitudeGain = 0;
         if (perlin)
         {
             screenShakeSequence = DOTween.Sequence();

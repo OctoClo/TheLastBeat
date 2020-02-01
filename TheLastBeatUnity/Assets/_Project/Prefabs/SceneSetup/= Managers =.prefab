@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1555807509382408532}
   - component: {fileID: 1555807509382408533}
-  - component: {fileID: 8765324147976415590}
   m_Layer: 0
   m_Name: SoundManager
   m_TagString: Untagged
@@ -65,13 +64,7 @@ MonoBehaviour:
     valueGuidInternal: 
     groupIdInternal: 0
     groupGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 24203d3c76030cb42a77308d726be0e7,
-      type: 2}
-  - idInternal: 0
-    valueGuidInternal: 
-    groupIdInternal: 0
-    groupGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 5c2e4dca810068f44a401fcc0391ab12,
+    WwiseObjectReference: {fileID: 11400000, guid: 0b9c089380effc34db9ac4744ba5d6e4,
       type: 2}
   - idInternal: 0
     valueGuidInternal: 
@@ -79,20 +72,14 @@ MonoBehaviour:
     groupGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 485d3efe6fa37b543a7f28c1980f3514,
       type: 2}
-  bm: {fileID: 8765324147976415590}
---- !u!114 &8765324147976415590
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1555807509382408535}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37f76dd2d852beb4b8f117f37dcfa082, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  - idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: c3dd675249caec34e843435f542883b8,
+      type: 2}
   tolerance: 0.2
+  perfectTolerance: 0.1
   visualDelay: 0
 --- !u!1 &1855074839938678579
 GameObject:
@@ -194,6 +181,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   img: {fileID: 0}
+  respawnPlace: {fileID: 0}
+  VfxFolder: {fileID: 0}
+  defaultAnimationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.08827781
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -2.5955205
+      outSlope: -2.5955205
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.05532676
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  ColorSlow: {r: 0.5, g: 0.5, b: 0.5, a: 0.3019608}
+  JitRatio: 0.2
 --- !u!1 &1855074840310519056
 GameObject:
   m_ObjectHideFlags: 0
@@ -555,6 +570,33 @@ MonoBehaviour:
       _behaviorId: 0
       _userAssignable: 1
       _categoryId: 1
+    - _id: 9
+      _name: FocusX
+      _type: 1
+      _descriptiveName: Action0
+      _positiveDescriptiveName: 
+      _negativeDescriptiveName: 
+      _behaviorId: 0
+      _userAssignable: 1
+      _categoryId: 1
+    - _id: 10
+      _name: FocusY
+      _type: 1
+      _descriptiveName: FocusY
+      _positiveDescriptiveName: 
+      _negativeDescriptiveName: 
+      _behaviorId: 0
+      _userAssignable: 1
+      _categoryId: 1
+    - _id: 11
+      _name: TPMenu
+      _type: 1
+      _descriptiveName: Action0
+      _positiveDescriptiveName: 
+      _negativeDescriptiveName: 
+      _behaviorId: 0
+      _userAssignable: 1
+      _categoryId: 1
     actionCategories:
     - _name: Default
       _descriptiveName: Normal/Fight
@@ -571,7 +613,7 @@ MonoBehaviour:
       - categoryId: 0
         actionIds: 
       - categoryId: 1
-        actionIds: 0000000001000000020000000400000005000000060000000700000008000000
+        actionIds: 0000000001000000020000000400000005000000060000000700000008000000090000000a0000000b000000
     inputBehaviors:
     - _id: 0
       _name: Default
@@ -651,17 +693,6 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: 2
-        _elementType: 1
-        _elementIdentifierId: 4
-        _axisRange: 0
-        _invert: 0
-        _axisContribution: 0
-        _keyboardKeyCode: 0
-        _modifierKey1: 0
-        _modifierKey2: 0
-        _modifierKey3: 0
-      - _actionCategoryId: 0
         _actionId: 4
         _elementType: 1
         _elementIdentifierId: 14
@@ -673,7 +704,29 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: 6
+        _actionId: 9
+        _elementType: 0
+        _elementIdentifierId: 2
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 0
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 0
+        _actionId: 10
+        _elementType: 0
+        _elementIdentifierId: 3
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 0
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 0
+        _actionId: 8
         _elementType: 1
         _elementIdentifierId: 10
         _axisRange: 0
@@ -684,7 +737,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: 5
+        _actionId: 2
         _elementType: 1
         _elementIdentifierId: 12
         _axisRange: 0
@@ -697,18 +750,7 @@ MonoBehaviour:
       - _actionCategoryId: 0
         _actionId: 7
         _elementType: 1
-        _elementIdentifierId: 8
-        _axisRange: 0
-        _invert: 0
-        _axisContribution: 0
-        _keyboardKeyCode: 0
-        _modifierKey1: 0
-        _modifierKey2: 0
-        _modifierKey3: 0
-      - _actionCategoryId: 0
-        _actionId: 8
-        _elementType: 1
-        _elementIdentifierId: 7
+        _elementIdentifierId: 13
         _axisRange: 0
         _invert: 0
         _axisContribution: 0
@@ -834,13 +876,35 @@ MonoBehaviour:
         _modifierKey1: 0
         _modifierKey2: 0
         _modifierKey3: 0
+      - _actionCategoryId: 0
+        _actionId: 9
+        _elementType: 1
+        _elementIdentifierId: -1
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 116
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 0
+        _actionId: 11
+        _elementType: 1
+        _elementIdentifierId: -1
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 112
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
     mouseMaps: []
     customControllerMaps: []
     customControllers: []
     controllerMapLayoutManagerRuleSets: []
     controllerMapEnablerRuleSets: []
     playerIdCounter: 2
-    actionIdCounter: 9
+    actionIdCounter: 12
     actionCategoryIdCounter: 2
     inputBehaviorIdCounter: 1
     mapCategoryIdCounter: 1
@@ -969,26 +1033,54 @@ MonoBehaviour:
   sequenceDuration: 0.1
   recordAs: 0
   debugMode: 0
-  healthBackgroundRect: {fileID: 0}
-  currentPulse: 12
-  colorChange: {fileID: 0}
-  riftAnimation: {fileID: 0}
+  visualParams:
+    flameImage: {fileID: 0}
+    barImage: {fileID: 0}
+    backgroundImage: {fileID: 0}
+    flameTransform: {fileID: 0}
+    leftMostColor: {r: 0.6, g: 0.49019608, b: 0.42745098, a: 1}
+    rightMostColor: {r: 0.9490196, g: 0.4627451, b: 0.18039216, a: 1}
+    ratioRiftStep1: 0.7
+    ratioRiftStep2: 0.5
+    ratioRiftStep3: 0.2
+    pulseSize: 1.1
+    sizeCritic: 1.15
+    hurtColor: {r: 1, g: 0.27785224, b: 0, a: 1}
+    curveTransition:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    timeLifeTransition: 0.25
+    screenShakeIntensityUI: 10
+    screenShakeDurationUI: 0.25
+    screenShakeIntensity: 1
+    screenShakeDuration: 0.2
+    sequenceDuration: 0.2
+    riftAnimator: {fileID: 0}
+  currentPulse: 0
   minimalPulse: 0
   maximalPulse: 100
-  inLimit:
-    idInternal: 0
-    valueGuidInternal: 
-    groupIdInternal: 0
-    groupGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 3f240493eb2328e4689afb6ea0fb5287,
-      type: 2}
-  outLimit:
-    idInternal: 0
-    valueGuidInternal: 
-    groupIdInternal: 0
-    groupGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 24203d3c76030cb42a77308d726be0e7,
-      type: 2}
+  limitRatio: 0.1
   inCritic:
     idInternal: 0
     valueGuidInternal: 
@@ -1003,38 +1095,3 @@ MonoBehaviour:
     groupGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: c43206be12ebb8c44acdf0bfcd87596e,
       type: 2}
-  pulseMultiplier:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  colorZone: {r: 1, g: 0.066404626, b: 0, a: 1}
-  lengthZone: 6
-  labelZone: Berserk
-  allZones:
-  - {fileID: 11400000, guid: c537e4f2d5d80cc499411e3dd05f3d5b, type: 2}
-  - {fileID: 11400000, guid: 20019773a7a0ff94f9edd8d3d38f850a, type: 2}
-  - {fileID: 11400000, guid: 23df8eec967b47a4a97cedac220ad1ea, type: 2}
-  - {fileID: 11400000, guid: 33361139c6abaf647808fbaa3f62490d, type: 2}
-  - {fileID: 11400000, guid: a82e7f84b411f2b4990d5f3fad9ac966, type: 2}
-  scaleUI: 2.58
-  path: 

@@ -4,34 +4,43 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using TMPro;
 using DG.Tweening;
+using UnityEngine.AI;
 
 public class EnemyDeadEvent : GameEvent { public Enemy enemy = null; }
 
-public class Enemy : MonoBehaviour
+public class Enemy : Slowable
 {
     [TabGroup("General")] [SerializeField]
-    float speed = 5;
-    public float Speed => speed;
+    float speed = 8f;
     [TabGroup("General")] [SerializeField]
     int maxLives = 10;
     int lives = 10;
+    protected int minLives = 0;
 
     [TabGroup("Behaviour")] [Header("Wander")] [SerializeField] [Tooltip("How much time the enemy will wait before going to another spot (random in [x, y]")]
-    Vector2 waitBeforeNextMove = new Vector2(2, 5);
+    protected Vector2 waitBeforeNextMove = new Vector2(2, 5);
+    [TabGroup("Behaviour")] [Header("Chase")] [SerializeField] [Tooltip("How close to the player the enemy will follow")]
+    protected float chaseDistance = 2.5f;
     [TabGroup("Behaviour")] [Header("Prepare Attack")] [SerializeField] [Tooltip("How much time the enemy will wait between chasing and prepare attack animation")]
-    float waitBeforePrepareAnim = 0.5f;
-    [TabGroup("Behaviour")] [SerializeField] [Tooltip("How long the prepare attack animation will be")]
-    float prepareAnimDuration = 2;
+    protected float waitBeforePrepareAnim = 0.5f;
+    [TabGroup("Behaviour")] [SerializeField] [Tooltip("How long the prepare attack animation will be, in beats")]
+    protected int prepareAnimDurationBeats = 2;
+    [TabGroup("Behaviour")] [SerializeField] [Tooltip("How much time the enemy will wait not moving after prepare anim")]
+    protected float waitAfterPrepareAnim = 0.5f;
+    [TabGroup("Behaviour")] [SerializeField] [Tooltip("How fast the enemy will turn towards the player")]
+    protected float turnSpeed = 2.5f;
     [TabGroup("Behaviour")] [Header("Attack")] [SerializeField] [Tooltip("How much time the enemy will wait between preparing attack animation and attacking animation")]
-    float waitBeforeAttackAnim = 0.25f;
+    protected float waitBeforeAttackAnim = 0.25f;
     [TabGroup("Behaviour")] [SerializeField] [Tooltip("How long the attack animation will be")]
-    float attackAnimDuration = 0.5f;
+    protected float attackAnimDuration = 0.5f;
     [TabGroup("Behaviour")] [SerializeField] [Tooltip("How much the enemy will dive towards the player")]
-    float attackForce = 4;
-    [TabGroup("Behaviour")] [SerializeField] [Tooltip("How many pulse intensity the player will lose if hit")]
-    int attackDamage = 5;
+    protected float attackAnimDistance = 10;
+    [TabGroup("Behaviour")] [SerializeField] [Tooltip("How many HP the player will lose if hit")]
+    protected int attackDamage = 5;
+    [TabGroup("Behaviour")] [SerializeField]
+    AK.Wwise.Event callAttackEvent = null;
     [TabGroup("Behaviour")] [Header("Recover")] [SerializeField] [Tooltip("How much time the enemy will wait after an attack")]
-    float recoverAnimDuration = 2;
+    protected float recoverAnimDuration = 2;
     [TabGroup("Behaviour")] [Header("Stun")] [SerializeField] [Range(0.0f, 1.0f)]
     float[] chancesToGetStunned = new float[5];
     int stunCounter = 0;
@@ -44,15 +53,26 @@ public class Enemy : MonoBehaviour
     GameObject stunElements = null;
     [TabGroup("References")] [SerializeField]
     GameObject notStunElements = null;
+    [TabGroup("References")]
+    public GameObject model = null;
+    MeshRenderer modelMeshRenderer = null;
+    [TabGroup("References")] [SerializeField]
+    AK.Wwise.Event hitEnemy = null;
+
+    [TabGroup("Feedback")] [SerializeField]
+    float screenDurationHit = 0;
+    [TabGroup("Feedback")] [SerializeField]
+    float screenIntensityHit = 0;
+
     public Material Material { get; private set; }
-    Collider collid;
     public EnemyWeaponHitbox WeaponHitbox { get; private set; }
     public EnemyDetectionZone DetectionZone { get; private set; }
     public EnemyWanderZone WanderZone { get; private set; }
     public Player Player { get; private set; }
+    EnemyAttackHitbox AttackHitbox;
 
     // States
-    Dictionary<EEnemyState, EnemyState> states;
+    protected Dictionary<EEnemyState, EnemyState> states;
     public EEnemyState CurrentStateEnum { get; private set; }
     EnemyState currentState;
     [HideInInspector]
@@ -60,24 +80,48 @@ public class Enemy : MonoBehaviour
     [HideInInspector]
     public bool ChaseAgain = false;
     [HideInInspector]
-    public Sequence CurrentMove = null;
-    [HideInInspector]
     public bool InWanderZone = false;
+    [HideInInspector]
+    public NavMeshAgent Agent = null;
 
     // Misc
     EEnemyType type = EEnemyType.DEFAULT;
-    bool isTarget = false;
+    Collider collid = null;
     bool isAttacking = false;
-    bool hasAlreadyAttacked = false;
+    [HideInInspector]
+    public bool HasAttackedPlayer = false;
 
-    private void Start()
+    public delegate void noParams();
+    public event noParams EnemyKilled;
+    float baseAngularSpeed = 0;
+
+    public override float Timescale
     {
-        Material = GetComponent<MeshRenderer>().material;
+        get
+        {
+            return base.Timescale;
+        }
+        set
+        {
+            base.Timescale = value;
+            Agent.speed = speed * value;
+            Agent.angularSpeed = baseAngularSpeed * value;
+        }
+    }
+
+    protected virtual void Awake()
+    {
+        modelMeshRenderer = model.GetComponent<MeshRenderer>();
+        Material = modelMeshRenderer.material;
         WeaponHitbox = GetComponentInChildren<EnemyWeaponHitbox>();
+        AttackHitbox = GetComponentInChildren<EnemyAttackHitbox>();
         collid = GetComponent<Collider>();
+        Agent = GetComponent<NavMeshAgent>();
+        Agent.speed = speed;
 
         lives = maxLives;
         lifeText.text = lives.ToString();
+        baseAngularSpeed = Agent.angularSpeed;
     }
 
     public void ZoneInitialize(EEnemyType newType, EnemyWanderZone newWanderZone, EnemyDetectionZone newDetectionZone, Player newPlayer)
@@ -90,18 +134,23 @@ public class Enemy : MonoBehaviour
         if (type == EEnemyType.DEFAULT)
         {
             states = new Dictionary<EEnemyState, EnemyState>();
-            states.Add(EEnemyState.WANDER, new EnemyStateWander(this, waitBeforeNextMove));
-            states.Add(EEnemyState.CHASE, new EnemyStateChase(this));
-            states.Add(EEnemyState.PREPARE_ATTACK, new EnemyStatePrepareAttack(this, waitBeforePrepareAnim, prepareAnimDuration));
-            states.Add(EEnemyState.ATTACK, new EnemyStateAttack(this, waitBeforeAttackAnim, attackAnimDuration, attackForce));
-            states.Add(EEnemyState.RECOVER_ATTACK, new EnemyStateRecoverAttack(this, recoverAnimDuration));
-            states.Add(EEnemyState.COME_BACK, new EnemyStateComeBack(this));
-            states.Add(EEnemyState.STUN, new EnemyStateStun(this));
+            CreateStates();
 
             CurrentStateEnum = EEnemyState.WANDER;
             states.TryGetValue(CurrentStateEnum, out currentState);
             currentState.Enter();
         }
+    }
+
+    virtual protected void CreateStates()
+    {
+        states.Add(EEnemyState.WANDER, new EnemyStateWander(this, waitBeforeNextMove));
+        states.Add(EEnemyState.CHASE, new EnemyStateChase(this, chaseDistance));
+        states.Add(EEnemyState.PREPARE_ATTACK, new EnemyStatePrepareAttack(this, waitBeforePrepareAnim, prepareAnimDurationBeats, waitAfterPrepareAnim, SceneHelper.Instance.JitRatio));
+        states.Add(EEnemyState.ATTACK, new EnemyStateAttack(this, waitBeforeAttackAnim + waitAfterPrepareAnim, attackAnimDuration, attackAnimDistance, callAttackEvent));
+        states.Add(EEnemyState.RECOVER_ATTACK, new EnemyStateRecoverAttack(this, recoverAnimDuration));
+        states.Add(EEnemyState.COME_BACK, new EnemyStateComeBack(this));
+        states.Add(EEnemyState.STUN, new EnemyStateStun(this));
     }
 
     private void Update()
@@ -110,36 +159,83 @@ public class Enemy : MonoBehaviour
         {
             EEnemyState newStateEnum = currentState.UpdateState(Time.deltaTime);
             ChangeState(newStateEnum);
-        }
-    }
 
-    public void GetAttacked(bool onRythm)
-    {
-        lives--;
-        if (lives == 0)
-        {
-            EventManager.Instance.Raise(new EnemyDeadEvent { enemy = this });
-            Destroy(gameObject);
-            return;
-        }
-
-        lifeText.text = lives.ToString() + " PV";
-
-        if (onRythm)
-            StartCoroutine(BlinkBlue());
-        
-        if (stunCounter < chancesToGetStunned.Length)
-        {
-            float stunPercentage = RandomHelper.GetRandom();
-            if (stunPercentage < chancesToGetStunned[stunCounter])
+            if (AttackHitbox.PlayerInHitbox && isAttacking && !HasAttackedPlayer)
             {
-                stunCounter++;
-                ChangeState(EEnemyState.STUN);
+                Player.ModifyPulseValue(attackDamage, true);
+                HasAttackedPlayer = true;
             }
         }
     }
 
-    void ChangeState(EEnemyState newStateEnum)
+    public void OnBeat()
+    {
+        if (type == EEnemyType.DEFAULT)
+            currentState.OnBeat();
+    }
+
+    public void OnBar()
+    {
+        if (type == EEnemyType.DEFAULT)
+            currentState.OnBar();
+    }
+
+    public void LookAtPlayer(float deltaTime)
+    {
+        Vector3 targetDirection = Player.transform.position - transform.position;
+        targetDirection.y = 0;
+        Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, turnSpeed * deltaTime, 0.0f);
+        transform.rotation = Quaternion.LookRotation(newDirection);
+    }
+
+    public void GetPushedBack()
+    {
+        ChangeState(EEnemyState.STUN);
+    }
+
+    public bool GetAttacked(bool onRythm, float dmg = 1)
+    {
+        if (CurrentStateEnum == EEnemyState.EXPLODE)
+            return true;
+
+        foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
+            ce.StartScreenShake(screenDurationHit, screenIntensityHit);
+        
+        lives -= (int)dmg;
+        bool dying = (lives > minLives);
+        hitEnemy.Post(gameObject);
+
+        if (dying)
+        {
+            lifeText.text = lives.ToString();
+            if (stunCounter < chancesToGetStunned.Length)
+            {
+                float stunPercentage = RandomHelper.GetRandom();
+                if (stunPercentage < chancesToGetStunned[stunCounter])
+                {
+                    stunCounter++;
+                    ChangeState(EEnemyState.STUN);
+                }
+            }
+        }
+        else
+            StartDying();
+
+        return dying;
+    }
+
+    public virtual void StartDying()
+    {
+        Die();
+    }
+
+    public void Die()
+    {
+        EventManager.Instance.Raise(new EnemyDeadEvent { enemy = this });
+        Destroy(gameObject);
+    }
+
+    protected void ChangeState(EEnemyState newStateEnum)
     {
         EnemyState newState;
         if (newStateEnum != CurrentStateEnum && states.TryGetValue(newStateEnum, out newState))
@@ -151,52 +247,22 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    IEnumerator BlinkBlue()
-    {
-        Material.color = Color.blue;
-        yield return new WaitForSecondsRealtime(0.3f);
-        UpdateColor();
-    }
-
-    public void SetSelected(bool selected)
-    {
-        isTarget = selected;
-        UpdateColor();
-    }
-
-    private void UpdateColor()
-    {
-        if (isTarget)
-            Material.color = Color.green;
-        else
-            Material.color = Color.yellow;
-    }
-
     public void SetStateText(string text)
     {
         stateText.text = text;
     }
 
-    public void KillCurrentTween()
-    {
-        if (CurrentMove != null)
-        {
-            CurrentMove.Kill();
-            CurrentMove = null;
-        }
-    }
-
     public void StartAttacking()
     {
+        //collid.isTrigger = true;
         isAttacking = true;
-        hasAlreadyAttacked = false;
-        collid.isTrigger = true;
+        HasAttackedPlayer = false;
     }
 
     public void StopAttacking()
     {
+        //collid.isTrigger = false;
         isAttacking = false;
-        collid.isTrigger = false;
     }
 
     public void BeginStun()
@@ -211,27 +277,27 @@ public class Enemy : MonoBehaviour
         notStunElements.SetActive(true);
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void StartFocus(GameObject focusMark)
     {
-        if (isAttacking && !hasAlreadyAttacked && other.gameObject.CompareTag("Player"))
-        {
-            Player.ModifyPulseValue(attackDamage, true);
-            hasAlreadyAttacked = true;
-        }
+        focusMark.SetActive(true);
+        focusMark.transform.position = transform.position + Vector3.up;
+        focusMark.transform.parent = transform;
+        model.GetComponent<MeshRenderer>().materials[1].SetFloat("_Outline", 0.1f);
+    }
+
+    public void StopFocus(GameObject focusMark)
+    {
+        focusMark.transform.parent = null;
+        focusMark.SetActive(false);
+        model.GetComponent<MeshRenderer>().materials[1].SetFloat("_Outline", 0);
     }
 
     private void OnDestroy()
     {
-        if (type == EEnemyType.DEFAULT)
-        {
-            EnemyState state;
-            foreach (EEnemyState stateEnum in states.Keys)
-            {
-                if (states.TryGetValue(stateEnum, out state))
-                {
-                    state = null;
-                }
-            }
-        }
+        if (EnemyKilled != null)
+            EnemyKilled();
+
+        if (states != null)
+            states.Clear();
     }
 }

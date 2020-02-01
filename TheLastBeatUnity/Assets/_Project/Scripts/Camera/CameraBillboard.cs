@@ -5,26 +5,18 @@ using Cinemachine;
 
 public class CameraBillboard : MonoBehaviour
 {
-    CinemachineVirtualCamera cam;
+    CinemachineStateDrivenCamera driven;
 
-    private void OnEnable()
+    private void Start()
     {
-        EventManager.Instance.AddListener<ChangeCameraEvent>(OnChangeCameraEvent);
-    }
-
-    private void OnDisable()
-    {
-        EventManager.Instance.RemoveListener<ChangeCameraEvent>(OnChangeCameraEvent);
-    }
-
-    void OnChangeCameraEvent(ChangeCameraEvent e)
-    {
-        cam = CameraManager.Instance.LiveCamera;
+        if (CameraManager.Instance)
+            driven = CameraManager.Instance.StateDrive;
     }
 
     void LateUpdate()
     {
-        if (cam)
+        GameObject cam = driven.LiveChild.VirtualCameraGameObject;
+        if (cam != null)
             transform.LookAt(transform.position + cam.transform.rotation * Vector3.forward, cam.transform.rotation * Vector3.up);
     }
 }

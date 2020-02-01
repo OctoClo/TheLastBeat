@@ -1,45 +1,46 @@
-﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
 public class EnemyStateAttack : EnemyState
 {
     Vector3 scaleEndValues = Vector3.zero;
+    Sequence animation = null;
     bool animationFinished = false;
     float waitBeforeAnimDuration = 0;
     float animDuration = 0;
     float impulseForce = 0;
+    AK.Wwise.Event callAttackEvent = null;
 
-    public EnemyStateAttack(Enemy newEnemy, float waitBefore, float duration, float impulse) : base(newEnemy)
+    public EnemyStateAttack(Enemy newEnemy, float waitBefore, float duration, float impulse, AK.Wwise.Event newCallAttackEvent) : base(newEnemy)
     {
         stateEnum = EEnemyState.ATTACK;
         scaleEndValues = new Vector3(1, 1, 1);
         waitBeforeAnimDuration = waitBefore;
         animDuration = duration;
         impulseForce = impulse;
+        callAttackEvent = newCallAttackEvent;
     }
 
     public override void Enter()
     {
         base.Enter();
 
-        enemy.StartAttacking();
         animationFinished = false;
-
-        Vector3 goalPos = enemy.Player.transform.position - enemy.transform.position;
-        goalPos.y = 0;
-        goalPos.Normalize();
-        goalPos *= impulseForce;
+        callAttackEvent.Post(enemy.gameObject);
+        
+        Vector3 goalPos = enemy.transform.forward * impulseForce;
         goalPos += enemy.transform.position;
 
-        enemy.CurrentMove = DOTween.Sequence();
+        animation = enemy.CreateSequence();
 
-        enemy.CurrentMove.Insert(waitBeforeAnimDuration, enemy.transform.DOScale(scaleEndValues, animDuration).SetEase(Ease.OutBounce));
-        enemy.CurrentMove.Insert(waitBeforeAnimDuration, enemy.transform.DOMove(goalPos, animDuration).SetEase(Ease.OutBounce));
-        enemy.CurrentMove.AppendCallback(() => animationFinished = true);
+        animation.Insert(waitBeforeAnimDuration, enemy.model.transform.DOScale(scaleEndValues, animDuration).SetEase(Ease.OutBounce));
+        animation.Insert(waitBeforeAnimDuration, enemy.transform.DOMove(goalPos, animDuration).SetEase(Ease.OutBounce));
+        animation.InsertCallback(waitBeforeAnimDuration, () => enemy.StartAttacking());
+        animation.AppendCallback(() => animationFinished = true);
 
-        enemy.CurrentMove.Play();
+        animation.Play();
+
+        SceneHelper.Instance.MainPlayer.InDanger = true;
     }
 
     public override EEnemyState UpdateState(float deltaTime)
@@ -52,7 +53,8 @@ public class EnemyStateAttack : EnemyState
 
     public override void Exit()
     {
-        enemy.CurrentMove = null;
+        enemy.model.transform.localScale = scaleEndValues;
+        SceneHelper.Instance.MainPlayer.InDanger = false;
         enemy.StopAttacking();
     }
 }

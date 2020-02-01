@@ -10,7 +10,8 @@ public enum EEnemyState
     ATTACK,
     RECOVER_ATTACK,
     COME_BACK,
-    STUN
+    STUN,
+    EXPLODE
 }
 
 public abstract class EnemyState
@@ -33,5 +34,12 @@ public abstract class EnemyState
         return stateEnum;
     }
 
-    public virtual void Exit() {}
+    public virtual void OnBeat() {}
+
+    public virtual void OnBar() {}
+
+    public virtual void Exit()
+    {
+        enemy.Agent.ResetPath();
+    }
 }
