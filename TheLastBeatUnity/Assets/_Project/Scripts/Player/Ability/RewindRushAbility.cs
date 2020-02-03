@@ -97,6 +97,7 @@ public class RewindRushAbility : Ability
                 seq.Append(player.transform.DOMove(goalPosition,duration).SetEase(Ease.Linear));
                 seq.AppendCallback(() =>
                 {
+                    AkSoundEngine.PostTrigger("OnBeatRush", SoundManager.Instance.gameObject);
                     SpawnGhost(enemy);
                 });
             }
