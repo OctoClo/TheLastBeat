@@ -117,7 +117,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.28
+  m_Radius: 0.6
   m_Height: 1.74
   m_Direction: 1
   m_Center: {x: 0, y: -0.1, z: 0}
@@ -133,6 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae13765248cc1c458d4c9fdbf044994, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Triggers: []
 --- !u!1 &588171601619915851
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,8 +177,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 746390a847ae6f744ab677fd1bc30fe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  length: 4.9
-  angle: 59.2
+  length: 4.8
+  angle: 55
   arrowVisual: {fileID: 2698819284349590072}
   prefabFocus: {fileID: 2410694937090517874, guid: d27e93cf0a018cf46aef7a676ae41e92,
     type: 3}
@@ -5222,10 +5223,10 @@ MonoBehaviour:
   maxSpeed: 12
   thrust: 3000
   rotationSpeed: 8
-  holdlessThreshold: 0.7
+  holdlessThreshold: 0.5
   blinkParameters:
     AttachedPlayer: {fileID: 3489716977114045609}
-    HealPerCorrectBeat: 1
+    HealPerCorrectBeat: 0
     Distance: 5
     TimeToReach: 0.1
     PulseCost: 1
@@ -5252,11 +5253,11 @@ MonoBehaviour:
   rushParameters:
     AttachedPlayer: {fileID: 3489716977114045609}
     HealPerCorrectBeat: 1
-    distanceDash: 1.5
+    distanceDash: 1.4
     PulseCost: 1
     damageMultiplier: 1
-    freezeFrameBeginDuration: 0.05
-    timeToReachDist: 0.3
+    freezeFrameBeginDuration: 0.03
+    timeToReachDist: 0.2
     OnBeatSound:
       idInternal: 0
       valueGuidInternal: 
@@ -5305,11 +5306,11 @@ MonoBehaviour:
       type: 3}
     backDash: {fileID: 6164344051203446620, guid: 90f3a3b4e889c484d9ee87fee8635d32,
       type: 3}
-    intensityScreenShake: 10
-    durationScreenShake: 0.3
+    intensityScreenShake: 0
+    durationScreenShake: 0
     rumbleIntensity: 1
-    rumbleDuration: 0.4
-    freezeFrameImpactDuration: 0.05
+    rumbleDuration: 0.2
+    freezeFrameImpactDuration: 0.07
   rushRewindParameters:
     AttachedPlayer: {fileID: 3489716977114045609}
     HealPerCorrectBeat: 1
@@ -5341,6 +5342,7 @@ MonoBehaviour:
   healthSystem: {fileID: 0}
   pyramid: {fileID: 2872187011401476631}
   visualPart: {fileID: 2086426542783193144}
+  targetGroup: {fileID: 0}
   stopEvent:
     idInternal: 0
     valueGuidInternal: 
@@ -5354,7 +5356,6 @@ MonoBehaviour:
   RushParticles: {fileID: 5431658358474403458}
   LoseLifeOnAbilities: 1
   ColliderObject: {fileID: 3489716977114045591}
-  currentlyHit: 0
 --- !u!114 &75586183539498471
 MonoBehaviour:
   m_ObjectHideFlags: 0
