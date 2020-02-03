@@ -67471,12 +67471,12 @@ PrefabInstance:
     - target: {fileID: 5997155226829383117, guid: 89c43181726305d40be5e6617086673b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.8774085
+      value: -3.7989535
       objectReference: {fileID: 0}
     - target: {fileID: 5997155226829383117, guid: 89c43181726305d40be5e6617086673b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -42.103275
+      value: -37.767746
       objectReference: {fileID: 0}
     - target: {fileID: 5997155226829383117, guid: 89c43181726305d40be5e6617086673b,
         type: 3}
@@ -67510,11 +67510,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 184757914, guid: 89c43181726305d40be5e6617086673b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.5764613
+      value: -3.0011952
       objectReference: {fileID: 0}
     - target: {fileID: 184757914, guid: 89c43181726305d40be5e6617086673b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -43.519123
+      value: -41.5209
       objectReference: {fileID: 0}
     - target: {fileID: 184757914, guid: 89c43181726305d40be5e6617086673b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -67544,6 +67544,10 @@ PrefabInstance:
       propertyPath: m_Follow
       value: 
       objectReference: {fileID: 6542996927091890710}
+    - target: {fileID: 184757913, guid: 89c43181726305d40be5e6617086673b, type: 3}
+      propertyPath: m_Lens.FieldOfView
+      value: 85
+      objectReference: {fileID: 0}
     - target: {fileID: 184757915, guid: 89c43181726305d40be5e6617086673b, type: 3}
       propertyPath: player
       value: 
@@ -67560,7 +67564,7 @@ PrefabInstance:
     - target: {fileID: 4953025687933130734, guid: 89c43181726305d40be5e6617086673b,
         type: 3}
       propertyPath: m_Lens.FieldOfView
-      value: 80
+      value: 140
       objectReference: {fileID: 0}
     - target: {fileID: 5046161127219819085, guid: 89c43181726305d40be5e6617086673b,
         type: 3}
@@ -67822,6 +67826,11 @@ PrefabInstance:
       propertyPath: screenDurationHit
       value: 0.3
       objectReference: {fileID: 0}
+    - target: {fileID: 1674405175474750219, guid: 0c4b2d980e6bdbc41a65f597810b994b,
+        type: 3}
+      propertyPath: turnSpeed
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 9109635549340594542, guid: 0c4b2d980e6bdbc41a65f597810b994b,
         type: 3}
       propertyPath: speed
@@ -67856,6 +67865,31 @@ PrefabInstance:
         type: 3}
       propertyPath: screenDurationHit
       value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9109635549340594542, guid: 0c4b2d980e6bdbc41a65f597810b994b,
+        type: 3}
+      propertyPath: turnSpeed
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2200420306163092822, guid: 0c4b2d980e6bdbc41a65f597810b994b,
+        type: 3}
+      propertyPath: m_AngularSpeed
+      value: 360
+      objectReference: {fileID: 0}
+    - target: {fileID: 2200420306163092822, guid: 0c4b2d980e6bdbc41a65f597810b994b,
+        type: 3}
+      propertyPath: m_AutoBraking
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8637399937352515379, guid: 0c4b2d980e6bdbc41a65f597810b994b,
+        type: 3}
+      propertyPath: m_AngularSpeed
+      value: 360
+      objectReference: {fileID: 0}
+    - target: {fileID: 8637399937352515379, guid: 0c4b2d980e6bdbc41a65f597810b994b,
+        type: 3}
+      propertyPath: m_AutoBraking
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8134372594081643140, guid: 0c4b2d980e6bdbc41a65f597810b994b, type: 3}
