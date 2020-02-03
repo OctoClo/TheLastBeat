@@ -29,4 +29,9 @@ public class EnemyStateRecoverAttack : EnemyState
         
         return stateEnum;
     }
+
+    public override void Exit()
+    {
+        enemy.Agent.enabled = true;
+    }
 }
