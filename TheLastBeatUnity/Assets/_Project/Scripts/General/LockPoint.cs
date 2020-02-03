@@ -29,5 +29,6 @@ public class LockPoint : MonoBehaviour
     public void SetLockPoint(Transform trsf)
     {
         lockTarget = trsf;
+        transform.GetChild(0).position = cam.WorldToScreenPoint(lockTarget.position);
     }
 }
