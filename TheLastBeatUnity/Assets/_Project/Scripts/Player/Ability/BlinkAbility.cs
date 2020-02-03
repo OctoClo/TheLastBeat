@@ -131,8 +131,9 @@ public class BlinkAbility : Ability
             parameters.OffBeatSound.Post(player.gameObject);
             WrongBeat();
             player.DebtRush(parameters.PulseCost);
-            currentCooldown = SoundManager.Instance.TimePerBar;
         }
+
+        currentCooldown = SoundManager.Instance.TimePerBar;
     }
 
     void CreateMark(Vector3 positionCast)

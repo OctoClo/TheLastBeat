@@ -14,7 +14,7 @@ public class Enemy : Slowable
     float speed = 8f;
     [TabGroup("General")] [SerializeField]
     int maxLives = 10;
-    int lives = 10;
+    protected int lives = 10;
     protected int minLives = 0;
 
     [TabGroup("Behaviour")] [Header("Wander")] [SerializeField] [Tooltip("How much time the enemy will wait before going to another spot (random in [x, y]")]
@@ -46,7 +46,7 @@ public class Enemy : Slowable
     int stunCounter = 0;
 
     [TabGroup("References")] [SerializeField]
-    TextMeshProUGUI lifeText = null;
+    protected TextMeshProUGUI lifeText = null;
     [TabGroup("References")] [SerializeField]
     TextMeshProUGUI stateText = null;
     [TabGroup("References")] [SerializeField]
@@ -202,10 +202,10 @@ public class Enemy : Slowable
             ce.StartScreenShake(screenDurationHit, screenIntensityHit);
         
         lives -= (int)dmg;
-        bool dying = (lives > minLives);
+        bool dying = (lives <= minLives);
         hitEnemy.Post(gameObject);
 
-        if (dying)
+        if (!dying)
         {
             lifeText.text = lives.ToString();
             if (stunCounter < chancesToGetStunned.Length)

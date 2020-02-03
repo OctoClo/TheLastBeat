@@ -169,7 +169,6 @@ public class RushAbility : Ability
         currentCooldown = cooldown;
         target = player.CurrentTarget.gameObject;
         player.ColliderObject.layer = LayerMask.NameToLayer("Player Dashing");
-        parameters.blinkAbility.ResetCooldown();
         player.Status.StartRushing();
         CheckRhythm();
         LayerCounter(onRythm, parameters.stepsPerLayer, parameters.stepsLost, musiclayer);
@@ -224,6 +223,8 @@ public class RushAbility : Ability
                 parameters.OnBeatSound.Post(player.gameObject);
 
             SceneHelper.Instance.Rumble(parameters.rumbleIntensity, parameters.rumbleDuration);
+            parameters.blinkAbility.ResetCooldown();
+
             if (perfect)
             {
                 player.ModifyPulseValue(-parameters.HealPerCorrectBeat);
