@@ -163,11 +163,6 @@ public class Player : Inputable
             Status.SetMoving(false);
     }
 
-    public void CancelRush()
-    {
-        (abilities[EInputAction.RUSH] as RushAbility).Cancel();
-    }
-
     private void Update()
     {
         foreach (KeyValuePair<EInputAction, Ability> abilityPair in abilities)
@@ -214,6 +209,11 @@ public class Player : Inputable
     public void SetFoot(Transform trsf)
     {
         CurrentFootOnGround = trsf;
+    }
+
+    public void CancelRush()
+    {
+        (abilities[EInputAction.RUSH] as RushAbility).Cancel();
     }
 
     public void DebtRush(float value)
