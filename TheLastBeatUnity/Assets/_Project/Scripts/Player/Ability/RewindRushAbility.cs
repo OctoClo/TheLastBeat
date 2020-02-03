@@ -32,6 +32,7 @@ public class RewindRushAbility : Ability
     bool attackOnRythm = false;
     RewindRushParameters parameters;
     float duration = 0;
+    Sequence seq;
 
     public RewindRushAbility(RewindRushParameters rrp, float healCorrect) : base(rrp.AttachedPlayer, healCorrect)
     {
@@ -81,8 +82,10 @@ public class RewindRushAbility : Ability
 
         Vector3 direction;
         Vector3 goalPosition = player.transform.position;
-        Sequence seq = DOTween.Sequence();
-        duration = SoundManager.Instance.GetTimeLeftNextBeat(chainedEnemies.Count > 4);
+        if (seq != null)
+            seq.Kill();
+        seq = DOTween.Sequence();
+        duration = SoundManager.Instance.GetTimeLeftNextBeat(chainedEnemies.Count > 4, 0.25f);
         foreach (Enemy enemy in chainedEnemies.Reverse())
         {
             if (enemy != null)
@@ -94,24 +97,7 @@ public class RewindRushAbility : Ability
                 seq.Append(player.transform.DOMove(goalPosition,duration).SetEase(Ease.Linear));
                 seq.AppendCallback(() =>
                 {
-                    duration = SoundManager.Instance.LastBeat.beatInterval * (chainedEnemies.Count <= 4 ? 1 : 0.5f);
-                    Debug.Log("Duration : " + duration + " / " + TimeManager.Instance.SampleCurrentTime() + " / " + seq.timeScale);
-                    GameObject instantiated = GameObject.Instantiate(parameters.prefabGhost);
-                    instantiated.transform.position = parameters.groundReference.position;
-                    instantiated.transform.LookAt(enemy.transform.position);
-                    instantiated.transform.forward = new Vector3(instantiated.transform.forward.x, 0, instantiated.transform.forward.z);
-                    GameObject.Destroy(instantiated, 1.2f);
-                    SkinnedMeshRenderer meshRenderer = instantiated.transform.GetChild(1).GetComponent<SkinnedMeshRenderer>();
-                    DOTween.To(() => meshRenderer.material.GetFloat("_Bias"), x =>
-                    {
-                        if (meshRenderer)
-                        {
-                            foreach (Material mat in meshRenderer.materials)
-                            {
-                                mat.SetFloat("_Bias", x);
-                            }
-                        }
-                    }, 1, 1);
+                    SpawnGhost(enemy);
                 });
             }
         }
@@ -119,6 +105,28 @@ public class RewindRushAbility : Ability
         seq.AppendCallback(() => End());
         seq.timeScale = 1;
         seq.Play();
+    }
+
+
+    void SpawnGhost(Enemy enemy)
+    {
+        duration = SoundManager.Instance.LastBeat.beatInterval * (chainedEnemies.Count <= 4 ? 1 : 0.5f);
+        GameObject instantiated = GameObject.Instantiate(parameters.prefabGhost);
+        instantiated.transform.position = parameters.groundReference.position;
+        instantiated.transform.LookAt(enemy.transform.position);
+        instantiated.transform.forward = new Vector3(instantiated.transform.forward.x, 0, instantiated.transform.forward.z);
+        GameObject.Destroy(instantiated, 1.2f);
+        SkinnedMeshRenderer meshRenderer = instantiated.transform.GetChild(1).GetComponent<SkinnedMeshRenderer>();
+        DOTween.To(() => meshRenderer.material.GetFloat("_Bias"), x =>
+        {
+            if (meshRenderer)
+            {
+                foreach (Material mat in meshRenderer.materials)
+                {
+                    mat.SetFloat("_Bias", x);
+                }
+            }
+        }, 1, 1);
     }
 
     void CheckRhythm()
