@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using DG.Tweening;
 
 public class EnemyStateAttack : EnemyState
@@ -27,9 +27,22 @@ public class EnemyStateAttack : EnemyState
 
         animationFinished = false;
         callAttackEvent.Post(enemy.gameObject);
-        
-        Vector3 goalPos = enemy.transform.forward * impulseForce;
-        goalPos += enemy.transform.position;
+        enemy.Agent.enabled = false;
+
+        Vector3 direction = enemy.transform.forward * impulseForce;
+        Vector3 goalPos = enemy.transform.position + direction;
+
+        RaycastHit[] hits = Physics.RaycastAll(enemy.transform.position, direction, direction.magnitude, Physics.AllLayers);
+        foreach (RaycastHit hit in hits)
+        {
+            Collider collid;
+            if (hit.collider.TryGetComponent<Collider>(out collid) && !collid.isTrigger && !collid.gameObject.CompareTag("Player") && collid.gameObject.layer != LayerMask.NameToLayer("Enemies"))
+            {
+                Vector3 newGoalPos = hit.point - Vector3.ClampMagnitude(direction, 1);
+                goalPos = newGoalPos;
+                break;
+            }
+        }
 
         animation = enemy.CreateSequence();
 
