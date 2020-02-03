@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &435591726076419208
+--- !u!1 &5185744406550058844
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,10 +8,41 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 632461049404462665}
-  - component: {fileID: 5834344954662610368}
-  - component: {fileID: 7131096706601023231}
-  - component: {fileID: 9170708896812788755}
+  - component: {fileID: 8190973262834197839}
+  m_Layer: 0
+  m_Name: Cliff_01 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8190973262834197839
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5185744406550058844}
+  m_LocalRotation: {x: -0, y: 0.9983765, z: -0, w: 0.056960564}
+  m_LocalPosition: {x: 218.0319, y: 21.40171, z: -167.47906}
+  m_LocalScale: {x: 5.4379, y: 5.4379, z: 5.4379}
+  m_Children:
+  - {fileID: 7411905719542596273}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 173.46901, z: 0}
+--- !u!1 &7498804952234559600
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7411905719542596273}
+  - component: {fileID: 4534371458738172216}
+  - component: {fileID: 931169450418938375}
+  - component: {fileID: 1251565450581096683}
   m_Layer: 0
   m_Name: g_Group51264_Group51264
   m_TagString: Untagged
@@ -19,35 +50,35 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &632461049404462665
+--- !u!4 &7411905719542596273
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 435591726076419208}
+  m_GameObject: {fileID: 7498804952234559600}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2285222539271057847}
+  m_Father: {fileID: 8190973262834197839}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &5834344954662610368
+--- !u!33 &4534371458738172216
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 435591726076419208}
+  m_GameObject: {fileID: 7498804952234559600}
   m_Mesh: {fileID: -5722963811613620208, guid: b1fa59bd038ab044dbd168c9527bc29c, type: 3}
---- !u!23 &7131096706601023231
+--- !u!23 &931169450418938375
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 435591726076419208}
+  m_GameObject: {fileID: 7498804952234559600}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -58,7 +89,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ec9ff1a3fd40a0b4a8c0490a9ed86e3e, type: 2}
+  - {fileID: 2100000, guid: db595f1b4a20df9448d770e58405055f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -79,13 +110,13 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &9170708896812788755
+--- !u!64 &1251565450581096683
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 435591726076419208}
+  m_GameObject: {fileID: 7498804952234559600}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
@@ -93,34 +124,3 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 14
   m_Mesh: {fileID: -5722963811613620208, guid: b1fa59bd038ab044dbd168c9527bc29c, type: 3}
---- !u!1 &3021321692512338852
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2285222539271057847}
-  m_Layer: 0
-  m_Name: Cliff_01_lp_02
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2285222539271057847
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3021321692512338852}
-  m_LocalRotation: {x: -0, y: 0.9983765, z: -0, w: 0.056960564}
-  m_LocalPosition: {x: 132.41, y: 12.93, z: -37.92}
-  m_LocalScale: {x: 5.4379, y: 5.4379, z: 5.4379}
-  m_Children:
-  - {fileID: 632461049404462665}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 173.46901, z: 0}
