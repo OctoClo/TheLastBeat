@@ -120,11 +120,15 @@ public class RewindRushAbility : Ability
     public void AddChainEnemy(Enemy enn)
     {
         rushChainTimer = parameters.MaxTimeBeforeResetMarks;
+        enn.Informations.AddRewindMark();
 
         if (chainedEnemies.Count >= parameters.MaxChained)
-            chainedEnemies.Dequeue();
+        {
+            chainedEnemies.Dequeue().Informations.RemoveRewindMark();
+        }
 
-        chainedEnemies.Enqueue(enn);
+        if (chainedEnemies.Count(x => enn) < 3)
+            chainedEnemies.Enqueue(enn);
     }
 
     public void MissInput()
@@ -137,7 +141,8 @@ public class RewindRushAbility : Ability
 
     public void ResetCombo()
     {
-        chainedEnemies.Clear();
+        while (chainedEnemies.Count > 0)
+            chainedEnemies.Dequeue().Informations.RemoveRewindMark();
         missedInput = 0;
     }
 
@@ -150,8 +155,6 @@ public class RewindRushAbility : Ability
         {
             enn.Timescale = 1;
         }
-
-        //SceneHelper.Instance.StartFade(() => { }, 0.2f, Color.clear);
 
         player.RushParticles.SetActive(false);
         CameraManager.Instance.SetBoolCamera(false, "Rewinding");

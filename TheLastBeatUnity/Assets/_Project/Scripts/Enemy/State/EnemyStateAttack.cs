@@ -19,6 +19,11 @@ public class EnemyStateAttack : EnemyState
         animDuration = duration;
         impulseForce = impulse;
         callAttackEvent = newCallAttackEvent;
+        enemy.EnemyKilled += () =>
+        {
+            if (animation != null)
+                animation.Kill();
+        };
     }
 
     public override void Enter()

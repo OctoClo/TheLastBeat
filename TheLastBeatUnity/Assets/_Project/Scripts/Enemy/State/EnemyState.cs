@@ -26,7 +26,6 @@ public abstract class EnemyState
 
     public virtual void Enter()
     {
-        enemy.SetStateText(stateEnum.ToString().ToLower());
     }
 
     public virtual EEnemyState UpdateState(float deltaTime)

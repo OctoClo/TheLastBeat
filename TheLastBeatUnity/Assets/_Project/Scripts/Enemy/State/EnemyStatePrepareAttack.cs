@@ -22,6 +22,7 @@ public class EnemyStatePrepareAttack : EnemyState
         animDurationBeats = durationBeats;
         waitAfterAnimDuration = waitAfter;
         inDangerSince = Mathf.Clamp(danger, 0, 1);
+        enemy.EnemyKilled += () => { if (animation != null) animation.Kill(); };
     }
 
     public override void Enter()
@@ -29,8 +30,6 @@ public class EnemyStatePrepareAttack : EnemyState
         DOTween.Sequence()
             .AppendInterval(animDurationSeconds * (1 - inDangerSince))
             .AppendCallback(() => SceneHelper.Instance.MainPlayer.InDanger = true);
-
-        enemy.SetStateText("prepare");
 
         animationFinished = false;
         animDurationSeconds = animDurationBeats * SoundManager.Instance.TimePerBeat - waitAfterAnimDuration;
