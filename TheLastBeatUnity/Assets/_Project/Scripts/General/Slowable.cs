@@ -45,10 +45,8 @@ public class Slowable : MonoBehaviour
 
     public void Purge()
     {
-        foreach (Sequence seq in allSequences)
-            seq.Kill();
-
-        allSequences.Clear();
+        while (allSequences.Count > 0)
+            allSequences[0].Kill();
     }
 
     public void ForceTimeScaleAt(float mustFinishIn)
