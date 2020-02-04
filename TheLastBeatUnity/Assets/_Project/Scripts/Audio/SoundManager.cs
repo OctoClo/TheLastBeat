@@ -182,9 +182,26 @@ public class SoundManager : MonoBehaviour
         StartCoroutine(DelayedBeat(tb));
     }
 
-    public float GetTimeLeftNextBeat()
+    public float GetTimeLeftNextBeat(bool halfBeat = false, float minValue = 0)
     {
-        return (LastBeat.lastTimeBeat + LastBeat.beatInterval) - TimeManager.Instance.SampleCurrentTime();
+        float output;
+        if (!halfBeat || LastBeat.lastTimeBeat + (LastBeat.beatInterval / 2.0f) < TimeManager.Instance.SampleCurrentTime())
+        {
+            output = (LastBeat.lastTimeBeat + LastBeat.beatInterval) - TimeManager.Instance.SampleCurrentTime();
+            if (output < 0)
+                output = SoundManager.Instance.LastBeat.beatInterval * (halfBeat ? 0.5f : 1);
+        }
+        else
+        {
+            output = (LastBeat.lastTimeBeat + (LastBeat.beatInterval / 2.0f)) - TimeManager.Instance.SampleCurrentTime();
+            if (output < 0)
+                output = SoundManager.Instance.LastBeat.beatInterval * 0.5f;
+        }
+
+        while (output < minValue)
+            output += SoundManager.Instance.LastBeat.beatInterval * (halfBeat ? 0.5f : 1);
+
+        return output;
     }
 
     IEnumerator DelayedBeat(TypeBeat tb)

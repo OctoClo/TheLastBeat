@@ -19,6 +19,8 @@ public class RewindRushParameters : AbilityParams
     public float rumbleIntensity = 0;
     public float rumbleDuration = 0;
     public float freezeFrameDuration = 0.1f;
+    public GameObject prefabGhost;
+    public Transform groundReference;
 }
 
 public class RewindRushAbility : Ability
@@ -29,6 +31,8 @@ public class RewindRushAbility : Ability
     float rushChainTimer = 0;
     bool attackOnRythm = false;
     RewindRushParameters parameters;
+    float duration = 0;
+    Sequence seq;
 
     public RewindRushAbility(RewindRushParameters rrp, float healCorrect) : base(rrp.AttachedPlayer, healCorrect)
     {
@@ -57,7 +61,8 @@ public class RewindRushAbility : Ability
 
     void RewindRush()
     {
-        //SceneHelper.Instance.StartFade(() => { }, 0.2f, SceneHelper.Instance.ColorSlow);
+        player.VisualPart.gameObject.SetActive(false);
+        SceneHelper.Instance.StartFade(() => { }, 0.2f, SceneHelper.Instance.ColorSlow);
         foreach(Enemy enn in GameObject.FindObjectsOfType<Enemy>())
         {
             enn.Timescale = 0;
@@ -77,8 +82,10 @@ public class RewindRushAbility : Ability
 
         Vector3 direction;
         Vector3 goalPosition = player.transform.position;
-        Sequence seq = DOTween.Sequence();
-
+        if (seq != null)
+            seq.Kill();
+        seq = DOTween.Sequence();
+        duration = SoundManager.Instance.GetTimeLeftNextBeat(chainedEnemies.Count > 4, 0.25f);
         foreach (Enemy enemy in chainedEnemies.Reverse())
         {
             if (enemy != null)
@@ -87,18 +94,40 @@ public class RewindRushAbility : Ability
                 direction *= 1.3f;
 
                 goalPosition += direction;
-                seq.AppendCallback(() => SceneHelper.Instance.FreezeFrameTween(parameters.freezeFrameDuration));
-                seq.Append(player.transform.DOMove(goalPosition, parameters.Duration));
+                seq.Append(player.transform.DOMove(goalPosition,duration).SetEase(Ease.Linear));
                 seq.AppendCallback(() =>
                 {
-                    if (enemy)
-                        enemy.GetAttacked(attackOnRythm);
+                    AkSoundEngine.PostTrigger("OnBeatRush", SoundManager.Instance.gameObject);
+                    SpawnGhost(enemy);
                 });
             }
         }
 
         seq.AppendCallback(() => End());
+        seq.timeScale = 1;
         seq.Play();
+    }
+
+
+    void SpawnGhost(Enemy enemy)
+    {
+        duration = SoundManager.Instance.LastBeat.beatInterval * (chainedEnemies.Count <= 4 ? 1 : 0.5f);
+        GameObject instantiated = GameObject.Instantiate(parameters.prefabGhost);
+        instantiated.transform.position = parameters.groundReference.position;
+        instantiated.transform.LookAt(enemy.transform.position);
+        instantiated.transform.forward = new Vector3(instantiated.transform.forward.x, 0, instantiated.transform.forward.z);
+        GameObject.Destroy(instantiated, 1.2f);
+        SkinnedMeshRenderer meshRenderer = instantiated.transform.GetChild(1).GetComponent<SkinnedMeshRenderer>();
+        DOTween.To(() => meshRenderer.material.GetFloat("_Bias"), x =>
+        {
+            if (meshRenderer)
+            {
+                foreach (Material mat in meshRenderer.materials)
+                {
+                    mat.SetFloat("_Bias", x);
+                }
+            }
+        }, 1, 1);
     }
 
     void CheckRhythm()
@@ -148,6 +177,12 @@ public class RewindRushAbility : Ability
 
     public override void End()
     {
+        foreach(Enemy enn in chainedEnemies)
+        {
+            if (enn)
+                enn.GetAttacked(attackOnRythm);
+        }
+
         foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
             ce.StartScreenShake(parameters.screenShakeDuration, parameters.screenShakeIntensity);
 
@@ -162,5 +197,6 @@ public class RewindRushAbility : Ability
         player.gameObject.layer = LayerMask.NameToLayer("Default");
         ResetCombo();
         parameters.NormalState.SetValue();
+        player.VisualPart.gameObject.SetActive(true);
     }
 }

@@ -33,7 +33,8 @@ public class Rock : Beatable
             DOTween.Sequence()
                 .Append(DOTween.To(() => originValue, x => mat.SetVector("_EmissionColor", col * x), targetValue, sequenceDuration)
                     .SetEase(curve))
-                .SetUpdate(true);
+                .SetUpdate(true)
+                .Play();
         }
     }
 }

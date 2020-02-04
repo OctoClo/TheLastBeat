@@ -59,6 +59,7 @@ public class HealthVisual
             seq.AppendInterval(0.05f);
             seq.SetLoops(10);
             seq.AppendCallback(() => isChangingColor = false);
+            seq.Play();
         }       
     }
 
