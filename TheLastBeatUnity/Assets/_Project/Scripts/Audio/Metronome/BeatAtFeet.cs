@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System.Linq;
 
 public class BeatAtFeet : Beatable
 {
@@ -43,6 +44,8 @@ public class BeatAtFeet : Beatable
     Queue<SequenceAndTarget> allInstances = new Queue<SequenceAndTarget>();
     Sequence transitionSequence = null;
 
+    [SerializeField]
+    List<Texture> animationTexture = new List<Texture>();
 
     protected override void Start()
     {
@@ -71,6 +74,7 @@ public class BeatAtFeet : Beatable
         instantiated.GetComponent<MeshRenderer>().material.color = col;
         Sequence seq = DOTween.Sequence()
             .Append(instantiated.transform.DOScale(finalSize, timeLeft).SetEase(curve))
+            .InsertCallback(SoundManager.Instance.LastBeat.beatInterval * 0.85f, () => AnimationThick(0.05f))
             .Insert(0, DOTween.To(() => instantiated.GetComponent<MeshRenderer>().material.color, x =>
             {
                 instantiated.GetComponent<MeshRenderer>().material.color += new Color(speedFadeWhite, speedFadeWhite, speedFadeWhite, 0) * Time.deltaTime;
@@ -92,6 +96,30 @@ public class BeatAtFeet : Beatable
         seqAndTar.target = instantiated;
         seqAndTar.sequence = seq;
         allInstances.Enqueue(seqAndTar);
+    }
+
+    void AnimationThick(float delta)
+    {
+        Sequence seq = DOTween.Sequence();
+        Material mat = GetComponent<MeshRenderer>().material;
+
+        foreach(Texture text in animationTexture)
+        {
+            seq.AppendCallback(() => mat.mainTexture = text);
+            seq.AppendInterval(delta);
+        }
+
+        animationTexture.Reverse();
+
+        foreach (Texture text in animationTexture)
+        {
+            seq.AppendCallback(() => mat.mainTexture = text);
+            seq.AppendInterval(delta);
+        }
+
+        animationTexture.Reverse();
+
+        seq.Play();
     }
 
     public void CorrectInput()
