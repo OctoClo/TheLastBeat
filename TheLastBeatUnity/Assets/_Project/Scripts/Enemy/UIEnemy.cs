@@ -49,7 +49,7 @@ public class UIEnemy : Slowable
 
     private void Start()
     {
-        DisappearHud();
+        DisappearHud(true);
         GetComponentInParent<Enemy>().EnemyKilled += Purge;
     }
 
@@ -64,10 +64,21 @@ public class UIEnemy : Slowable
     public void Init(int lifeAmount = 3)
     {
         maxHP = lifeAmount;
+        float maxX = (0.11f * lifeAmount) + 0.15f;
+        rootLife.parent.GetComponent<RectTransform>().anchorMax = new Vector2(maxX, 1);
+        rootRewind.GetComponent<RectTransform>().anchorMin = new Vector2(maxX - (maxX * 0.14f), 0);
         for (int i = 0; i < lifeAmount; i++)
         {
             allLifeImages.Add(Instantiate(prefabUILife, rootLife).GetComponent<Image>());
         }
+
+        float width = 0.42f * ((float)lifeAmount / 5.0f);
+        for (int i = 0; i < 3; i++)
+        {
+            rootRewind.GetChild(i).GetComponent<RectTransform>().anchorMin = new Vector2(0.4f * width * i, 0);
+            rootRewind.GetChild(i).GetComponent<RectTransform>().anchorMax = new Vector2((0.4f * width * i) + width, 1);
+        }
+
         Life = lifeAmount;
     }
 
@@ -82,7 +93,7 @@ public class UIEnemy : Slowable
             DisappearHud();
     }
 
-    void DisappearHud()
+    void DisappearHud(bool instant = false)
     {
         if (currentSequence != null)
             currentSequence.Kill();
@@ -95,7 +106,7 @@ public class UIEnemy : Slowable
                 {
                     img.color = new Color(img.color.r, img.color.g, img.color.b, x);
                 }
-            }, 0, 0.3f).SetEase(Ease.Linear));
+            }, 0, instant ? 0 : 0.4f).SetEase(Ease.Linear));
     }
 
     void AppearHud()
@@ -111,7 +122,7 @@ public class UIEnemy : Slowable
                 {
                     img.color = new Color(img.color.r, img.color.g, img.color.b, x);
                 }
-            }, 1.0f, 0.3f).SetEase(Ease.Linear));
+            }, 1.0f, 0.2f).SetEase(Ease.Linear));
     }
 
     public void AddRewindMark()

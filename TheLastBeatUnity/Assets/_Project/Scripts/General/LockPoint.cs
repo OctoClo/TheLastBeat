@@ -16,19 +16,17 @@ public class LockPoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        transform.GetChild(0).gameObject.SetActive(lockTarget != null);
         if (lockTarget)
         {
             transform.GetChild(0).position = cam.WorldToScreenPoint(lockTarget.position);
-        }
-        else
-        {
-            transform.GetChild(0).position = -Vector3.one * 100;
         }
     }
 
     public void SetLockPoint(Transform trsf)
     {
         lockTarget = trsf;
-        transform.GetChild(0).position = cam.WorldToScreenPoint(lockTarget.position);
+        if (lockTarget)
+            transform.GetChild(0).position = cam.WorldToScreenPoint(lockTarget.position);
     }
 }

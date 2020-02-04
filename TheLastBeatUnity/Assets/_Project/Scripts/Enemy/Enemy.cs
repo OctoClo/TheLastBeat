@@ -257,19 +257,18 @@ public class Enemy : Slowable
 
     public void BeginStun()
     {
-        stunElements.SetActive(true);
-        notStunElements.SetActive(false);
+        //stunElements.SetActive(true);
+        //notStunElements.SetActive(false);
     }
 
     public void EndStun()
     {
-        stunElements.SetActive(false);
-        notStunElements.SetActive(true);
+        //stunElements.SetActive(false);
+        //notStunElements.SetActive(true);
     }
 
     public void StartFocus(GameObject focusMark)
     {
-        focusMark.SetActive(true);
         focusMark.GetComponent<LockPoint>().SetLockPoint(transform);
 
         model.GetComponent<MeshRenderer>().materials[1].SetFloat("_Outline", 0.1f);
@@ -278,7 +277,7 @@ public class Enemy : Slowable
 
     public void StopFocus(GameObject focusMark)
     {
-        focusMark.SetActive(false);
+        focusMark.GetComponent<LockPoint>().SetLockPoint(null);
 
         model.GetComponent<MeshRenderer>().materials[1].SetFloat("_Outline", 0);
         informations.StopFocus();
