@@ -32,12 +32,12 @@ public class PlayerAnimFeetPosition : MonoBehaviour
         {
             case FootStatus.LEFTFOOT:
                 plyr.SetFoot(leftFoot);
-                leftFootSound.Post(gameObject);
+                leftFootSound.Post(plyr.gameObject);
                 break;
 
             case FootStatus.RIGHTFOOT:
                 plyr.SetFoot(rightFoot);
-                rightFootSound.Post(gameObject);
+                rightFootSound.Post(plyr.gameObject);
                 break;
 
             default:
