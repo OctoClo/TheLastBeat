@@ -57,6 +57,8 @@ public class Enemy : Slowable
     MeshRenderer modelMeshRenderer = null;
     [TabGroup("References")] [SerializeField]
     AK.Wwise.Event hitEnemy = null;
+    [TabGroup("References")] [SerializeField]
+    Animator animator = null;
 
     [TabGroup("Feedback")] [SerializeField]
     float screenDurationHit = 0;
@@ -156,6 +158,8 @@ public class Enemy : Slowable
         {
             EEnemyState newStateEnum = currentState.UpdateState(Time.deltaTime);
             ChangeState(newStateEnum);
+            
+            animator.SetBool("moving", (Agent.velocity != Vector3.zero || isAttacking));
 
             if (AttackHitbox.PlayerInHitbox && isAttacking && !HasAttackedPlayer)
             {
