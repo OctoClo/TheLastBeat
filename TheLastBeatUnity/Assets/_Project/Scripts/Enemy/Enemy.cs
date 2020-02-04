@@ -46,10 +46,6 @@ public class Enemy : Slowable
     int stunCounter = 0;
 
     [TabGroup("References")] [SerializeField]
-    TextMeshProUGUI lifeText = null;
-    [TabGroup("References")] [SerializeField]
-    TextMeshProUGUI stateText = null;
-    [TabGroup("References")] [SerializeField]
     GameObject stunElements = null;
     [TabGroup("References")] [SerializeField]
     GameObject notStunElements = null;
