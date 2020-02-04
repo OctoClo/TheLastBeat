@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &142338149755001001
+--- !u!1 &3547283508965073152
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,40 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4009037183698922170}
-  m_Layer: 0
-  m_Name: canyon_04
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4009037183698922170
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 142338149755001001}
-  m_LocalRotation: {x: -0, y: -0.9988633, z: -0, w: -0.04766747}
-  m_LocalPosition: {x: 159.88, y: 28.02, z: 86.28}
-  m_LocalScale: {x: 14.826316, y: 14.826316, z: 14.826316}
-  m_Children:
-  - {fileID: 4951757850964841593}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -185.46399, z: 0}
---- !u!1 &5903791040339364113
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4951757850964841593}
-  - component: {fileID: 2870869219540848236}
-  - component: {fileID: 6451596672729690406}
+  - component: {fileID: 2624521760879148136}
+  - component: {fileID: 5117040792424998525}
+  - component: {fileID: 4133369703909038391}
   m_Layer: 0
   m_Name: g_Group15757_Group15757
   m_TagString: Untagged
@@ -49,35 +18,35 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4951757850964841593
+--- !u!4 &2624521760879148136
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5903791040339364113}
+  m_GameObject: {fileID: 3547283508965073152}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4009037183698922170}
+  m_Father: {fileID: 6302496542524555947}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &2870869219540848236
+--- !u!33 &5117040792424998525
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5903791040339364113}
+  m_GameObject: {fileID: 3547283508965073152}
   m_Mesh: {fileID: 4659783363183303095, guid: 38335ef8cc783a84a9086ccf23ab848f, type: 3}
---- !u!23 &6451596672729690406
+--- !u!23 &4133369703909038391
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5903791040339364113}
+  m_GameObject: {fileID: 3547283508965073152}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -109,3 +78,49 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &7002445334749851832
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6302496542524555947}
+  - component: {fileID: 8408231400158869034}
+  m_Layer: 0
+  m_Name: canyon_04 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6302496542524555947
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7002445334749851832}
+  m_LocalRotation: {x: -0, y: -0.9988633, z: -0, w: -0.04766747}
+  m_LocalPosition: {x: 168.8172, y: 27.991951, z: 76.48757}
+  m_LocalScale: {x: 14.826316, y: 14.826316, z: 14.826316}
+  m_Children:
+  - {fileID: 2624521760879148136}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: -185.46399, z: 0}
+--- !u!64 &8408231400158869034
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7002445334749851832}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4659783363183303095, guid: 38335ef8cc783a84a9086ccf23ab848f, type: 3}
