@@ -20,6 +20,7 @@ public class EnemyStateWander : EnemyState
         base.Enter();
 
         waitTimer = 0;
+        enemy.Agent.enabled = true;
         nextPosition = enemy.transform.position;
     }
 

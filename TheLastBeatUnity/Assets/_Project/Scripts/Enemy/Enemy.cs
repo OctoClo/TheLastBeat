@@ -29,6 +29,10 @@ public class Enemy : Slowable
     protected float waitAfterPrepareAnim = 0.5f;
     [TabGroup("Behaviour")] [SerializeField] [Tooltip("How fast the enemy will turn towards the player")]
     protected float turnSpeed = 2.5f;
+    [TabGroup("Behaviour")] [SerializeField]
+    float waitBeforeCallEvent = 0;
+    [TabGroup("Behaviour")] [SerializeField]
+    AK.Wwise.Event callAttackEvent = null;
     [TabGroup("Behaviour")] [Header("Attack")] [SerializeField] [Tooltip("How much time the enemy will wait between preparing attack animation and attacking animation")]
     protected float waitBeforeAttackAnim = 0.25f;
     [TabGroup("Behaviour")] [SerializeField] [Tooltip("How long the attack animation will be")]
@@ -37,33 +41,32 @@ public class Enemy : Slowable
     protected float attackAnimDistance = 10;
     [TabGroup("Behaviour")] [SerializeField] [Tooltip("How many HP the player will lose if hit")]
     protected int attackDamage = 5;
-    [TabGroup("Behaviour")] [SerializeField]
-    AK.Wwise.Event callAttackEvent = null;
     [TabGroup("Behaviour")] [Header("Recover")] [SerializeField] [Tooltip("How much time the enemy will wait after an attack")]
     protected float recoverAnimDuration = 2;
-    [TabGroup("Behaviour")] [Header("Stun")] [SerializeField] [Range(0.0f, 1.0f)]
+    [TabGroup("Behaviour")] [Header("Stun")] [SerializeField]
+    float stunDuration = 0;
+    [TabGroup("Behaviour")] [SerializeField] [Range(0.0f, 1.0f)]
     float[] chancesToGetStunned = new float[5];
     int stunCounter = 0;
 
     [TabGroup("References")] [SerializeField]
     GameObject stunElements = null;
     [TabGroup("References")] [SerializeField]
-    GameObject notStunElements = null;
+    AK.Wwise.Event hitEnemy = null;
     [TabGroup("References")] [SerializeField]
     UIEnemy informations = null;
     public UIEnemy Informations => informations;
     [TabGroup("References")]
-    public GameObject model = null;
-    MeshRenderer modelMeshRenderer = null;
-    [TabGroup("References")] [SerializeField]
-    AK.Wwise.Event hitEnemy = null;
+    public Animator Animator = null;
+    [TabGroup("References")]
+    public GameObject Model = null;
+    List<Material> outlineMats = new List<Material>();
 
     [TabGroup("Feedback")] [SerializeField]
     float screenDurationHit = 0;
     [TabGroup("Feedback")] [SerializeField]
     float screenIntensityHit = 0;
 
-    public Material Material { get; private set; }
     public EnemyWeaponHitbox WeaponHitbox { get; private set; }
     public EnemyDetectionZone DetectionZone { get; private set; }
     public EnemyWanderZone WanderZone { get; private set; }
@@ -109,13 +112,20 @@ public class Enemy : Slowable
 
     protected virtual void Awake()
     {
-        modelMeshRenderer = model.GetComponent<MeshRenderer>();
-        Material = modelMeshRenderer.material;
         WeaponHitbox = GetComponentInChildren<EnemyWeaponHitbox>();
         AttackHitbox = GetComponentInChildren<EnemyAttackHitbox>();
         Agent = GetComponent<NavMeshAgent>();
-        Agent.speed = speed;
 
+        SkinnedMeshRenderer[] renderers = Model.GetComponentsInChildren<SkinnedMeshRenderer>();
+        Material[] materials = null;
+        foreach (SkinnedMeshRenderer renderer in renderers)
+        {
+            materials = renderer.materials;
+            if (materials.Length > 1)
+                outlineMats.Add(materials[1]);
+        }
+
+        Agent.speed = speed;
         lives = maxLives;
         informations.Init(maxLives);
         baseAngularSpeed = Agent.angularSpeed;
@@ -143,11 +153,11 @@ public class Enemy : Slowable
     {
         states.Add(EEnemyState.WANDER, new EnemyStateWander(this, waitBeforeNextMove));
         states.Add(EEnemyState.CHASE, new EnemyStateChase(this, chaseDistance));
-        states.Add(EEnemyState.PREPARE_ATTACK, new EnemyStatePrepareAttack(this, waitBeforePrepareAnim, prepareAnimDurationBeats, waitAfterPrepareAnim, SceneHelper.Instance.JitRatio));
-        states.Add(EEnemyState.ATTACK, new EnemyStateAttack(this, waitBeforeAttackAnim + waitAfterPrepareAnim, attackAnimDuration, attackAnimDistance, callAttackEvent));
+        states.Add(EEnemyState.PREPARE_ATTACK, new EnemyStatePrepareAttack(this, waitBeforePrepareAnim, prepareAnimDurationBeats, waitAfterPrepareAnim, SceneHelper.Instance.JitRatio, waitBeforeCallEvent, callAttackEvent));
+        states.Add(EEnemyState.ATTACK, new EnemyStateAttack(this, waitBeforeAttackAnim + waitAfterPrepareAnim, attackAnimDuration, attackAnimDistance));
         states.Add(EEnemyState.RECOVER_ATTACK, new EnemyStateRecoverAttack(this, recoverAnimDuration));
         states.Add(EEnemyState.COME_BACK, new EnemyStateComeBack(this));
-        states.Add(EEnemyState.STUN, new EnemyStateStun(this));
+        states.Add(EEnemyState.STUN, new EnemyStateStun(this, stunDuration));
     }
 
     private void Update()
@@ -156,6 +166,8 @@ public class Enemy : Slowable
         {
             EEnemyState newStateEnum = currentState.UpdateState(Time.deltaTime);
             ChangeState(newStateEnum);
+            
+            Animator.SetBool("moving", (Agent.velocity != Vector3.zero || isAttacking));
 
             if (AttackHitbox.PlayerInHitbox && isAttacking && !HasAttackedPlayer)
             {
@@ -257,30 +269,28 @@ public class Enemy : Slowable
 
     public void BeginStun()
     {
-        //stunElements.SetActive(true);
-        //notStunElements.SetActive(false);
+        stunElements.SetActive(true);
     }
 
     public void EndStun()
     {
-        //stunElements.SetActive(false);
-        //notStunElements.SetActive(true);
+        stunElements.SetActive(false);
     }
 
     public void StartFocus(GameObject focusMark)
     {
         focusMark.GetComponent<LockPoint>().SetLockPoint(transform);
-
-        model.GetComponent<MeshRenderer>().materials[1].SetFloat("_Outline", 0.1f);
         informations.StartFocus();
+        foreach (Material outlineMat in outlineMats)
+            outlineMat.SetFloat("_Outline", 0.0005f);
     }
 
     public void StopFocus(GameObject focusMark)
     {
         focusMark.GetComponent<LockPoint>().SetLockPoint(null);
-
-        model.GetComponent<MeshRenderer>().materials[1].SetFloat("_Outline", 0);
         informations.StopFocus();
+        foreach (Material outlineMat in outlineMats)
+            outlineMat.SetFloat("_Outline", 0);
     }
 
     private void OnDestroy()

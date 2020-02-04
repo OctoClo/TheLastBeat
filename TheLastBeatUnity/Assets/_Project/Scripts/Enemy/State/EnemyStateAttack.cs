@@ -9,16 +9,14 @@ public class EnemyStateAttack : EnemyState
     float waitBeforeAnimDuration = 0;
     float animDuration = 0;
     float impulseForce = 0;
-    AK.Wwise.Event callAttackEvent = null;
 
-    public EnemyStateAttack(Enemy newEnemy, float waitBefore, float duration, float impulse, AK.Wwise.Event newCallAttackEvent) : base(newEnemy)
+    public EnemyStateAttack(Enemy newEnemy, float waitBefore, float duration, float impulse) : base(newEnemy)
     {
         stateEnum = EEnemyState.ATTACK;
         scaleEndValues = new Vector3(1, 1, 1);
         waitBeforeAnimDuration = waitBefore;
         animDuration = duration;
         impulseForce = impulse;
-        callAttackEvent = newCallAttackEvent;
         enemy.EnemyKilled += () =>
         {
             if (animation != null)
@@ -31,7 +29,6 @@ public class EnemyStateAttack : EnemyState
         base.Enter();
 
         animationFinished = false;
-        callAttackEvent.Post(enemy.gameObject);
         enemy.Agent.enabled = false;
 
         Vector3 direction = enemy.transform.forward * impulseForce;
@@ -50,12 +47,17 @@ public class EnemyStateAttack : EnemyState
         }
 
         animation = enemy.CreateSequence();
-
-        animation.Insert(waitBeforeAnimDuration, enemy.model.transform.DOScale(scaleEndValues, animDuration).SetEase(Ease.OutBounce));
+        animation.InsertCallback(waitBeforeAnimDuration, () =>
+        {
+            enemy.StartAttacking();
+            enemy.Animator.SetTrigger("attack");
+        });
         animation.Insert(waitBeforeAnimDuration, enemy.transform.DOMove(goalPos, animDuration).SetEase(Ease.OutBounce));
-        animation.InsertCallback(waitBeforeAnimDuration, () => enemy.StartAttacking());
-        animation.AppendCallback(() => animationFinished = true);
-
+        animation.AppendCallback(() => 
+        {
+            enemy.Animator.SetTrigger("attackEnd");
+            animationFinished = true;
+        });
         animation.Play();
 
         SceneHelper.Instance.MainPlayer.InDanger = true;
@@ -71,7 +73,6 @@ public class EnemyStateAttack : EnemyState
 
     public override void Exit()
     {
-        enemy.model.transform.localScale = scaleEndValues;
         SceneHelper.Instance.MainPlayer.InDanger = false;
         enemy.StopAttacking();
     }

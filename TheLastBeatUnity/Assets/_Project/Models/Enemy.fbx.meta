@@ -6,7 +6,22 @@ ModelImporter:
   - first:
       74: -8382510648247727316
     second: Armature|ArmatureSwordAction
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Body.001
+    second: {fileID: 2100000, guid: 0c66aa277c270714c8cfa1beff55b7bc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Legs.001
+    second: {fileID: 2100000, guid: 6240272953bc9514396fd22f225d8499, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wings.001
+    second: {fileID: 2100000, guid: 636e77929936c814ab60fa1f2269af4d, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -71,7 +86,7 @@ ModelImporter:
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   referencedClips: []
-  importAnimation: 1
+  importAnimation: 0
   copyAvatar: 0
   humanDescription:
     serializedVersion: 3

@@ -38,6 +38,13 @@ public class EnemyStateExplode : EnemyState
         explosionEvent = newExplosionEvent;
     }
 
+    public override void Enter()
+    {
+        base.Enter();
+        enemy.Agent.enabled = true;
+        enemy.Animator.SetTrigger("prepareExplosion");
+    }
+
     public override void OnBeat()
     {
         if (waitNextBeat)
@@ -60,7 +67,7 @@ public class EnemyStateExplode : EnemyState
 
                 animation.AppendCallback(() =>
                 {
-                    enemy.model.SetActive(false);
+                    enemy.Model.SetActive(false);
                     GameObject explosion = GameObject.Instantiate(explosionPrefab, enemy.transform.position, Quaternion.identity);
                     explosion.transform.SetParent(SceneHelper.Instance.VfxFolder);
                     explosionArea.Explode(blastForce, blastDamageToPlayer, blastDamageToEnemies, enemy.Player);

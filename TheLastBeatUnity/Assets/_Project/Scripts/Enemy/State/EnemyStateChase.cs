@@ -18,6 +18,7 @@ public class EnemyStateChase : EnemyState
     {
         base.Enter();
         launchAttack = false;
+        enemy.Agent.enabled = true;
     }
 
     public override void OnBeat()
