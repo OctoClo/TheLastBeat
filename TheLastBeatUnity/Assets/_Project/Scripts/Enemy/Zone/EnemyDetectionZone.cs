@@ -11,7 +11,6 @@ public class EnemyDetectionZone : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             PlayerInZone = true;
-            SceneHelper.Instance.AddZone();
         }
     }
 
@@ -20,7 +19,6 @@ public class EnemyDetectionZone : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             PlayerInZone = false;
-            SceneHelper.Instance.RemoveZone();
         }
     }
 }
