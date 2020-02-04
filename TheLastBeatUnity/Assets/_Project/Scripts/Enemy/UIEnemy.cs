@@ -75,8 +75,8 @@ public class UIEnemy : Slowable
         float width = 0.42f * ((float)lifeAmount / 5.0f);
         for (int i = 0; i < 3; i++)
         {
-            rootRewind.GetChild(i).GetComponent<RectTransform>().anchorMin = new Vector2(0.4f * width * i, 0);
-            rootRewind.GetChild(i).GetComponent<RectTransform>().anchorMax = new Vector2((0.4f * width * i) + width, 1);
+            rootRewind.GetChild(i).GetComponent<RectTransform>().anchorMin = new Vector2(0.5f * width * i, 0);
+            rootRewind.GetChild(i).GetComponent<RectTransform>().anchorMax = new Vector2((0.5f * width * i) + width, 1);
         }
 
         Life = lifeAmount;
