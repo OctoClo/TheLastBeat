@@ -17,6 +17,7 @@ public class EnemyStateComeBack : EnemyState
         base.Enter();
 
         enemy.WanderZone.GetRandomPosition(out goal, enemy.transform.position.y);
+        enemy.Agent.enabled = true;
         enemy.Agent.SetDestination(goal);
     }
 

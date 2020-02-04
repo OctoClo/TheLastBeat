@@ -11,9 +11,9 @@ public class GameManager : MonoBehaviour
 {
     bool pause;
 
-    private void Start()
+    private void Awake()
     {
-        DOTween.SetTweensCapacity(2000, 100);
+        DOTween.SetTweensCapacity(2000, 300);
         pause = false;
     }
 

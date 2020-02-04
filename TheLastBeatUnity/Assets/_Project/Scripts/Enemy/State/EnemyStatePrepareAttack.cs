@@ -14,7 +14,10 @@ public class EnemyStatePrepareAttack : EnemyState
     float waitAfterAnimDuration = 0;
     float inDangerSince = 0;
 
-    public EnemyStatePrepareAttack(Enemy newEnemy, float waitBefore, int durationBeats, float waitAfter, float danger) : base(newEnemy)
+    float waitBeforeCallSound = 0;
+    AK.Wwise.Event callAttackEvent = null;
+
+    public EnemyStatePrepareAttack(Enemy newEnemy, float waitBefore, int durationBeats, float waitAfter, float danger, float waitBeforeSound, AK.Wwise.Event newCallAttackEvent) : base(newEnemy)
     {
         stateEnum = EEnemyState.PREPARE_ATTACK;
         scaleEndValues = new Vector3(1.5f, 1.5f, 1.5f);
@@ -22,6 +25,9 @@ public class EnemyStatePrepareAttack : EnemyState
         animDurationBeats = durationBeats;
         waitAfterAnimDuration = waitAfter;
         inDangerSince = Mathf.Clamp(danger, 0, 1);
+
+        waitBeforeCallSound = waitBeforeSound;
+        callAttackEvent = newCallAttackEvent;
         enemy.EnemyKilled += () => { if (animation != null) animation.Kill(); };
     }
 
@@ -33,11 +39,14 @@ public class EnemyStatePrepareAttack : EnemyState
 
         animationFinished = false;
         animDurationSeconds = animDurationBeats * SoundManager.Instance.TimePerBeat - waitAfterAnimDuration;
+
         animation = enemy.CreateSequence();
 
         animation.Insert(waitBeforeAnimDuration, enemy.transform.DOShakePosition(animDurationSeconds, 0.5f, 100));
-        animation.Insert(waitBeforeAnimDuration, enemy.model.transform.DOScale(scaleEndValues, animDurationSeconds));
-        animation.AppendCallback(() => animationFinished = true);
+        animation.InsertCallback(waitBeforeAnimDuration, () => enemy.Animator.SetTrigger("prepareAttack"));
+        animation.InsertCallback(waitBeforeCallSound, () => callAttackEvent.Post(enemy.gameObject));
+        animation.InsertCallback(waitBeforeAnimDuration + animDurationSeconds, () => enemy.Animator.SetTrigger("prepareAttackPose"));
+        animation.InsertCallback(waitBeforeAnimDuration + animDurationSeconds + waitAfterAnimDuration, () => animationFinished = true);
 
         animation.Play();
     }
@@ -54,6 +63,5 @@ public class EnemyStatePrepareAttack : EnemyState
     public override void Exit()
     {
         SceneHelper.Instance.MainPlayer.InDanger = false;
-        enemy.model.transform.localScale = scaleEndValues;
     }
 }
