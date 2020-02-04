@@ -24,16 +24,19 @@ namespace AK
         static const AkUniqueID INT_HITMUSICFX = 3191278813U;
         static const AkUniqueID INT_MUSICFEEDBACKOFF = 2501149424U;
         static const AkUniqueID INT_MUSICFEEDBACKON = 1468197082U;
-        static const AkUniqueID PLAY_AMBDESERT = 3681445093U;
         static const AkUniqueID PLAY_BLINKFXOFFBEAT = 3832364417U;
         static const AkUniqueID PLAY_BLINKFXONBEAT = 2655647461U;
         static const AkUniqueID PLAY_BOUNCE_SHIELD = 5903894U;
         static const AkUniqueID PLAY_CALL_ATTACK_ENNEMY = 512965664U;
+        static const AkUniqueID PLAY_CANYON_AMBIANCE = 831844293U;
+        static const AkUniqueID PLAY_CLIFFBRIDGE_AMBIANCE = 1559935606U;
+        static const AkUniqueID PLAY_DESERT_AMBIANCE = 1555409676U;
         static const AkUniqueID PLAY_EXPLOSION = 4030404899U;
         static const AkUniqueID PLAY_HIT_ENEMY = 3889018732U;
         static const AkUniqueID PLAY_HIT_PLAYER = 2257378511U;
         static const AkUniqueID PLAY_LEFTFOOT = 1674468585U;
         static const AkUniqueID PLAY_MUSIC = 2932040671U;
+        static const AkUniqueID PLAY_OASIS_AMBIANCE = 3449458560U;
         static const AkUniqueID PLAY_PRESENCE = 4155730121U;
         static const AkUniqueID PLAY_REWIND = 869704911U;
         static const AkUniqueID PLAY_RIGHTFOOT = 3723441664U;
@@ -197,6 +200,9 @@ namespace AK
     namespace AUX_BUSSES
     {
         static const AkUniqueID MFXREWINDVERB = 731829278U;
+        static const AkUniqueID REVBRIDGE = 1729625191U;
+        static const AkUniqueID REVCANYON = 109871156U;
+        static const AkUniqueID REVOPEN = 312281464U;
     } // namespace AUX_BUSSES
 
     namespace AUDIO_DEVICES

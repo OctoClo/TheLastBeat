@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 53f38f5348f7094493a66f9c8647d632
     GuidInternal: 
-    m_lastTime: -8586211421270301465
+    m_lastTime: -8586208563647854682
     List:
     - name: MFXRewindVerb
       guid: 82a1ed093669ee4f84717f8fd1429698
@@ -39,12 +39,51 @@ MonoBehaviour:
       - ElementName: MFXRewindVerb
         ObjectType: 1
       Path: Default Work Unit\Master Audio Bus\MFX\MFXRewindVerb
+    - name: RevBridge
+      guid: ce06cef96d369940b78e41c3e04408b9
+      id: 1729625191
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+      - ElementName: SFX
+        ObjectType: 2
+      - ElementName: RevBridge
+        ObjectType: 1
+      Path: Default Work Unit\Master Audio Bus\SFX\RevBridge
+    - name: RevCanyon
+      guid: 3aebe790ee684a4e9cfa0859c4dcc159
+      id: 109871156
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+      - ElementName: SFX
+        ObjectType: 2
+      - ElementName: RevCanyon
+        ObjectType: 1
+      Path: Default Work Unit\Master Audio Bus\SFX\RevCanyon
+    - name: RevOpen
+      guid: 05322031746d0e4bbe03f971fea7a7d2
+      id: 312281464
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+      - ElementName: SFX
+        ObjectType: 2
+      - ElementName: RevOpen
+        ObjectType: 1
+      Path: Default Work Unit\Master Audio Bus\SFX\RevOpen
   BankWwu:
   - PhysicalPath: SoundBanks\Default Work Unit.wwu
     ParentPhysicalPath: 
     guid: 00607f23f4bb1c4ba4ba719fd5871f3f
     GuidInternal: 
-    m_lastTime: -8586211381700383287
+    m_lastTime: -8586208556262027265
     List:
     - name: TheLastBank
       guid: ba44c042ce392242af9fd5c1beb6de48
@@ -60,7 +99,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 8758d50e9a0ca842a9ceccd260c5af42
     GuidInternal: 
-    m_lastTime: -8586211381651980706
+    m_lastTime: -8586208556659463517
     List:
     - name: Int_Chord01
       guid: eaee35c708d9eb47b66fd56d667bc9eb
@@ -232,20 +271,6 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Play_AmbDesert
-      guid: 4385c76f7ea2514d8d08d372b433eb9f
-      id: 3681445093
-      PathAndIcons:
-      - ElementName: Default Work Unit
-        ObjectType: 12
-      - ElementName: 01_AMB
-        ObjectType: 4
-      - ElementName: Play_AmbDesert
-        ObjectType: 3
-      Path: Default Work Unit\01_AMB\Play_AmbDesert
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
     - name: Play_BlinkFXOffBeat
       guid: 19d67817d06af141bbd5f7ae21258a4f
       id: 3832364417
@@ -299,6 +324,48 @@ MonoBehaviour:
       - ElementName: Play_Call_Attack_Ennemy
         ObjectType: 3
       Path: Default Work Unit\03_NME\Play_Call_Attack_Ennemy
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_Canyon_Ambiance
+      guid: 58b2043ec7ac1849ba082064d4fc4c62
+      id: 831844293
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: 01_AMB
+        ObjectType: 4
+      - ElementName: Play_Canyon_Ambiance
+        ObjectType: 3
+      Path: Default Work Unit\01_AMB\Play_Canyon_Ambiance
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_CliffBridge_Ambiance
+      guid: 8518b524dbc07b4fa938f8e09bd97e11
+      id: 1559935606
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: 01_AMB
+        ObjectType: 4
+      - ElementName: Play_CliffBridge_Ambiance
+        ObjectType: 3
+      Path: Default Work Unit\01_AMB\Play_CliffBridge_Ambiance
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_Desert_Ambiance
+      guid: a9d2d6ea88b8ce408e5f64d746e8d2d9
+      id: 1555409676
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: 01_AMB
+        ObjectType: 4
+      - ElementName: Play_Desert_Ambiance
+        ObjectType: 3
+      Path: Default Work Unit\01_AMB\Play_Desert_Ambiance
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -367,6 +434,20 @@ MonoBehaviour:
       - ElementName: Play_Music
         ObjectType: 3
       Path: Default Work Unit\Play_Music
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_Oasis_Ambiance
+      guid: d6117400c47712439af1939a18027a5a
+      id: 3449458560
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: 01_AMB
+        ObjectType: 4
+      - ElementName: Play_Oasis_Ambiance
+        ObjectType: 3
+      Path: Default Work Unit\01_AMB\Play_Oasis_Ambiance
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -599,7 +680,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 0e2ba2ef49d7a9468a71f885a9d96179
     GuidInternal: 
-    m_lastTime: -8586211255111272472
+    m_lastTime: -8586208563650138526
     List:
     - name: CharachterSpeed
       guid: dc604e5c93a6bb45835923bc07265ce8
@@ -666,7 +747,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: f97624b2970aec4088365c8371d57a2e
     GuidInternal: 
-    m_lastTime: -8586212082374841054
+    m_lastTime: -8586208631634475642
     List:
     - name: Int_Land_Chord
       guid: 0aa30c6240435e45a7a36f62c52db2f0
@@ -958,7 +1039,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 3af7dc8d80519e43aa87a0e9a3e8afdb
     GuidInternal: 
-    m_lastTime: -8586212082374821102
+    m_lastTime: -8586208631634485619
     List:
     - name: FootstepsMaterial
       guid: f8a8b4e1ebb69944a3e54fee02df5e8e
