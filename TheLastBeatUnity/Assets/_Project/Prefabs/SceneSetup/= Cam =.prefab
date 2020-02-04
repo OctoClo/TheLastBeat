@@ -156,10 +156,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52130b1b684c6a545a5906f37b6518b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  targetTransparency: 0.2
   fadeInTimeout: 0.2
   fadeOutTimeout: 0.2
-  targetTransparency: 0.2
+  debug: 0
+  player: {fileID: 0}
+  playerCapsule: {fileID: 0}
 --- !u!1 &492780477
 GameObject:
   m_ObjectHideFlags: 0
@@ -233,8 +235,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ad980451443d70438faac0bc6c235a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_LookaheadTime: 0.13
-  m_LookaheadSmoothing: 15.2
+  m_LookaheadTime: 0
+  m_LookaheadSmoothing: 3
   m_LookaheadIgnoreY: 1
   m_XDamping: 0.5
   m_YDamping: 0.5
@@ -438,7 +440,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_LookaheadTime: 0
-  m_LookaheadSmoothing: 4
+  m_LookaheadSmoothing: 3
   m_LookaheadIgnoreY: 1
   m_XDamping: 0.1
   m_YDamping: 0.1
@@ -622,10 +624,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52130b1b684c6a545a5906f37b6518b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  targetTransparency: 0.2
   fadeInTimeout: 0.2
   fadeOutTimeout: 0.2
-  targetTransparency: 0.2
+  debug: 0
+  player: {fileID: 0}
+  playerCapsule: {fileID: 0}
 --- !u!1 &4613079822531821919
 GameObject:
   m_ObjectHideFlags: 0
@@ -782,10 +786,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52130b1b684c6a545a5906f37b6518b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  targetTransparency: 0.2
   fadeInTimeout: 0.2
   fadeOutTimeout: 0.2
-  targetTransparency: 0.2
+  debug: 0
+  player: {fileID: 0}
+  playerCapsule: {fileID: 0}
 --- !u!1 &5046161126495913947
 GameObject:
   m_ObjectHideFlags: 0
@@ -958,8 +964,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ad980451443d70438faac0bc6c235a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_LookaheadTime: 0.45
-  m_LookaheadSmoothing: 20
+  m_LookaheadTime: 0
+  m_LookaheadSmoothing: 3
   m_LookaheadIgnoreY: 0
   m_XDamping: 1.1
   m_YDamping: 0.9
@@ -1143,10 +1149,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52130b1b684c6a545a5906f37b6518b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  targetTransparency: 0.2
   fadeInTimeout: 0.2
   fadeOutTimeout: 0.2
-  targetTransparency: 0.2
+  debug: 0
+  player: {fileID: 0}
+  playerCapsule: {fileID: 0}
 --- !u!1 &6542996925661637603
 GameObject:
   m_ObjectHideFlags: 0
@@ -1225,7 +1233,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6542996926136852930}
   m_LocalRotation: {x: 0.06975647, y: -0, z: -0, w: 0.9975641}
-  m_LocalPosition: {x: -19.59, y: 2.350693, z: -39.247536}
+  m_LocalPosition: {x: -18, y: 2.569693, z: -52.607536}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6542996926618164161}
@@ -1430,8 +1438,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54c69e6c9e43d8a4196cce56dca895fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraOutOfCombat: {fileID: 5046161127219819081}
-  cameraInCombat: {fileID: 1146722836029997059}
   stateDrive: {fileID: 5046161126495913957}
 --- !u!1 &6542996926618164166
 GameObject:

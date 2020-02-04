@@ -39,7 +39,7 @@ public class UIEnemy : Slowable
         }
         set
         {
-            life = value;
+            life = Mathf.Max(0,value);
             RecomputeSprite();
         }
     }

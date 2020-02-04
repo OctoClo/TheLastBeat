@@ -5,10 +5,13 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     [SerializeField]
-    AK.Wwise.Event ambStart = null;
+    AK.Wwise.Event musStart = null;
 
     [SerializeField]
-    AK.Wwise.Event musStart = null;
+    AK.Wwise.State ooc = null;
+
+    [SerializeField]
+    AK.Wwise.State combat = null;
 
     [SerializeField]
     List<AK.Wwise.State> allInitializeState = new List<AK.Wwise.State>();
@@ -74,8 +77,17 @@ public class SoundManager : MonoBehaviour
             state.SetValue();
         }
 
-        ambStart.Post(gameObject);
         musStart.Post(gameObject, (uint)AkCallbackType.AK_MusicSyncAll, SyncReference, (uint)AkCallbackType.AK_EnableGetMusicPlayPosition);
+    }
+
+    private void Start()
+    {
+        SceneHelper.Instance.OnCombatStatusChange += SwitchMusic;
+    }
+
+    public void SwitchMusic(bool value)
+    {
+        (value ? combat : ooc).SetValue();
     }
 
     void SyncReference(object in_cookie, AkCallbackType in_type, object in_info)
@@ -182,9 +194,26 @@ public class SoundManager : MonoBehaviour
         StartCoroutine(DelayedBeat(tb));
     }
 
-    public float GetTimeLeftNextBeat()
+    public float GetTimeLeftNextBeat(bool halfBeat = false, float minValue = 0)
     {
-        return (LastBeat.lastTimeBeat + LastBeat.beatInterval) - TimeManager.Instance.SampleCurrentTime();
+        float output;
+        if (!halfBeat || LastBeat.lastTimeBeat + (LastBeat.beatInterval / 2.0f) < TimeManager.Instance.SampleCurrentTime())
+        {
+            output = (LastBeat.lastTimeBeat + LastBeat.beatInterval) - TimeManager.Instance.SampleCurrentTime();
+            if (output < 0)
+                output = SoundManager.Instance.LastBeat.beatInterval * (halfBeat ? 0.5f : 1);
+        }
+        else
+        {
+            output = (LastBeat.lastTimeBeat + (LastBeat.beatInterval / 2.0f)) - TimeManager.Instance.SampleCurrentTime();
+            if (output < 0)
+                output = SoundManager.Instance.LastBeat.beatInterval * 0.5f;
+        }
+
+        while (output < minValue)
+            output += SoundManager.Instance.LastBeat.beatInterval * (halfBeat ? 0.5f : 1);
+
+        return output;
     }
 
     IEnumerator DelayedBeat(TypeBeat tb)
@@ -218,5 +247,6 @@ public class SoundManager : MonoBehaviour
         destroyed = true;
         StopAllCoroutines();
         OnBeatTriggered = null;
+        SceneHelper.Instance.OnCombatStatusChange -= SwitchMusic;
     }
 }
