@@ -115,6 +115,8 @@ public class RewindRushAbility : Ability
         duration = SoundManager.Instance.LastBeat.beatInterval * (chainedEnemies.Count <= 4 ? 1 : 0.5f);
         GameObject instantiated = GameObject.Instantiate(parameters.prefabGhost);
         instantiated.transform.position = parameters.groundReference.position;
+        instantiated.GetComponent<Animator>().SetTrigger("rush");
+        instantiated.GetComponent<Animator>().speed = 0;
         instantiated.transform.LookAt(enemy.transform.position);
         instantiated.transform.forward = new Vector3(instantiated.transform.forward.x, 0, instantiated.transform.forward.z);
         GameObject.Destroy(instantiated, 1.2f);
