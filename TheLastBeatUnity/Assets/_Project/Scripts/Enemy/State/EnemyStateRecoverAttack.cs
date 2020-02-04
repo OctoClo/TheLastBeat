@@ -15,8 +15,6 @@ public class EnemyStateRecoverAttack : EnemyState
 
     public override void Enter()
     {
-        enemy.SetStateText("recover");
-
         recoverTimer = recoverDuration;
     }
 

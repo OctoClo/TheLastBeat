@@ -46,13 +46,12 @@ public class Enemy : Slowable
     int stunCounter = 0;
 
     [TabGroup("References")] [SerializeField]
-    protected TextMeshProUGUI lifeText = null;
-    [TabGroup("References")] [SerializeField]
-    TextMeshProUGUI stateText = null;
-    [TabGroup("References")] [SerializeField]
     GameObject stunElements = null;
     [TabGroup("References")] [SerializeField]
     GameObject notStunElements = null;
+    [TabGroup("References")] [SerializeField]
+    UIEnemy informations = null;
+    public UIEnemy Informations => informations;
     [TabGroup("References")]
     public GameObject model = null;
     MeshRenderer modelMeshRenderer = null;
@@ -86,7 +85,6 @@ public class Enemy : Slowable
 
     // Misc
     EEnemyType type = EEnemyType.DEFAULT;
-    Collider collid = null;
     bool isAttacking = false;
     [HideInInspector]
     public bool HasAttackedPlayer = false;
@@ -115,12 +113,11 @@ public class Enemy : Slowable
         Material = modelMeshRenderer.material;
         WeaponHitbox = GetComponentInChildren<EnemyWeaponHitbox>();
         AttackHitbox = GetComponentInChildren<EnemyAttackHitbox>();
-        collid = GetComponent<Collider>();
         Agent = GetComponent<NavMeshAgent>();
         Agent.speed = speed;
 
         lives = maxLives;
-        lifeText.text = lives.ToString();
+        informations.Init(maxLives);
         baseAngularSpeed = Agent.angularSpeed;
     }
 
@@ -202,12 +199,12 @@ public class Enemy : Slowable
             ce.StartScreenShake(screenDurationHit, screenIntensityHit);
         
         lives -= (int)dmg;
+        informations.Life = lives;
         bool dying = (lives <= minLives);
         hitEnemy.Post(gameObject);
 
         if (!dying)
         {
-            lifeText.text = lives.ToString();
             if (stunCounter < chancesToGetStunned.Length)
             {
                 float stunPercentage = RandomHelper.GetRandom();
@@ -247,55 +244,48 @@ public class Enemy : Slowable
         }
     }
 
-    public void SetStateText(string text)
-    {
-        stateText.text = text;
-    }
-
     public void StartAttacking()
     {
-        //collid.isTrigger = true;
         isAttacking = true;
         HasAttackedPlayer = false;
     }
 
     public void StopAttacking()
     {
-        //collid.isTrigger = false;
         isAttacking = false;
     }
 
     public void BeginStun()
     {
-        stunElements.SetActive(true);
-        notStunElements.SetActive(false);
+        //stunElements.SetActive(true);
+        //notStunElements.SetActive(false);
     }
 
     public void EndStun()
     {
-        stunElements.SetActive(false);
-        notStunElements.SetActive(true);
+        //stunElements.SetActive(false);
+        //notStunElements.SetActive(true);
     }
 
     public void StartFocus(GameObject focusMark)
     {
-        focusMark.SetActive(true);
-        focusMark.transform.position = transform.position + Vector3.up;
-        focusMark.transform.parent = transform;
+        focusMark.GetComponent<LockPoint>().SetLockPoint(transform);
+
         model.GetComponent<MeshRenderer>().materials[1].SetFloat("_Outline", 0.1f);
+        informations.StartFocus();
     }
 
     public void StopFocus(GameObject focusMark)
     {
-        focusMark.transform.parent = null;
-        focusMark.SetActive(false);
+        focusMark.GetComponent<LockPoint>().SetLockPoint(null);
+
         model.GetComponent<MeshRenderer>().materials[1].SetFloat("_Outline", 0);
+        informations.StopFocus();
     }
 
     private void OnDestroy()
     {
-        if (EnemyKilled != null)
-            EnemyKilled();
+        EnemyKilled?.Invoke();
 
         if (states != null)
             states.Clear();

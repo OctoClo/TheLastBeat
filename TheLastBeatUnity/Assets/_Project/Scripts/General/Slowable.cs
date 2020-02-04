@@ -43,6 +43,12 @@ public class Slowable : MonoBehaviour
         return seq;
     }
 
+    public void Purge()
+    {
+        while (allSequences.Count > 0)
+            allSequences[0].Kill();
+    }
+
     public void ForceTimeScaleAt(float mustFinishIn)
     {
         mustFinishIn = Mathf.Max(0.001f, mustFinishIn);

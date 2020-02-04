@@ -38,7 +38,6 @@ public class EnemyExplosive : Enemy
 
     public override void StartDying()
     {
-        lifeText.text = lives.ToString();
         ChangeState(EEnemyState.EXPLODE);
     }
 }
