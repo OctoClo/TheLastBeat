@@ -31,9 +31,11 @@ namespace AK
         static const AkUniqueID PLAY_CANYON_AMBIANCE = 831844293U;
         static const AkUniqueID PLAY_CLIFFBRIDGE_AMBIANCE = 1559935606U;
         static const AkUniqueID PLAY_DESERT_AMBIANCE = 1555409676U;
+        static const AkUniqueID PLAY_ENEMY_ATTACK = 2257393085U;
         static const AkUniqueID PLAY_EXPLOSION = 4030404899U;
         static const AkUniqueID PLAY_HIT_ENEMY = 3889018732U;
         static const AkUniqueID PLAY_HIT_PLAYER = 2257378511U;
+        static const AkUniqueID PLAY_HOVER = 1962302600U;
         static const AkUniqueID PLAY_LEFTFOOT = 1674468585U;
         static const AkUniqueID PLAY_MUSIC = 2932040671U;
         static const AkUniqueID PLAY_OASIS_AMBIANCE = 3449458560U;
@@ -50,6 +52,7 @@ namespace AK
         static const AkUniqueID SETREWIND_LOOPC = 4276712658U;
         static const AkUniqueID STOP_ALL = 452547817U;
         static const AkUniqueID STOP_AMB = 435770000U;
+        static const AkUniqueID STOP_HOVER = 3535291822U;
         static const AkUniqueID STOP_PRESENCE = 3485622663U;
         static const AkUniqueID STOP_REWIND = 564679353U;
     } // namespace EVENTS
