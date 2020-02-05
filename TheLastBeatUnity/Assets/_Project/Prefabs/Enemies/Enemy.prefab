@@ -26,8 +26,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1350852660425022129}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.92}
-  m_LocalScale: {x: 1, y: 1, z: 5}
+  m_LocalPosition: {x: 0, y: 0, z: 2.5}
+  m_LocalScale: {x: 1, y: 1, z: 6}
   m_Children: []
   m_Father: {fileID: 7484901647461563452}
   m_RootOrder: 1
@@ -325,27 +325,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e047a9a15e32c19469369946a981b86c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7
+  speed: 15
   maxLives: 5
-  waitBeforeNextMove: {x: 1, y: 3}
-  chaseDistance: 2.5
+  waitBeforeNextMove: {x: 0, y: 0}
+  chaseDistance: 50
   waitBeforePrepareAnim: 0
-  prepareAnimDurationBeats: 2
-  waitAfterPrepareAnim: 0.5
-  turnSpeed: 4
-  waitBeforeAttackAnim: 0.2
+  prepareAnimDurationBeats: 1
+  waitAfterPrepareAnim: 0.05
+  turnSpeed: 0
+  waitBeforeAttackAnim: 0.05
   attackAnimDuration: 0.5
   attackAnimDistance: 10
-  attackDamage: 10
-  recoverAnimDuration: 1.5
+  attackDamage: 1
+  recoverAnimDuration: 0
   stunDuration: 1
   chancesToGetStunned:
-  - 0.8
-  - 0.7
-  - 0.5
-  - 0.3
+  - 0.4
   - 0.2
-  - 0.2
+  - 0
+  - 0
+  - 0
+  - 0
   moveSound:
     idInternal: 0
     valueGuidInternal: 
@@ -409,9 +409,9 @@ NavMeshAgent:
   m_GameObject: {fileID: 7484901647461563443}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 2.7
+  m_Radius: 3
   m_Speed: 1
-  m_Acceleration: 15
+  m_Acceleration: 20
   avoidancePriority: 50
   m_AngularSpeed: 360
   m_StoppingDistance: 0
@@ -572,6 +572,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 387277986294170537}
     m_Modifications:
+    - target: {fileID: -927199367670048503, guid: b39bcb6d77c3bed4a8ba4dc3af434e0a,
+        type: 3}
+      propertyPath: m_Name
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: b39bcb6d77c3bed4a8ba4dc3af434e0a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -627,11 +632,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: b39bcb6d77c3bed4a8ba4dc3af434e0a,
-        type: 3}
-      propertyPath: m_Name
-      value: Enemy
-      objectReference: {fileID: 0}
     - target: {fileID: -6057140222963153312, guid: b39bcb6d77c3bed4a8ba4dc3af434e0a,
         type: 3}
       propertyPath: m_Controller
@@ -654,24 +654,14 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: eb2a68c1dac1b9e44ad24c96cc0b1ad6, type: 2}
     - target: {fileID: 6286882445357437394, guid: b39bcb6d77c3bed4a8ba4dc3af434e0a,
         type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 1
+      propertyPath: m_CastShadows
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6286882445357437394, guid: b39bcb6d77c3bed4a8ba4dc3af434e0a,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 60827074d81df56449894ad0388a4aba, type: 2}
-    - target: {fileID: 6286882445357437394, guid: b39bcb6d77c3bed4a8ba4dc3af434e0a,
-        type: 3}
-      propertyPath: m_CastShadows
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6286882445357437394, guid: b39bcb6d77c3bed4a8ba4dc3af434e0a,
-        type: 3}
-      propertyPath: m_Materials.Array.data[1]
-      value: 
-      objectReference: {fileID: 2100000, guid: eb2a68c1dac1b9e44ad24c96cc0b1ad6, type: 2}
     - target: {fileID: -3170185843384845221, guid: b39bcb6d77c3bed4a8ba4dc3af434e0a,
         type: 3}
       propertyPath: m_Materials.Array.size

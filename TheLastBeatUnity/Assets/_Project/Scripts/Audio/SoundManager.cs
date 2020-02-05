@@ -14,6 +14,9 @@ public class SoundManager : MonoBehaviour
     AK.Wwise.State combat = null;
 
     [SerializeField]
+    AK.Wwise.State normal = null;
+
+    [SerializeField]
     List<AK.Wwise.State> allInitializeState = new List<AK.Wwise.State>();
 
     public float TimePerBeat { get; private set; }
@@ -88,6 +91,7 @@ public class SoundManager : MonoBehaviour
     public void SwitchMusic(bool value)
     {
         (value ? combat : ooc).SetValue();
+        normal.SetValue();
     }
 
     void SyncReference(object in_cookie, AkCallbackType in_type, object in_info)

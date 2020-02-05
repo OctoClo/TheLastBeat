@@ -349,19 +349,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 260566299c24b7f4ebe2b19f8cf600fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 9
+  speed: 10
   maxLives: 3
-  waitBeforeNextMove: {x: 1, y: 3}
-  chaseDistance: 2.5
-  waitBeforePrepareAnim: 0.2
-  prepareAnimDurationBeats: 2
-  waitAfterPrepareAnim: 0.5
-  turnSpeed: 2.5
-  waitBeforeAttackAnim: 0.25
+  waitBeforeNextMove: {x: 0, y: 0}
+  chaseDistance: 0.5
+  waitBeforePrepareAnim: 0
+  prepareAnimDurationBeats: 1
+  waitAfterPrepareAnim: 0.05
+  turnSpeed: 4
+  waitBeforeAttackAnim: 0.05
   attackAnimDuration: 0.5
   attackAnimDistance: 10
-  attackDamage: 5
-  recoverAnimDuration: 1.5
+  attackDamage: 1
+  recoverAnimDuration: 0
   stunDuration: 1
   chancesToGetStunned:
   - 1
@@ -395,10 +395,10 @@ MonoBehaviour:
   InWanderZone: 0
   Agent: {fileID: 0}
   HasAttackedPlayer: 0
-  followSpeed: 20
+  followSpeed: 15
   beatsBeforeExplosion: 3
   explosionBlastForce: 35
-  explosionDamageToPlayer: 10
+  explosionDamageToPlayer: 2
   explosionDamageToEnemies: 2
   explosionEvent:
     idInternal: 0
@@ -445,7 +445,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 7484901647461563443}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.96
+  m_Radius: 1
   m_Speed: 1
   m_Acceleration: 15
   avoidancePriority: 50
@@ -601,11 +601,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyExplosive
       objectReference: {fileID: 0}
-    - target: {fileID: -6057140222963153312, guid: 3fb1ca1583adf314196336a51a365d8e,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: e57fb6d2a37bc604d8081cdb9199008d, type: 2}
     - target: {fileID: -4216859302048453862, guid: 3fb1ca1583adf314196336a51a365d8e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -661,16 +656,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3280973328620774699, guid: 3fb1ca1583adf314196336a51a365d8e,
+    - target: {fileID: -6057140222963153312, guid: 3fb1ca1583adf314196336a51a365d8e,
         type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3280973328620774699, guid: 3fb1ca1583adf314196336a51a365d8e,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 2100000, guid: 60827074d81df56449894ad0388a4aba, type: 2}
+      objectReference: {fileID: 9100000, guid: e57fb6d2a37bc604d8081cdb9199008d, type: 2}
     - target: {fileID: 3280973328620774699, guid: 3fb1ca1583adf314196336a51a365d8e,
         type: 3}
       propertyPath: m_CastShadows
@@ -678,9 +668,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3280973328620774699, guid: 3fb1ca1583adf314196336a51a365d8e,
         type: 3}
-      propertyPath: m_Materials.Array.data[1]
+      propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: eb2a68c1dac1b9e44ad24c96cc0b1ad6, type: 2}
+      objectReference: {fileID: 2100000, guid: 60827074d81df56449894ad0388a4aba, type: 2}
     - target: {fileID: 4447101552173780298, guid: 3fb1ca1583adf314196336a51a365d8e,
         type: 3}
       propertyPath: m_Materials.Array.size
@@ -757,11 +747,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnemyUI
-      objectReference: {fileID: 0}
-    - target: {fileID: 6219805775243909519, guid: 2bde456caf644314a9b983448a9c6c06,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -0.000015258789
       objectReference: {fileID: 0}
     - target: {fileID: 871897599622983467, guid: 2bde456caf644314a9b983448a9c6c06,
         type: 3}
@@ -867,11 +852,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 891072697112209256, guid: 2bde456caf644314a9b983448a9c6c06,
-        type: 3}
-      propertyPath: m_Color.a
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2bde456caf644314a9b983448a9c6c06, type: 3}
