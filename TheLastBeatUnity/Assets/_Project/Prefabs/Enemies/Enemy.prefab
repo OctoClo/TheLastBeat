@@ -212,7 +212,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   targetValue: 10
   countBeforeSetup: 2
-  color: {r: 0.36078432, g: 0.9490196, b: 0.6745098, a: 1}
+  color: {r: 0.5019608, g: 0.17254902, b: 0.6431373, a: 1}
 --- !u!1 &6324063802824406288
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,12 +327,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 15
   maxLives: 5
-  waitBeforeNextMove: {x: 0, y: 0}
+  waitBeforeNextMove: {x: 1, y: 3}
   chaseDistance: 50
   waitBeforePrepareAnim: 0
   prepareAnimDurationBeats: 1
   waitAfterPrepareAnim: 0.05
-  turnSpeed: 0
+  turnSpeed: 360
   waitBeforeAttackAnim: 0.05
   attackAnimDuration: 0.5
   attackAnimDistance: 10
@@ -429,11 +429,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5480258102326672981}
     m_Modifications:
-    - target: {fileID: 5825424975591432047, guid: 2bde456caf644314a9b983448a9c6c06,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyUI
-      objectReference: {fileID: 0}
     - target: {fileID: 871897599622983467, guid: 2bde456caf644314a9b983448a9c6c06,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -539,6 +534,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5825424975591432047, guid: 2bde456caf644314a9b983448a9c6c06,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyUI
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2bde456caf644314a9b983448a9c6c06, type: 3}
 --- !u!224 &2604285498691620820 stripped
@@ -572,11 +572,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 387277986294170537}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: b39bcb6d77c3bed4a8ba4dc3af434e0a,
-        type: 3}
-      propertyPath: m_Name
-      value: Enemy
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: b39bcb6d77c3bed4a8ba4dc3af434e0a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -631,6 +626,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: b39bcb6d77c3bed4a8ba4dc3af434e0a,
+        type: 3}
+      propertyPath: m_Name
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: -6057140222963153312, guid: b39bcb6d77c3bed4a8ba4dc3af434e0a,
         type: 3}
