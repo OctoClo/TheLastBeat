@@ -194,6 +194,7 @@ public class RewindRushAbility : Ability
                 allDamages[enn] = 1;
         }
 
+        parameters.NormalState.SetValue();
         foreach(Enemy enn in allDamages.Keys)
         {
             enn.GetAttacked(attackOnRythm, allDamages[enn]);
@@ -212,7 +213,6 @@ public class RewindRushAbility : Ability
         player.Status.StopRushing();
         player.gameObject.layer = LayerMask.NameToLayer("Default");
         ResetCombo();
-        parameters.NormalState.SetValue();
         player.VisualPart.gameObject.SetActive(true);
         blockReset = false;
     }
