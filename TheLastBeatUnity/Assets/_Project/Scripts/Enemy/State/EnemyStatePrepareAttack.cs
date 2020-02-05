@@ -14,9 +14,6 @@ public class EnemyStatePrepareAttack : EnemyState
     float waitAfterAnimDuration = 0;
     float inDangerSince = 0;
 
-    float waitBeforeCallSound = 0;
-    AK.Wwise.Event callAttackEvent = null;
-
     public EnemyStatePrepareAttack(Enemy newEnemy, float waitBefore, int durationBeats, float waitAfter, float danger) : base(newEnemy)
     {
         stateEnum = EEnemyState.PREPARE_ATTACK;

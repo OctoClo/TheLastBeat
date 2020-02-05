@@ -36,7 +36,6 @@ public class SceneHelper : MonoBehaviour
 
     [SerializeField]
     public float JitRatio = 0.2f;
-    int numberZone = 0;
 
     private void Awake()
     {
