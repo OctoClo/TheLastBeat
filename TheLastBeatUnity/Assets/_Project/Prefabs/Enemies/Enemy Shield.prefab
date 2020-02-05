@@ -44,6 +44,28 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.12, y: 1.63, z: 0.43}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8317142869052515623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3158959967351145027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5d862cdfb07c0a4c954715566bbf3fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: c0fcaf689befaa64db8098f9cf5c8172,
+      type: 2}
+  callAttackEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: e4847e86c949be04abcadf028a71856d,
+      type: 2}
 --- !u!1001 &5932561977926147579
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -151,20 +173,32 @@ PrefabInstance:
       propertyPath: Model
       value: 
       objectReference: {fileID: 3158959967351145027}
+    - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
+        type: 3}
+      propertyPath: moveSound.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: 5d7026bb8df04794bb5888d116b64a41,
+        type: 2}
+    - target: {fileID: 7484901647461563453, guid: abdf3400b3417834db1e415f63b0d963,
+        type: 3}
+      propertyPath: dieSound.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: 4e649d937df516a42a8762f7b5e5adcb,
+        type: 2}
     - target: {fileID: 7956293027968414304, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
       propertyPath: m_AutoBraking
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4459998854467160860, guid: abdf3400b3417834db1e415f63b0d963,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 14cc78de4656a09429e8360108ac70cb, type: 2}
     - target: {fileID: 2417612707402870439, guid: abdf3400b3417834db1e415f63b0d963,
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4459998854467160860, guid: abdf3400b3417834db1e415f63b0d963,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8744952449409069518, guid: abdf3400b3417834db1e415f63b0d963, type: 3}
@@ -182,46 +216,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6272198066793766482}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: c4cf0a380922db541bf63a5094448107,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyShield
-      objectReference: {fileID: 0}
-    - target: {fileID: 4224801822505238522, guid: c4cf0a380922db541bf63a5094448107,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8684251187902555887, guid: c4cf0a380922db541bf63a5094448107,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -6819317642293719686, guid: c4cf0a380922db541bf63a5094448107,
-        type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -6819317642293719686, guid: c4cf0a380922db541bf63a5094448107,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 60827074d81df56449894ad0388a4aba, type: 2}
-    - target: {fileID: -6819317642293719686, guid: c4cf0a380922db541bf63a5094448107,
-        type: 3}
-      propertyPath: m_CastShadows
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: -6819317642293719686, guid: c4cf0a380922db541bf63a5094448107,
-        type: 3}
-      propertyPath: m_Materials.Array.data[1]
-      value: 
-      objectReference: {fileID: 2100000, guid: eb2a68c1dac1b9e44ad24c96cc0b1ad6, type: 2}
-    - target: {fileID: -6057140222963153312, guid: c4cf0a380922db541bf63a5094448107,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: e57fb6d2a37bc604d8081cdb9199008d, type: 2}
     - target: {fileID: -4216859302048453862, guid: c4cf0a380922db541bf63a5094448107,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -277,6 +271,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: c4cf0a380922db541bf63a5094448107,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyShield
+      objectReference: {fileID: 0}
+    - target: {fileID: 4224801822505238522, guid: c4cf0a380922db541bf63a5094448107,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8684251187902555887, guid: c4cf0a380922db541bf63a5094448107,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -6819317642293719686, guid: c4cf0a380922db541bf63a5094448107,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6819317642293719686, guid: c4cf0a380922db541bf63a5094448107,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 60827074d81df56449894ad0388a4aba, type: 2}
+    - target: {fileID: -6819317642293719686, guid: c4cf0a380922db541bf63a5094448107,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -6819317642293719686, guid: c4cf0a380922db541bf63a5094448107,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: eb2a68c1dac1b9e44ad24c96cc0b1ad6, type: 2}
+    - target: {fileID: -6057140222963153312, guid: c4cf0a380922db541bf63a5094448107,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: e57fb6d2a37bc604d8081cdb9199008d, type: 2}
     - target: {fileID: -2846219537754512816, guid: c4cf0a380922db541bf63a5094448107,
         type: 3}
       propertyPath: m_Materials.Array.size

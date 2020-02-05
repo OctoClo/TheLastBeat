@@ -24,14 +24,15 @@ namespace AK
         static const AkUniqueID INT_HITMUSICFX = 3191278813U;
         static const AkUniqueID INT_MUSICFEEDBACKOFF = 2501149424U;
         static const AkUniqueID INT_MUSICFEEDBACKON = 1468197082U;
+        static const AkUniqueID PLAY_ATTACK_ENEMY = 2771612231U;
         static const AkUniqueID PLAY_BLINKFXOFFBEAT = 3832364417U;
         static const AkUniqueID PLAY_BLINKFXONBEAT = 2655647461U;
         static const AkUniqueID PLAY_BOUNCE_SHIELD = 5903894U;
-        static const AkUniqueID PLAY_CALL_ATTACK_ENNEMY = 512965664U;
+        static const AkUniqueID PLAY_CALL_ATTACK_ENEMY = 2860430492U;
         static const AkUniqueID PLAY_CANYON_AMBIANCE = 831844293U;
         static const AkUniqueID PLAY_CLIFFBRIDGE_AMBIANCE = 1559935606U;
         static const AkUniqueID PLAY_DESERT_AMBIANCE = 1555409676U;
-        static const AkUniqueID PLAY_ENEMY_ATTACK = 2257393085U;
+        static const AkUniqueID PLAY_DIE_ENEMY = 2374767689U;
         static const AkUniqueID PLAY_EXPLOSION = 4030404899U;
         static const AkUniqueID PLAY_HIT_ENEMY = 3889018732U;
         static const AkUniqueID PLAY_HIT_PLAYER = 2257378511U;
@@ -52,7 +53,6 @@ namespace AK
         static const AkUniqueID SETREWIND_LOOPC = 4276712658U;
         static const AkUniqueID STOP_ALL = 452547817U;
         static const AkUniqueID STOP_AMB = 435770000U;
-        static const AkUniqueID STOP_HOVER = 3535291822U;
         static const AkUniqueID STOP_PRESENCE = 3485622663U;
         static const AkUniqueID STOP_REWIND = 564679353U;
     } // namespace EVENTS

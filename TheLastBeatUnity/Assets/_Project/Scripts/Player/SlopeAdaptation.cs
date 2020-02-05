@@ -26,7 +26,7 @@ public class SlopeAdaptation : MonoBehaviour
 
     private void Update()
     {
-        if (adaptOnUpdate)
+        if (adaptOnUpdate && gameObject.activeSelf)
             Adapt(false);
     }
 

@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 53f38f5348f7094493a66f9c8647d632
     GuidInternal: 
-    m_lastTime: -8586207854236507044
+    m_lastTime: -8586207699552285224
     List:
     - name: MFXRewindVerb
       guid: 82a1ed093669ee4f84717f8fd1429698
@@ -83,7 +83,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 00607f23f4bb1c4ba4ba719fd5871f3f
     GuidInternal: 
-    m_lastTime: -8586207748352703014
+    m_lastTime: -8586206954565856510
     List:
     - name: TheLastBank
       guid: ba44c042ce392242af9fd5c1beb6de48
@@ -99,7 +99,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 8758d50e9a0ca842a9ceccd260c5af42
     GuidInternal: 
-    m_lastTime: -8586207750138454870
+    m_lastTime: -8586206954565976189
     List:
     - name: Int_Chord01
       guid: eaee35c708d9eb47b66fd56d667bc9eb
@@ -271,6 +271,20 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: Play_Attack_Enemy
+      guid: bbccfd04bae2ba488bf1c02d5a806c0d
+      id: 2771612231
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: 03_NME
+        ObjectType: 4
+      - ElementName: Play_Attack_Enemy
+        ObjectType: 3
+      Path: Default Work Unit\03_NME\Play_Attack_Enemy
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Play_BlinkFXOffBeat
       guid: 19d67817d06af141bbd5f7ae21258a4f
       id: 3832364417
@@ -313,17 +327,17 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Play_Call_Attack_Ennemy
+    - name: Play_Call_Attack_Enemy
       guid: e30d10e51e68af4d8c32a55fcbbdc013
-      id: 512965664
+      id: 2860430492
       PathAndIcons:
       - ElementName: Default Work Unit
         ObjectType: 12
       - ElementName: 03_NME
         ObjectType: 4
-      - ElementName: Play_Call_Attack_Ennemy
+      - ElementName: Play_Call_Attack_Enemy
         ObjectType: 3
-      Path: Default Work Unit\03_NME\Play_Call_Attack_Ennemy
+      Path: Default Work Unit\03_NME\Play_Call_Attack_Enemy
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -369,17 +383,17 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Play_Enemy_Attack
-      guid: bbccfd04bae2ba488bf1c02d5a806c0d
-      id: 2257393085
+    - name: Play_Die_Enemy
+      guid: 619604e69ad25e458a7d7a54fd69d8fd
+      id: 2374767689
       PathAndIcons:
       - ElementName: Default Work Unit
         ObjectType: 12
       - ElementName: 03_NME
         ObjectType: 4
-      - ElementName: Play_Enemy_Attack
+      - ElementName: Play_Die_Enemy
         ObjectType: 3
-      Path: Default Work Unit\03_NME\Play_Enemy_Attack
+      Path: Default Work Unit\03_NME\Play_Die_Enemy
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -664,20 +678,6 @@ MonoBehaviour:
       - ElementName: Stop_Amb
         ObjectType: 3
       Path: Default Work Unit\01_AMB\Stop_Amb
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
-    - name: Stop_Hover
-      guid: 619604e69ad25e458a7d7a54fd69d8fd
-      id: 3535291822
-      PathAndIcons:
-      - ElementName: Default Work Unit
-        ObjectType: 12
-      - ElementName: 03_NME
-        ObjectType: 4
-      - ElementName: Stop_Hover
-        ObjectType: 3
-      Path: Default Work Unit\03_NME\Stop_Hover
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -1165,9 +1165,7 @@ MonoBehaviour:
       Path: TheLastBeat\OnPerfectRush
   ExpandedItems:
   - /TheLastBeatAudio
-  - /TheLastBeatAudio/Auxiliary Busses
-  - /TheLastBeatAudio/Auxiliary Busses/Default Work Unit
-  - /TheLastBeatAudio/Auxiliary Busses/Default Work Unit/Master Audio Bus
-  - /TheLastBeatAudio/Auxiliary Busses/Default Work Unit/Master Audio Bus/SFX
+  - /TheLastBeatAudio/Events
+  - /TheLastBeatAudio/Events/Default Work Unit
   autoPopulateEnabled: 1
   CurrentPluginConfig: 

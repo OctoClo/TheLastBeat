@@ -130,8 +130,11 @@ public class BeatAtFeet : Beatable
         if (allInstances.Count > 0)
         {
             SequenceAndTarget seqTar = allInstances.Peek();
-            Color tempColor = new Color(col.r, col.g, col.b, 0);
-            seqTar.target.GetComponent<MeshRenderer>().material.color = col;
+            if (seqTar.target != null)
+            {
+                Color tempColor = new Color(col.r, col.g, col.b, 0);
+                seqTar.target.GetComponent<MeshRenderer>().material.color = col;
+            }
         }
     }
 
