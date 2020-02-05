@@ -36,7 +36,7 @@ public class EnemyExplosionArea : MonoBehaviour
                 }
             }
 
-            if (collid.gameObject.CompareTag("Player"))
+            if (collid.gameObject.CompareTag("Player") && player.Status.CurrentStatus != EPlayerStatus.RUSHING && player.Status.CurrentStatus != EPlayerStatus.BLINKING)
             {
                 PushRigidbody(collid);
                 player.ModifyPulseValue(damageToPlayer, true);
