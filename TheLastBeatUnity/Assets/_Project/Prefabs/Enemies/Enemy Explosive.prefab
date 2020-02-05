@@ -586,7 +586,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  targetValue: 10
+  targetValue: 2
   countBeforeSetup: 2
   color: {r: 0.36078432, g: 0.9490196, b: 0.6745098, a: 1}
 --- !u!1001 &2859667014790896239
@@ -596,6 +596,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7763091094201220669}
     m_Modifications:
+    - target: {fileID: -927199367670048503, guid: 3fb1ca1583adf314196336a51a365d8e,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyExplosive
+      objectReference: {fileID: 0}
+    - target: {fileID: -6057140222963153312, guid: 3fb1ca1583adf314196336a51a365d8e,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: e57fb6d2a37bc604d8081cdb9199008d, type: 2}
     - target: {fileID: -4216859302048453862, guid: 3fb1ca1583adf314196336a51a365d8e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -650,16 +660,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -6057140222963153312, guid: 3fb1ca1583adf314196336a51a365d8e,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: e57fb6d2a37bc604d8081cdb9199008d, type: 2}
-    - target: {fileID: -927199367670048503, guid: 3fb1ca1583adf314196336a51a365d8e,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyExplosive
       objectReference: {fileID: 0}
     - target: {fileID: 3280973328620774699, guid: 3fb1ca1583adf314196336a51a365d8e,
         type: 3}
