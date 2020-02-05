@@ -17,7 +17,7 @@ public class EnemyStatePrepareAttack : EnemyState
     float waitBeforeCallSound = 0;
     AK.Wwise.Event callAttackEvent = null;
 
-    public EnemyStatePrepareAttack(Enemy newEnemy, float waitBefore, int durationBeats, float waitAfter, float danger, float waitBeforeSound, AK.Wwise.Event newCallAttackEvent) : base(newEnemy)
+    public EnemyStatePrepareAttack(Enemy newEnemy, float waitBefore, int durationBeats, float waitAfter, float danger) : base(newEnemy)
     {
         stateEnum = EEnemyState.PREPARE_ATTACK;
         scaleEndValues = new Vector3(1.5f, 1.5f, 1.5f);
@@ -26,8 +26,6 @@ public class EnemyStatePrepareAttack : EnemyState
         waitAfterAnimDuration = waitAfter;
         inDangerSince = Mathf.Clamp(danger, 0, 1);
 
-        waitBeforeCallSound = waitBeforeSound;
-        callAttackEvent = newCallAttackEvent;
         enemy.EnemyKilled += () => { if (animation != null) animation.Kill(); };
     }
 
@@ -44,7 +42,6 @@ public class EnemyStatePrepareAttack : EnemyState
 
         animation.Insert(waitBeforeAnimDuration, enemy.transform.DOShakePosition(animDurationSeconds, 0.5f, 100));
         animation.InsertCallback(waitBeforeAnimDuration, () => enemy.Animator.SetTrigger("prepareAttack"));
-        animation.InsertCallback(waitBeforeCallSound, () => callAttackEvent.Post(enemy.gameObject));
         animation.InsertCallback(waitBeforeAnimDuration + animDurationSeconds, () => enemy.Animator.SetTrigger("prepareAttackPose"));
         animation.InsertCallback(waitBeforeAnimDuration + animDurationSeconds + waitAfterAnimDuration, () => animationFinished = true);
 
