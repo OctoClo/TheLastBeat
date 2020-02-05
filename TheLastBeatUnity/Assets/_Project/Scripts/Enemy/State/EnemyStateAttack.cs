@@ -17,11 +17,7 @@ public class EnemyStateAttack : EnemyState
         waitBeforeAnimDuration = waitBefore;
         animDuration = duration;
         impulseForce = impulse;
-        enemy.EnemyKilled += () =>
-        {
-            if (animation != null)
-                animation.Kill();
-        };
+        enemy.EnemyKilled += () => { if (animation != null) animation.Kill(); };
     }
 
     public override void Enter()

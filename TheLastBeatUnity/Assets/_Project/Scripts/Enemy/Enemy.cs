@@ -279,7 +279,7 @@ public class Enemy : Slowable
 
     public void StartFocus(GameObject focusMark)
     {
-        focusMark.GetComponent<LockPoint>().SetLockPoint(transform);
+        //focusMark.GetComponent<LockPoint>().SetLockPoint(transform);
         informations.StartFocus();
         foreach (Material outlineMat in outlineMats)
             outlineMat.SetFloat("_Outline", 0.0005f);
@@ -287,7 +287,7 @@ public class Enemy : Slowable
 
     public void StopFocus(GameObject focusMark)
     {
-        focusMark.GetComponent<LockPoint>().SetLockPoint(null);
+        //focusMark.GetComponent<LockPoint>().SetLockPoint(null);
         informations.StopFocus();
         foreach (Material outlineMat in outlineMats)
             outlineMat.SetFloat("_Outline", 0);
