@@ -18,11 +18,12 @@ public class EnemyExplosive : Enemy
     [TabGroup("Behaviour")] [SerializeField]
     AK.Wwise.Event explosionEvent = null;
 
-
     [TabGroup("References")] [SerializeField]
     EnemyExplosionArea explosionArea = null;
     [TabGroup("References")] [SerializeField]
     GameObject explosionPrefab = null;
+    [TabGroup("References")] [SerializeField]
+    GameObject explosionCircle = null;
 
     protected override void Awake()
     {
@@ -33,7 +34,7 @@ public class EnemyExplosive : Enemy
     protected override void CreateStates()
     {
         base.CreateStates();
-        states.Add(EEnemyState.EXPLODE, new EnemyStateExplode(this, beatsBeforeExplosion, chaseDistance, followSpeed, explosionBlastForce, explosionDamageToPlayer, explosionDamageToEnemies, explosionPrefab, explosionArea, explosionEvent));
+        states.Add(EEnemyState.EXPLODE, new EnemyStateExplode(this, beatsBeforeExplosion, chaseDistance, followSpeed, explosionBlastForce, explosionDamageToPlayer, explosionDamageToEnemies, explosionPrefab, explosionArea, explosionEvent, explosionCircle));
     }
 
     public override void StartDying()
