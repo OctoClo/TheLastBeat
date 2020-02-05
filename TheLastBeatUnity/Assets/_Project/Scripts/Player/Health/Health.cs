@@ -23,9 +23,6 @@ public class Health : Beatable
     [SerializeField] [TabGroup("Gameplay")] 
     float maximalPulse = 100;
 
-    [SerializeField] [TabGroup("Gameplay")] 
-    float limitRatio = 0.1f;
-
     [SerializeField] [TabGroup("Sound")]
     AK.Wwise.State inCritic = null;
 
