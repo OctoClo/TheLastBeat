@@ -59,6 +59,28 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0.2}
+--- !u!114 &6450874578035732786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2417612707402870439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5d862cdfb07c0a4c954715566bbf3fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: c0fcaf689befaa64db8098f9cf5c8172,
+      type: 2}
+  callAttackEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: e4847e86c949be04abcadf028a71856d,
+      type: 2}
 --- !u!1 &3638199352634917901
 GameObject:
   m_ObjectHideFlags: 0
@@ -269,12 +291,6 @@ MonoBehaviour:
   prepareAnimDurationBeats: 2
   waitAfterPrepareAnim: 0.5
   turnSpeed: 4
-  waitBeforeCallEvent: 0
-  callAttackEvent:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: e4847e86c949be04abcadf028a71856d,
-      type: 2}
   waitBeforeAttackAnim: 0.2
   attackAnimDuration: 0.5
   attackAnimDistance: 10
@@ -288,6 +304,16 @@ MonoBehaviour:
   - 0.3
   - 0.2
   - 0.2
+  moveSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 5d7026bb8df04794bb5888d116b64a41,
+      type: 2}
+  dieSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 4e649d937df516a42a8762f7b5e5adcb,
+      type: 2}
   stunElements: {fileID: 6608904386628307250}
   hitEnemy:
     idInternal: 0
@@ -504,16 +530,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 387277986294170537}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: b39bcb6d77c3bed4a8ba4dc3af434e0a,
-        type: 3}
-      propertyPath: m_Name
-      value: Enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: -6057140222963153312, guid: b39bcb6d77c3bed4a8ba4dc3af434e0a,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: e57fb6d2a37bc604d8081cdb9199008d, type: 2}
     - target: {fileID: -4216859302048453862, guid: b39bcb6d77c3bed4a8ba4dc3af434e0a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -569,6 +585,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: b39bcb6d77c3bed4a8ba4dc3af434e0a,
+        type: 3}
+      propertyPath: m_Name
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: -6057140222963153312, guid: b39bcb6d77c3bed4a8ba4dc3af434e0a,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: e57fb6d2a37bc604d8081cdb9199008d, type: 2}
     - target: {fileID: -3284530824583823705, guid: b39bcb6d77c3bed4a8ba4dc3af434e0a,
         type: 3}
       propertyPath: m_Materials.Array.size
@@ -621,6 +647,12 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: eb2a68c1dac1b9e44ad24c96cc0b1ad6, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b39bcb6d77c3bed4a8ba4dc3af434e0a, type: 3}
+--- !u!1 &2417612707402870439 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: b39bcb6d77c3bed4a8ba4dc3af434e0a,
+    type: 3}
+  m_PrefabInstance: {fileID: 5957410068113176494}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1717644051875962036 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: b39bcb6d77c3bed4a8ba4dc3af434e0a,
