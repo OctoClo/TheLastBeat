@@ -38,6 +38,7 @@ public class HealthVisual
     bool isChangingColor = false;
     Color flameColor = Color.black;
     Sprite sprtStart = null;
+    Color originColor = Color.black;
 
     public HealthVisual(VisualParams vp)
     {
@@ -45,6 +46,7 @@ public class HealthVisual
         normalSize = visualParams.flameTransform.localScale;
         flameColor = visualParams.flameImage.color;
         sprtStart = visualParams.riftAnimator.GetComponent<UnityEngine.UI.Image>().sprite;
+        originColor = flameColor;
     }
 
     public void HurtAnimationUI()
@@ -98,6 +100,7 @@ public class HealthVisual
     {
         if (criticSequence != null)
         {
+            visualParams.flameImage.DOColor(originColor, 0.2f);
             criticSequence.Kill();
             visualParams.flameTransform.DOScale(normalSize, 0.2f);
         }
