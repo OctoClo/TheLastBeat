@@ -29,10 +29,6 @@ public class Enemy : Slowable
     protected float waitAfterPrepareAnim = 0.5f;
     [TabGroup("Behaviour")] [SerializeField] [Tooltip("How fast the enemy will turn towards the player")]
     protected float turnSpeed = 2.5f;
-    [TabGroup("Behaviour")] [SerializeField]
-    float waitBeforeCallEvent = 0;
-    [TabGroup("Behaviour")] [SerializeField]
-    AK.Wwise.Event callAttackEvent = null;
     [TabGroup("Behaviour")] [Header("Attack")] [SerializeField] [Tooltip("How much time the enemy will wait between preparing attack animation and attacking animation")]
     protected float waitBeforeAttackAnim = 0.25f;
     [TabGroup("Behaviour")] [SerializeField] [Tooltip("How long the attack animation will be")]
@@ -48,6 +44,10 @@ public class Enemy : Slowable
     [TabGroup("Behaviour")] [SerializeField] [Range(0.0f, 1.0f)]
     float[] chancesToGetStunned = new float[5];
     int stunCounter = 0;
+    [TabGroup("Behaviour")][Header("Audio")][SerializeField]
+    AK.Wwise.Event moveSound = null;
+    [TabGroup("Behaviour")][SerializeField]
+    AK.Wwise.Event dieSound = null;
 
     [TabGroup("References")] [SerializeField]
     GameObject stunElements = null;
@@ -129,6 +129,7 @@ public class Enemy : Slowable
         lives = maxLives;
         informations.Init(maxLives);
         baseAngularSpeed = Agent.angularSpeed;
+        moveSound.Post(gameObject);
     }
 
     public void ZoneInitialize(EEnemyType newType, EnemyWanderZone newWanderZone, EnemyDetectionZone newDetectionZone, Player newPlayer)
@@ -153,7 +154,7 @@ public class Enemy : Slowable
     {
         states.Add(EEnemyState.WANDER, new EnemyStateWander(this, waitBeforeNextMove));
         states.Add(EEnemyState.CHASE, new EnemyStateChase(this, chaseDistance));
-        states.Add(EEnemyState.PREPARE_ATTACK, new EnemyStatePrepareAttack(this, waitBeforePrepareAnim, prepareAnimDurationBeats, waitAfterPrepareAnim, SceneHelper.Instance.JitRatio, waitBeforeCallEvent, callAttackEvent));
+        states.Add(EEnemyState.PREPARE_ATTACK, new EnemyStatePrepareAttack(this, waitBeforePrepareAnim, prepareAnimDurationBeats, waitAfterPrepareAnim, SceneHelper.Instance.JitRatio));
         states.Add(EEnemyState.ATTACK, new EnemyStateAttack(this, waitBeforeAttackAnim + waitAfterPrepareAnim, attackAnimDuration, attackAnimDistance));
         states.Add(EEnemyState.RECOVER_ATTACK, new EnemyStateRecoverAttack(this, recoverAnimDuration));
         states.Add(EEnemyState.COME_BACK, new EnemyStateComeBack(this));
@@ -241,6 +242,7 @@ public class Enemy : Slowable
     public void Die()
     {
         EventManager.Instance.Raise(new EnemyDeadEvent { enemy = this });
+        dieSound.Post(gameObject);
         Destroy(gameObject);
     }
 
