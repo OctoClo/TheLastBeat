@@ -95,7 +95,7 @@ public class Player : Inputable
         rush.RewindRush = rewindRush;
 
         if (SceneHelper.DeathCount > 0)
-            SceneHelper.Instance.Respawn(transform);
+            SceneHelper.Instance.Respawn();
     }
 
     public override void ProcessInput(Rewired.Player player)
