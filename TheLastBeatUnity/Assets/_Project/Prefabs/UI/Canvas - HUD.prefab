@@ -228,6 +228,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8617470271436438848}
+  - component: {fileID: 2893893186440302162}
   m_Layer: 0
   m_Name: Container2
   m_TagString: Untagged
@@ -257,6 +258,51 @@ RectTransform:
   m_AnchoredPosition: {x: -0.00010681152, y: 0.000022888184}
   m_SizeDelta: {x: -0.0000076294, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2893893186440302162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 245434384574116234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d813660d9ddd2643939852d87991ae7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slashAnimation: {fileID: 2958854500826343635, guid: 83ecb2781baae484f96d7a8d09e414e5,
+    type: 3}
+  allParts:
+  - {fileID: 41445089238645850}
+  - {fileID: 467230102251998600}
+  hurtColor: {r: 1, g: 0, b: 0, a: 1}
+  healColor: {r: 0, g: 1, b: 0, a: 1}
+  normalColor: {r: 0.9490196, g: 0.5529412, b: 0.20784314, a: 1}
+  curveHeal:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  rootSlash: {fileID: 2993346743727422227}
 --- !u!1 &348340954213643614
 GameObject:
   m_ObjectHideFlags: 0
@@ -761,6 +807,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2685495899997089660}
+  - component: {fileID: 1594842086507331112}
   m_Layer: 0
   m_Name: Container1
   m_TagString: Untagged
@@ -790,6 +837,51 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0.000045776, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1594842086507331112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4064071459557002515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d813660d9ddd2643939852d87991ae7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slashAnimation: {fileID: 2958854500826343635, guid: 83ecb2781baae484f96d7a8d09e414e5,
+    type: 3}
+  allParts:
+  - {fileID: 4255728172378675691}
+  - {fileID: 5080509871247858879}
+  hurtColor: {r: 1, g: 0, b: 0, a: 1}
+  healColor: {r: 0, g: 1, b: 0, a: 1}
+  normalColor: {r: 0.9490196, g: 0.5529412, b: 0.20784314, a: 1}
+  curveHeal:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  rootSlash: {fileID: 7848470736893367085}
 --- !u!1 &4654913994105102821
 GameObject:
   m_ObjectHideFlags: 0
@@ -1144,6 +1236,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3450909733177520083}
+  - component: {fileID: 8864288617283763939}
   m_Layer: 0
   m_Name: Container3
   m_TagString: Untagged
@@ -1173,6 +1266,51 @@ RectTransform:
   m_AnchoredPosition: {x: -0.0001487732, y: 0}
   m_SizeDelta: {x: 0.000053406, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &8864288617283763939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6080310088694386536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d813660d9ddd2643939852d87991ae7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slashAnimation: {fileID: 2958854500826343635, guid: 83ecb2781baae484f96d7a8d09e414e5,
+    type: 3}
+  allParts:
+  - {fileID: 3670967637229364596}
+  - {fileID: 8323383987127717675}
+  hurtColor: {r: 1, g: 0, b: 0, a: 1}
+  healColor: {r: 0, g: 1, b: 0, a: 1}
+  normalColor: {r: 0.9490196, g: 0.5529412, b: 0.20784314, a: 1}
+  curveHeal:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  rootSlash: {fileID: 2961350784758338828}
 --- !u!1 &6232900677212133455
 GameObject:
   m_ObjectHideFlags: 0
@@ -1598,6 +1736,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3104172267474084991}
+  - component: {fileID: 8772318726270489955}
   m_Layer: 0
   m_Name: Container4
   m_TagString: Untagged
@@ -1627,6 +1766,51 @@ RectTransform:
   m_AnchoredPosition: {x: -0.000061035156, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &8772318726270489955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7871921646688941925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d813660d9ddd2643939852d87991ae7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slashAnimation: {fileID: 2958854500826343635, guid: 83ecb2781baae484f96d7a8d09e414e5,
+    type: 3}
+  allParts:
+  - {fileID: 428572728639835901}
+  - {fileID: 9008362940333600753}
+  hurtColor: {r: 1, g: 0, b: 0, a: 1}
+  healColor: {r: 0, g: 1, b: 0, a: 1}
+  normalColor: {r: 0.9490196, g: 0.5529412, b: 0.20784314, a: 1}
+  curveHeal:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  rootSlash: {fileID: 2667185416750829029}
 --- !u!1 &8296616818642609822
 GameObject:
   m_ObjectHideFlags: 0
