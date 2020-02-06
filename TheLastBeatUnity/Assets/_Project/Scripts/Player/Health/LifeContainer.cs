@@ -51,8 +51,9 @@ public class LifeContainer : MonoBehaviour
     void HealCell(int index)
     {
         RectTransform currentPart = allParts[index];
-        currentPart.position = Vector3.zero;
         currentPart.GetComponent<Image>().color = healColor;
+        currentPart.localPosition = Vector3.zero;
+        currentPart.localScale = Vector3.zero;
         DOTween.Sequence()
             .Append(currentPart.DOScale(1, 0.5f).SetEase(curveHeal))
             .Insert(0, currentPart.GetComponent<Image>().DOColor(normalColor, 0.5f));
@@ -89,7 +90,7 @@ public class LifeContainer : MonoBehaviour
         if (previous == StateHealthCell.HALF_EMPTY)
         {
             if (actual == StateHealthCell.EMPTY)
-                HurtCell(0);
+                HurtCell(0, true);
             else
                 HealCell(1);
         }
