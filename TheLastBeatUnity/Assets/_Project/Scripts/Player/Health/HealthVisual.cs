@@ -27,6 +27,9 @@ public class VisualParams
     public float screenShakeDuration = 0;
     public float sequenceDuration = 0;
     public Animator riftAnimator;
+    public float screeningFadeDuration = 0;
+    public Image screeningBorders = null;
+    public Image screeningVeins = null;
 }
 
 public class HealthVisual
@@ -49,11 +52,12 @@ public class HealthVisual
         originColor = flameColor;
     }
 
-    public void HurtAnimationUI()
+    public void HurtAnimationUI(bool fromEnemy)
     {
         if (!isChangingColor)
         {
             isChangingColor = true;
+            LaunchScreening(fromEnemy);
             Sequence seq = DOTween.Sequence();
             seq.AppendCallback(() => visualParams.flameImage.color = visualParams.hurtColor);
             seq.AppendInterval(0.05f);
@@ -63,6 +67,19 @@ public class HealthVisual
             seq.AppendCallback(() => isChangingColor = false);
             seq.Play();
         }       
+    }
+
+    public void LaunchScreening(bool fromEnemy)
+    {
+        Sequence seq = DOTween.Sequence();
+        seq.InsertCallback(0, () =>
+        {
+            visualParams.screeningBorders.color = Color.white;
+            if (!fromEnemy)
+                visualParams.screeningVeins.color = Color.white;
+        });
+        seq.Insert(0, visualParams.screeningBorders.DOFade(0, visualParams.screeningFadeDuration));
+        seq.Insert(0, visualParams.screeningVeins.DOFade(0, visualParams.screeningFadeDuration));
     }
 
     public void RegularBeat()
