@@ -1,10 +1,11 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using DG.Tweening;
 
 public enum EPlayerStatus
 {
+    BEGIN,
     DEFAULT,
     RUSHING,
     BLINKING,
@@ -14,6 +15,9 @@ public enum EPlayerStatus
 public class PlayerStatus : MonoBehaviour
 {
     public EPlayerStatus CurrentStatus { get; private set; }
+
+    [TabGroup("Beginning")] [SerializeField]
+    float beginPoseDuration = 2;
 
     [TabGroup("Stun")] [SerializeField]
     float kickbackForce = 1.5f;
@@ -34,7 +38,12 @@ public class PlayerStatus : MonoBehaviour
 
     private void Awake()
     {
-        CurrentStatus = EPlayerStatus.DEFAULT;
+        CurrentStatus = EPlayerStatus.BEGIN;
+        Sequence seq = DOTween.Sequence().InsertCallback(beginPoseDuration, () =>
+        {
+            Animator.SetTrigger("getUp");
+            CurrentStatus = EPlayerStatus.DEFAULT;
+        });
     }
 
     private void Start()

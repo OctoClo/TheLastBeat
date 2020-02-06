@@ -5372,6 +5372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1cf034fbde5d0846996c139b3238010, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  beginPoseDuration: 1
   kickbackForce: 1.5
   stunDuration: 0.5
   stunRecoverAnim: {fileID: 7400000, guid: e0a1b34a99c77e14fa24af239c50edb0, type: 2}
@@ -15350,6 +15351,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2086426542783193144}
     m_Modifications:
+    - target: {fileID: -927199367670048503, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
+        type: 3}
+      propertyPath: m_Name
+      value: Sio
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -15404,11 +15410,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
-        type: 3}
-      propertyPath: m_Name
-      value: Sio
       objectReference: {fileID: 0}
     - target: {fileID: -6057140222963153312, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
         type: 3}
