@@ -95,7 +95,7 @@ public class Player : Inputable
         rush.RewindRush = rewindRush;
 
         if (SceneHelper.DeathCount > 0)
-            SceneHelper.Instance.Respawn(transform);
+            SceneHelper.Instance.Respawn();
     }
 
     public override void ProcessInput(Rewired.Player player)
@@ -153,7 +153,11 @@ public class Player : Inputable
                     rb.velocity = (flatVelocity.normalized * maxSpeed) + (Vector3.up * rb.velocity.y);
             }
             else
+            {
                 Status.SetMoving(false);
+                if (Status.CurrentStatus == EPlayerStatus.DEFAULT)
+                    rb.velocity = new Vector3(0, rb.velocity.y, 0);
+            }
 
             // Glue to floor
             if (CurrentDeltaY <= 0)
@@ -262,7 +266,7 @@ public class Player : Inputable
                 return;
             }
 
-            healthSystem.ModifyPulseValue(value);
+            healthSystem.ModifyPulseValue(value, false);
         }
     }
 
@@ -274,10 +278,10 @@ public class Player : Inputable
     IEnumerator SioHitAnim(float value)
     {
         currentlyHit = true;
+        healthSystem.ModifyPulseValue(value, true);
         Status.GetHit();
         yield return StartCoroutine(SceneHelper.Instance.FreezeFrameCoroutine(hitFreezeFrameDuration));
         Status.StopHit();
-        healthSystem.ModifyPulseValue(value);
         currentlyHit = false;
     }
 

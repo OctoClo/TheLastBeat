@@ -76,7 +76,6 @@ public class RewindRushAbility : Ability
         player.Status.StartRushing();
         player.ColliderObject.layer = LayerMask.NameToLayer("Player Dashing");
         CheckRhythm();
-
         // Game feel
         CameraManager.Instance.SetBlend("InCombat", "FOV Rewind", (0.1f + parameters.Duration) * chainedEnemies.Count);
         CameraManager.Instance.SetBoolCamera(true, "Rewinding");
@@ -86,7 +85,7 @@ public class RewindRushAbility : Ability
         if (seq != null)
             seq.Kill();
         seq = DOTween.Sequence();
-        duration = SoundManager.Instance.GetTimeLeftNextBeat(chainedEnemies.Count > 4, 0.25f);
+        duration = SoundManager.Instance.GetTimeLeftNextBeat(true, 0.25f);
         foreach (Enemy enemy in chainedEnemies.Reverse())
         {
             if (enemy != null)
