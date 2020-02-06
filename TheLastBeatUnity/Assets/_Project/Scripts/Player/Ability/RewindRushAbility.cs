@@ -158,7 +158,7 @@ public class RewindRushAbility : Ability
             chainedEnemies.Dequeue().Informations.RemoveRewindMark();
         }
 
-        if (chainedEnemies.Count(x => enn) < 3)
+        if (chainedEnemies.Count(x => enn == x) < 3)
         {
             enn.Informations.AddRewindMark();
             chainedEnemies.Enqueue(enn);
