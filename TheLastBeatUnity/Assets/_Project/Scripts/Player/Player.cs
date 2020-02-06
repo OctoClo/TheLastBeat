@@ -262,7 +262,7 @@ public class Player : Inputable
                 return;
             }
 
-            healthSystem.ModifyPulseValue(value);
+            healthSystem.ModifyPulseValue(value, false);
         }
     }
 
@@ -274,10 +274,10 @@ public class Player : Inputable
     IEnumerator SioHitAnim(float value)
     {
         currentlyHit = true;
+        healthSystem.ModifyPulseValue(value, true);
         Status.GetHit();
         yield return StartCoroutine(SceneHelper.Instance.FreezeFrameCoroutine(hitFreezeFrameDuration));
         Status.StopHit();
-        healthSystem.ModifyPulseValue(value);
         currentlyHit = false;
     }
 

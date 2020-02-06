@@ -67,7 +67,7 @@ public class Health : Beatable
         }
     }
 
-    public void ModifyPulseValue(float deltaValue)
+    public void ModifyPulseValue(float deltaValue, bool fromEnemy)
     {
         //No longer critic mode
         if (ratioPulse == 0 && currentPulse + deltaValue > minimalPulse)
@@ -84,7 +84,7 @@ public class Health : Beatable
         {
             visual.ScreenShake();
             Player.HurtAnimation(0.25f, 3);
-            visual.HurtAnimationUI();
+            visual.HurtAnimationUI(fromEnemy);
             visual.UIScreenShake();
         }
 
@@ -102,12 +102,12 @@ public class Health : Beatable
     {
         if (GUI.Button(new Rect(30,25, 80, 25), "+"))
         {
-            ModifyPulseValue(-5);
+            ModifyPulseValue(-5, false);
         }
         
         if (GUI.Button(new Rect(30, 50 , 80 , 25), "-"))
         {
-            ModifyPulseValue(5);
+            ModifyPulseValue(5, false);
         }
 
         GUI.Label(new Rect(20, 75, 100, 25), ratioPulse.ToString());
