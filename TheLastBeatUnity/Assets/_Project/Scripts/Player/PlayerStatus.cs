@@ -18,6 +18,8 @@ public class PlayerStatus : MonoBehaviour
 
     [TabGroup("Beginning")] [SerializeField]
     float beginPoseDuration = 2;
+    [TabGroup("Beginning")] [SerializeField]
+    float waitBeforeStartMoving = 2;
 
     [TabGroup("Stun")] [SerializeField]
     float kickbackForce = 1.5f;
@@ -39,11 +41,9 @@ public class PlayerStatus : MonoBehaviour
     private void Awake()
     {
         CurrentStatus = EPlayerStatus.BEGIN;
-        Sequence seq = DOTween.Sequence().InsertCallback(beginPoseDuration, () =>
-        {
-            Animator.SetTrigger("getUp");
-            CurrentStatus = EPlayerStatus.DEFAULT;
-        });
+        Sequence seq = DOTween.Sequence()
+                                .InsertCallback(beginPoseDuration, () => Animator.SetTrigger("getUp"))
+                                .InsertCallback(waitBeforeStartMoving, () => CurrentStatus = EPlayerStatus.DEFAULT);
     }
 
     private void Start()
