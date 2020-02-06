@@ -74,10 +74,16 @@ public class SceneHelper : MonoBehaviour
         LastDeathPosition = position;
     }
 
-    public void Respawn(Transform target)
+    private void Update()
     {
-        target.forward = respawnPlace.forward;
-        target.position = respawnPlace.position + Vector3.up;
+        if (Input.GetKeyDown(KeyCode.R))
+            Respawn();
+    }
+
+    public void Respawn()
+    {
+        MainPlayer.transform.forward = respawnPlace.forward;
+        MainPlayer.transform.position = respawnPlace.position + Vector3.up;
     }
 
     public void StartFade(UnityAction lambda, float duration , Color color, bool independant = false)
