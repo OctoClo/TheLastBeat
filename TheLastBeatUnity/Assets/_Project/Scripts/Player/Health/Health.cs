@@ -54,6 +54,7 @@ public class Health : Beatable
         {
             visual.ScreenShake();
             visual.UIScreenShake();
+            visual.RestartScreeningSeq();
         }
 
         visual.RegularBeat();

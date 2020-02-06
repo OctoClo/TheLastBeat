@@ -43,6 +43,9 @@ public class HealthVisual
     Sprite sprtStart = null;
     Color originColor = Color.black;
 
+    Sequence criticScreeningSeq = null;
+    Color transparentWhite = new Color(1, 1, 1, 0);
+
     public HealthVisual(VisualParams vp)
     {
         visualParams = vp;
@@ -57,7 +60,7 @@ public class HealthVisual
         if (!isChangingColor)
         {
             isChangingColor = true;
-            LaunchScreening(fromEnemy);
+            
             Sequence seq = DOTween.Sequence();
             seq.AppendCallback(() => visualParams.flameImage.color = visualParams.hurtColor);
             seq.AppendInterval(0.05f);
@@ -66,6 +69,9 @@ public class HealthVisual
             seq.SetLoops(10);
             seq.AppendCallback(() => isChangingColor = false);
             seq.Play();
+
+            if (criticScreeningSeq == null)
+                LaunchScreening(fromEnemy);
         }       
     }
 
@@ -86,7 +92,7 @@ public class HealthVisual
     {
         seq = DOTween.Sequence();
         seq.Append(visualParams.flameTransform.DOScale(normalSize * visualParams.pulseSize, visualParams.sequenceDuration));
-        seq.Append(visualParams.flameTransform.DOScale(normalSize,  visualParams.sequenceDuration));
+        seq.Append(visualParams.flameTransform.DOScale(normalSize, visualParams.sequenceDuration));
         seq.Play();
     }
 
@@ -103,6 +109,16 @@ public class HealthVisual
         SceneHelper.Instance.ScreenshakeGameObject(visualParams.flameImage.transform, visualParams.screenShakeDurationUI, visualParams.screenShakeIntensityUI);
     }
 
+    public void RestartScreeningSeq()
+    {
+        float timePerDemiBeat = SoundManager.Instance.TimePerBeat * 0.5f;
+        criticScreeningSeq = DOTween.Sequence()
+                                        .Insert(0, visualParams.screeningBorders.DOFade(0.5f, timePerDemiBeat))
+                                        .Insert(0, visualParams.screeningVeins.DOFade(0.5f, timePerDemiBeat))
+                                        .Insert(timePerDemiBeat, visualParams.screeningBorders.DOFade(1, timePerDemiBeat))
+                                        .Insert(timePerDemiBeat, visualParams.screeningVeins.DOFade(1, timePerDemiBeat));
+    }
+
     public void EnterCriticState()
     {
         visualParams.flameTransform.DOScale(normalSize * visualParams.sizeCritic, 0.1f);
@@ -111,6 +127,9 @@ public class HealthVisual
         criticSequence.Append(DOTween.To(() => visualParams.flameImage.color, x => visualParams.flameImage.color = x, Color.red, 0.1f));
         criticSequence.SetLoops(-1);
         criticSequence.Play();
+
+        visualParams.screeningBorders.color = Color.white;
+        visualParams.screeningVeins.color = Color.white;
     }
 
     public void ExitCriticState()
@@ -120,6 +139,13 @@ public class HealthVisual
             visualParams.flameImage.DOColor(originColor, 0.2f);
             criticSequence.Kill();
             visualParams.flameTransform.DOScale(normalSize, 0.2f);
+        }
+
+        if (criticScreeningSeq != null)
+        {
+            criticScreeningSeq.Kill();
+            visualParams.screeningBorders.color = transparentWhite;
+            visualParams.screeningVeins.color = transparentWhite;
         }
     }
 
