@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SceneManager : MonoBehaviour {
+public class SceneManagerExplosion : MonoBehaviour {
 	public TextMesh text_fx_name;
 	public GameObject[] fx_prefabs;
 	public int index_fx = 0;
