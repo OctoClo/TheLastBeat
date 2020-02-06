@@ -153,7 +153,11 @@ public class Player : Inputable
                     rb.velocity = (flatVelocity.normalized * maxSpeed) + (Vector3.up * rb.velocity.y);
             }
             else
+            {
                 Status.SetMoving(false);
+                if (Status.CurrentStatus == EPlayerStatus.DEFAULT)
+                    rb.velocity = new Vector3(0, rb.velocity.y, 0);
+            }
 
             // Glue to floor
             if (CurrentDeltaY <= 0)
