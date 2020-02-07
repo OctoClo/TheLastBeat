@@ -18,6 +18,7 @@ public class Player : Inputable
     [TabGroup("Movement")] [SerializeField]
     float thrust = 10;
     Vector3 movement = Vector3.zero;
+    bool previouslyMoving = false;
     public Vector3 CurrentDirection { get; set; }
     public float CurrentDeltaY { get; private set; }
     Rigidbody rb = null;
@@ -28,6 +29,10 @@ public class Player : Inputable
     Quaternion deltaRotation = Quaternion.identity;
     [TabGroup("Movement")] [Range(0, 1)] [SerializeField] [Tooltip("Ignore input for right stick under this value")]
     float holdlessThreshold = 0.7f;
+    [TabGroup("Movement")] [SerializeField]
+    AK.Wwise.Event playClotheSFX = null;
+    [TabGroup("Movement")] [SerializeField]
+    AK.Wwise.Event stopClotheSFX = null;
 
     //If you are doing something (dash , attack animation, etc...) or if game paused, temporary block input
     public override bool BlockInput => blockInput || Status.CurrentStatus != EPlayerStatus.DEFAULT;
@@ -145,7 +150,7 @@ public class Player : Inputable
 
                 // Movement
                 rb.AddForce(CurrentDirection * thrust);
-                Status.SetMoving(true);
+                SetMoving(true);
 
                 // Clamp velocity
                 Vector3 flatVelocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
@@ -154,7 +159,7 @@ public class Player : Inputable
             }
             else
             {
-                Status.SetMoving(false);
+                SetMoving(false);
                 if (Status.CurrentStatus == EPlayerStatus.DEFAULT)
                     rb.velocity = new Vector3(0, rb.velocity.y, 0);
             }
@@ -164,7 +169,7 @@ public class Player : Inputable
                 rb.AddForce(Physics.gravity * 20);
         }
         else
-            Status.SetMoving(false);
+            SetMoving(false);
     }
 
     private void Update()
@@ -173,6 +178,21 @@ public class Player : Inputable
             abilityPair.Value.Update(Time.deltaTime);
 
         HandleMovementY();
+    }
+
+    private void SetMoving(bool moving)
+    {
+        if (!previouslyMoving && moving)
+        {
+            playClotheSFX.Post(gameObject);
+        }
+        else if (previouslyMoving && !moving)
+        {
+            stopClotheSFX.Post(gameObject);
+        }
+
+        Status.SetMoving(moving);
+        previouslyMoving = moving;
     }
 
     private void HandleMovementY()
