@@ -17,6 +17,8 @@ public class BlinkParams : AbilityParams
     public float markPersist = 0.25f;
     public float rumbleIntensity = 0;
     public float rumbleDuration = 0;
+    public GameObject TpVfxPrefab = null;
+    public Transform TpVfxParent = null;
 
     [Header("Sound")]
     public AK.Wwise.Event OnBeatSound = null;
@@ -77,6 +79,12 @@ public class BlinkAbility : Ability
                 })
                 .Play();
         }
+
+        // Spawn TP VFX
+        GameObject vfx = GameObject.Instantiate(parameters.TpVfxPrefab);
+        vfx.transform.SetParent(parameters.TpVfxParent);
+        vfx.transform.localPosition = Vector3.zero;
+        vfx.transform.localRotation = Quaternion.identity;
 
         // Determine direction
         Vector3 startSize = player.VisualPart.localScale;
