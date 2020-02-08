@@ -15,6 +15,7 @@ public class AbilityParams
     [HideInInspector][Header("Gameplay")]
     public Player AttachedPlayer;
     public float HealPerCorrectBeat;
+    public AbilityContainer container;
 }
 
 public abstract class Ability

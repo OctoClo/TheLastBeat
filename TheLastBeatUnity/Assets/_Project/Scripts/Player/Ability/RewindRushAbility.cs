@@ -163,6 +163,8 @@ public class RewindRushAbility : Ability
             enn.Informations.AddRewindMark();
             chainedEnemies.Enqueue(enn);
         }
+
+        parameters.container.UpdateDelegate(chainedEnemies.Count);
     }
 
     public void MissInput()
@@ -178,6 +180,8 @@ public class RewindRushAbility : Ability
         while (chainedEnemies.Count > 0)
             chainedEnemies.Dequeue().Informations.RemoveRewindMark();
         missedInput = 0;
+        if (parameters.container)
+            parameters.container.UpdateDelegate(0);
     }
 
     public override void End()

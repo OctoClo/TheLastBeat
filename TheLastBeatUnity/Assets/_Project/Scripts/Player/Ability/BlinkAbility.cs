@@ -43,11 +43,16 @@ public class BlinkAbility : Ability
     public override void Update(float deltaTime)
     {
         if (currentCooldown > 0)
+        {
             currentCooldown = Mathf.Max(0, currentCooldown - deltaTime);
+            if (parameters.container)
+                parameters.container.UpdateProgression(1 - (currentCooldown / cooldown));
+        }
     }
 
     private void Blink()
     {
+        cooldown = SoundManager.Instance.LastBar.beatInterval;
         player.CancelRush();
 
         // Init
@@ -60,7 +65,6 @@ public class BlinkAbility : Ability
             DOTween.Sequence()
                 .AppendCallback(() =>
                 {
-                    //SceneHelper.Instance.StartFade(() => { }, 0.2f, SceneHelper.Instance.ColorSlow);
                     foreach (Enemy enn in GameObject.FindObjectsOfType<Enemy>())
                     {
                         enn.Timescale = 0.5f;
@@ -134,7 +138,8 @@ public class BlinkAbility : Ability
             player.DebtRush(parameters.PulseCost);
         }
 
-        currentCooldown = SoundManager.Instance.TimePerBar;
+        currentCooldown = cooldown;
+        Debug.Log(cooldown);
     }
 
     void CreateMark(Vector3 positionCast)
