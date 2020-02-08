@@ -55,7 +55,7 @@ public class EventPositionConfiner : MonoBehaviour
             enabled = false;
         }
 
-        Event.Post(eventEmitter);
+        //Event.Post(eventEmitter);
 
         positionClamperRoutine = ClampEmitterPosition();
         StartCoroutine(positionClamperRoutine);
@@ -63,7 +63,7 @@ public class EventPositionConfiner : MonoBehaviour
 
     private void OnDisable()
     {
-        Event.Stop(eventEmitter);
+        //Event.Stop(eventEmitter);
 
         if (positionClamperRoutine != null)
         {
