@@ -45,8 +45,7 @@ public class BlinkAbility : Ability
         if (currentCooldown > 0)
         {
             currentCooldown = Mathf.Max(0, currentCooldown - deltaTime);
-            if (parameters.container)
-                parameters.container.UpdateProgression(1 - (currentCooldown / cooldown));
+            parameters.container.UpdateProgression(1 - (currentCooldown / cooldown));
         }
     }
 
@@ -54,6 +53,7 @@ public class BlinkAbility : Ability
     {
         cooldown = SoundManager.Instance.LastBar.beatInterval;
         player.CancelRush();
+        parameters.container.UpdateProgression(0);
 
         // Init
         player.Status.StartBlink();
@@ -139,7 +139,6 @@ public class BlinkAbility : Ability
         }
 
         currentCooldown = cooldown;
-        Debug.Log(cooldown);
     }
 
     void CreateMark(Vector3 positionCast)

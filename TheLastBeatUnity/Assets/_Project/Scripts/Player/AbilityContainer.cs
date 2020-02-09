@@ -9,6 +9,9 @@ public class AbilityContainer : MonoBehaviour
     [SerializeField]
     RectTransform iconTransform = null;
 
+    [SerializeField]
+    Image backgroundImage;
+
     Image imgComponent;
 
     public enum AbilityBehavior
@@ -54,6 +57,8 @@ public class AbilityContainer : MonoBehaviour
         {
             imgComponent.DOColor(new Color(tempColor.r, tempColor.g, tempColor.b, 0.6f), 0.15f);
             iconTransform.DOScale(Vector3.one, 0.15f);
+            if (number == 0)
+                backgroundImage.DOColor(Color.clear, 0.2f);
         }
         else
         {
@@ -70,11 +75,14 @@ public class AbilityContainer : MonoBehaviour
         {
             iconTransform.localScale = Vector3.one * Mathf.Lerp(0.8f, 1.0f, number);
             imgComponent.color = new Color(tempColor.r, tempColor.g, tempColor.b, Mathf.Lerp(0.1f , 0.5f , number));
+            if (number == 0)
+                backgroundImage.DOColor(Color.clear, 0.2f);
         }
         else
         {
             AbilityAvailable();
             currentSequence.Kill();
+
             DOTween.Sequence()
                 .Append(iconTransform.DOScale(Vector3.one * 1.2f, 0.15f))
                 .Append(iconTransform.DOScale(Vector3.one, 0.15f))
@@ -88,8 +96,9 @@ public class AbilityContainer : MonoBehaviour
 
         DOTween.Sequence()
             .AppendInterval(0.1f)
-            .Append(instantiated.GetComponent<Image>().DOColor(new Color(0.0f,0.0f, 0.0f ,0.0f), 0.3f))
-            .AppendCallback(() => Destroy(instantiated));
+            .Append(instantiated.GetComponent<Image>().DOColor(new Color(0.0f, 0.0f, 0.0f, 0.0f), 0.3f))
+            .AppendCallback(() => Destroy(instantiated))
+            .Insert(0, backgroundImage.DOColor(Color.white, 0.2f));
         
     }
 }
