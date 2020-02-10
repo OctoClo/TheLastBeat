@@ -56,7 +56,7 @@ public class AbilityContainer : MonoBehaviour
 
     void CDABehavior(float number)
     {
-        if (number < 3)
+        if (number < 4)
         {
             imgComponent.DOColor(new Color(tempColor.r, tempColor.g, tempColor.b, 0.6f), 0.15f);
             iconTransform.DOScale(Vector3.one, 0.15f);
@@ -67,7 +67,7 @@ public class AbilityContainer : MonoBehaviour
         {
             imgComponent.DOColor(new Color(tempColor.r, tempColor.g, tempColor.b, 1.0f), 0.15f);
             iconTransform.DOScale(Vector3.one * 1.2f, 0.15f);
-            if (number == 3)
+            if (number == 4)
                 AbilityAvailable();
         }
     }

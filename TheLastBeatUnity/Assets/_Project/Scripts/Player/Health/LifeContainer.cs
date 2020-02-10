@@ -54,9 +54,12 @@ public class LifeContainer : MonoBehaviour
         currentPart.GetComponent<Image>().color = healColor;
         currentPart.localPosition = Vector3.zero;
         currentPart.localScale = Vector3.zero;
+
         DOTween.Sequence()
-            .Append(currentPart.DOScale(1, 0.5f).SetEase(curveHeal))
-            .Insert(0, currentPart.GetComponent<Image>().DOColor(normalColor, 0.5f));
+            .Append(currentPart.DOScale(1.2f, 0.1f))
+            .AppendInterval(0.7f)
+            .Append(currentPart.DOScale(1, 0.3f))
+            .Insert(0.8f, currentPart.GetComponent<Image>().DOColor(normalColor , 0.3f));
     }
 
     void HurtCell(int index, bool triggerSlash = false)
@@ -65,6 +68,11 @@ public class LifeContainer : MonoBehaviour
         {
             Destroy(Instantiate(slashAnimation, rootSlash), 1);
         }
+
+        GameObject copyHurt = Instantiate(allParts[index].gameObject, transform);
+        copyHurt.GetComponent<Image>().color = hurtColor;
+        copyHurt.GetComponent<Image>().DOColor(new Color(hurtColor.r, hurtColor.g, hurtColor.b, 0), 1.5f);
+        Destroy(copyHurt, 1.51f);
 
         Color targetColor = hurtColor;
         targetColor = new Color(targetColor.r, targetColor.g, targetColor.b, 0);

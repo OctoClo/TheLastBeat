@@ -43,7 +43,7 @@ public class RewindRushAbility : Ability
 
     public override void Launch()
     {
-        if (chainedEnemies.Count > 0 && currentCooldown == 0 && player.Status.CurrentStatus == EPlayerStatus.DEFAULT && chainedEnemies.Count >= 3)
+        if (chainedEnemies.Count > 0 && currentCooldown == 0 && player.Status.CurrentStatus == EPlayerStatus.DEFAULT && chainedEnemies.Count >= 4)
             RewindRush();
     }
 
