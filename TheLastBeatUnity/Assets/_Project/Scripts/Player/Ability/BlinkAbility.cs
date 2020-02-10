@@ -42,6 +42,12 @@ public class BlinkAbility : Ability
             Blink();
     }
 
+    public override void ResetCooldown()
+    {
+        base.ResetCooldown();
+        parameters.container.UpdateDelegate(1);
+    }
+
     public override void Update(float deltaTime)
     {
         if (currentCooldown > 0)
