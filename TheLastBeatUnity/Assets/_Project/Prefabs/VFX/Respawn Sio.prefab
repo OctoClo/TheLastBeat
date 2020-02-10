@@ -284,7 +284,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 3
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -4765,7 +4765,7 @@ GameObject:
   - component: {fileID: 1185430117227270899}
   - component: {fileID: 3434611514578829795}
   m_Layer: 0
-  m_Name: Respawn Sio 1
+  m_Name: Respawn Sio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4779,7 +4779,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8421840916575353865}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -26.27, y: -2.93, z: -26.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 859847203456988646}
@@ -5040,7 +5040,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3
+      scalar: 10
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -9530,7 +9530,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 484102, guid: 7bfd79a305976fc419b6412149114025, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.335
+      value: 0.706
       objectReference: {fileID: 0}
     - target: {fileID: 484102, guid: 7bfd79a305976fc419b6412149114025, type: 3}
       propertyPath: m_LocalRotation.x
@@ -9588,6 +9588,14 @@ PrefabInstance:
       propertyPath: InitialModule.startLifetime.minMaxState
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 19850140, guid: 7bfd79a305976fc419b6412149114025, type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 19850140, guid: 7bfd79a305976fc419b6412149114025, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 1.25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7bfd79a305976fc419b6412149114025, type: 3}
 --- !u!4 &859847203456988646 stripped
@@ -9613,11 +9621,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 484102, guid: 7b865dc1358c08249aa5e92f98f57368, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 484102, guid: 7b865dc1358c08249aa5e92f98f57368, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.335
+      value: 0.706
       objectReference: {fileID: 0}
     - target: {fileID: 484102, guid: 7b865dc1358c08249aa5e92f98f57368, type: 3}
       propertyPath: m_LocalRotation.x
@@ -9753,7 +9761,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 19850140, guid: 7b865dc1358c08249aa5e92f98f57368, type: 3}
       propertyPath: InitialModule.startSize.scalar
-      value: 0.5
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 19850140, guid: 7b865dc1358c08249aa5e92f98f57368, type: 3}
       propertyPath: ColorModule.gradient.maxGradient.key3.a
