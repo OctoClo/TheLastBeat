@@ -166,7 +166,7 @@ public class Player : Inputable
 
             // Glue to floor
             if (CurrentDeltaY <= 0)
-                rb.AddForce(Physics.gravity * 20);
+                rb.AddForce(Physics.gravity * 50);
         }
         else
             SetMoving(false);

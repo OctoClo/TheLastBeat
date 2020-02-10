@@ -29,6 +29,9 @@ public class Health : Beatable
     [SerializeField] [TabGroup("Sound")]
     AK.Wwise.State outCritic = null;
 
+    [SerializeField] [TabGroup("Sound")]
+    AK.Wwise.Event healSound = null;
+
     public Player Player { get; set; }
 
     float ratioPulse => 1 - ((currentPulse - minimalPulse) / (maximalPulse - minimalPulse));
@@ -39,6 +42,7 @@ public class Health : Beatable
         base.Start();
         visual = new HealthVisual(visualParams);
         visual.UpdateColor(ratioPulse);
+        visual.UpdateContainer((int)maximalPulse - (int)currentPulse);
     }
 
     public bool InCriticMode => ratioPulse == 0;
@@ -56,8 +60,6 @@ public class Health : Beatable
             visual.UIScreenShake();
             visual.RestartScreeningSeq();
         }
-
-        visual.RegularBeat();
     }
 
     private void OnGUI()
@@ -70,6 +72,11 @@ public class Health : Beatable
 
     public void ModifyPulseValue(float deltaValue, bool fromEnemy)
     {
+        //HealSound
+        if (deltaValue < 0 && ratioPulse != 1.0f)
+        {
+            healSound.Post(gameObject);
+        }
         //No longer critic mode
         if (ratioPulse == 0 && currentPulse + deltaValue > minimalPulse)
         {
@@ -90,6 +97,7 @@ public class Health : Beatable
         }
 
         visual.UpdateColor(ratioPulse);
+        visual.UpdateContainer((int)maximalPulse - (int)currentPulse);
 
         //Enter critic mode
         if (InCriticMode)
@@ -103,12 +111,12 @@ public class Health : Beatable
     {
         if (GUI.Button(new Rect(30,25, 80, 25), "+"))
         {
-            ModifyPulseValue(-5, false);
+            ModifyPulseValue(-1,false);
         }
         
         if (GUI.Button(new Rect(30, 50 , 80 , 25), "-"))
         {
-            ModifyPulseValue(5, false);
+            ModifyPulseValue(1, false);
         }
 
         GUI.Label(new Rect(20, 75, 100, 25), ratioPulse.ToString());
