@@ -86,9 +86,14 @@ public class SceneHelper : MonoBehaviour
         MainPlayer.transform.position = respawnPlace.position + Vector3.up;
     }
 
-    public void StartFade(UnityAction lambda, float duration , Color color, bool independant = false)
+    public void StartFade(UnityAction lambda, float duration, Color color, bool independant = false, bool fromBlack = false)
     {
         seq = DOTween.Sequence();
+        if (fromBlack)
+        {
+            img.color = Color.black;
+            seq.AppendInterval(0.5f);
+        }
         seq.Append(img.DOColor(color, duration));
         seq.AppendCallback(() => lambda());
         seq.SetUpdate(independant);
