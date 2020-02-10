@@ -144,4 +144,9 @@ public class UIEnemy : Slowable
             }
         }
     }
+
+    private void OnDestroy()
+    {
+        Purge();
+    }
 }

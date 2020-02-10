@@ -47,6 +47,9 @@ public class BeatAtFeet : Beatable
     [SerializeField]
     List<Texture> animationTexture = new List<Texture>();
 
+    [SerializeField]
+    Color colorMetronome = Color.black;
+
     protected override void Start()
     {
         base.Start();
@@ -65,7 +68,6 @@ public class BeatAtFeet : Beatable
             return;
         SoundManager sm = SoundManager.Instance;
         float timeLeft = sm.GetTimeLeftNextBeat();
-        timeLeft += sm.LastBeat.beatInterval;
         GameObject instantiated = Instantiate(prefab, rootParent);
         instantiated.transform.localPosition = Vector3.up * 0.01f;
         instantiated.transform.localScale = Vector3.one * 0.1f;
@@ -102,6 +104,7 @@ public class BeatAtFeet : Beatable
     {
         Sequence seq = DOTween.Sequence();
         Material mat = GetComponent<MeshRenderer>().material;
+        mat.color = colorMetronome;
 
         foreach(Texture text in animationTexture)
         {
