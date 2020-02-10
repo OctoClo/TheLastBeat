@@ -17,6 +17,8 @@ public class PlayerStatus : MonoBehaviour
     public EPlayerStatus CurrentStatus { get; private set; }
 
     [TabGroup("Beginning")] [SerializeField]
+    bool launchIntro = false;
+    [TabGroup("Beginning")] [SerializeField]
     float fadeDuration = 0.5f;
     [TabGroup("Beginning")] [SerializeField]
     float beginPoseDuration = 2;
@@ -42,8 +44,15 @@ public class PlayerStatus : MonoBehaviour
 
     private void Awake()
     {
-        CurrentStatus = EPlayerStatus.BEGIN;
-        SceneHelper.Instance.StartFade(() => GetUp(), fadeDuration, new Color(0, 0, 0, 0), true, true);
+        Animator.SetBool("intro", launchIntro);
+        
+        if (launchIntro)
+        {
+            CurrentStatus = EPlayerStatus.BEGIN;
+            SceneHelper.Instance.StartFade(() => GetUp(), fadeDuration, new Color(0, 0, 0, 0), true, true);
+        }
+        else
+            CurrentStatus = EPlayerStatus.DEFAULT;
     }
 
     private void GetUp()
