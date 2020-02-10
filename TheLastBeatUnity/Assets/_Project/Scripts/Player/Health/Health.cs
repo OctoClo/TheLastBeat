@@ -29,6 +29,9 @@ public class Health : Beatable
     [SerializeField] [TabGroup("Sound")]
     AK.Wwise.State outCritic = null;
 
+    [SerializeField] [TabGroup("Sound")]
+    AK.Wwise.Event healSound = null;
+
     public Player Player { get; set; }
 
     float ratioPulse => 1 - ((currentPulse - minimalPulse) / (maximalPulse - minimalPulse));
@@ -69,6 +72,11 @@ public class Health : Beatable
 
     public void ModifyPulseValue(float deltaValue, bool fromEnemy)
     {
+        //HealSound
+        if (deltaValue < 0 && ratioPulse != 1.0f)
+        {
+            healSound.Post(gameObject);
+        }
         //No longer critic mode
         if (ratioPulse == 0 && currentPulse + deltaValue > minimalPulse)
         {

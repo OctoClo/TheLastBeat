@@ -43,10 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67d462f62c4f3e14cb0ba82d560712bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ambStart:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
   musStart:
     idInternal: 0
     valueGuidInternal: 
@@ -66,6 +62,12 @@ MonoBehaviour:
     groupGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 81e26d6fc04561245ae9338106588908,
       type: 2}
+  normal:
+    idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
   allInitializeState:
   - idInternal: 0
     valueGuidInternal: 
@@ -1090,10 +1092,12 @@ MonoBehaviour:
     screenShakeDuration: 0.2
     sequenceDuration: 0.2
     riftAnimator: {fileID: 0}
+    screeningFadeDuration: 0.6
+    screeningBorders: {fileID: 0}
+    screeningVeins: {fileID: 0}
   currentPulse: 0
   minimalPulse: 0
-  maximalPulse: 100
-  limitRatio: 0.1
+  maximalPulse: 6
   inCritic:
     idInternal: 0
     valueGuidInternal: 
@@ -1107,4 +1111,9 @@ MonoBehaviour:
     groupIdInternal: 0
     groupGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: c43206be12ebb8c44acdf0bfcd87596e,
+      type: 2}
+  healSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: ccfa5e18c7e907247883e2a5500cce17,
       type: 2}
