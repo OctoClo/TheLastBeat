@@ -32,6 +32,7 @@ public class InputVisualAnimation : Beatable
 
     [SerializeField]
     Color perfectColor = Color.white;
+    Color tempColor = Color.white;
 
     Queue<SequenceAndTarget> allInstances = new Queue<SequenceAndTarget>();
 
@@ -39,7 +40,8 @@ public class InputVisualAnimation : Beatable
     {
         GameObject instantiatedPrefab = Instantiate(prefabAnimation,transform);
         RectTransform rect = instantiatedPrefab.GetComponent<RectTransform>();
-
+        tempColor = instantiatedPrefab.GetComponent<Image>().color;
+        tempColor = new Color(tempColor.r, tempColor.g, tempColor.b, 1);
         float timeLeft = SoundManager.Instance.LastBeat.beatInterval;
 
         Sequence seq = DOTween.Sequence();
@@ -54,7 +56,7 @@ public class InputVisualAnimation : Beatable
                     Destroy(seqAndTar.target);
                 }
             })
-            .Insert(0, instantiatedPrefab.GetComponent<UnityEngine.UI.Image>().DOColor(Color.white, timeLeft).SetEase(Ease.Linear))
+            .Insert(0, instantiatedPrefab.GetComponent<UnityEngine.UI.Image>().DOColor(tempColor, timeLeft).SetEase(Ease.Linear))
             .Insert(timeLeft, DOTween.To(() => 1, x => rect.localScale = new Vector3(x, x, 1), 1, SoundManager.Instance.Tolerance).SetEase(Ease.Linear))
             .SetUpdate(true);
 

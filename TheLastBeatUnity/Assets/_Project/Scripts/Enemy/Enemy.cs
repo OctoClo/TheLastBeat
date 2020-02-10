@@ -96,6 +96,8 @@ public class Enemy : Slowable
     public event noParams EnemyKilled;
     float baseAngularSpeed = 0;
 
+    Animator anim = null;
+
     public override float Timescale
     {
         get
@@ -107,6 +109,7 @@ public class Enemy : Slowable
             base.Timescale = value;
             Agent.speed = speed * value;
             Agent.angularSpeed = baseAngularSpeed * value;
+            anim.speed = value;
         }
     }
 
@@ -115,6 +118,7 @@ public class Enemy : Slowable
         WeaponHitbox = GetComponentInChildren<EnemyWeaponHitbox>();
         AttackHitbox = GetComponentInChildren<EnemyAttackHitbox>();
         Agent = GetComponent<NavMeshAgent>();
+        anim = transform.GetComponentInChildren<Animator>();
 
         SkinnedMeshRenderer[] renderers = Model.GetComponentsInChildren<SkinnedMeshRenderer>();
         Material[] materials = null;
@@ -194,7 +198,7 @@ public class Enemy : Slowable
     {
         Vector3 targetDirection = Player.transform.position - transform.position;
         targetDirection.y = 0;
-        Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, turnSpeed * deltaTime, 0.0f);
+        Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, turnSpeed * deltaTime * Timescale, 0.0f);
         transform.rotation = Quaternion.LookRotation(newDirection);
     }
 

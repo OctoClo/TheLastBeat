@@ -5255,6 +5255,7 @@ MonoBehaviour:
   blinkParameters:
     AttachedPlayer: {fileID: 3489716977114045609}
     HealPerCorrectBeat: 1
+    container: {fileID: 0}
     Distance: 5.5
     TimeToReach: 0.1
     PulseCost: 1
@@ -5284,6 +5285,7 @@ MonoBehaviour:
   rushParameters:
     AttachedPlayer: {fileID: 3489716977114045609}
     HealPerCorrectBeat: 1
+    container: {fileID: 0}
     distanceDash: 1.4
     PulseCost: 1
     damageMultiplier: 1
@@ -5345,6 +5347,7 @@ MonoBehaviour:
   rushRewindParameters:
     AttachedPlayer: {fileID: 3489716977114045609}
     HealPerCorrectBeat: 1
+    container: {fileID: 0}
     Duration: 0.2
     PulseCost: 1
     Cooldown: 3.2
@@ -5402,6 +5405,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1cf034fbde5d0846996c139b3238010, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  launchIntro: 0
   fadeDuration: 2
   beginPoseDuration: 1
   waitBeforeStartMoving: 2
@@ -15359,6 +15363,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 7144786e955067c459222ab468af1c01, type: 3}
   - {fileID: 2800000, guid: ee6635f0ddf76e34ca717098d99aaa95, type: 3}
   - {fileID: 2800000, guid: 65712600b55fff147acc1ed1e95b3da9, type: 3}
+  colorMetronome: {r: 0.9490196, g: 0.78926796, b: 0.6500784, a: 1}
+  goodMetronome: {r: 0, g: 0, b: 0, a: 1}
 --- !u!33 &410418666680667024
 MeshFilter:
   m_ObjectHideFlags: 0
