@@ -45,6 +45,8 @@ public class PlayerStatus : MonoBehaviour
     float dissolveDuration = 1f;
     [TabGroup("Death")] [SerializeField]
     Material[] dissolveMats;
+    [TabGroup("Death")] [SerializeField]
+    float screenshakeIntensity = 2;
 
     public Animator Animator = null;
     private Coroutine stunCoroutine = null;
@@ -183,8 +185,8 @@ public class PlayerStatus : MonoBehaviour
         renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         renderer.materials = dissolveMats;
 
-        //foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
-            //ce.StartScreenShake(screenDurationHit, screenIntensityHit);
+        foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
+            ce.StartScreenShake(dissolveDuration, screenshakeIntensity);
 
         //SceneHelper.Instance.StartFade(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name), 0.5f, Color.black);
     }

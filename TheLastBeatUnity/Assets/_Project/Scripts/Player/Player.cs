@@ -361,12 +361,14 @@ public class Player : Inputable
     {
         DOTween.KillAll();
         blockInput = true;
+        healthSystem.Dying = true;
 
         foreach (Enemy enn in GameObject.FindObjectsOfType<Enemy>())
             enn.Timescale = 0;
 
         SceneHelper.Instance.RecordDeath(transform.position);
         stopEvent.Post(gameObject);
+        
         Status.DieAnimation();
     }
 }
