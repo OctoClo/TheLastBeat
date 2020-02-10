@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -38,11 +38,12 @@ public class RewindRushAbility : Ability
     public RewindRushAbility(RewindRushParameters rrp, float healCorrect) : base(rrp.AttachedPlayer, healCorrect)
     {
         parameters = rrp;
+        parameters.container.AbilityEarned();
     }
 
     public override void Launch()
     {
-        if (chainedEnemies.Count > 0 && currentCooldown == 0 && player.Status.CurrentStatus == EPlayerStatus.DEFAULT)
+        if (chainedEnemies.Count > 0 && currentCooldown == 0 && player.Status.CurrentStatus == EPlayerStatus.DEFAULT && chainedEnemies.Count >= 3)
             RewindRush();
     }
 

@@ -12,6 +12,9 @@ public class AbilityContainer : MonoBehaviour
     [SerializeField]
     Image backgroundImage;
 
+    [SerializeField]
+    Sprite enabledSprite;
+
     Image imgComponent;
 
     public enum AbilityBehavior
@@ -98,7 +101,12 @@ public class AbilityContainer : MonoBehaviour
             .AppendInterval(0.1f)
             .Append(instantiated.GetComponent<Image>().DOColor(new Color(0.0f, 0.0f, 0.0f, 0.0f), 0.3f))
             .AppendCallback(() => Destroy(instantiated))
-            .Insert(0, backgroundImage.DOColor(Color.white, 0.2f));
-        
+            .Insert(0, backgroundImage.DOColor(Color.white, 0.2f));      
+    }
+
+    public void AbilityEarned()
+    {
+        if (enabledSprite != null)
+            GetComponent<Image>().sprite = enabledSprite;
     }
 }
