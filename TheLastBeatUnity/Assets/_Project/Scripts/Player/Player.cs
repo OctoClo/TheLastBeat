@@ -362,21 +362,11 @@ public class Player : Inputable
         DOTween.KillAll();
         blockInput = true;
 
-        Debug.Log("Die - Part 1");
-        SceneHelper.Instance.RecordDeath(transform.position);
-        stopEvent.Post(gameObject);
-        Status.SetMoving(false);
-
         foreach (Enemy enn in GameObject.FindObjectsOfType<Enemy>())
             enn.Timescale = 0;
 
-        Status.Die(() => DiePart2());
-
-        //SceneHelper.Instance.StartFade(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name), 0.5f, Color.black);
-    }
-
-    void DiePart2()
-    {
-        Debug.Log("Die - Part 2");
+        SceneHelper.Instance.RecordDeath(transform.position);
+        stopEvent.Post(gameObject);
+        Status.DieAnimation();
     }
 }

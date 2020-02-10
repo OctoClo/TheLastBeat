@@ -41,6 +41,10 @@ public class PlayerStatus : MonoBehaviour
 
     [TabGroup("Death")] [SerializeField]
     float deathAnimDuration = 1.5f;
+    [TabGroup("Death")] [SerializeField] [Range(0, 3)]
+    float dissolveDuration = 1f;
+    [TabGroup("Death")] [SerializeField]
+    Material[] dissolveMats;
 
     public Animator Animator = null;
     private Coroutine stunCoroutine = null;
@@ -85,13 +89,6 @@ public class PlayerStatus : MonoBehaviour
         {
             rushTimer = 0;
         }
-    }
-
-    public void Die(UnityAction lambda)
-    {
-        CurrentStatus = EPlayerStatus.DYING;
-        Animator.SetTrigger("die");
-        DOTween.Sequence().InsertCallback(deathAnimDuration, () => lambda());
     }
 
     public void SetMoving(bool moving)
@@ -163,5 +160,32 @@ public class PlayerStatus : MonoBehaviour
         yield return new WaitForSecondsRealtime(stunRecoverAnim.length);
         CurrentStatus = EPlayerStatus.DEFAULT;
         stunCoroutine = null;
+    }
+
+    public void DieAnimation()
+    {
+        CurrentStatus = EPlayerStatus.DYING;
+        SetMoving(false);
+        Animator.SetTrigger("die");
+        DOTween.Sequence().InsertCallback(deathAnimDuration, () => DiePart2());
+    }
+
+    public void DiePart2()
+    {
+        foreach (Material mat in dissolveMats)
+        {
+            mat.SetFloat("_BeginTime", Time.timeSinceLevelLoad);
+            mat.SetFloat("_DissolveDuration", dissolveDuration);
+        }
+
+        SkinnedMeshRenderer renderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        renderer.receiveShadows = false;
+        renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        renderer.materials = dissolveMats;
+
+        //foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
+            //ce.StartScreenShake(screenDurationHit, screenIntensityHit);
+
+        //SceneHelper.Instance.StartFade(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name), 0.5f, Color.black);
     }
 }
