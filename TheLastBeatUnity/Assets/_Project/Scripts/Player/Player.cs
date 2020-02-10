@@ -361,27 +361,18 @@ public class Player : Inputable
     {
         DOTween.KillAll();
         blockInput = true;
+
+        Debug.Log("Die - Part 1");
         SceneHelper.Instance.RecordDeath(transform.position);
         stopEvent.Post(gameObject);
-        StartCoroutine(DieCoroutine());
+        Status.SetMoving(false);
+        Status.Die(() => DiePart2());
+
+        //SceneHelper.Instance.StartFade(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name), 0.5f, Color.black);
     }
 
-    IEnumerator DieCoroutine()
+    void DiePart2()
     {
-        float objective = 90;
-        float duration = 0.5f;
-        float cursor = 0;
-        Status.SetMoving(false);
-
-        while (cursor < objective)
-        {
-            float tempValue = (objective * Time.deltaTime / duration);
-            cursor += tempValue;
-            transform.Rotate(Vector3.right * tempValue, Space.Self);
-            yield return null;
-        }
-
-        SceneHelper.Instance.RecordDeath(transform.position);
-        SceneHelper.Instance.StartFade(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name), 0.5f, Color.black);
+        Debug.Log("Die - Part 2");
     }
 }

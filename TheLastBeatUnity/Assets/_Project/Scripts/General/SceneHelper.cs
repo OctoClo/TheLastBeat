@@ -10,7 +10,7 @@ public class SceneHelper : MonoBehaviour
     public static SceneHelper Instance { get; private set; }
 
     [SerializeField]
-    Image img = null;
+    Image fadeImage = null;
 
     [SerializeField]
     Transform respawnPlace = null;
@@ -21,7 +21,6 @@ public class SceneHelper : MonoBehaviour
     AnimationCurve defaultAnimationCurve = null;
 
     Sequence seq;
-    public static Vector3 LastDeathPosition = Vector3.zero;
     public static int DeathCount = 0;
 
     List<EnemyZone> zonesChasingPlayer = new List<EnemyZone>();
@@ -71,7 +70,6 @@ public class SceneHelper : MonoBehaviour
     public void RecordDeath(Vector3 position)
     {
         DeathCount++;
-        LastDeathPosition = position;
     }
 
     private void Update()
@@ -91,10 +89,10 @@ public class SceneHelper : MonoBehaviour
         seq = DOTween.Sequence();
         if (fromBlack)
         {
-            img.color = Color.black;
+            fadeImage.color = Color.black;
             seq.AppendInterval(0.5f);
         }
-        seq.Append(img.DOColor(color, duration));
+        seq.Append(fadeImage.DOColor(color, duration));
         seq.AppendCallback(() => lambda());
         seq.SetUpdate(independant);
         seq.Play();

@@ -2,6 +2,7 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
 using DG.Tweening;
+using UnityEngine.Events;
 
 public enum EPlayerStatus
 {
@@ -9,7 +10,8 @@ public enum EPlayerStatus
     DEFAULT,
     RUSHING,
     BLINKING,
-    STUNNED
+    STUNNED,
+    DYING
 }
 
 public class PlayerStatus : MonoBehaviour
@@ -36,6 +38,9 @@ public class PlayerStatus : MonoBehaviour
     Color normalColor = Color.white;
     [TabGroup("Stun")] [SerializeField]
     AK.Wwise.Event stunMusicSXF = null;
+
+    [TabGroup("Death")] [SerializeField]
+    float deathAnimDuration = 1.5f;
 
     public Animator Animator = null;
     private Coroutine stunCoroutine = null;
@@ -80,6 +85,13 @@ public class PlayerStatus : MonoBehaviour
         {
             rushTimer = 0;
         }
+    }
+
+    public void Die(UnityAction lambda)
+    {
+        CurrentStatus = EPlayerStatus.DYING;
+        Animator.SetTrigger("die");
+        DOTween.Sequence().InsertCallback(deathAnimDuration, () => lambda());
     }
 
     public void SetMoving(bool moving)
