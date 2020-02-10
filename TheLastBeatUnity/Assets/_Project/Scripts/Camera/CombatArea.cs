@@ -87,10 +87,17 @@ public class CombatArea : MonoBehaviour
                 runningSequences[coll.transform] = null;
             }
             Sequence seq = DOTween.Sequence();
-            seq.Append(DOTween.To(() => GetWeight(coll.transform, maxWeight), x => SetWeight(x, coll.transform), 0, timeTransition));
-            seq.AppendCallback(() => runningSequences.Remove(coll.transform));
-            seq.AppendCallback(() => groupTarget.RemoveMember(coll.transform));
-            seq.AppendCallback(() => CheckGroupTargetEmpty());
+
+            if (coll)
+            {
+                seq.Append(DOTween.To(() => GetWeight(coll.transform, maxWeight), x => {
+                    SetWeight(x, coll.transform);
+                }, 0, timeTransition));
+                seq.AppendCallback(() => runningSequences.Remove(coll.transform));
+                seq.AppendCallback(() => groupTarget.RemoveMember(coll.transform));
+                seq.AppendCallback(() => CheckGroupTargetEmpty());
+            }
+            
             seq.Play();
         }
     }
