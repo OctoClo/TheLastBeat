@@ -39,6 +39,7 @@ public class Health : Beatable
         base.Start();
         visual = new HealthVisual(visualParams);
         visual.UpdateColor(ratioPulse);
+        visual.UpdateContainer((int)maximalPulse - (int)currentPulse);
     }
 
     public bool InCriticMode => ratioPulse == 0;
@@ -90,6 +91,7 @@ public class Health : Beatable
         }
 
         visual.UpdateColor(ratioPulse);
+        visual.UpdateContainer((int)maximalPulse - (int)currentPulse);
 
         //Enter critic mode
         if (InCriticMode)
@@ -103,12 +105,12 @@ public class Health : Beatable
     {
         if (GUI.Button(new Rect(30,25, 80, 25), "+"))
         {
-            ModifyPulseValue(-5, false);
+            ModifyPulseValue(-1);
         }
         
         if (GUI.Button(new Rect(30, 50 , 80 , 25), "-"))
         {
-            ModifyPulseValue(5, false);
+            ModifyPulseValue(1);
         }
 
         GUI.Label(new Rect(20, 75, 100, 25), ratioPulse.ToString());

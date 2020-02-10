@@ -8,8 +8,6 @@ using DG.Tweening;
 public class VisualParams
 {
     public Image flameImage;
-    public Image barImage;
-    public Image backgroundImage;
     public RectTransform flameTransform;
     public Color leftMostColor;
     public Color rightMostColor;
@@ -30,6 +28,7 @@ public class VisualParams
     public float screeningFadeDuration = 0;
     public Image screeningBorders = null;
     public Image screeningVeins = null;
+    public List<LifeContainer> allContainers = new List<LifeContainer>();
 }
 
 public class HealthVisual
@@ -37,10 +36,7 @@ public class HealthVisual
     VisualParams visualParams;
     Sequence seq;
     Sequence criticSequence;
-    Vector3 normalSize = Vector3.zero;
     bool isChangingColor = false;
-    Color flameColor = Color.black;
-    Sprite sprtStart = null;
     Color originColor = Color.black;
 
     Sequence criticScreeningSeq = null;
@@ -49,10 +45,7 @@ public class HealthVisual
     public HealthVisual(VisualParams vp)
     {
         visualParams = vp;
-        normalSize = visualParams.flameTransform.localScale;
-        flameColor = visualParams.flameImage.color;
-        sprtStart = visualParams.riftAnimator.GetComponent<UnityEngine.UI.Image>().sprite;
-        originColor = flameColor;
+        originColor = visualParams.flameImage.color;
     }
 
     public void HurtAnimationUI(bool fromEnemy)
@@ -64,7 +57,7 @@ public class HealthVisual
             Sequence seq = DOTween.Sequence();
             seq.AppendCallback(() => visualParams.flameImage.color = visualParams.hurtColor);
             seq.AppendInterval(0.05f);
-            seq.AppendCallback(() => visualParams.flameImage.color = flameColor);
+            seq.AppendCallback(() => visualParams.flameImage.color = originColor);
             seq.AppendInterval(0.05f);
             seq.SetLoops(10);
             seq.AppendCallback(() => isChangingColor = false);
@@ -121,7 +114,7 @@ public class HealthVisual
 
     public void EnterCriticState()
     {
-        visualParams.flameTransform.DOScale(normalSize * visualParams.sizeCritic, 0.1f);
+        visualParams.flameTransform.DOScale(visualParams.flameTransform.localScale * visualParams.sizeCritic, 0.1f);
         criticSequence = DOTween.Sequence();
         criticSequence.Append(DOTween.To(() => visualParams.flameImage.color, x => visualParams.flameImage.color = x, Color.white, 0.1f));
         criticSequence.Append(DOTween.To(() => visualParams.flameImage.color, x => visualParams.flameImage.color = x, Color.red, 0.1f));
@@ -138,7 +131,7 @@ public class HealthVisual
         {
             visualParams.flameImage.DOColor(originColor, 0.2f);
             criticSequence.Kill();
-            visualParams.flameTransform.DOScale(normalSize, 0.2f);
+            visualParams.flameTransform.DOScale(visualParams.flameTransform.localScale, 0.2f);
         }
 
         if (criticScreeningSeq != null)
@@ -154,7 +147,7 @@ public class HealthVisual
         if (index == 0)
         {
             visualParams.riftAnimator.enabled = false;
-            visualParams.riftAnimator.GetComponent<UnityEngine.UI.Image>().sprite = sprtStart;
+            visualParams.riftAnimator.GetComponent<UnityEngine.UI.Image>().sprite = visualParams.riftAnimator.GetComponent<UnityEngine.UI.Image>().sprite;
             return;
         }
 
@@ -165,9 +158,6 @@ public class HealthVisual
     public void UpdateColor(float ratio)
     {
         Color currentColor = Color.Lerp(visualParams.leftMostColor, visualParams.rightMostColor, ratio);
-        visualParams.barImage.DOColor(currentColor, 0.25f);
-        visualParams.backgroundImage.DOColor(currentColor, 0.25f);
-        DOTween.To(() => visualParams.barImage.fillAmount, x => visualParams.barImage.fillAmount = x, ratio, visualParams.timeLifeTransition).SetEase(visualParams.curveTransition);
 
         if (ratio > visualParams.ratioRiftStep1)
             SetRiftAnimation(0);
@@ -180,5 +170,22 @@ public class HealthVisual
 
         if (ratio < visualParams.ratioRiftStep3)
             SetRiftAnimation(3);
+    }
+
+    public void UpdateContainer(int lifeLeft)
+    {
+        for (int i = 0; i < visualParams.allContainers.Count; i++)
+        {
+            LifeContainer.StateHealthCell status = LifeContainer.StateHealthCell.EMPTY;
+            if (lifeLeft == (i * 2) + 1)
+            {
+                status = LifeContainer.StateHealthCell.HALF_EMPTY;
+            }
+            else if (lifeLeft > i * 2)
+            {
+                status = LifeContainer.StateHealthCell.FULL;
+            }
+            visualParams.allContainers[i].CurrentState = status;
+        }
     }
 }
