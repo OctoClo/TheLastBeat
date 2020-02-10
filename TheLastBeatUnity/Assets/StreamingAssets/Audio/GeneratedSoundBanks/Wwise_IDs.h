@@ -27,6 +27,8 @@ namespace AK
         static const AkUniqueID PLAY_ATTACK_ENEMY = 2771612231U;
         static const AkUniqueID PLAY_BLINKFXOFFBEAT = 3832364417U;
         static const AkUniqueID PLAY_BLINKFXONBEAT = 2655647461U;
+        static const AkUniqueID PLAY_BOSS_RUMBLE = 3815637695U;
+        static const AkUniqueID PLAY_BOSS_SCREAM = 3326215491U;
         static const AkUniqueID PLAY_BOUNCE_SHIELD = 5903894U;
         static const AkUniqueID PLAY_CALL_ATTACK_ENEMY = 2860430492U;
         static const AkUniqueID PLAY_CANYON_AMBIANCE = 831844293U;
@@ -41,10 +43,12 @@ namespace AK
         static const AkUniqueID PLAY_LEFTFOOT = 1674468585U;
         static const AkUniqueID PLAY_MUSIC = 2932040671U;
         static const AkUniqueID PLAY_MUSIC_MENU = 1699343283U;
+        static const AkUniqueID PLAY_NEMESIS = 820063214U;
         static const AkUniqueID PLAY_OASIS_AMBIANCE = 3449458560U;
         static const AkUniqueID PLAY_PRESENCE = 4155730121U;
         static const AkUniqueID PLAY_REWIND = 869704911U;
         static const AkUniqueID PLAY_RIGHTFOOT = 3723441664U;
+        static const AkUniqueID PLAY_RUMBLE = 1002643937U;
         static const AkUniqueID PLAY_RUSHFXOFFBEAT = 3852757989U;
         static const AkUniqueID PLAY_RUSHFXONBEAT = 2567002569U;
         static const AkUniqueID PLAY_RUSHFXONPERFECT = 3119437920U;
@@ -55,6 +59,7 @@ namespace AK
         static const AkUniqueID SETREWIND_LOOPC = 4276712658U;
         static const AkUniqueID STOP_ALL = 452547817U;
         static const AkUniqueID STOP_AMB = 435770000U;
+        static const AkUniqueID STOP_MUSIC_SWITCH = 2505149896U;
         static const AkUniqueID STOP_PRESENCE = 3485622663U;
         static const AkUniqueID STOP_REWIND = 564679353U;
     } // namespace EVENTS
@@ -185,6 +190,7 @@ namespace AK
         static const AkUniqueID INT_MUSICCRUSHER = 807022328U;
         static const AkUniqueID INT_SYNCDUCKING = 758808735U;
         static const AkUniqueID MUSICPOSITION = 3149782607U;
+        static const AkUniqueID OCCLUSION = 183903552U;
     } // namespace GAME_PARAMETERS
 
     namespace TRIGGERS
@@ -193,6 +199,7 @@ namespace AK
         static const AkUniqueID ONBEATBLINK = 2384616720U;
         static const AkUniqueID ONBEATRUSH = 2234168428U;
         static const AkUniqueID ONPERFECTRUSH = 3602984935U;
+        static const AkUniqueID SAVE = 669616846U;
     } // namespace TRIGGERS
 
     namespace BANKS
