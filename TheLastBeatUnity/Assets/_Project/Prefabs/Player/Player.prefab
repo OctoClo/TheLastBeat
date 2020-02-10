@@ -5255,6 +5255,7 @@ MonoBehaviour:
   blinkParameters:
     AttachedPlayer: {fileID: 3489716977114045609}
     HealPerCorrectBeat: 1
+    container: {fileID: 0}
     Distance: 5.5
     TimeToReach: 0.1
     PulseCost: 1
@@ -5284,6 +5285,7 @@ MonoBehaviour:
   rushParameters:
     AttachedPlayer: {fileID: 3489716977114045609}
     HealPerCorrectBeat: 1
+    container: {fileID: 0}
     distanceDash: 1.4
     PulseCost: 1
     damageMultiplier: 1
@@ -5345,6 +5347,7 @@ MonoBehaviour:
   rushRewindParameters:
     AttachedPlayer: {fileID: 3489716977114045609}
     HealPerCorrectBeat: 1
+    container: {fileID: 0}
     Duration: 0.2
     PulseCost: 1
     Cooldown: 3.2
@@ -5402,6 +5405,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1cf034fbde5d0846996c139b3238010, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  launchIntro: 0
   fadeDuration: 2
   beginPoseDuration: 1
   waitBeforeStartMoving: 2
@@ -5414,6 +5418,7 @@ MonoBehaviour:
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: a5f274bafb65fa448a1e74f2757e0f90,
       type: 2}
+  deathAnimDuration: 1
   Animator: {fileID: 7120592206037223947}
 --- !u!114 &53719213953136378
 MonoBehaviour:

@@ -366,6 +366,10 @@ public class Player : Inputable
         SceneHelper.Instance.RecordDeath(transform.position);
         stopEvent.Post(gameObject);
         Status.SetMoving(false);
+
+        foreach (Enemy enn in GameObject.FindObjectsOfType<Enemy>())
+            enn.Timescale = 0;
+
         Status.Die(() => DiePart2());
 
         //SceneHelper.Instance.StartFade(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name), 0.5f, Color.black);
