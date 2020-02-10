@@ -57,8 +57,6 @@ public class Health : Beatable
             visual.UIScreenShake();
             visual.RestartScreeningSeq();
         }
-
-        visual.RegularBeat();
     }
 
     private void OnGUI()
@@ -105,12 +103,12 @@ public class Health : Beatable
     {
         if (GUI.Button(new Rect(30,25, 80, 25), "+"))
         {
-            ModifyPulseValue(-1);
+            ModifyPulseValue(-1,false);
         }
         
         if (GUI.Button(new Rect(30, 50 , 80 , 25), "-"))
         {
-            ModifyPulseValue(1);
+            ModifyPulseValue(1, false);
         }
 
         GUI.Label(new Rect(20, 75, 100, 25), ratioPulse.ToString());

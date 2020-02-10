@@ -81,14 +81,6 @@ public class HealthVisual
         seq.Insert(0, visualParams.screeningVeins.DOFade(0, visualParams.screeningFadeDuration));
     }
 
-    public void RegularBeat()
-    {
-        seq = DOTween.Sequence();
-        seq.Append(visualParams.flameTransform.DOScale(normalSize * visualParams.pulseSize, visualParams.sequenceDuration));
-        seq.Append(visualParams.flameTransform.DOScale(normalSize, visualParams.sequenceDuration));
-        seq.Play();
-    }
-
     public void ScreenShake()
     {
         foreach (CameraEffect ce in CameraManager.Instance.AllCameras)

@@ -126,7 +126,6 @@ public class BlinkAbility : Ability
         {
             if (SoundManager.Instance.IsPerfect(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT))
             {
-                player.ModifyPulseValue(-healCorrectBeat);
                 PerfectBeat();
             }
             else
