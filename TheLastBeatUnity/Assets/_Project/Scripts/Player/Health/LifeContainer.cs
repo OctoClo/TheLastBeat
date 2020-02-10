@@ -72,7 +72,7 @@ public class LifeContainer : MonoBehaviour
         GameObject copyHurt = Instantiate(allParts[index].gameObject, transform);
         copyHurt.GetComponent<Image>().color = hurtColor;
         copyHurt.GetComponent<Image>().DOColor(new Color(hurtColor.r, hurtColor.g, hurtColor.b, 0), 1.5f);
-        Destroy(copyHurt, 1.51f);
+        Destroy(copyHurt, 1.6f);
 
         Color targetColor = hurtColor;
         targetColor = new Color(targetColor.r, targetColor.g, targetColor.b, 0);

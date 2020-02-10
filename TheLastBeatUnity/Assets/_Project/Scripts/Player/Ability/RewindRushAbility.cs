@@ -117,7 +117,7 @@ public class RewindRushAbility : Ability
         instantiated.transform.position = parameters.groundReference.position;
         instantiated.GetComponent<Animator>().SetTrigger("rush");
         instantiated.GetComponent<Animator>().speed = 0;
-        instantiated.transform.LookAt(enemy.transform.position);
+        instantiated.transform.LookAt(enemy ? enemy.transform.position : Vector3.forward);
         instantiated.transform.forward = new Vector3(instantiated.transform.forward.x, 0, instantiated.transform.forward.z);
         GameObject.Destroy(instantiated, 1.2f);
         SkinnedMeshRenderer meshRenderer = instantiated.transform.GetChild(1).GetComponent<SkinnedMeshRenderer>();
