@@ -50,7 +50,7 @@ public class HealthVisual
             Sequence seq = DOTween.Sequence();
             seq.AppendCallback(() => visualParams.flameImage.color = visualParams.hurtColor);
             seq.AppendInterval(0.05f);
-            seq.AppendCallback(() => visualParams.flameImage.color = visualParams.flameImage.color);
+            seq.AppendCallback(() => visualParams.flameImage.color = originColor);
             seq.AppendInterval(0.05f);
             seq.SetLoops(10);
             seq.AppendCallback(() => isChangingColor = false);
