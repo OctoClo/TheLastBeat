@@ -42,15 +42,26 @@ public class BlinkAbility : Ability
             Blink();
     }
 
+    public override void ResetCooldown()
+    {
+        base.ResetCooldown();
+        parameters.container.UpdateDelegate(1);
+    }
+
     public override void Update(float deltaTime)
     {
         if (currentCooldown > 0)
+        {
             currentCooldown = Mathf.Max(0, currentCooldown - deltaTime);
+            parameters.container.UpdateProgression(1 - (currentCooldown / cooldown));
+        }
     }
 
     private void Blink()
     {
+        cooldown = SoundManager.Instance.LastBar.beatInterval;
         player.CancelRush();
+        parameters.container.UpdateProgression(0);
 
         // Init
         player.Status.StartBlink();
@@ -62,7 +73,6 @@ public class BlinkAbility : Ability
             DOTween.Sequence()
                 .AppendCallback(() =>
                 {
-                    //SceneHelper.Instance.StartFade(() => { }, 0.2f, SceneHelper.Instance.ColorSlow);
                     foreach (Enemy enn in GameObject.FindObjectsOfType<Enemy>())
                     {
                         enn.Timescale = 0.5f;
@@ -122,7 +132,6 @@ public class BlinkAbility : Ability
         {
             if (SoundManager.Instance.IsPerfect(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT))
             {
-                player.ModifyPulseValue(-healCorrectBeat);
                 PerfectBeat();
             }
             else
@@ -142,7 +151,7 @@ public class BlinkAbility : Ability
             player.DebtRush(parameters.PulseCost);
         }
 
-        currentCooldown = SoundManager.Instance.TimePerBar;
+        currentCooldown = cooldown;
     }
 
     void CreateMark(Vector3 positionCast)

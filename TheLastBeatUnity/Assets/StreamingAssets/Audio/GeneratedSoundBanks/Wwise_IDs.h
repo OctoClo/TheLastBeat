@@ -34,11 +34,13 @@ namespace AK
         static const AkUniqueID PLAY_DESERT_AMBIANCE = 1555409676U;
         static const AkUniqueID PLAY_DIE_ENEMY = 2374767689U;
         static const AkUniqueID PLAY_EXPLOSION = 4030404899U;
+        static const AkUniqueID PLAY_HEAL_PLAYER = 3450612256U;
         static const AkUniqueID PLAY_HIT_ENEMY = 3889018732U;
         static const AkUniqueID PLAY_HIT_PLAYER = 2257378511U;
         static const AkUniqueID PLAY_HOVER = 1962302600U;
         static const AkUniqueID PLAY_LEFTFOOT = 1674468585U;
         static const AkUniqueID PLAY_MUSIC = 2932040671U;
+        static const AkUniqueID PLAY_MUSIC_MENU = 1699343283U;
         static const AkUniqueID PLAY_OASIS_AMBIANCE = 3449458560U;
         static const AkUniqueID PLAY_PRESENCE = 4155730121U;
         static const AkUniqueID PLAY_REWIND = 869704911U;
@@ -75,6 +77,19 @@ namespace AK
                 static const AkUniqueID CHORD_08 = 852835680U;
             } // namespace STATE
         } // namespace INT_LAND_CHORD
+
+        namespace MENU_MUSIC
+        {
+            static const AkUniqueID GROUP = 4055567060U;
+
+            namespace STATE
+            {
+                static const AkUniqueID MENU1 = 2604644577U;
+                static const AkUniqueID MENU2 = 2604644578U;
+                static const AkUniqueID MENU3 = 2604644579U;
+                static const AkUniqueID MENU4 = 2604644580U;
+            } // namespace STATE
+        } // namespace MENU_MUSIC
 
         namespace MUSIC_COMBATEXPLO_SWITCH
         {

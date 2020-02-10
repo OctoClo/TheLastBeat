@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -38,11 +38,12 @@ public class RewindRushAbility : Ability
     public RewindRushAbility(RewindRushParameters rrp, float healCorrect) : base(rrp.AttachedPlayer, healCorrect)
     {
         parameters = rrp;
+        parameters.container.AbilityEarned();
     }
 
     public override void Launch()
     {
-        if (chainedEnemies.Count >= 4 && currentCooldown == 0 && player.Status.CurrentStatus == EPlayerStatus.DEFAULT)
+        if (chainedEnemies.Count > 0 && currentCooldown == 0 && player.Status.CurrentStatus == EPlayerStatus.DEFAULT && chainedEnemies.Count >= 4)
             RewindRush();
     }
 
@@ -116,7 +117,7 @@ public class RewindRushAbility : Ability
         instantiated.transform.position = parameters.groundReference.position;
         instantiated.GetComponent<Animator>().SetTrigger("rush");
         instantiated.GetComponent<Animator>().speed = 0;
-        instantiated.transform.LookAt(enemy.transform.position);
+        instantiated.transform.LookAt(enemy ? enemy.transform.position : Vector3.forward);
         instantiated.transform.forward = new Vector3(instantiated.transform.forward.x, 0, instantiated.transform.forward.z);
         GameObject.Destroy(instantiated, 1.2f);
         SkinnedMeshRenderer meshRenderer = instantiated.transform.GetChild(1).GetComponent<SkinnedMeshRenderer>();
@@ -162,6 +163,8 @@ public class RewindRushAbility : Ability
             enn.Informations.AddRewindMark();
             chainedEnemies.Enqueue(enn);
         }
+
+        parameters.container.UpdateDelegate(chainedEnemies.Count);
     }
 
     public void MissInput()
@@ -177,6 +180,8 @@ public class RewindRushAbility : Ability
         while (chainedEnemies.Count > 0)
             chainedEnemies.Dequeue().Informations.RemoveRewindMark();
         missedInput = 0;
+        if (parameters.container)
+            parameters.container.UpdateDelegate(0);
     }
 
     public override void End()
