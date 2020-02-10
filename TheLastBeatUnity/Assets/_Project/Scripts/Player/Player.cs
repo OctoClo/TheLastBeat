@@ -1,12 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Rewired;
 using Sirenix.OdinInspector;
 using DG.Tweening;
 using System;
-using UnityEngine.SceneManagement;
-using System.Linq;
 
 public class Player : Inputable
 {

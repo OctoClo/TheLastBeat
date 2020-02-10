@@ -2,7 +2,7 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
 using DG.Tweening;
-using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public enum EPlayerStatus
 {
@@ -188,6 +188,8 @@ public class PlayerStatus : MonoBehaviour
         foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
             ce.StartScreenShake(dissolveDuration, screenshakeIntensity);
 
-        //SceneHelper.Instance.StartFade(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name), 0.5f, Color.black);
+        float dissolveHalfDuration = dissolveDuration * 0.5f;
+        DOTween.Sequence().InsertCallback(dissolveHalfDuration,
+            () => SceneHelper.Instance.StartFade(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name), dissolveHalfDuration + 1, Color.black));
     }
 }
