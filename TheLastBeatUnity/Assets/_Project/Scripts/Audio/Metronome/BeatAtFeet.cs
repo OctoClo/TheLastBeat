@@ -65,7 +65,6 @@ public class BeatAtFeet : Beatable
             return;
         SoundManager sm = SoundManager.Instance;
         float timeLeft = sm.GetTimeLeftNextBeat();
-        timeLeft += sm.LastBeat.beatInterval;
         GameObject instantiated = Instantiate(prefab, rootParent);
         instantiated.transform.localPosition = Vector3.up * 0.01f;
         instantiated.transform.localScale = Vector3.one * 0.1f;
