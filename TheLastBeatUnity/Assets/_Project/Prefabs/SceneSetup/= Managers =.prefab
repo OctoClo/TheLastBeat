@@ -195,8 +195,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f304e68cc3bf26042ad59cca9b4a43c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  img: {fileID: 0}
-  respawnPlace: {fileID: 0}
+  fadeImage: {fileID: 0}
+  checkpoint: {fileID: 0}
   VfxFolder: {fileID: 0}
   defaultAnimationCurve:
     serializedVersion: 2
@@ -1050,8 +1050,6 @@ MonoBehaviour:
   debugMode: 0
   visualParams:
     flameImage: {fileID: 0}
-    barImage: {fileID: 0}
-    backgroundImage: {fileID: 0}
     flameTransform: {fileID: 0}
     leftMostColor: {r: 0.6, g: 0.49019608, b: 0.42745098, a: 1}
     rightMostColor: {r: 0.9490196, g: 0.4627451, b: 0.18039216, a: 1}
@@ -1092,12 +1090,18 @@ MonoBehaviour:
     screenShakeDuration: 0.2
     sequenceDuration: 0.2
     riftAnimator: {fileID: 0}
-    screeningFadeDuration: 0.6
+    screeningFadeDuration: 1
     screeningBorders: {fileID: 0}
     screeningVeins: {fileID: 0}
+    screeningGreen: {fileID: 0}
+    allContainers:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
   currentPulse: 0
   minimalPulse: 0
-  maximalPulse: 6
+  maximalPulse: 8
   inCritic:
     idInternal: 0
     valueGuidInternal: 
@@ -1115,5 +1119,6 @@ MonoBehaviour:
   healSound:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: ccfa5e18c7e907247883e2a5500cce17,
+    WwiseObjectReference: {fileID: 11400000, guid: b92f50e3fb736e24a9d2e1186a3864b5,
       type: 2}
+  Dying: 0

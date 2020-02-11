@@ -112,7 +112,7 @@ public class UIEnemy : Slowable
             DisappearHud();
     }
 
-    void DisappearHud(bool instant = false)
+    public void DisappearHud(bool instant = false)
     {
         if (currentSequence != null)
             currentSequence.Kill();

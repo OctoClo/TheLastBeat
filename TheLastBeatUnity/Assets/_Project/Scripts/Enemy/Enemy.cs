@@ -16,6 +16,10 @@ public class Enemy : Slowable
     int maxLives = 10;
     protected int lives = 10;
     protected int minLives = 0;
+    [TabGroup("General")] [SerializeField] [Range(0, 3)]
+    float dissolveDuration = 1f;
+    [TabGroup("General")] [SerializeField]
+    Material[] dissolveMats;
 
     [TabGroup("Behaviour")] [Header("Wander")] [SerializeField] [Tooltip("How much time the enemy will wait before going to another spot (random in [x, y]")]
     protected Vector2 waitBeforeNextMove = new Vector2(2, 5);
@@ -217,13 +221,12 @@ public class Enemy : Slowable
             ce.StartScreenShake(screenDurationHit, screenIntensityHit);
         
         lives -= (int)dmg;
+        informations.Life = lives;
         bool dying = (lives <= minLives);
         hitEnemy.Post(gameObject);
 
         if (!dying)
         {
-            informations.Life = lives;
-
             if (stunCounter < chancesToGetStunned.Length)
             {
                 float stunPercentage = RandomHelper.GetRandom();
@@ -244,9 +247,29 @@ public class Enemy : Slowable
     {
         isDying = true;
         EnemyKilled?.Invoke();
-        informations.Life = 0;
+        informations.DisappearHud();
         Animator.SetTrigger("die");
-        DOTween.Sequence().InsertCallback(1.5f, () => Die());
+        DOTween.Sequence().InsertCallback(1, () => Dissolve());
+    }
+
+    private void Dissolve()
+    {
+        foreach (Material mat in dissolveMats)
+        {
+            mat.SetFloat("_BeginTime", Time.timeSinceLevelLoad);
+            mat.SetFloat("_DissolveDuration", dissolveDuration);
+        }
+
+        SkinnedMeshRenderer[] renderers = GetComponentsInChildren<SkinnedMeshRenderer>(false);
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            renderers[i].receiveShadows = false;
+            renderers[i].shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            renderers[i].materials = new Material[1];
+            renderers[i].material = dissolveMats[i];
+        }
+
+        DOTween.Sequence().InsertCallback(dissolveDuration, () => Die());
     }
 
     public void Die()

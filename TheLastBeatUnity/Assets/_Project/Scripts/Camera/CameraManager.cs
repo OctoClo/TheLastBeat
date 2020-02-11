@@ -15,13 +15,15 @@ public class CameraManager : MonoBehaviour
     public CinemachineStateDrivenCamera StateDrive => stateDrive;
     Animator anim = null;
 
-    public CameraEffect[] AllCameras => GameObject.FindObjectsOfType<CameraEffect>();
+    public CameraEffect[] AllCameras;
     public bool InCombat { get; private set; }
 
     List<float> defaultBlendingTime = new List<float>();
 
     void Awake()
     {
+        AllCameras = GameObject.FindObjectsOfType<CameraEffect>();
+
         if (Instance == null)
             Instance = this;
         
@@ -35,7 +37,7 @@ public class CameraManager : MonoBehaviour
             .AppendInterval(0.1f)
             .AppendCallback(() => SceneHelper.Instance.OnCombatStatusChange += CombatChange)
             .Play();
-       
+
         InCombat = false;
     }
 

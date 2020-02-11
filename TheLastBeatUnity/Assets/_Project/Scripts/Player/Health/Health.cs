@@ -32,6 +32,9 @@ public class Health : Beatable
     [SerializeField] [TabGroup("Sound")]
     AK.Wwise.Event healSound = null;
 
+    [HideInInspector]
+    public bool Dying = false;
+
     public Player Player { get; set; }
 
     float ratioPulse => 1 - ((currentPulse - minimalPulse) / (maximalPulse - minimalPulse));
@@ -54,7 +57,7 @@ public class Health : Beatable
 
     public void BeatSequence()
     {
-        if (InCriticMode)
+        if (InCriticMode && !Dying)
         {
             visual.ScreenShake();
             visual.UIScreenShake();
