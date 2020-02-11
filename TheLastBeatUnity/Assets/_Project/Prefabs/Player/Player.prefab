@@ -5262,7 +5262,7 @@ MonoBehaviour:
     timeWait: 0.1
     prefabMark: {fileID: 4225803668478646523, guid: f31c8f95b4ca0bc499aef6b862b213c0,
       type: 3}
-    prefabTrail: {fileID: 4225803668478646523, guid: 1948b9177b3dc8047b146b1dc1c44973,
+    prefabTrail: {fileID: 2958352583270755005, guid: 8e7abb580e72a7c448d24a3f882b01aa,
       type: 3}
     SpeedAnimShrink: 0.05
     marksSpeedAnimation: 0.15
@@ -5391,6 +5391,8 @@ MonoBehaviour:
     WwiseObjectReference: {fileID: 11400000, guid: 434b8e2fbb0f0e347a8b82bedc35565d,
       type: 2}
   RushParticles: {fileID: 5431658358474403458}
+  hitVfxPrefab: {fileID: 4491237758569079145, guid: 02b1facbc6a9b1b45b06d5546dd0c09f,
+    type: 3}
   LoseLifeOnAbilities: 1
   ColliderObject: {fileID: 3489716977114045591}
 --- !u!114 &75586183539498471
@@ -15119,7 +15121,6 @@ GameObject:
   - component: {fileID: 2225644915397347455}
   - component: {fileID: 7328927324962702162}
   - component: {fileID: 6613832601622744195}
-  - component: {fileID: 9218044348038427291}
   m_Layer: 2
   m_Name: ArrowFocus
   m_TagString: Untagged
@@ -15187,22 +15188,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &9218044348038427291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6143008234300123182}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d1d1c1bfcb02234488164e661d14f2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  offsetRaycast: {x: 0, y: 0, z: 0}
-  offsetY: 0.05
-  adaptOnStart: 0
-  adaptOnUpdate: 1
 --- !u!114 &4996776790448808128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15364,7 +15349,6 @@ MonoBehaviour:
   - {fileID: 2800000, guid: ee6635f0ddf76e34ca717098d99aaa95, type: 3}
   - {fileID: 2800000, guid: 65712600b55fff147acc1ed1e95b3da9, type: 3}
   colorMetronome: {r: 0.9490196, g: 0.78926796, b: 0.6500784, a: 1}
-  goodMetronome: {r: 0, g: 0, b: 0, a: 1}
 --- !u!33 &410418666680667024
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -15423,7 +15407,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d1d1c1bfcb02234488164e661d14f2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offsetRaycast: {x: 0, y: 1, z: 0}
+  offsetRaycast: {x: 0, y: 3, z: 0}
   offsetY: 0.01
   adaptOnStart: 0
   adaptOnUpdate: 1
@@ -15561,6 +15545,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee98ccb7f4cce3b4d809f04067c35aaf, type: 3}
+--- !u!1 &6732572623179431287 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1463455254647386396, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
+    type: 3}
+  m_PrefabInstance: {fileID: 5269734852786031723}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &961969909924380544 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4933765293385626603, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
+    type: 3}
+  m_PrefabInstance: {fileID: 5269734852786031723}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &643078969150875722 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4481795178355645407, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
@@ -15582,18 +15578,6 @@ Transform:
 --- !u!1 &4179400909199103330 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
-    type: 3}
-  m_PrefabInstance: {fileID: 5269734852786031723}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &6732572623179431287 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1463455254647386396, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
-    type: 3}
-  m_PrefabInstance: {fileID: 5269734852786031723}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &961969909924380544 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4933765293385626603, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
     type: 3}
   m_PrefabInstance: {fileID: 5269734852786031723}
   m_PrefabAsset: {fileID: 0}

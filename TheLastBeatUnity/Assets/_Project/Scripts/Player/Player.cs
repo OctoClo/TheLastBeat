@@ -67,6 +67,8 @@ public class Player : Inputable
     AK.Wwise.Event hitPlayer = null;
     [TabGroup("References")]
     public GameObject RushParticles = null;
+    [TabGroup("References")] [SerializeField]
+    GameObject hitVfxPrefab = null;
 
     [HideInInspector]
     public bool LoseLifeOnAbilities = true;
@@ -299,6 +301,7 @@ public class Player : Inputable
     {
         currentlyHit = true;
         healthSystem.ModifyPulseValue(value, true);
+        Instantiate(hitVfxPrefab, transform.position, Quaternion.identity, transform);
         Status.GetHit();
         yield return StartCoroutine(SceneHelper.Instance.FreezeFrameCoroutine(hitFreezeFrameDuration));
         Status.StopHit();
