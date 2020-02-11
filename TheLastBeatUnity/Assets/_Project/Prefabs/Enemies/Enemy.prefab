@@ -327,6 +327,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 15
   maxLives: 5
+  dissolveDuration: 1
+  dissolveMats:
+  - {fileID: 2100000, guid: cf09f762fa8b1654fb5c4566611f2821, type: 2}
+  - {fileID: 2100000, guid: e0645d432b2456e43ad8403a5aeefa4d, type: 2}
+  - {fileID: 2100000, guid: c63c9ef8f1c92d148956c2ba182035ba, type: 2}
   waitBeforeNextMove: {x: 1, y: 3}
   chaseDistance: 50
   waitBeforePrepareAnim: 0
@@ -429,6 +434,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5480258102326672981}
     m_Modifications:
+    - target: {fileID: 5825424975591432047, guid: 2bde456caf644314a9b983448a9c6c06,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyUI
+      objectReference: {fileID: 0}
     - target: {fileID: 871897599622983467, guid: 2bde456caf644314a9b983448a9c6c06,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -534,11 +544,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 5825424975591432047, guid: 2bde456caf644314a9b983448a9c6c06,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyUI
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2bde456caf644314a9b983448a9c6c06, type: 3}
 --- !u!224 &2604285498691620820 stripped
@@ -572,6 +577,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 387277986294170537}
     m_Modifications:
+    - target: {fileID: -927199367670048503, guid: b39bcb6d77c3bed4a8ba4dc3af434e0a,
+        type: 3}
+      propertyPath: m_Name
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: b39bcb6d77c3bed4a8ba4dc3af434e0a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -626,11 +636,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: b39bcb6d77c3bed4a8ba4dc3af434e0a,
-        type: 3}
-      propertyPath: m_Name
-      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: -6057140222963153312, guid: b39bcb6d77c3bed4a8ba4dc3af434e0a,
         type: 3}
