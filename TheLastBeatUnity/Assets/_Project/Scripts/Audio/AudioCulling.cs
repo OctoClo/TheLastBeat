@@ -6,6 +6,7 @@ public class AudioCulling : MonoBehaviour
 {
     EventPositionConfiner ambEmitter = null;
     Enemy enemyEmitter = null;
+    SphereCollider cullingSphere = null;
 
     AK.Wwise.Event eventToCull = null;
     [SerializeField]
@@ -15,7 +16,10 @@ public class AudioCulling : MonoBehaviour
 
     List<GameObject> occludedObjects = new List<GameObject>();
 
-
+    private void Start()
+    {
+      cullingSphere = gameObject.GetComponent<SphereCollider>();
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.name == "Clamped Emitter")
@@ -60,19 +64,17 @@ public class AudioCulling : MonoBehaviour
                  Vector3 direction = audioListener.transform.position - occludedObject.transform.position;
                  RaycastHit hitInfo;
 
-                 Physics.Raycast(occludedObject.transform.position, direction, out hitInfo);
+                Physics.Raycast(occludedObject.transform.position, direction, out hitInfo, cullingSphere.radius, LayerMask.GetMask("AudioCulling","ClearCamera"));
 
-                if (hitInfo.collider != null && hitInfo.collider.tag != "Wall")
-                {
-                    AkSoundEngine.SetRTPCValue(occlusionRTPC.Id, 0, occludedObject.gameObject);
-                    Debug.DrawRay(occludedObject.transform.position, direction, Color.green);
-                    Debug.Log(hitInfo.collider);
-                }
-                else if (hitInfo.collider != null && hitInfo.collider.tag == "Wall")
+                if (hitInfo.collider != null && hitInfo.collider.tag == "Wall")
                 {
                     AkSoundEngine.SetRTPCValue(occlusionRTPC.Id, 1, occludedObject.gameObject);
-                    Debug.DrawRay(occludedObject.transform.position, direction, Color.red);
-                    Debug.Log(hitInfo.collider);
+                    //Debug.DrawRay(occludedObject.transform.position, direction, Color.red);
+                }
+                else 
+                {
+                    AkSoundEngine.SetRTPCValue(occlusionRTPC.Id, 0, occludedObject.gameObject);
+                    //Debug.DrawRay(occludedObject.transform.position, direction, Color.green);
                 }
             }
         }
