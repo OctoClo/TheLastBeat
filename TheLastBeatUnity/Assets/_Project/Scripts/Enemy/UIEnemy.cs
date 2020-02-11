@@ -40,6 +40,8 @@ public class UIEnemy : Slowable
         {
             life = Mathf.Max(0,value);
             RecomputeSprite();
+            if (life == 0)
+                DisappearHud();
         }
     }
 
