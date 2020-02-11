@@ -7,10 +7,13 @@ using DG.Tweening;
 public class UIEnemy : Slowable
 {
     [SerializeField]
-    Sprite lifeEnabled = null;
+    Color colorOn = Color.green;
 
     [SerializeField]
-    Sprite lifeDisabled = null;
+    Color colorOff = Color.black;
+
+    [SerializeField]
+    Color colorHurt = Color.red;
 
     [SerializeField]
     GameObject prefabUILife = null;
@@ -26,7 +29,6 @@ public class UIEnemy : Slowable
 
     [SerializeField]
     AnimationCurve curveRewindMark = null;
-
     Sequence currentSequence;
 
     int maxHP = 0;
@@ -39,8 +41,9 @@ public class UIEnemy : Slowable
         }
         set
         {
+            int prevValue = life;
             life = Mathf.Max(0,value);
-            RecomputeSprite();
+            RecomputeSprite(prevValue);
         }
     }
 
@@ -53,12 +56,28 @@ public class UIEnemy : Slowable
         GetComponentInParent<Enemy>().EnemyKilled += Purge;
     }
 
-    void RecomputeSprite()
+    void RecomputeSprite(int previousValue)
     {
-        for (int i = 0; i < allLifeImages.Count; i++)
+        if (life < previousValue)
         {
-            allLifeImages[i].sprite = (i < life ? lifeEnabled : lifeDisabled);
+            for (int i = life; i < previousValue; i++)
+            {
+                HurtAnimation(allLifeImages[i]);
+            }
         }
+        else
+        {
+            for (int i = previousValue; i < life; i++)
+            {
+                allLifeImages[i].color = colorOn;
+            }
+        }
+    }
+
+    void HurtAnimation(Image img)
+    {
+        img.color = colorHurt;
+        CreateSequence().Append(img.DOColor(colorOff, 1.5f));
     }
 
     public void Init(int lifeAmount = 3)
@@ -82,12 +101,12 @@ public class UIEnemy : Slowable
         Life = lifeAmount;
     }
 
-    public void StartFocus()
+    public void Appear()
     {
         AppearHud();
     }
 
-    public void StopFocus()
+    public void TryDisappear()
     {
         if (Life == maxHP)
             DisappearHud();
@@ -129,7 +148,7 @@ public class UIEnemy : Slowable
     {
         GameObject newMark = Instantiate(prefabRewind, rootRewind.GetChild(Mathf.Min(2,allRewindMark.Count)).transform);
         allRewindMark.Push(newMark.GetComponent<Image>());
-        CreateSequence().Append(newMark.transform.DOScale(2.5f, 0.3f).SetEase(curveRewindMark));
+        CreateSequence().Append(newMark.transform.DOScale(3.0f, 0.45f).SetEase(curveRewindMark));
     }
 
     public void RemoveRewindMark()

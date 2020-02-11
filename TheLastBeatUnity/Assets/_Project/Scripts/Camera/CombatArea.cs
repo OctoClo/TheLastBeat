@@ -27,10 +27,13 @@ public class CombatArea : MonoBehaviour
 
     Dictionary<Transform, Sequence> runningSequences = new Dictionary<Transform, Sequence>();
 
-    void SetWeight(float weight, Transform trsf)
+    void SetWeight(float weight, Collider coll)
     {
-        groupTarget.RemoveMember(trsf);
-        groupTarget.AddMember(trsf, weight, 8);
+        if (coll)
+        { 
+            groupTarget.RemoveMember(coll.transform);
+            groupTarget.AddMember(coll.transform, weight, 8);
+        }
     }
 
     float GetWeight(Transform trsf, float defaultValue)
@@ -45,8 +48,11 @@ public class CombatArea : MonoBehaviour
 
     void OnTriggerEnter(Collider coll)
     {
-        if (coll.CompareTag("Enemy"))
+        if (coll && coll.CompareTag("Enemy"))
         {
+            if (coll.GetComponent<Enemy>())
+                coll.GetComponent<Enemy>().Informations.Appear();
+
             //Can only have one sequence at the same time
             if (runningSequences.ContainsKey(coll.transform) && runningSequences[coll.transform] != null)
             {
@@ -63,7 +69,7 @@ public class CombatArea : MonoBehaviour
                     pipelineLock = true;
                 }
             });
-            seq.Append(DOTween.To(() => GetWeight(coll.transform, 0), x => SetWeight(x, coll.transform), maxWeight, timeTransition));
+            seq.Append(DOTween.To(() => GetWeight(coll.transform, 0), x => SetWeight(x, coll), maxWeight, timeTransition));
             seq.AppendCallback(() =>
             {
                 if (nbTargetsAtThisMoment == 2)
@@ -81,6 +87,11 @@ public class CombatArea : MonoBehaviour
     {
         if (coll.CompareTag("Enemy"))
         {
+            if (coll.GetComponent<Enemy>())
+            {
+                coll.GetComponent<Enemy>().Informations.TryDisappear();
+            }
+
             if (runningSequences.ContainsKey(coll.transform) && runningSequences[coll.transform] != null)
             {
                 runningSequences[coll.transform].Kill();
@@ -88,15 +99,17 @@ public class CombatArea : MonoBehaviour
             }
             Sequence seq = DOTween.Sequence();
 
-            if (coll)
+
+            seq.Append(DOTween.To(() => GetWeight(coll.transform, maxWeight), x => {
+                SetWeight(x, coll);
+            }, 0, timeTransition));
+            seq.AppendCallback(() =>
             {
-                seq.Append(DOTween.To(() => GetWeight(coll.transform, maxWeight), x => {
-                    SetWeight(x, coll.transform);
-                }, 0, timeTransition));
-                seq.AppendCallback(() => runningSequences.Remove(coll.transform));
-                seq.AppendCallback(() => groupTarget.RemoveMember(coll.transform));
-                seq.AppendCallback(() => CheckGroupTargetEmpty());
-            }
+                if (coll)
+                    runningSequences.Remove(coll.transform);
+            });
+            seq.AppendCallback(() => groupTarget.RemoveMember(coll.transform));
+            seq.AppendCallback(() => CheckGroupTargetEmpty());
             
             seq.Play();
         }

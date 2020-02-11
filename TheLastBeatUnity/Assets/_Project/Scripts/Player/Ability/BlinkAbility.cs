@@ -30,6 +30,8 @@ public class BlinkAbility : Ability
     BlinkParams parameters;
     Sequence currentSequence;
     float speed;
+    Vector3 trueDirection;
+    Vector3 newPosition;
 
     public BlinkAbility(BlinkParams bp, float healCorrect) : base(bp.AttachedPlayer, healCorrect)
     {
@@ -104,8 +106,8 @@ public class BlinkAbility : Ability
         float angle = Vector3.Angle(direction, direction + (Vector3.up * player.CurrentDeltaY));
         direction = Quaternion.AngleAxis(player.CurrentDeltaY < 0 ? angle * 0.9f : angle, Vector3.left) * direction;
         speed = parameters.Distance / parameters.TimeToReach;
-        Vector3 velocity = direction * speed;
         BlinkVFX(direction);
+        Vector3 velocity = trueDirection.normalized * speed;
 
         currentSequence = DOTween.Sequence();
         currentSequence.AppendInterval(parameters.timeWait);
@@ -120,9 +122,9 @@ public class BlinkAbility : Ability
 
     void BlinkVFX(Vector3 direction)
     {
-        Vector3 newPosition = player.transform.position + (direction * parameters.Distance);
+        newPosition = player.transform.position + (direction * parameters.Distance);
         CreateMark(player.transform.position);
-        CreateMark(newPosition);
+        CreateMark(newPosition + (Vector3.up * 0.5f), true);
         CreateTrail(player.transform.position + direction.normalized, newPosition - direction.normalized);
     }
 
@@ -154,14 +156,13 @@ public class BlinkAbility : Ability
         currentCooldown = cooldown;
     }
 
-    void CreateMark(Vector3 positionCast)
+    void CreateMark(Vector3 positionCast, bool computeDirection = false)
     {
         RaycastHit hit;
         //Find nearest ground + can be created on steep
-        if (Physics.Raycast(positionCast, Vector3.down, out hit))
+        if (Physics.Raycast(positionCast, Vector3.down * 10, out hit))
         {
             GameObject markInstanciated = GameObject.Instantiate(parameters.prefabMark, hit.point + (hit.normal * 0.1f), Quaternion.identity);
-            markInstanciated.transform.up = hit.normal;
             markInstanciated.GetComponent<SlopeAdaptation>().Adapt();
             Material mat = markInstanciated.GetComponent<MeshRenderer>().material;
             mat.SetFloat("_ExtToInt", 1);
@@ -171,38 +172,32 @@ public class BlinkAbility : Ability
             seq.Append(DOTween.To(() => mat.GetFloat("_CoeffDissolve"), x => mat.SetFloat("_CoeffDissolve", x), 1, parameters.marksSpeedAnimation));
             seq.AppendCallback(() => GameObject.Destroy(markInstanciated));
             seq.Play();
+
+            if (computeDirection)
+                trueDirection = (hit.point + Vector3.up) - player.transform.position;
         }
     }
 
     void CreateTrail(Vector3 pos1 , Vector3 pos2)
     {
-        RaycastHit hit;
-        RaycastHit hit2;
-        float length = Vector3.Distance(pos1, pos2);
         //Find nearest ground + can be created on steep
-        if (Physics.Raycast(pos1, Vector3.down, out hit) && Physics.Raycast(pos2, Vector3.down, out hit2))
-        {
-            pos1 = hit.point + (hit.normal * 0.001f);
-            pos2 = hit2.point + (hit2.normal * 0.001f);
+        GameObject instanciatedTrail = GameObject.Instantiate(parameters.prefabTrail);
+        instanciatedTrail.transform.position = (player.transform.position + (trueDirection * 0.5f)) - Vector3.up * 0.9f;
+        instanciatedTrail.transform.forward = trueDirection;
 
-            GameObject instanciatedTrail = GameObject.Instantiate(parameters.prefabTrail);
-            instanciatedTrail.transform.right = pos1 - pos2;
-            instanciatedTrail.transform.position = (pos1 + pos2) / 2.0f;
+        Material mat = instanciatedTrail.transform.GetChild(0).GetComponent<MeshRenderer>().material;
+        Sequence seq = DOTween.Sequence();
+        seq.Append(DOTween.To(() => mat.GetFloat("_DistanceX"), x => mat.SetFloat("_DistanceX", x), 1, parameters.marksSpeedAnimation));
+        seq.AppendInterval(parameters.markPersist);
+        seq.AppendCallback(() => mat.SetFloat("_ReferenceX", 1));
+        seq.Append(DOTween.To(() => mat.GetFloat("_DistanceX"), x => mat.SetFloat("_DistanceX", x), 0, parameters.marksSpeedAnimation));
+        seq.AppendCallback(() => GameObject.Destroy(instanciatedTrail));
+        seq.Play();
 
-            Material mat = instanciatedTrail.GetComponent<MeshRenderer>().material;
-            Sequence seq = DOTween.Sequence();
-            seq.Append(DOTween.To(() => mat.GetFloat("_DistanceX"), x => mat.SetFloat("_DistanceX", x), 1, parameters.marksSpeedAnimation));
-            seq.AppendInterval(parameters.markPersist);
-            seq.AppendCallback(() => mat.SetFloat("_ReferenceX", 1));
-            seq.Append(DOTween.To(() => mat.GetFloat("_DistanceX"), x => mat.SetFloat("_DistanceX", x), 0, parameters.marksSpeedAnimation));
-            seq.AppendCallback(() => GameObject.Destroy(instanciatedTrail));
-            seq.Play();
-
-            float dist = Vector3.Distance(pos1, pos2);
-            Vector3 scale = instanciatedTrail.transform.localScale;
-            float nextValue = dist * scale.x / 8.0f;
-            instanciatedTrail.transform.localScale = new Vector3(nextValue, instanciatedTrail.transform.localScale.y, instanciatedTrail.transform.localScale.z);
-            instanciatedTrail.GetComponent<SlopeAdaptation>().Adapt();
-        }
+        float dist = Vector3.Distance(pos1, pos2);
+        Vector3 scale = instanciatedTrail.transform.localScale;
+        float nextValue = dist * scale.x / 8.0f;
+        instanciatedTrail.transform.GetChild(0).localScale = new Vector3(nextValue, instanciatedTrail.transform.localScale.y * 0.3f, nextValue / 5.486f);
+        instanciatedTrail.transform.GetChild(0).GetComponent<SlopeAdaptation>().Adapt();
     }
 }

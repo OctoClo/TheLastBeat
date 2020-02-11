@@ -95,6 +95,10 @@ public class Health : Beatable
             visual.HurtAnimationUI(fromEnemy);
             visual.UIScreenShake();
         }
+        else
+        {
+            visual.LaunchScreeningHeal();
+        }
 
         visual.UpdateColor(ratioPulse);
         visual.UpdateContainer((int)maximalPulse - (int)currentPulse);

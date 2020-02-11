@@ -138,7 +138,6 @@ public class RewindRushAbility : Ability
         attackOnRythm = SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT);
         if (attackOnRythm)
         {
-            player.ModifyPulseValue(-healCorrectBeat);
             SceneHelper.Instance.Rumble(parameters.rumbleIntensity, parameters.rumbleDuration);
             CorrectBeat();
         }
