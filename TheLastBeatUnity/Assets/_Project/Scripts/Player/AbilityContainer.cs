@@ -28,7 +28,6 @@ public class AbilityContainer : MonoBehaviour
 
     public delegate void NumberUpdate(float number);
     public NumberUpdate UpdateDelegate = null;
-    Sequence currentSequence = null;
 
     [SerializeField]
     GameObject prefabAbility = null;
@@ -84,7 +83,6 @@ public class AbilityContainer : MonoBehaviour
         else
         {
             AbilityAvailable();
-            currentSequence.Kill();
 
             DOTween.Sequence()
                 .Append(iconTransform.DOScale(Vector3.one * 1.2f, 0.15f))

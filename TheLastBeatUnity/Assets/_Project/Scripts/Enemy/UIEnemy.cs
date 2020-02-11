@@ -77,7 +77,7 @@ public class UIEnemy : Slowable
     void HurtAnimation(Image img)
     {
         img.color = colorHurt;
-        img.DOColor(colorOff, 1.5f);
+        CreateSequence().Append(img.DOColor(colorOff, 1.5f));
     }
 
     public void Init(int lifeAmount = 3)
