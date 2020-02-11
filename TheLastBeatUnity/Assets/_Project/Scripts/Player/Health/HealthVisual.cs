@@ -28,6 +28,7 @@ public class VisualParams
     public float screeningFadeDuration = 0;
     public Image screeningBorders = null;
     public Image screeningVeins = null;
+    public Image screeningGreen = null;
     public List<LifeContainer> allContainers = new List<LifeContainer>();
 }
 
@@ -79,6 +80,13 @@ public class HealthVisual
         });
         seq.Insert(0, visualParams.screeningBorders.DOFade(0, visualParams.screeningFadeDuration));
         seq.Insert(0, visualParams.screeningVeins.DOFade(0, visualParams.screeningFadeDuration));
+    }
+
+    public void LaunchScreeningHeal()
+    {
+        Sequence seq = DOTween.Sequence()
+            .InsertCallback(0, () => visualParams.screeningGreen.color = Color.white)
+            .Insert(0, visualParams.screeningGreen.DOFade(0, visualParams.screeningFadeDuration));
     }
 
     public void ScreenShake()
