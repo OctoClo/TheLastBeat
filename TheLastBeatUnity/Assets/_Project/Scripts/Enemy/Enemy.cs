@@ -88,6 +88,7 @@ public class Enemy : Slowable
 
     // Misc
     EEnemyType type = EEnemyType.DEFAULT;
+    bool isDying = false;
     bool isAttacking = false;
     [HideInInspector]
     public bool HasAttackedPlayer = false;
@@ -167,7 +168,7 @@ public class Enemy : Slowable
 
     private void Update()
     {
-        if (type == EEnemyType.DEFAULT)
+        if (type == EEnemyType.DEFAULT && !isDying)
         {
             EEnemyState newStateEnum = currentState.UpdateState(Time.deltaTime);
             ChangeState(newStateEnum);
@@ -184,13 +185,13 @@ public class Enemy : Slowable
 
     public void OnBeat()
     {
-        if (type == EEnemyType.DEFAULT)
+        if (type == EEnemyType.DEFAULT && !isDying)
             currentState.OnBeat();
     }
 
     public void OnBar()
     {
-        if (type == EEnemyType.DEFAULT)
+        if (type == EEnemyType.DEFAULT && !isDying)
             currentState.OnBar();
     }
 
@@ -216,12 +217,13 @@ public class Enemy : Slowable
             ce.StartScreenShake(screenDurationHit, screenIntensityHit);
         
         lives -= (int)dmg;
-        informations.Life = lives;
         bool dying = (lives <= minLives);
         hitEnemy.Post(gameObject);
 
         if (!dying)
         {
+            informations.Life = lives;
+
             if (stunCounter < chancesToGetStunned.Length)
             {
                 float stunPercentage = RandomHelper.GetRandom();
@@ -240,7 +242,11 @@ public class Enemy : Slowable
 
     public virtual void StartDying()
     {
-        Die();
+        isDying = true;
+        EnemyKilled?.Invoke();
+        informations.Life = 0;
+        Animator.SetTrigger("die");
+        DOTween.Sequence().InsertCallback(1.5f, () => Die());
     }
 
     public void Die()
@@ -297,8 +303,6 @@ public class Enemy : Slowable
 
     private void OnDestroy()
     {
-        EnemyKilled?.Invoke();
-
         if (states != null)
             states.Clear();
     }
