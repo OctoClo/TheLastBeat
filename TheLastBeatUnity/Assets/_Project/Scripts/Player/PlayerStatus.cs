@@ -26,6 +26,9 @@ public class PlayerStatus : MonoBehaviour
     float beginPoseDuration = 2;
     [TabGroup("Beginning")] [SerializeField]
     float waitBeforeStartMoving = 2;
+    [TabGroup("Beginning")] [SerializeField]
+    GameObject monolithCheckpoint = null;
+    Rock[] checkpointRocks = null;
 
     [TabGroup("Stun")] [SerializeField]
     float kickbackForce = 1.5f;
@@ -48,18 +51,23 @@ public class PlayerStatus : MonoBehaviour
     [TabGroup("Death")] [SerializeField]
     float screenshakeIntensity = 2;
 
-    public Animator Animator = null;
+    [SerializeField]
+    Animator animator = null;
+
     private Coroutine stunCoroutine = null;
     private Rigidbody rb = null;
     private float rushTimer = 0;
 
     private void Awake()
     {
-        Animator.SetBool("intro", launchIntro);
+        animator.SetBool("intro", launchIntro);
+        checkpointRocks = monolithCheckpoint.GetComponentsInChildren<Rock>();
         
         if (launchIntro)
         {
             CurrentStatus = EPlayerStatus.BEGIN;
+            foreach (Rock rock in checkpointRocks)
+                rock.ChangeState(ERockState.ILLUMINATE);
             SceneHelper.Instance.StartFade(() => GetUp(), fadeDuration, new Color(0, 0, 0, 0), true, true);
         }
         else
@@ -69,8 +77,13 @@ public class PlayerStatus : MonoBehaviour
     private void GetUp()
     {
         Sequence seq = DOTween.Sequence()
-                                .InsertCallback(beginPoseDuration, () => Animator.SetTrigger("getUp"))
-                                .InsertCallback(waitBeforeStartMoving, () => CurrentStatus = EPlayerStatus.DEFAULT);
+                                .InsertCallback(beginPoseDuration, () => animator.SetTrigger("getUp"))
+                                .InsertCallback(waitBeforeStartMoving, () =>
+                                {
+                                    CurrentStatus = EPlayerStatus.DEFAULT;
+                                    foreach (Rock rock in checkpointRocks)
+                                        rock.ChangeState(ERockState.PULSE_ON_BEAT);
+                                });
     }
 
     private void Start()
@@ -81,11 +94,11 @@ public class PlayerStatus : MonoBehaviour
 
     private void Update()
     {
-        if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Rush"))
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Rush"))
         {
             rushTimer += Time.deltaTime;
             if (rushTimer > 0.5f)
-                Animator.SetTrigger("rushEnd");
+                animator.SetTrigger("rushEnd");
         }
         else
         {
@@ -95,19 +108,19 @@ public class PlayerStatus : MonoBehaviour
 
     public void SetMoving(bool moving)
     {
-        Animator.SetBool("moving", moving);
+        animator.SetBool("moving", moving);
     }
 
     public void StartRushing()
     {
         CurrentStatus = EPlayerStatus.RUSHING;
-        Animator.SetTrigger("rush");
+        animator.SetTrigger("rush");
     }
 
     public void StopRushing()
     {
         CurrentStatus = EPlayerStatus.DEFAULT;
-        Animator.SetTrigger("rushEnd");
+        animator.SetTrigger("rushEnd");
     }
 
     public void StartBlink()
@@ -125,20 +138,20 @@ public class PlayerStatus : MonoBehaviour
         if (stunCoroutine != null)
         {
             StopCoroutine(stunCoroutine);
-            Animator.ResetTrigger("rush");
-            Animator.ResetTrigger("rushEnd");
-            Animator.SetBool("stunned", false);
+            animator.ResetTrigger("rush");
+            animator.ResetTrigger("rushEnd");
+            animator.SetBool("stunned", false);
             CurrentStatus = EPlayerStatus.DEFAULT;
         }
         
-        Animator.ResetTrigger("hitEnd");
-        Animator.SetTrigger("hit");
+        animator.ResetTrigger("hitEnd");
+        animator.SetTrigger("hit");
     }
 
     public void StopHit()
     {
-        Animator.ResetTrigger("hit");
-        Animator.SetTrigger("hitEnd");
+        animator.ResetTrigger("hit");
+        animator.SetTrigger("hitEnd");
     }
 
     public void GetStunned(Vector3 kickbackDirection)
@@ -146,14 +159,14 @@ public class PlayerStatus : MonoBehaviour
         CurrentStatus = EPlayerStatus.STUNNED;
         stunMusicSXF.Post(gameObject);
         rb.AddForce(kickbackDirection * kickbackForce, ForceMode.VelocityChange);
-        Animator.SetBool("stunned", true);
+        animator.SetBool("stunned", true);
         stunCoroutine = StartCoroutine(WaitBeforeAnimStunEnd());
     }
 
     private IEnumerator WaitBeforeAnimStunEnd()
     {
         yield return new WaitForSecondsRealtime(stunDuration);
-        Animator.SetBool("stunned", false);
+        animator.SetBool("stunned", false);
         stunCoroutine = StartCoroutine(WaitBeforeStunEnd());
     }
 
@@ -168,7 +181,7 @@ public class PlayerStatus : MonoBehaviour
     {
         CurrentStatus = EPlayerStatus.DYING;
         SetMoving(false);
-        Animator.SetTrigger("die");
+        animator.SetTrigger("die");
         DOTween.Sequence().InsertCallback(deathAnimDuration, () => DiePart2());
     }
 

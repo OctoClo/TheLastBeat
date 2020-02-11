@@ -13,7 +13,7 @@ public class SceneHelper : MonoBehaviour
     Image fadeImage = null;
 
     [SerializeField]
-    Transform respawnPlace = null;
+    Transform checkpoint = null;
 
     public Transform VfxFolder = null;
 
@@ -80,8 +80,8 @@ public class SceneHelper : MonoBehaviour
 
     public void Respawn()
     {
-        MainPlayer.transform.forward = respawnPlace.forward;
-        MainPlayer.transform.position = respawnPlace.position + Vector3.up;
+        MainPlayer.transform.forward = checkpoint.forward;
+        MainPlayer.transform.position = checkpoint.position + Vector3.up;
     }
 
     public void StartFade(UnityAction lambda, float duration, Color color, bool independant = false, bool fromBlack = false)
