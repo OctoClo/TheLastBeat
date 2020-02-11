@@ -128,7 +128,7 @@ public class UIEnemy : Slowable
     {
         GameObject newMark = Instantiate(prefabRewind, rootRewind.GetChild(Mathf.Min(2,allRewindMark.Count)).transform);
         allRewindMark.Push(newMark.GetComponent<Image>());
-        CreateSequence().Append(newMark.transform.DOScale(2.5f, 0.3f).SetEase(curveRewindMark));
+        CreateSequence().Append(newMark.transform.DOScale(3.0f, 0.45f).SetEase(curveRewindMark));
     }
 
     public void RemoveRewindMark()
