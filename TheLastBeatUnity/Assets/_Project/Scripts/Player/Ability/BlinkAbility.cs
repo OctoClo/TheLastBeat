@@ -123,8 +123,8 @@ public class BlinkAbility : Ability
     void BlinkVFX(Vector3 direction)
     {
         newPosition = player.transform.position + (direction * parameters.Distance);
-        CreateMark(player.transform.position + (Vector3.up * 2));
-        CreateMark(newPosition + (Vector3.up * 2), true);
+        CreateMark(player.transform.position);
+        CreateMark(newPosition + (Vector3.up * 0.5f), true);
         CreateTrail(player.transform.position + direction.normalized, newPosition - direction.normalized);
     }
 
@@ -163,7 +163,6 @@ public class BlinkAbility : Ability
         if (Physics.Raycast(positionCast, Vector3.down * 10, out hit))
         {
             GameObject markInstanciated = GameObject.Instantiate(parameters.prefabMark, hit.point + (hit.normal * 0.1f), Quaternion.identity);
-            markInstanciated.transform.up = hit.normal;
             markInstanciated.GetComponent<SlopeAdaptation>().Adapt();
             Material mat = markInstanciated.GetComponent<MeshRenderer>().material;
             mat.SetFloat("_ExtToInt", 1);
@@ -183,7 +182,7 @@ public class BlinkAbility : Ability
     {
         //Find nearest ground + can be created on steep
         GameObject instanciatedTrail = GameObject.Instantiate(parameters.prefabTrail);
-        instanciatedTrail.transform.position = (player.transform.position + (trueDirection * 0.5f));
+        instanciatedTrail.transform.position = (player.transform.position + (trueDirection * 0.5f)) - Vector3.up * 0.9f;
         instanciatedTrail.transform.forward = trueDirection;
 
         Material mat = instanciatedTrail.transform.GetChild(0).GetComponent<MeshRenderer>().material;

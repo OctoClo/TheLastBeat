@@ -7,10 +7,13 @@ using DG.Tweening;
 public class UIEnemy : Slowable
 {
     [SerializeField]
-    Sprite lifeEnabled = null;
+    Color colorOn = Color.green;
 
     [SerializeField]
-    Sprite lifeDisabled = null;
+    Color colorOff = Color.black;
+
+    [SerializeField]
+    Color colorHurt = Color.red;
 
     [SerializeField]
     GameObject prefabUILife = null;
@@ -38,8 +41,9 @@ public class UIEnemy : Slowable
         }
         set
         {
+            int prevValue = life;
             life = Mathf.Max(0,value);
-            RecomputeSprite();
+            RecomputeSprite(prevValue);
         }
     }
 
@@ -52,12 +56,28 @@ public class UIEnemy : Slowable
         GetComponentInParent<Enemy>().EnemyKilled += Purge;
     }
 
-    void RecomputeSprite()
+    void RecomputeSprite(int previousValue)
     {
-        for (int i = 0; i < allLifeImages.Count; i++)
+        if (life < previousValue)
         {
-            allLifeImages[i].sprite = (i < life ? lifeEnabled : lifeDisabled);
+            for (int i = life; i < previousValue; i++)
+            {
+                HurtAnimation(allLifeImages[i]);
+            }
         }
+        else
+        {
+            for (int i = previousValue; i < life; i++)
+            {
+                allLifeImages[i].color = colorOn;
+            }
+        }
+    }
+
+    void HurtAnimation(Image img)
+    {
+        img.color = colorHurt;
+        img.DOColor(colorOff, 1.5f);
     }
 
     public void Init(int lifeAmount = 3)
