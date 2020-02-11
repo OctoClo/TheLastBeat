@@ -197,7 +197,7 @@ public class BlinkAbility : Ability
         float dist = Vector3.Distance(pos1, pos2);
         Vector3 scale = instanciatedTrail.transform.localScale;
         float nextValue = dist * scale.x / 8.0f;
-        instanciatedTrail.transform.GetChild(0).localScale = new Vector3(nextValue, instanciatedTrail.transform.localScale.y * 0.3f, instanciatedTrail.transform.localScale.z * 0.3f);
+        instanciatedTrail.transform.GetChild(0).localScale = new Vector3(nextValue, instanciatedTrail.transform.localScale.y * 0.3f, nextValue / 5.486f);
         instanciatedTrail.transform.GetChild(0).GetComponent<SlopeAdaptation>().Adapt();
     }
 }
