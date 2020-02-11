@@ -50,6 +50,9 @@ public class PlayerStatus : MonoBehaviour
     Material[] dissolveMats;
     [TabGroup("Death")] [SerializeField]
     float screenshakeIntensity = 2;
+    [TabGroup("Death")]
+    [SerializeField]
+    AK.Wwise.Event deathSound = null;
 
     [SerializeField]
     Animator animator = null;
@@ -182,6 +185,7 @@ public class PlayerStatus : MonoBehaviour
         CurrentStatus = EPlayerStatus.DYING;
         SetMoving(false);
         animator.SetTrigger("die");
+        deathSound.Post(gameObject);
         DOTween.Sequence().InsertCallback(deathAnimDuration, () => DiePart2());
     }
 
