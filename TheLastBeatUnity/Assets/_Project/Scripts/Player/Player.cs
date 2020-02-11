@@ -1,12 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Rewired;
 using Sirenix.OdinInspector;
 using DG.Tweening;
 using System;
-using UnityEngine.SceneManagement;
-using System.Linq;
 
 public class Player : Inputable
 {
@@ -364,27 +361,14 @@ public class Player : Inputable
     {
         DOTween.KillAll();
         blockInput = true;
+        healthSystem.Dying = true;
+
+        foreach (Enemy enn in GameObject.FindObjectsOfType<Enemy>())
+            enn.Timescale = 0;
+
         SceneHelper.Instance.RecordDeath(transform.position);
         stopEvent.Post(gameObject);
-        StartCoroutine(DieCoroutine());
-    }
-
-    IEnumerator DieCoroutine()
-    {
-        float objective = 90;
-        float duration = 0.5f;
-        float cursor = 0;
-        Status.SetMoving(false);
-
-        while (cursor < objective)
-        {
-            float tempValue = (objective * Time.deltaTime / duration);
-            cursor += tempValue;
-            transform.Rotate(Vector3.right * tempValue, Space.Self);
-            yield return null;
-        }
-
-        SceneHelper.Instance.RecordDeath(transform.position);
-        SceneHelper.Instance.StartFade(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name), 0.5f, Color.black);
+        
+        Status.DieAnimation();
     }
 }

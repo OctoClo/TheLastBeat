@@ -83,7 +83,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 00607f23f4bb1c4ba4ba719fd5871f3f
     GuidInternal: 
-    m_lastTime: -8586202800703575825
+    m_lastTime: -8586201707715097432
     List:
     - name: TheLastBank
       guid: ba44c042ce392242af9fd5c1beb6de48
@@ -99,7 +99,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 8758d50e9a0ca842a9ceccd260c5af42
     GuidInternal: 
-    m_lastTime: -8586202765475083681
+    m_lastTime: -8586201707714917911
     List:
     - name: Int_Chord01
       guid: eaee35c708d9eb47b66fd56d667bc9eb
@@ -313,6 +313,34 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: Play_Boss_Rumble
+      guid: 9be40600371a24448f6467d9fdb627ad
+      id: 3815637695
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: 03_NME
+        ObjectType: 4
+      - ElementName: Play_Boss_Rumble
+        ObjectType: 3
+      Path: Default Work Unit\03_NME\Play_Boss_Rumble
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_Boss_Scream
+      guid: dcfd9770a2c31f4a99fe7bb9653d70ef
+      id: 3326215491
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: 03_NME
+        ObjectType: 4
+      - ElementName: Play_Boss_Scream
+        ObjectType: 3
+      Path: Default Work Unit\03_NME\Play_Boss_Scream
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Play_Bounce_Shield
       guid: 2098b3b619c33346a22929719ad2ff68
       id: 5903894
@@ -366,6 +394,20 @@ MonoBehaviour:
       - ElementName: Play_CliffBridge_Ambiance
         ObjectType: 3
       Path: Default Work Unit\01_AMB\Play_CliffBridge_Ambiance
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_Death
+      guid: e2d290ce199fe34e88831c0d334a3193
+      id: 1172822028
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: 02_Player
+        ObjectType: 4
+      - ElementName: Play_Death
+        ObjectType: 3
+      Path: Default Work Unit\02_Player\Play_Death
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -487,9 +529,11 @@ MonoBehaviour:
       PathAndIcons:
       - ElementName: Default Work Unit
         ObjectType: 12
+      - ElementName: 04_Music
+        ObjectType: 4
       - ElementName: Play_Music
         ObjectType: 3
-      Path: Default Work Unit\Play_Music
+      Path: Default Work Unit\04_Music\Play_Music
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -499,9 +543,25 @@ MonoBehaviour:
       PathAndIcons:
       - ElementName: Default Work Unit
         ObjectType: 12
+      - ElementName: 04_Music
+        ObjectType: 4
       - ElementName: Play_Music_Menu
         ObjectType: 3
-      Path: Default Work Unit\Play_Music_Menu
+      Path: Default Work Unit\04_Music\Play_Music_Menu
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_Nemesis
+      guid: ca1afb95bcec524ea7d1a4f760911904
+      id: 820063214
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: 03_NME
+        ObjectType: 4
+      - ElementName: Play_Nemesis
+        ObjectType: 3
+      Path: Default Work Unit\03_NME\Play_Nemesis
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -560,6 +620,20 @@ MonoBehaviour:
       - ElementName: Play_RightFoot
         ObjectType: 3
       Path: Default Work Unit\02_Player\Play_RightFoot
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_Rumble
+      guid: 1e38705d5f9e4b4a8dbe15d74b6d7845
+      id: 1002643937
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: 01_AMB
+        ObjectType: 4
+      - ElementName: Play_Rumble
+        ObjectType: 3
+      Path: Default Work Unit\01_AMB\Play_Rumble
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -707,6 +781,20 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: Stop_Music_Switch
+      guid: 747c68ad0f432e4d9f7fc3b0b6ce0274
+      id: 2505149896
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: 04_Music
+        ObjectType: 4
+      - ElementName: Stop_Music_Switch
+        ObjectType: 3
+      Path: Default Work Unit\04_Music\Stop_Music_Switch
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Stop_Presence
       guid: 1a51eac5ec3fcd43a73e94fee466d287
       id: 3485622663
@@ -748,7 +836,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 0e2ba2ef49d7a9468a71f885a9d96179
     GuidInternal: 
-    m_lastTime: -8586208563650138526
+    m_lastTime: -8586201875352902600
     List:
     - name: CharachterSpeed
       guid: dc604e5c93a6bb45835923bc07265ce8
@@ -804,6 +892,15 @@ MonoBehaviour:
       - ElementName: MusicPosition
         ObjectType: 13
       Path: TheLastBeat\MusicPosition
+    - name: Occlusion
+      guid: b1d6faf8bda121438139ec9b403882c1
+      id: 183903552
+      PathAndIcons:
+      - ElementName: TheLastBeat
+        ObjectType: 12
+      - ElementName: Occlusion
+        ObjectType: 13
+      Path: TheLastBeat\Occlusion
   StateWwu:
   - PhysicalPath: States\Default Work Unit.wwu
     ParentPhysicalPath: 
@@ -815,7 +912,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: f97624b2970aec4088365c8371d57a2e
     GuidInternal: 
-    m_lastTime: -8586202800703496198
+    m_lastTime: -8586201875800059569
     List:
     - name: Int_Land_Chord
       guid: 0aa30c6240435e45a7a36f62c52db2f0
@@ -1196,7 +1293,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 1ac71c4bbb8fbe4aab71adce22d346fd
     GuidInternal: 
-    m_lastTime: -8586217403430050397
+    m_lastTime: -8586201875800039616
     List:
     - name: MusicFeedback
       guid: 3a584ce44dfb2345a8278daa62360197
@@ -1234,9 +1331,19 @@ MonoBehaviour:
       - ElementName: OnPerfectRush
         ObjectType: 14
       Path: TheLastBeat\OnPerfectRush
+    - name: Save
+      guid: 398fdb05e4409945a565d4d7781bc5aa
+      id: 669616846
+      PathAndIcons:
+      - ElementName: TheLastBeat
+        ObjectType: 12
+      - ElementName: Save
+        ObjectType: 14
+      Path: TheLastBeat\Save
   ExpandedItems:
   - /TheLastBeatAudio
   - /TheLastBeatAudio/Events
   - /TheLastBeatAudio/Events/Default Work Unit
+  - /TheLastBeatAudio/Events/Default Work Unit/02_Player
   autoPopulateEnabled: 1
   CurrentPluginConfig: 
