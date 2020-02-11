@@ -50,6 +50,9 @@ public class CombatArea : MonoBehaviour
     {
         if (coll && coll.CompareTag("Enemy"))
         {
+            if (coll.GetComponent<Enemy>())
+                coll.GetComponent<Enemy>().Informations.Appear();
+
             //Can only have one sequence at the same time
             if (runningSequences.ContainsKey(coll.transform) && runningSequences[coll.transform] != null)
             {
@@ -84,6 +87,11 @@ public class CombatArea : MonoBehaviour
     {
         if (coll.CompareTag("Enemy"))
         {
+            if (coll.GetComponent<Enemy>())
+            {
+                coll.GetComponent<Enemy>().Informations.TryDisappear();
+            }
+
             if (runningSequences.ContainsKey(coll.transform) && runningSequences[coll.transform] != null)
             {
                 runningSequences[coll.transform].Kill();

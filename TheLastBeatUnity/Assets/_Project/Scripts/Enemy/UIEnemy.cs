@@ -26,7 +26,6 @@ public class UIEnemy : Slowable
 
     [SerializeField]
     AnimationCurve curveRewindMark = null;
-
     Sequence currentSequence;
 
     int maxHP = 0;
@@ -82,12 +81,12 @@ public class UIEnemy : Slowable
         Life = lifeAmount;
     }
 
-    public void StartFocus()
+    public void Appear()
     {
         AppearHud();
     }
 
-    public void StopFocus()
+    public void TryDisappear()
     {
         if (Life == maxHP)
             DisappearHud();
