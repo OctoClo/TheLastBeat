@@ -96,7 +96,7 @@ public class RushAbility : Ability
                         {
                             seq.Kill();
                             hitShield = true;
-                            player.Status.GetStunned(-direction);
+                            player.GetStunned(-direction);
                             End();
                         }
                         return;

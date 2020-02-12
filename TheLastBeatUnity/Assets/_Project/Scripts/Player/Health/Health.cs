@@ -73,6 +73,11 @@ public class Health : Beatable
         }
     }
 
+    public void GetStunned()
+    {
+        visual.LaunchScreeningShield();
+    }
+
     public void ModifyPulseValue(float deltaValue, bool fromEnemy)
     {
         //HealSound
