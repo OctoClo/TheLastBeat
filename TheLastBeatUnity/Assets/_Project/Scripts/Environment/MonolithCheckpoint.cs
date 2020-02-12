@@ -26,6 +26,9 @@ public class MonolithCheckpoint : MonoBehaviour
     [SerializeField]
     float fadeDuration = 0.5f;
 
+    [SerializeField]
+    AK.Wwise.Event save = null;
+
     bool displaySavingIcon = false;
     Rock[] rocks = null;
 
@@ -51,6 +54,7 @@ public class MonolithCheckpoint : MonoBehaviour
                     rock.ChangeState(ERockState.ILLUMINATE);
 
                 GameObject.Instantiate(savingVfx, transform.position + new Vector3(0, vfxOffsetY, 0), Quaternion.identity, transform);
+                save.Post(gameObject);
 
                 DOTween.Sequence()
                     .Append(savingImage.DOFade(1, appearDuration))
