@@ -49,6 +49,7 @@ namespace AK
         static const AkUniqueID PLAY_OASIS_AMBIANCE = 3449458560U;
         static const AkUniqueID PLAY_PRESENCE = 4155730121U;
         static const AkUniqueID PLAY_REWIND = 869704911U;
+        static const AkUniqueID PLAY_REWINDACQUIRED = 3146762127U;
         static const AkUniqueID PLAY_RIGHTFOOT = 3723441664U;
         static const AkUniqueID PLAY_RUMBLE = 1002643937U;
         static const AkUniqueID PLAY_RUSHFXOFFBEAT = 3852757989U;
@@ -140,8 +141,20 @@ namespace AK
             {
                 static const AkUniqueID FINAL_COMBAT = 1993352646U;
                 static const AkUniqueID LAND = 674522502U;
+                static const AkUniqueID OUTRO = 4184794294U;
             } // namespace STATE
         } // namespace MUSIC_SWITCH
+
+        namespace PAUSE
+        {
+            static const AkUniqueID GROUP = 3092587493U;
+
+            namespace STATE
+            {
+                static const AkUniqueID PAUSE = 3092587493U;
+                static const AkUniqueID RESUME = 953277036U;
+            } // namespace STATE
+        } // namespace PAUSE
 
         namespace REWIND_COMBAT_LOOP
         {
@@ -223,6 +236,7 @@ namespace AK
         static const AkUniqueID PERC = 1743886701U;
         static const AkUniqueID SFX = 393239870U;
         static const AkUniqueID SYNCFEEDBACK = 176430053U;
+        static const AkUniqueID UI = 1551306167U;
     } // namespace BUSSES
 
     namespace AUX_BUSSES
