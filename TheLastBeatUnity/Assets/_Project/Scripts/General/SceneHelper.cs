@@ -16,6 +16,7 @@ public class SceneHelper : MonoBehaviour
     Transform checkpoint = null;
 
     public Transform VfxFolder = null;
+    public Transform VfxFolderFaceCam = null;
 
     [SerializeField]
     AnimationCurve defaultAnimationCurve = null;

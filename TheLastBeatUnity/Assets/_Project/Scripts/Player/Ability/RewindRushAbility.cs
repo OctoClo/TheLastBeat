@@ -21,6 +21,10 @@ public class RewindRushParameters : AbilityParams
     public float freezeFrameDuration = 0.1f;
     public GameObject prefabGhost;
     public Transform groundReference;
+    public GameObject rushFrontVfx = null;
+    public GameObject rushBackVfx = null;
+    public GameObject hitRewindVfx = null;
+    public List<GameObject> rewindVfx = new List<GameObject>();
 }
 
 public class RewindRushAbility : Ability
@@ -34,6 +38,7 @@ public class RewindRushAbility : Ability
     float duration = 0;
     Sequence seq;
     bool blockReset = false;
+    int currentVfxIndex = 0;
 
     public RewindRushAbility(RewindRushParameters rrp, float healCorrect) : base(rrp.AttachedPlayer, healCorrect)
     {
@@ -43,7 +48,7 @@ public class RewindRushAbility : Ability
 
     public override void Launch()
     {
-        if (chainedEnemies.Count > 0 && currentCooldown == 0 && player.Status.CurrentStatus == EPlayerStatus.DEFAULT && chainedEnemies.Count >= 4)
+        if (chainedEnemies.Count >= 4 && currentCooldown == 0 && player.Status.CurrentStatus == EPlayerStatus.DEFAULT)
             RewindRush();
     }
 
@@ -64,6 +69,7 @@ public class RewindRushAbility : Ability
     void RewindRush()
     {
         blockReset = true;
+        currentVfxIndex = 0;
         player.VisualPart.gameObject.SetActive(false);
         foreach(Enemy enn in GameObject.FindObjectsOfType<Enemy>())
         {
@@ -91,6 +97,7 @@ public class RewindRushAbility : Ability
         {
             if (enemy != null)
             {
+                enemy.StartRewind();
                 direction = new Vector3(enemy.transform.position.x, goalPosition.y, enemy.transform.position.z) - goalPosition;
                 direction *= 1.3f;
 
@@ -100,6 +107,8 @@ public class RewindRushAbility : Ability
                 {
                     AkSoundEngine.PostTrigger("OnBeatRush", SoundManager.Instance.gameObject);
                     SpawnGhost(enemy);
+                    GameObject.Instantiate(parameters.rewindVfx[currentVfxIndex], enemy.transform.position, Quaternion.identity, SceneHelper.Instance.VfxFolderFaceCam );
+                    currentVfxIndex = Mathf.Min(currentVfxIndex + 1, parameters.rewindVfx.Count - 1);
                 });
             }
         }
@@ -198,10 +207,15 @@ public class RewindRushAbility : Ability
         }
 
         parameters.NormalState.SetValue();
+        Sequence allVfxSeq = DOTween.Sequence().Pause();
         foreach(Enemy enn in allDamages.Keys)
         {
             enn.GetAttacked(attackOnRythm, allDamages[enn]);
+            enn.EndRewind();
+            SpawnAllVfx(enn, allVfxSeq);
         }
+
+        allVfxSeq.Play();
 
         foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
             ce.StartScreenShake(parameters.screenShakeDuration, parameters.screenShakeIntensity);
@@ -218,5 +232,25 @@ public class RewindRushAbility : Ability
         ResetCombo();
         player.VisualPart.gameObject.SetActive(true);
         blockReset = false;
+    }
+
+    void SpawnAllVfx(Enemy enemy, Sequence seq)
+    {
+        seq.InsertCallback(0, () => GameObject.Instantiate(parameters.rewindVfx[parameters.rewindVfx.Count - 1],
+                enemy.transform.position, Quaternion.identity, SceneHelper.Instance.VfxFolderFaceCam));
+        seq.InsertCallback(0, () => GameObject.Instantiate(parameters.hitRewindVfx, enemy.transform.position, Quaternion.identity,
+            SceneHelper.Instance.VfxFolderFaceCam));
+        seq.InsertCallback(0, () =>
+        {
+            GameObject front = GameObject.Instantiate(parameters.rushFrontVfx, enemy.transform.position, Quaternion.identity);
+            front.transform.forward = enemy.transform.forward;
+            GameObject.Destroy(front, 2);
+        });
+        seq.InsertCallback(0.1f, () =>
+        {
+            GameObject front = GameObject.Instantiate(parameters.rushBackVfx, enemy.transform.position, Quaternion.identity);
+            front.transform.forward = -enemy.transform.forward;
+            GameObject.Destroy(front, 2);
+        });
     }
 }
