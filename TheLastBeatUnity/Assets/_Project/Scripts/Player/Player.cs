@@ -380,6 +380,12 @@ public class Player : Inputable
         }
     }
 
+    public void GetStunned(Vector3 kickbackDirection)
+    {
+        Status.GetStunned(kickbackDirection);
+        healthSystem.GetStunned();
+    }
+
     void Die()
     {
         DOTween.KillAll();

@@ -41,6 +41,8 @@ public class PlayerStatus : MonoBehaviour
     Color normalColor = Color.white;
     [TabGroup("Stun")] [SerializeField]
     AK.Wwise.Event stunMusicSXF = null;
+    [TabGroup("Stun")] [SerializeField]
+    GameObject stunVfx = null;
 
     [TabGroup("Death")] [SerializeField]
     float deathAnimDuration = 1.5f;
@@ -161,6 +163,7 @@ public class PlayerStatus : MonoBehaviour
     {
         CurrentStatus = EPlayerStatus.STUNNED;
         stunMusicSXF.Post(gameObject);
+        GameObject.Instantiate(stunVfx, transform.position, Quaternion.identity, transform);
         rb.AddForce(kickbackDirection * kickbackForce, ForceMode.VelocityChange);
         animator.SetBool("stunned", true);
         stunCoroutine = StartCoroutine(WaitBeforeAnimStunEnd());
