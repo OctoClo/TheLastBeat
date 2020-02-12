@@ -249,6 +249,7 @@ public class Enemy : Slowable
         EnemyKilled?.Invoke();
         informations.DisappearHud();
         Animator.SetTrigger("die");
+        dieSound.Post(gameObject);
         DOTween.Sequence().InsertCallback(1, () => Dissolve());
     }
 
@@ -275,7 +276,6 @@ public class Enemy : Slowable
     public void Die()
     {
         EventManager.Instance.Raise(new EnemyDeadEvent { enemy = this });
-        dieSound.Post(gameObject);
         Destroy(gameObject);
     }
 
