@@ -1,6 +1,6 @@
 // Unity built-in shader source. Copyright (c) 2016 Unity Technologies. MIT license (see license.txt)
 
-Shader "UI/FireIcon"
+Shader "Custom/SpriteUI"
 {
     Properties
     {
@@ -99,17 +99,18 @@ Shader "UI/FireIcon"
             fixed4 frag(v2f IN) : SV_Target
             {
                 fixed4 texColor = (tex2D(_MainTex, IN.texcoord) + _TextureSampleAdd);
+				fixed alpha = texColor.a * IN.color.a;
 
                 #ifdef UNITY_UI_CLIP_RECT
-				texColor.a *= UnityGet2DClipping(IN.worldPosition.xy, _ClipRect);
+				alpha *= UnityGet2DClipping(IN.worldPosition.xy, _ClipRect);
                 #endif
 
                 #ifdef UNITY_UI_ALPHACLIP
-                clip (texColor.a - 0.001);
+                clip (alpha - 0.001);
                 #endif
 
 				half3 color = saturate((texColor.r * IN.color) + texColor.g);
-                return half4(color, texColor.a);
+                return half4(color, alpha);
             }
         ENDCG
         }

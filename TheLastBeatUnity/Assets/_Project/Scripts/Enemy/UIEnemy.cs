@@ -53,7 +53,6 @@ public class UIEnemy : Slowable
     private void Start()
     {
         DisappearHud(true);
-        GetComponentInParent<Enemy>().EnemyKilled += Purge;
     }
 
     void RecomputeSprite(int previousValue)

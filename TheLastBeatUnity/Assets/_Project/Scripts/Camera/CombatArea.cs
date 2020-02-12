@@ -106,9 +106,11 @@ public class CombatArea : MonoBehaviour
             seq.AppendCallback(() =>
             {
                 if (coll)
+                {
                     runningSequences.Remove(coll.transform);
+                    groupTarget.RemoveMember(coll.transform);
+                }
             });
-            seq.AppendCallback(() => groupTarget.RemoveMember(coll.transform));
             seq.AppendCallback(() => CheckGroupTargetEmpty());
             
             seq.Play();
