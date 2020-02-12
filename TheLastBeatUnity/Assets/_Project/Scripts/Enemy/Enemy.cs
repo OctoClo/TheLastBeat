@@ -16,6 +16,8 @@ public class Enemy : Slowable
     int maxLives = 10;
     protected int lives = 10;
     protected int minLives = 0;
+    [TabGroup("General")] [SerializeField]
+    GameObject dustVfx = null;
     [TabGroup("General")] [SerializeField] [Range(0, 3)]
     float dissolveDuration = 1f;
     [TabGroup("General")] [SerializeField]
@@ -251,7 +253,9 @@ public class Enemy : Slowable
         informations.DisappearHud();
         Animator.SetTrigger("die");
         dieSound.Post(gameObject);
-        DOTween.Sequence().InsertCallback(1, () => Dissolve());
+        DOTween.Sequence()
+            .InsertCallback(1, () => GameObject.Instantiate(dustVfx, transform.position, Quaternion.identity, SceneHelper.Instance.VfxFolderFaceCam))
+            .InsertCallback(1, () => Dissolve());
     }
 
     private void Dissolve()
