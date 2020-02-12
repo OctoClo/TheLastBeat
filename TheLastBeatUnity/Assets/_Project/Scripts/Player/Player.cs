@@ -77,8 +77,24 @@ public class Player : Inputable
     public GameObject ColliderObject = null;
     public Collider CurrentTarget => pyramid.NearestEnemy;
 
+    GameObject skinnedRenderer = null;
+
     //Used for blink
     public bool InDanger {get; set;}
+
+    private void Awake()
+    {
+        if (SceneHelper.DeathCount > 0)
+        {
+            skinnedRenderer = GetComponentInChildren<SkinnedMeshRenderer>().gameObject;
+            skinnedRenderer.SetActive(false);
+        }
+    }
+
+    public void Reappear()
+    {
+        skinnedRenderer.SetActive(true);
+    }
 
     private void Start()
     {

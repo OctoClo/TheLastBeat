@@ -40,7 +40,9 @@ public class MonolithCheckpoint : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (savingIcon != null)
+            if (SceneHelper.DeathCount > 0)
+                Destroy(GetComponent<Collider>());
+            else if (savingIcon != null)
             {
                 displaySavingIcon = true;
                 savingIcon.SetActive(true);
@@ -54,7 +56,6 @@ public class MonolithCheckpoint : MonoBehaviour
                     .Append(savingImage.DOFade(1, appearDuration))
                     .InsertCallback(savingDurationBeats * SoundManager.Instance.TimePerBeat, () =>
                     {
-                        Debug.Log("Saving done.");
                         displaySavingIcon = false;
                         foreach (Rock rock in rocks)
                             rock.ChangeState(ERockState.PULSE_ON_BEAT);

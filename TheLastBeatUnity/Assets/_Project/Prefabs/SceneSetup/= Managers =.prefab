@@ -197,6 +197,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeImage: {fileID: 0}
   checkpoint: {fileID: 0}
+  respawnVfx: {fileID: 8421840916575353865, guid: 874cd052fc57e1547b56835280d34817,
+    type: 3}
   VfxFolder: {fileID: 0}
   VfxFolderFaceCam: {fileID: 1100045183106888120}
   defaultAnimationCurve:
@@ -1096,6 +1098,7 @@ MonoBehaviour:
     screeningBorders: {fileID: 0}
     screeningVeins: {fileID: 0}
     screeningGreen: {fileID: 0}
+    screeningShield: {fileID: 0}
     allContainers:
     - {fileID: 0}
     - {fileID: 0}
@@ -1121,8 +1124,7 @@ MonoBehaviour:
   healSound:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: b92f50e3fb736e24a9d2e1186a3864b5,
-      type: 2}
+    WwiseObjectReference: {fileID: 0}
   Dying: 0
 --- !u!1 &7636006665247880941
 GameObject:

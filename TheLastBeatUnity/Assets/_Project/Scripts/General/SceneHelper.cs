@@ -13,7 +13,9 @@ public class SceneHelper : MonoBehaviour
     Image fadeImage = null;
 
     [SerializeField]
-    Transform checkpoint = null;
+    MonolithCheckpoint checkpoint = null;
+    [SerializeField]
+    GameObject respawnVfx = null;
 
     public Transform VfxFolder = null;
     public Transform VfxFolderFaceCam = null;
@@ -44,6 +46,9 @@ public class SceneHelper : MonoBehaviour
             Instance = this;
             MainPlayer = GameObject.FindObjectOfType<Player>();
         }
+
+        if (SceneHelper.DeathCount > 0)
+            fadeImage.color = Color.black;
     }
 
     public void AddZoneChasing(EnemyZone zone)
@@ -81,8 +86,11 @@ public class SceneHelper : MonoBehaviour
 
     public void Respawn()
     {
-        MainPlayer.transform.forward = checkpoint.forward;
-        MainPlayer.transform.position = checkpoint.position + Vector3.up;
+        MainPlayer.transform.forward = checkpoint.transform.forward;
+        MainPlayer.transform.position = checkpoint.transform.position + Vector3.up;
+        DOTween.Sequence()
+            .InsertCallback(0.5f, () => GameObject.Instantiate(respawnVfx, checkpoint.transform.position, Quaternion.identity, VfxFolderFaceCam))
+            .InsertCallback(2.39f, () => MainPlayer.Reappear());
     }
 
     public void StartFade(UnityAction lambda, float duration, Color color, bool independant = false, bool fromBlack = false)
