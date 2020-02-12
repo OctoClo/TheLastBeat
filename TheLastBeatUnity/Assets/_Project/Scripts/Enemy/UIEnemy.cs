@@ -29,7 +29,8 @@ public class UIEnemy : Slowable
 
     [SerializeField]
     AnimationCurve curveRewindMark = null;
-    Sequence currentSequence;
+    Sequence currentSequence = null;
+    List<Sequence> hitSequences = new List<Sequence>();
 
     int maxHP = 0;
     int life = 0;
@@ -76,7 +77,7 @@ public class UIEnemy : Slowable
     void HurtAnimation(Image img)
     {
         img.color = colorHurt;
-        CreateSequence().Append(img.DOColor(colorOff, 1.5f));
+        hitSequences.Add(CreateSequence().Append(img.DOColor(colorOff, 1.5f)));
     }
 
     public void Init(int lifeAmount = 3)
@@ -115,6 +116,8 @@ public class UIEnemy : Slowable
     {
         if (currentSequence != null)
             currentSequence.Kill();
+        foreach (Sequence seq in hitSequences)
+            seq.Kill();
 
         currentSequence = CreateSequence();
         currentSequence.Append(
@@ -131,7 +134,9 @@ public class UIEnemy : Slowable
     {
         if (currentSequence != null)
             currentSequence.Kill();
-
+        foreach(Sequence seq in hitSequences)
+            seq.Kill();
+        
         currentSequence = CreateSequence();
         currentSequence.Append(
             DOTween.To(() => 0, x =>
