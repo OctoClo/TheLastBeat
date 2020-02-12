@@ -18,6 +18,9 @@ public class CameraManager : MonoBehaviour
     public CameraEffect[] AllCameras;
     public bool InCombat { get; private set; }
 
+    [SerializeField]
+    Animator endAnimator = null;
+
     List<float> defaultBlendingTime = new List<float>();
 
     void Awake()
@@ -57,10 +60,21 @@ public class CameraManager : MonoBehaviour
         InCombat = !InCombat;
     }
 
+    public void LaunchTrackCamera(float duration)
+    {
+        anim.SetTrigger("End");
+        endAnimator.speed = duration;
+        endAnimator.SetTrigger("LaunchTrack");
+    }
+
+    public void LaunchZoomedCamera()
+    {
+        anim.SetTrigger("EndZoom");
+    }
+
     public void SetBoolCamera(bool value , string paramName)
     {
         anim.SetBool(paramName, value);
-
     }
 
     public void SetBlend(string from , string to , float tempValue)

@@ -32,7 +32,9 @@ public class Player : Inputable
     AK.Wwise.Event stopClotheSFX = null;
 
     //If you are doing something (dash , attack animation, etc...) or if game paused, temporary block input
-    public override bool BlockInput => blockInput || Status.CurrentStatus != EPlayerStatus.DEFAULT;
+    public override bool BlockInput => blockInput || Status.CurrentStatus != EPlayerStatus.DEFAULT || end;
+    bool end = false;
+    bool runToEnd = false;
 
     [TabGroup("Blink")] [SerializeField]
     BlinkParams blinkParameters = null;
@@ -104,18 +106,21 @@ public class Player : Inputable
 
     public override void ProcessInput(Rewired.Player player)
     {
-        // Direction Inputs
-        CurrentDirection = new Vector3(player.GetAxis("MoveX"), 0, player.GetAxis("MoveY"));
-        pyramid.LeftStickEnabled = (CurrentDirection != Vector3.zero);
-
-        Ability ability = null;
-        foreach (EInputAction action in (EInputAction[])Enum.GetValues(typeof(EInputAction)))
+        if (!BlockInput)
         {
-            if (player.GetButtonDown(action.ToString()) && abilities.TryGetValue(action, out ability))
-                ability.Launch();
-        }
+            // Direction Inputs
+            CurrentDirection = new Vector3(player.GetAxis("MoveX"), 0, player.GetAxis("MoveY"));
+            pyramid.LeftStickEnabled = (CurrentDirection != Vector3.zero);
 
-        HandlePyramid(player);
+            Ability ability = null;
+            foreach (EInputAction action in (EInputAction[])Enum.GetValues(typeof(EInputAction)))
+            {
+                if (player.GetButtonDown(action.ToString()) && abilities.TryGetValue(action, out ability))
+                    ability.Launch();
+            }
+
+            HandlePyramid(player);
+        }
     }
 
     private void HandlePyramid(Rewired.Player player)
@@ -138,8 +143,11 @@ public class Player : Inputable
 
     private void FixedUpdate()
     {
-        if (!BlockInput)
+        if (!BlockInput || runToEnd)
         {
+            if (runToEnd)
+                CurrentDirection = new Vector3(0, 0, 1);
+
             if (CurrentDirection != Vector3.zero)
             {
                 // Rotation
@@ -232,6 +240,21 @@ public class Player : Inputable
     public void SetFoot(Transform trsf)
     {
         CurrentFootOnGround = trsf;
+    }
+
+    public void LaunchEnd()
+    {
+        end = true;
+        runToEnd = true;
+    }
+
+    public void TpToLastPosition(Vector3 lastPosition)
+    {
+        runToEnd = false;
+        CurrentDirection = Vector3.zero;
+        rb.velocity = Vector3.zero;
+        SetMoving(false);
+        transform.position = lastPosition;
     }
 
     public void CancelRush()
