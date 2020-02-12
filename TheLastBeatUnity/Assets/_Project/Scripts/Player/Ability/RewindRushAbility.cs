@@ -91,6 +91,7 @@ public class RewindRushAbility : Ability
         {
             if (enemy != null)
             {
+                enemy.StartRewind();
                 direction = new Vector3(enemy.transform.position.x, goalPosition.y, enemy.transform.position.z) - goalPosition;
                 direction *= 1.3f;
 
@@ -201,6 +202,7 @@ public class RewindRushAbility : Ability
         foreach(Enemy enn in allDamages.Keys)
         {
             enn.GetAttacked(attackOnRythm, allDamages[enn]);
+            enn.EndRewind();
         }
 
         foreach (CameraEffect ce in CameraManager.Instance.AllCameras)

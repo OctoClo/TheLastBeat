@@ -11,7 +11,8 @@ public enum EEnemyState
     RECOVER_ATTACK,
     COME_BACK,
     STUN,
-    EXPLODE
+    EXPLODE,
+    REWIND
 }
 
 public abstract class EnemyState
