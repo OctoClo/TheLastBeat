@@ -351,6 +351,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   maxLives: 3
+  dissolveDuration: 1
+  dissolveMats: []
   waitBeforeNextMove: {x: 1, y: 3}
   chaseDistance: 0.5
   waitBeforePrepareAnim: 0
@@ -400,10 +402,15 @@ MonoBehaviour:
   explosionBlastForce: 35
   explosionDamageToPlayer: 2
   explosionDamageToEnemies: 2
-  explosionEvent:
+  explosionRiseEvent:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 836409915a9336e4bacad02ed2efb07b,
+    WwiseObjectReference: {fileID: 11400000, guid: b31477885c7c43648a482ea4daa3fc3d,
+      type: 2}
+  explosionBurstEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: f54f371dadcf4f4418c4f4a0e007b5a1,
       type: 2}
   explosionArea: {fileID: 8494787692734404405}
   explosionPrefab: {fileID: 1945123254435201831, guid: 3e80a22879af86e4c8bdaa8e70ad1f12,
@@ -597,6 +604,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7763091094201220669}
     m_Modifications:
+    - target: {fileID: -6057140222963153312, guid: 3fb1ca1583adf314196336a51a365d8e,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: e57fb6d2a37bc604d8081cdb9199008d, type: 2}
     - target: {fileID: -927199367670048503, guid: 3fb1ca1583adf314196336a51a365d8e,
         type: 3}
       propertyPath: m_Name
@@ -657,11 +669,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -6057140222963153312, guid: 3fb1ca1583adf314196336a51a365d8e,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: e57fb6d2a37bc604d8081cdb9199008d, type: 2}
     - target: {fileID: 3280973328620774699, guid: 3fb1ca1583adf314196336a51a365d8e,
         type: 3}
       propertyPath: m_CastShadows
@@ -744,11 +751,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 115944168840073582}
     m_Modifications:
-    - target: {fileID: 5825424975591432047, guid: 2bde456caf644314a9b983448a9c6c06,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyUI
-      objectReference: {fileID: 0}
     - target: {fileID: 871897599622983467, guid: 2bde456caf644314a9b983448a9c6c06,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -853,6 +855,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5825424975591432047, guid: 2bde456caf644314a9b983448a9c6c06,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyUI
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2bde456caf644314a9b983448a9c6c06, type: 3}

@@ -83,7 +83,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 00607f23f4bb1c4ba4ba719fd5871f3f
     GuidInternal: 
-    m_lastTime: -8586201707715097432
+    m_lastTime: -8586201046815569116
     List:
     - name: TheLastBank
       guid: ba44c042ce392242af9fd5c1beb6de48
@@ -99,7 +99,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 8758d50e9a0ca842a9ceccd260c5af42
     GuidInternal: 
-    m_lastTime: -8586201707714917911
+    m_lastTime: -8586201046613450332
     List:
     - name: Int_Chord01
       guid: eaee35c708d9eb47b66fd56d667bc9eb
@@ -439,17 +439,31 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Play_Explosion
-      guid: 0c7b6cbec965a54ba94c673da4258f75
-      id: 4030404899
+    - name: Play_ExplosionBurst
+      guid: 0b77f896458dab42ad7912086fdcf0ce
+      id: 753153999
       PathAndIcons:
       - ElementName: Default Work Unit
         ObjectType: 12
       - ElementName: 03_NME
         ObjectType: 4
-      - ElementName: Play_Explosion
+      - ElementName: Play_ExplosionBurst
         ObjectType: 3
-      Path: Default Work Unit\03_NME\Play_Explosion
+      Path: Default Work Unit\03_NME\Play_ExplosionBurst
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_ExplosionRise
+      guid: 85b3fb695f52d9469d3209736b19d629
+      id: 2737378052
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: 03_NME
+        ObjectType: 4
+      - ElementName: Play_ExplosionRise
+        ObjectType: 3
+      Path: Default Work Unit\03_NME\Play_ExplosionRise
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -836,7 +850,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 0e2ba2ef49d7a9468a71f885a9d96179
     GuidInternal: 
-    m_lastTime: -8586201875352902600
+    m_lastTime: -8586201046815329767
     List:
     - name: CharachterSpeed
       guid: dc604e5c93a6bb45835923bc07265ce8
@@ -847,6 +861,15 @@ MonoBehaviour:
       - ElementName: CharachterSpeed
         ObjectType: 13
       Path: TheLastBeat\CharachterSpeed
+    - name: ExplosionRise
+      guid: 35701ce540345c45ade92a31f7f2a60a
+      id: 4130823537
+      PathAndIcons:
+      - ElementName: TheLastBeat
+        ObjectType: 12
+      - ElementName: ExplosionRise
+        ObjectType: 13
+      Path: TheLastBeat\ExplosionRise
     - name: Int_MusicComboState
       guid: ad16e64868eca740ae9e19545924af0d
       id: 4043924749
@@ -912,7 +935,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: f97624b2970aec4088365c8371d57a2e
     GuidInternal: 
-    m_lastTime: -8586201875800059569
+    m_lastTime: -8586201613802487100
     List:
     - name: Int_Land_Chord
       guid: 0aa30c6240435e45a7a36f62c52db2f0
@@ -1293,7 +1316,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 1ac71c4bbb8fbe4aab71adce22d346fd
     GuidInternal: 
-    m_lastTime: -8586201875800039616
+    m_lastTime: -8586201613802427256
     List:
     - name: MusicFeedback
       guid: 3a584ce44dfb2345a8278daa62360197
@@ -1344,6 +1367,5 @@ MonoBehaviour:
   - /TheLastBeatAudio
   - /TheLastBeatAudio/Events
   - /TheLastBeatAudio/Events/Default Work Unit
-  - /TheLastBeatAudio/Events/Default Work Unit/02_Player
   autoPopulateEnabled: 1
   CurrentPluginConfig: 
