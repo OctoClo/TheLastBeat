@@ -168,6 +168,7 @@ public class Enemy : Slowable
         states.Add(EEnemyState.RECOVER_ATTACK, new EnemyStateRecoverAttack(this, recoverAnimDuration));
         states.Add(EEnemyState.COME_BACK, new EnemyStateComeBack(this));
         states.Add(EEnemyState.STUN, new EnemyStateStun(this, stunDuration));
+        states.Add(EEnemyState.REWIND, new EnemyStateRewind(this));
     }
 
     private void Update()
@@ -249,6 +250,7 @@ public class Enemy : Slowable
         EnemyKilled?.Invoke();
         informations.DisappearHud();
         Animator.SetTrigger("die");
+        dieSound.Post(gameObject);
         DOTween.Sequence().InsertCallback(1, () => Dissolve());
     }
 
@@ -275,7 +277,6 @@ public class Enemy : Slowable
     public void Die()
     {
         EventManager.Instance.Raise(new EnemyDeadEvent { enemy = this });
-        dieSound.Post(gameObject);
         Destroy(gameObject);
     }
 
@@ -289,6 +290,16 @@ public class Enemy : Slowable
             currentState = newState;
             currentState.Enter();
         }
+    }
+
+    public void StartRewind()
+    {
+        ChangeState(EEnemyState.REWIND);
+    }
+
+    public void EndRewind()
+    {
+        ChangeState(EEnemyState.CHASE);
     }
 
     public void StartAttacking()
