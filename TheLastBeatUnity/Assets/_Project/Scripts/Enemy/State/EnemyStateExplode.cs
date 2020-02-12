@@ -19,13 +19,14 @@ public class EnemyStateExplode : EnemyState
     GameObject explosionPrefab = null;
     EnemyExplosionArea explosionArea = null;
     bool explosionBegun = false;
-    AK.Wwise.Event explosionEvent = null;
+    AK.Wwise.Event explosionRiseEvent = null;
+    AK.Wwise.Event explosionBurstEvent = null;
 
     GameObject explosionCircle = null;
     EnemyPulse[] pulses;
 
     public EnemyStateExplode(Enemy newEnemy, int waitBefore, float distanceFollow, float speed, float force, int damageToPlayer,int damageToEnemies,
-                            GameObject newExplosionPrefab, EnemyExplosionArea newExplosionArea, AK.Wwise.Event newExplosionEvent, GameObject circle) : base(newEnemy)
+                            GameObject newExplosionPrefab, EnemyExplosionArea newExplosionArea, AK.Wwise.Event newExplosionRiseEvent, AK.Wwise.Event newExplosionBurstEvent, GameObject circle) : base(newEnemy)
     {
         stateEnum = EEnemyState.EXPLODE;
 
@@ -42,7 +43,8 @@ public class EnemyStateExplode : EnemyState
 
         explosionPrefab = newExplosionPrefab;
         explosionArea = newExplosionArea;
-        explosionEvent = newExplosionEvent;
+        explosionRiseEvent = newExplosionRiseEvent;
+        explosionBurstEvent = newExplosionBurstEvent;
     }
 
     public override void Enter()
@@ -61,7 +63,7 @@ public class EnemyStateExplode : EnemyState
             enemy.Agent.speed = speedFollow;
             enemy.Agent.acceleration = speedFollow;
             enemy.Agent.autoBraking = true;
-            explosionEvent.Post(enemy.gameObject);
+            explosionRiseEvent.Post(enemy.gameObject);
             explosionCircle.SetActive(true);
             foreach (EnemyPulse pulse in pulses)
                 pulse.PulseFasterAndFaster(waitBeats * SoundManager.Instance.TimePerBeat);
@@ -69,6 +71,7 @@ public class EnemyStateExplode : EnemyState
         else
         {
             beatCounter++;
+            AkSoundEngine.SetRTPCValue("ExplosionRise", beatCounter + 1, enemy.gameObject, (int)SoundManager.Instance.TimePerBeat);
 
             if (beatCounter == waitBeats)
             {
@@ -81,6 +84,7 @@ public class EnemyStateExplode : EnemyState
                     GameObject explosion = GameObject.Instantiate(explosionPrefab, enemy.transform.position, Quaternion.identity);
                     explosion.transform.SetParent(SceneHelper.Instance.VfxFolder);
                     explosionArea.Explode(blastForce, blastDamageToPlayer, blastDamageToEnemies, enemy.Player);
+                    explosionBurstEvent.Post(enemy.gameObject);
                 });
 
                 animation.Play();

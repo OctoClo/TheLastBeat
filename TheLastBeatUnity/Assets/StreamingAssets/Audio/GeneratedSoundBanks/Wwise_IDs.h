@@ -36,7 +36,8 @@ namespace AK
         static const AkUniqueID PLAY_DEATH = 1172822028U;
         static const AkUniqueID PLAY_DESERT_AMBIANCE = 1555409676U;
         static const AkUniqueID PLAY_DIE_ENEMY = 2374767689U;
-        static const AkUniqueID PLAY_EXPLOSION = 4030404899U;
+        static const AkUniqueID PLAY_EXPLOSIONBURST = 753153999U;
+        static const AkUniqueID PLAY_EXPLOSIONRISE = 2737378052U;
         static const AkUniqueID PLAY_HEAL_PLAYER = 3450612256U;
         static const AkUniqueID PLAY_HIT_ENEMY = 3889018732U;
         static const AkUniqueID PLAY_HIT_PLAYER = 2257378511U;
@@ -186,6 +187,7 @@ namespace AK
     namespace GAME_PARAMETERS
     {
         static const AkUniqueID CHARACHTERSPEED = 3971683557U;
+        static const AkUniqueID EXPLOSIONRISE = 4130823537U;
         static const AkUniqueID INT_MUSICCOMBOSTATE = 4043924749U;
         static const AkUniqueID INT_MUSICCOMBOVALUE = 609762841U;
         static const AkUniqueID INT_MUSICCRUSHER = 807022328U;
