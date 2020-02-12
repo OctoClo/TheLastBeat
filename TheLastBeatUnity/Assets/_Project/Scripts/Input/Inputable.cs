@@ -15,6 +15,16 @@ public abstract class Inputable : MonoBehaviour
         blockInput = value;
     }
 
+    public virtual void OnInputEnter()
+    {
+
+    }
+
+    public virtual void OnInputExit()
+    {
+
+    }
+
     private void OnEnable()
     {
         EventManager.Instance.AddListener<PauseEvent>(OnPauseEvent);
