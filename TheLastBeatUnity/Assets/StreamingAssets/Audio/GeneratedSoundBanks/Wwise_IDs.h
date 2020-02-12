@@ -47,14 +47,15 @@ namespace AK
         static const AkUniqueID PLAY_MUSIC_MENU = 1699343283U;
         static const AkUniqueID PLAY_NEMESIS = 820063214U;
         static const AkUniqueID PLAY_OASIS_AMBIANCE = 3449458560U;
+        static const AkUniqueID PLAY_OBTAINREWIND = 2044305208U;
         static const AkUniqueID PLAY_PRESENCE = 4155730121U;
         static const AkUniqueID PLAY_REWIND = 869704911U;
-        static const AkUniqueID PLAY_REWINDACQUIRED = 3146762127U;
         static const AkUniqueID PLAY_RIGHTFOOT = 3723441664U;
         static const AkUniqueID PLAY_RUMBLE = 1002643937U;
         static const AkUniqueID PLAY_RUSHFXOFFBEAT = 3852757989U;
         static const AkUniqueID PLAY_RUSHFXONBEAT = 2567002569U;
         static const AkUniqueID PLAY_RUSHFXONPERFECT = 3119437920U;
+        static const AkUniqueID PLAY_SAVE = 119088225U;
         static const AkUniqueID PLAY_WILDLIFEDESERT_1 = 92132223U;
         static const AkUniqueID PLAY_WILDLIFEDESERT_2 = 92132220U;
         static const AkUniqueID SETREWIND_LOOPA = 4276712656U;
