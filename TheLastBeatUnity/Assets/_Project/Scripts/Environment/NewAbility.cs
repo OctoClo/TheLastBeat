@@ -42,7 +42,7 @@ public class NewAbility : MonoBehaviour
         prompt.SetActive(false);
         done = true;
         DOTween.Sequence()
-            .AppendCallback(() => Destroy(Instantiate(prefab, transform), 4))
+            .AppendCallback(() => Instantiate(prefab, transform))
             .InsertCallback(3, () => InputDelegate.Instance.ObtainAbility());
     }
 }
