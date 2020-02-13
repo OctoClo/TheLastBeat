@@ -4,6 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine.UI;
+using Rewired;
 
 public class EndOfGame : MonoBehaviour
 {
@@ -43,7 +44,7 @@ public class EndOfGame : MonoBehaviour
     SpecialMonolithPulse[] pulses;
     GameObject particles = null;
     [TabGroup("References")] [SerializeField]
-    GameObject endUI = null;
+    Image endImage = null;
     [TabGroup("References")] [SerializeField]
     GameObject zoneName = null;
 
@@ -62,7 +63,14 @@ public class EndOfGame : MonoBehaviour
     [TabGroup("References")] [SerializeField]
     Transform oldListener = null;
 
+    public static Rewired.Player playerRe;
     Player player = null;
+    bool readyToQuit = false;
+
+    private void Awake()
+    {
+        playerRe = ReInput.players.GetPlayer(0);
+    }
 
     private void Start()
     {
@@ -84,6 +92,7 @@ public class EndOfGame : MonoBehaviour
     private void LaunchEnd()
     {
         player.LaunchEnd();
+        SceneHelper.Instance.EndOfGame = true;
         DOTween.Sequence()
             .AppendCallback(() =>
             {
@@ -122,7 +131,19 @@ public class EndOfGame : MonoBehaviour
 
     private void BlackScreen()
     {
-        endUI.SetActive(true);
-        Debug.Log("End.");
+        endImage.DOFade(1, 2);
+        readyToQuit = true;
+    }
+
+    private void Update()
+    {
+        if (readyToQuit && playerRe.GetAnyButtonDown())
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+        }
     }
 }

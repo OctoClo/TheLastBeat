@@ -20,20 +20,16 @@ public class FloatingNemesis : MonoBehaviour
     float ySpeed = 10f;
     float yOffset;
 
-    [Header("Z values")] [SerializeField]
-    bool rollZ = true;
-    [Range(0, 100)] [SerializeField]
-    float zAmplitude = 1f;
-    [Range(0, 100)] [SerializeField]
-    float zSpeed = 10f;
-    float zOffset;
-
     Vector3 initialPos = Vector3.zero;
-    float elapsedTime = 0;
+    public float elapsedTime = 0;
 
     void OnEnable()
     {
         initialPos = transform.position;
+        xSpeed /= 10;
+        ySpeed /= 10;
+        xAmplitude /= 100;
+        yAmplitude /= 100;
         elapsedTime = 0;
     }
 
@@ -43,15 +39,12 @@ public class FloatingNemesis : MonoBehaviour
 
         xOffset = transform.position.x - initialPos.x;
         yOffset = transform.position.y - initialPos.y;
-        zOffset = transform.position.z - initialPos.z;
 
         if (rollX)
-            xOffset = Mathf.Sin(elapsedTime * (xSpeed / 10)) * (xAmplitude / 100);
+            xOffset = Mathf.Sin(elapsedTime * xSpeed) * xAmplitude;
         if (rollY)
-            yOffset = Mathf.Cos(elapsedTime * (ySpeed / 10)) * (yAmplitude / 100);
-        if (rollZ)
-            zOffset = Mathf.Cos(elapsedTime * (zSpeed / 10)) * (zAmplitude / 100);
+            yOffset = Mathf.Cos(elapsedTime * ySpeed) * yAmplitude;
 
-        transform.position = new Vector3(initialPos.x + xOffset, initialPos.y + yOffset, transform.position.z + zOffset);
+        transform.position = new Vector3(initialPos.x + xOffset, initialPos.y + yOffset, transform.position.z);
     }
 }

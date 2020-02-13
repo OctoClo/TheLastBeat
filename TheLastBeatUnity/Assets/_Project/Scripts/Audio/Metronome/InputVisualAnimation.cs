@@ -38,7 +38,7 @@ public class InputVisualAnimation : Beatable
 
     public override void Beat()
     {
-        if (Time.timeScale == 0)
+        if (Time.timeScale == 0 || SceneHelper.Instance.EndOfGame)
             return;
 
         GameObject instantiatedPrefab = Instantiate(prefabAnimation,transform);

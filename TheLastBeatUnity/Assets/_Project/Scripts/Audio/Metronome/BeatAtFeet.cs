@@ -64,7 +64,7 @@ public class BeatAtFeet : Beatable
 
     public override void Beat()
     {
-        if (!mustBeDisplayed || Time.timeScale == 0)
+        if (!mustBeDisplayed || Time.timeScale == 0 || SceneHelper.Instance.EndOfGame)
             return;
         SoundManager sm = SoundManager.Instance;
         float timeLeft = sm.GetTimeLeftNextBeat();

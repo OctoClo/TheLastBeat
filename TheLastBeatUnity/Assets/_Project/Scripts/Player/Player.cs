@@ -87,6 +87,7 @@ public class Player : Inputable
 
     private void Awake()
     {
+        Cursor.visible = false;
         if (SceneHelper.DeathCount > 0)
         {
             skinnedRenderer = GetComponentInChildren<SkinnedMeshRenderer>().gameObject;
@@ -116,7 +117,10 @@ public class Player : Inputable
         abilities.Add(EInputAction.RUSH, rush);
 
         if (SceneHelper.DeathCount > 0)
+        {
+            hitPlayer.Post(gameObject);
             SceneHelper.Instance.Respawn();
+        }
     }
 
     public void AddRewindRush()

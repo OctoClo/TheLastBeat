@@ -39,6 +39,8 @@ public class SceneHelper : MonoBehaviour
     [SerializeField]
     public float JitRatio = 0.2f;
 
+    public bool EndOfGame = false;
+
     private void Awake()
     {
         if (Instance == null)
@@ -89,7 +91,7 @@ public class SceneHelper : MonoBehaviour
         MainPlayer.transform.forward = checkpoint.transform.forward;
         MainPlayer.transform.position = checkpoint.transform.position + Vector3.up;
         DOTween.Sequence()
-            .InsertCallback(0.5f, () => GameObject.Instantiate(respawnVfx, checkpoint.transform.position, Quaternion.identity, VfxFolderFaceCam))
+            .InsertCallback(0.5f, () => GameObject.Instantiate(respawnVfx, checkpoint.transform.position + new Vector3(0, 0.1f, 0), Quaternion.identity, VfxFolderFaceCam))
             .InsertCallback(2.39f, () => MainPlayer.Reappear());
     }
 

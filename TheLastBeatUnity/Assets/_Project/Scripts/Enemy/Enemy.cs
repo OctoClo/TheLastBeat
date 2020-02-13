@@ -54,6 +54,8 @@ public class Enemy : Slowable
     public AK.Wwise.Event moveSound = null;
     [TabGroup("Behaviour")][SerializeField]
     AK.Wwise.Event dieSound = null;
+    bool isReadyToDie = false;
+    bool alreadyDying = false;
 
     [TabGroup("References")] [SerializeField]
     GameObject stunElements = null;
@@ -187,6 +189,10 @@ public class Enemy : Slowable
                 HasAttackedPlayer = true;
             }
         }
+        else if (isReadyToDie && !alreadyDying)
+        {
+            Die();
+        }
     }
 
     public void OnBeat()
@@ -253,8 +259,11 @@ public class Enemy : Slowable
         Animator.SetTrigger("die");
         dieSound.Post(gameObject);
         DOTween.Sequence()
-            .InsertCallback(1, () => GameObject.Instantiate(dustVfx, transform.position, Quaternion.identity, SceneHelper.Instance.VfxFolderFaceCam))
-            .InsertCallback(1, () => Dissolve());
+            .InsertCallback(1, () => 
+            {
+                GameObject.Instantiate(dustVfx, transform.position, Quaternion.identity, SceneHelper.Instance.VfxFolderFaceCam);
+                Dissolve();
+            });
     }
 
     private void Dissolve()
@@ -274,11 +283,12 @@ public class Enemy : Slowable
             renderers[i].material = dissolveMats[i];
         }
 
-        DOTween.Sequence().InsertCallback(dissolveDuration, () => Die());
+        DOTween.Sequence().InsertCallback(dissolveDuration, () => isReadyToDie = true);
     }
 
     public void Die()
     {
+        alreadyDying = true;
         EventManager.Instance.Raise(new EnemyDeadEvent { enemy = this });
         Destroy(gameObject);
     }
