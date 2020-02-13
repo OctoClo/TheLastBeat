@@ -13,17 +13,20 @@ public abstract class Inputable : MonoBehaviour
     public void SetBlockInput(bool value)
     {
         blockInput = value;
+        if (value)
+        {
+            OnBlockedInput();
+        }
+        else
+        {
+            OnUnblockedInput();
+        }
     }
 
-    public virtual void OnInputEnter()
-    {
-
-    }
-
-    public virtual void OnInputExit()
-    {
-
-    }
+    public virtual void OnInputEnter(){}
+    public virtual void OnInputExit(){}
+    public virtual void OnBlockedInput() { }
+    public virtual void OnUnblockedInput() { }
 
     private void OnEnable()
     {

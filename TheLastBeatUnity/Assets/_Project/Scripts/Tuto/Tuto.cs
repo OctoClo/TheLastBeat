@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -9,6 +9,9 @@ public class Tuto : Inputable
     [Header("General")]
     [SerializeField]
     Image backgroundImage = null;
+
+    [SerializeField]
+    Image aContinue = null;
 
     [SerializeField]
     Color backgroundColor = Color.black;
@@ -54,13 +57,18 @@ public class Tuto : Inputable
         Progression++;
     }
 
+    public override void OnUnblockedInput()
+    {
+        aContinue.DOColor(Color.white, 0.3f).SetUpdate(true);
+    }
+
+    public override void OnBlockedInput()
+    {
+        aContinue.DOColor(new Color(1,1,1,0), 0.3f).SetUpdate(true);
+    }
+
     void InterpretNewProgression(int newValue)
     {
-        if (newValue == 1)
-        {
-            TextAppear();
-        }
-
         switch (newValue)
         {
             case 1:
@@ -69,14 +77,17 @@ public class Tuto : Inputable
 
             case 2:
                 ShowVideo();
+                TemporaryBlock(1.0f);
                 break;
 
             case 3:
                 videoFrame.sprite = newSpriteVideo;
+                TemporaryBlock(1.0f);
                 break;
 
             case 4:
                 End();
+                OnBlockedInput();
                 break;
         }
     }
@@ -85,7 +96,7 @@ public class Tuto : Inputable
     {
         Time.timeScale = 0;
         IndependantSequence()
-            .AppendCallback(() => blockInput = true)
+            .AppendCallback(() => SetBlockInput(true))
             .Append(backgroundImage.DOColor(backgroundColor, 1))
             .Append(textImage.rectTransform.DOScale(Vector3.one, 1))
             .Insert(1, textImage.DOColor(Color.white, 1))
@@ -93,7 +104,7 @@ public class Tuto : Inputable
             .Append(textImage.DOColor(new Color(1, 1, 1, 0), 1))
             .Append(imageObtentionRewind.DOColor(Color.white, 1.0f))
             .Insert(5, imageObtentionRewind.rectTransform.DOMove(Vector3.up * 10, 1).SetRelative(true))
-            .AppendCallback(() => blockInput = false);
+            .AppendCallback(() => SetBlockInput(false));
             
     }
 
@@ -123,7 +134,7 @@ public class Tuto : Inputable
         if (blockSeq != null)
             blockSeq.Kill();
 
-        blockSeq = DOTween.Sequence()
+        blockSeq = IndependantSequence()
             .AppendCallback(() => blockInput = true)
             .AppendInterval(time)
             .AppendCallback(() => blockInput = false);

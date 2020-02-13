@@ -102,6 +102,11 @@ public class Player : Inputable
             SceneHelper.Instance.Respawn();
     }
 
+    public void AddRewindRush()
+    {
+
+    }
+
     public override void ProcessInput(Rewired.Player player)
     {
         // Direction Inputs
