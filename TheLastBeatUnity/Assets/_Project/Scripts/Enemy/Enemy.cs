@@ -140,7 +140,6 @@ public class Enemy : Slowable
         lives = maxLives;
         informations.Init(maxLives);
         baseAngularSpeed = Agent.angularSpeed;
-        //moveSound.Post(gameObject);
     }
 
     public void ZoneInitialize(EEnemyType newType, EnemyWanderZone newWanderZone, EnemyDetectionZone newDetectionZone, Player newPlayer)

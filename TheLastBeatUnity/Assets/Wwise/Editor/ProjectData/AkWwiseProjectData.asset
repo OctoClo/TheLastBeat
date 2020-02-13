@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 53f38f5348f7094493a66f9c8647d632
     GuidInternal: 
-    m_lastTime: -8586206212370483565
+    m_lastTime: -8586200129465282761
     List:
     - name: MFXRewindVerb
       guid: 82a1ed093669ee4f84717f8fd1429698
@@ -83,7 +83,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 00607f23f4bb1c4ba4ba719fd5871f3f
     GuidInternal: 
-    m_lastTime: -8586201046815569116
+    m_lastTime: -8586200126381362042
     List:
     - name: TheLastBank
       guid: ba44c042ce392242af9fd5c1beb6de48
@@ -99,7 +99,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 8758d50e9a0ca842a9ceccd260c5af42
     GuidInternal: 
-    m_lastTime: -8586201046613450332
+    m_lastTime: -8586200122609304261
     List:
     - name: Int_Chord01
       guid: eaee35c708d9eb47b66fd56d667bc9eb
@@ -383,6 +383,20 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: Play_Circle
+      guid: cabd42ca68c7f845b8db67d454f07530
+      id: 2523859946
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: 05_UI
+        ObjectType: 4
+      - ElementName: Play_Circle
+        ObjectType: 3
+      Path: Default Work Unit\05_UI\Play_Circle
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Play_CliffBridge_Ambiance
       guid: 8518b524dbc07b4fa938f8e09bd97e11
       id: 1559935606
@@ -467,6 +481,20 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: Play_Foliage
+      guid: 747eacba0f4e7a4883d0062428997e75
+      id: 3773549739
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: 01_AMB
+        ObjectType: 4
+      - ElementName: Play_Foliage
+        ObjectType: 3
+      Path: Default Work Unit\01_AMB\Play_Foliage
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Play_Heal_Player
       guid: 82d9780ae120254a94fabd8035127298
       id: 3450612256
@@ -537,6 +565,18 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: Play_Logo
+      guid: 0685f4ec1cfde94dbaeba9c8e867f188
+      id: 4132018675
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Play_Logo
+        ObjectType: 3
+      Path: Default Work Unit\Play_Logo
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Play_Music
       guid: 7c0c99b2cf37254792bd1ed7910ef398
       id: 2932040671
@@ -590,6 +630,20 @@ MonoBehaviour:
       - ElementName: Play_Oasis_Ambiance
         ObjectType: 3
       Path: Default Work Unit\01_AMB\Play_Oasis_Ambiance
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_ObtainRewind
+      guid: a8e25f91a4ff3345b620d86db5e5c7e9
+      id: 2044305208
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: 02_Player
+        ObjectType: 4
+      - ElementName: Play_ObtainRewind
+        ObjectType: 3
+      Path: Default Work Unit\02_Player\Play_ObtainRewind
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -690,6 +744,76 @@ MonoBehaviour:
       - ElementName: Play_RushFXOnPerfect
         ObjectType: 3
       Path: Default Work Unit\02_Player\Play_RushFXOnPerfect
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_Sandfall
+      guid: eb3074177086814bb34af1053b93093a
+      id: 338566603
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: 01_AMB
+        ObjectType: 4
+      - ElementName: Play_Sandfall
+        ObjectType: 3
+      Path: Default Work Unit\01_AMB\Play_Sandfall
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_SandLoop
+      guid: f628750408a7f1438c68ea30bd1f2e17
+      id: 3537254066
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: 01_AMB
+        ObjectType: 4
+      - ElementName: Play_SandLoop
+        ObjectType: 3
+      Path: Default Work Unit\01_AMB\Play_SandLoop
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_Save
+      guid: bd9fb8ae4112be4292c5e99f43ef5725
+      id: 119088225
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: 02_Player
+        ObjectType: 4
+      - ElementName: Play_Save
+        ObjectType: 3
+      Path: Default Work Unit\02_Player\Play_Save
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_TLB_SXF_UI_Back
+      guid: 8941af7c1c23664e8b34dbba14fadd44
+      id: 2626509817
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: 05_UI
+        ObjectType: 4
+      - ElementName: Play_TLB_SXF_UI_Back
+        ObjectType: 3
+      Path: Default Work Unit\05_UI\Play_TLB_SXF_UI_Back
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_TLB_SXF_UI_Enter
+      guid: a7ee971b1c2ac244a4bfc9beb08ad782
+      id: 3722529794
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: 05_UI
+        ObjectType: 4
+      - ElementName: Play_TLB_SXF_UI_Enter
+        ObjectType: 3
+      Path: Default Work Unit\05_UI\Play_TLB_SXF_UI_Enter
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -850,7 +974,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 0e2ba2ef49d7a9468a71f885a9d96179
     GuidInternal: 
-    m_lastTime: -8586201046815329767
+    m_lastTime: -8586200868899336165
     List:
     - name: CharachterSpeed
       guid: dc604e5c93a6bb45835923bc07265ce8
@@ -935,7 +1059,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: f97624b2970aec4088365c8371d57a2e
     GuidInternal: 
-    m_lastTime: -8586201613802487100
+    m_lastTime: -8586200786793859436
     List:
     - name: Int_Land_Chord
       guid: 0aa30c6240435e45a7a36f62c52db2f0
@@ -1186,6 +1310,43 @@ MonoBehaviour:
         PathAndIcons:
         - ElementName: None
           ObjectType: 8
+      - name: Outro
+        guid: 4e2bc84ee805054d9065dbf1c74ceb28
+        id: 4184794294
+        PathAndIcons:
+        - ElementName: Outro
+          ObjectType: 8
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
+    - name: Pause
+      guid: bfefe4716ea5d64180cb53c0a065538f
+      id: 3092587493
+      PathAndIcons:
+      - ElementName: TheLastBeat
+        ObjectType: 12
+      - ElementName: Pause
+        ObjectType: 9
+      Path: TheLastBeat\Pause
+      values:
+      - name: None
+        guid: 48f92bb3c93b4747911c5e596fed098a
+        id: 748895195
+        PathAndIcons:
+        - ElementName: None
+          ObjectType: 8
+      - name: Pause
+        guid: 47786c41a22b514a90f1653be24b91fa
+        id: 3092587493
+        PathAndIcons:
+        - ElementName: Pause
+          ObjectType: 8
+      - name: Resume
+        guid: 912a18a70e9c394d8058fb959aca9d75
+        id: 953277036
+        PathAndIcons:
+        - ElementName: Resume
+          ObjectType: 8
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
@@ -1367,5 +1528,6 @@ MonoBehaviour:
   - /TheLastBeatAudio
   - /TheLastBeatAudio/Events
   - /TheLastBeatAudio/Events/Default Work Unit
+  - /TheLastBeatAudio/Events/Default Work Unit/01_AMB
   autoPopulateEnabled: 1
   CurrentPluginConfig: 
