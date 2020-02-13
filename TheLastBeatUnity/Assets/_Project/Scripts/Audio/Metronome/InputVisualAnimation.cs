@@ -38,6 +38,9 @@ public class InputVisualAnimation : Beatable
 
     public override void Beat()
     {
+        if (Time.timeScale == 0)
+            return;
+
         GameObject instantiatedPrefab = Instantiate(prefabAnimation,transform);
         RectTransform rect = instantiatedPrefab.GetComponent<RectTransform>();
         tempColor = instantiatedPrefab.GetComponent<Image>().color;

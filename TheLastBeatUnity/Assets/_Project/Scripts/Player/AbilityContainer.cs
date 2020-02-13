@@ -105,6 +105,9 @@ public class AbilityContainer : MonoBehaviour
     public void AbilityEarned()
     {
         if (enabledSprite != null)
+        {
+            backgroundImage.gameObject.SetActive(true);
             GetComponent<Image>().sprite = enabledSprite;
+        }
     }
 }
