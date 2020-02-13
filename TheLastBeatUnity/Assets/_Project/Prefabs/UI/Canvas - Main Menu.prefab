@@ -112,11 +112,17 @@ MonoBehaviour:
   logoShowDuration: 2
   waitBeforeFadeBackground: 2
   backgroundFadeDuration: 1
-  lightDuration: 2
+  nemesisApparitionDuration: 2
+  nemesisFadeDuration: 0.5
   logo: {fileID: 2557620218257159691}
   pressAnyButtonWithoutRhythm: {fileID: 2589489069630847452}
   pressAnyButtonWithRhythm: {fileID: 1423134100886583307}
-  nemesisLight: {fileID: 0}
+  nemesis: {fileID: 0}
+  logoMusic:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 4d6197621ccd92d40bef026dc53d1c28,
+      type: 2}
   musicStatePressAnyButton1:
     idInternal: 0
     valueGuidInternal: 
@@ -1772,7 +1778,18 @@ MonoBehaviour:
         CustomSortingLayer: Default
       Event:
         m_PersistentCalls:
-          m_Calls: []
+          m_Calls:
+          - m_Target: {fileID: 5956968369613151974}
+            m_MethodName: OnHide
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
       GameEvents: []
       SoundData:
         SoundSource: 0
@@ -2046,7 +2063,18 @@ MonoBehaviour:
         CustomSortingLayer: Default
       Event:
         m_PersistentCalls:
-          m_Calls: []
+          m_Calls:
+          - m_Target: {fileID: 5956968369613151974}
+            m_MethodName: OnShow
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
       GameEvents: []
       SoundData:
         SoundSource: 0
@@ -2111,6 +2139,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44fca200c1ad0dd449806a5e921e00a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 27779e6ffdb9f1440906f63cb79dbd2f,
+      type: 2}
+  hideSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: cac4b27ab2c61ae4cb68fc4bc81729d5,
+      type: 2}
 --- !u!1 &4388048164068717688
 GameObject:
   m_ObjectHideFlags: 0
@@ -2868,7 +2906,18 @@ MonoBehaviour:
         CustomSortingLayer: Default
       Event:
         m_PersistentCalls:
-          m_Calls: []
+          m_Calls:
+          - m_Target: {fileID: 604559018905863550}
+            m_MethodName: OnHide
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
       GameEvents: []
       SoundData:
         SoundSource: 0
@@ -3220,6 +3269,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultButton: {fileID: 941877541213971105}
   eventSystem: {fileID: 0}
+  showSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 27779e6ffdb9f1440906f63cb79dbd2f,
+      type: 2}
+  hideSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: cac4b27ab2c61ae4cb68fc4bc81729d5,
+      type: 2}
 --- !u!1 &8354809307911884284
 GameObject:
   m_ObjectHideFlags: 0
@@ -3891,8 +3950,7 @@ PrefabInstance:
         type: 3}
       propertyPath: musicStateContinue.WwiseObjectReference
       value: 
-      objectReference: {fileID: 11400000, guid: 4621637d12343e54e92aeae6807ba8fd,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 2220470236775963395, guid: 6285c7bfd0785f74888dcd04deae4a56,
         type: 3}
       propertyPath: m_Navigation.m_Mode

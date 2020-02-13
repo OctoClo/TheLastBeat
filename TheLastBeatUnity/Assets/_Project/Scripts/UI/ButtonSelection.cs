@@ -18,6 +18,9 @@ public class ButtonSelection : MonoBehaviour
     float deselectOpacity = 0.8f;
 
     [SerializeField]
+    AK.Wwise.Event buttonSound = null;
+
+    [SerializeField]
     bool continueButton = false;
 
     [SerializeField]
@@ -41,6 +44,7 @@ public class ButtonSelection : MonoBehaviour
     public void OnSelect()
     {
         image.color = Color.white;
+        buttonSound.Post(gameObject);
         selected = true;
     }
 

@@ -35,6 +35,8 @@ public class StartAnim : MonoBehaviour
     [TabGroup("References")] [SerializeField]
     GameObject nemesis = null;
     SpriteRenderer nemesisSprite = null;
+    [TabGroup("References")] [Header("Audio")] [SerializeField]
+    AK.Wwise.Event logoMusic = null;
     [TabGroup("References")] [SerializeField]
     AK.Wwise.State musicStatePressAnyButton1 = null;
     [TabGroup("References")] [SerializeField]
@@ -62,6 +64,7 @@ public class StartAnim : MonoBehaviour
             .AppendInterval(waitBeforeShowLogo)
             .InsertCallback(waitBeforeShowLogo, () =>
             {
+                logoMusic.Post(gameObject);
                 foreach (Image image in logoImages)
                     image.DOFade(1, logoFadeDuration);
             })
