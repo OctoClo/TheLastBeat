@@ -50,6 +50,11 @@ public class StartAnim : MonoBehaviour
     Color transparentWhite = new Color(1, 1, 1, 0);
     Rock[] rocks = null;
 
+    private void Awake()
+    {
+        Cursor.visible = false;
+    }
+
     private void Start()
     {
         background = GetComponent<Image>();
