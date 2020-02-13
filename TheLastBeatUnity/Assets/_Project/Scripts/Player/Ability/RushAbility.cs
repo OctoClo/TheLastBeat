@@ -205,7 +205,7 @@ public class RushAbility : Ability
     void RushVFX()
     {
         player.RushParticles.SetActive(true);
-        if (RewindRush.IsInCombo)
+        if (RewindRush != null && RewindRush.IsInCombo)
             CreateTurnMark(player.transform.forward);
         else
             CreateStartMark(player.transform.forward);
@@ -236,7 +236,8 @@ public class RushAbility : Ability
         else
         {
             //Reset CDA cooldown
-            RewindRush.MissInput();
+            if (RewindRush != null)
+                RewindRush.MissInput();
             parameters.OffBeatSound.Post(player.gameObject);
             WrongBeat();
             if (player.LoseLifeOnAbilities)

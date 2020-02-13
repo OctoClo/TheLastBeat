@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using Rewired;
 using Doozy.Engine;
@@ -16,6 +14,9 @@ public class ButtonSelection : MonoBehaviour
 
     [SerializeField] [Range(0, 1)]
     float deselectOpacity = 0.8f;
+
+    [SerializeField]
+    AK.Wwise.Event buttonSound = null;
 
     Image image = null;
     Color transparentWhite = Color.white;
@@ -35,6 +36,7 @@ public class ButtonSelection : MonoBehaviour
     public void OnSelect()
     {
         image.color = Color.white;
+        buttonSound.Post(gameObject);
         selected = true;
     }
 
@@ -48,10 +50,12 @@ public class ButtonSelection : MonoBehaviour
     private void Update()
     {
         if (player.GetButtonDown("UISubmit") && selected && !eventSent)
-        {
-            Debug.Log("Sending game event " + doozyEvent);
-            GameEventMessage.SendEvent(doozyEvent);
-            eventSent = true;
-        }
+            TriggerButton();
+    }
+
+    protected virtual void TriggerButton()
+    {
+        GameEventMessage.SendEvent(doozyEvent);
+        eventSent = true;
     }
 }
