@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class AudioCulling : MonoBehaviour
 {
-    EventPositionConfiner ambEmitter = null;
-    Enemy enemyEmitter = null;
     SphereCollider cullingSphere = null;
 
     AK.Wwise.Event eventToCull = null;
@@ -24,15 +22,19 @@ public class AudioCulling : MonoBehaviour
     {
         if (other.name == "Clamped Emitter")
         {
-            ambEmitter = other.GetComponentInParent<EventPositionConfiner>();
-            eventToCull = ambEmitter.Event;
+            eventToCull = other.GetComponentInParent<EventPositionConfiner>().Event;
             eventToCull.Post(other.gameObject);
             occludedObjects.Add(other.gameObject);
         }
         else if(other.tag == "Enemy")
         {
-            enemyEmitter = other.GetComponent<Enemy>();
-            eventToCull = enemyEmitter.moveSound;
+            eventToCull = other.GetComponent<Enemy>().moveSound;
+            eventToCull.Post(other.gameObject);
+            occludedObjects.Add(other.gameObject);
+        }
+        else if (other.tag == "AmbSound")
+        {
+            eventToCull = other.GetComponent<AmbEvent>().ambEvent;           
             eventToCull.Post(other.gameObject);
             occludedObjects.Add(other.gameObject);
         }
@@ -41,16 +43,20 @@ public class AudioCulling : MonoBehaviour
     {
         if (other.name == "Clamped Emitter")
         {
-            ambEmitter = other.GetComponentInParent<EventPositionConfiner>();
-            eventToCull = ambEmitter.Event;
+            eventToCull = other.GetComponentInParent<EventPositionConfiner>().Event;
             eventToCull.Stop(other.gameObject, 2);
             occludedObjects.Remove(other.gameObject);
         }
         else if (other.tag == "Enemy")
         {
-            enemyEmitter = other.GetComponent<Enemy>();
-            eventToCull = enemyEmitter.moveSound;
+            eventToCull = other.GetComponent<Enemy>().moveSound;
             eventToCull.Stop(other.gameObject,1);
+            occludedObjects.Remove(other.gameObject);
+        }
+        else if (other.tag == "AmbSound")
+        {
+            eventToCull = other.GetComponent<AmbEvent>().ambEvent;
+            eventToCull.Stop(other.gameObject, 1);
             occludedObjects.Remove(other.gameObject);
         }
     }
@@ -69,12 +75,12 @@ public class AudioCulling : MonoBehaviour
                 if (hitInfo.collider != null && hitInfo.collider.tag == "Wall")
                 {
                     AkSoundEngine.SetRTPCValue(occlusionRTPC.Id, 1, occludedObject.gameObject);
-                    //Debug.DrawRay(occludedObject.transform.position, direction, Color.red);
+                    Debug.DrawRay(occludedObject.transform.position, direction, Color.red);
                 }
                 else 
                 {
                     AkSoundEngine.SetRTPCValue(occlusionRTPC.Id, 0, occludedObject.gameObject);
-                    //Debug.DrawRay(occludedObject.transform.position, direction, Color.green);
+                    Debug.DrawRay(occludedObject.transform.position, direction, Color.green);
                 }
             }
         }
