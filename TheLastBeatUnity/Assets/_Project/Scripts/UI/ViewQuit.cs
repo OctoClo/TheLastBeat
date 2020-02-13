@@ -11,6 +11,11 @@ public class ViewQuit : MonoBehaviour
     [SerializeField]
     EventSystem eventSystem = null;
 
+    [SerializeField]
+    AK.Wwise.Event showSound = null;
+    [SerializeField]
+    AK.Wwise.Event hideSound = null;
+
     private void Awake()
     {
         defaultButtonUI = defaultButton.GetComponent<UIButton>();
@@ -20,5 +25,11 @@ public class ViewQuit : MonoBehaviour
     {
         eventSystem.SetSelectedGameObject(defaultButton);
         defaultButtonUI.SelectButton();
+        showSound.Post(gameObject);
+    }
+
+    public void OnHide()
+    {
+        hideSound.Post(gameObject);
     }
 }

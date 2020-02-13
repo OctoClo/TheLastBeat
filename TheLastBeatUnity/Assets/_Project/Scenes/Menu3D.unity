@@ -515,8 +515,25 @@ PrefabInstance:
       propertyPath: state
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3088290296123037201, guid: d5fc57fd1af5ff442b5482ea1b01f38a,
+        type: 3}
+      propertyPath: targetValue
+      value: 13
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5fc57fd1af5ff442b5482ea1b01f38a, type: 3}
+--- !u!114 &583033733 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4564395069685705469, guid: a2ab993305a104845b4cdec7e35d02b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 2186004094223437859}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a131e94b4c8fa8748b83e39f1fa31982, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &911812773
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -604,6 +621,11 @@ PrefabInstance:
       propertyPath: state
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3088290296123037201, guid: d5fc57fd1af5ff442b5482ea1b01f38a,
+        type: 3}
+      propertyPath: targetValue
+      value: 13
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5fc57fd1af5ff442b5482ea1b01f38a, type: 3}
 --- !u!1001 &952859302
@@ -676,6 +698,11 @@ PrefabInstance:
     - target: {fileID: 7716571645861370019, guid: 76739c307f185f0469b1d4e628256191,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7597392176353792421, guid: 76739c307f185f0469b1d4e628256191,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7980939602190166280, guid: 76739c307f185f0469b1d4e628256191,
@@ -870,6 +897,11 @@ PrefabInstance:
         type: 3}
       propertyPath: state
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3088290296123037201, guid: d5fc57fd1af5ff442b5482ea1b01f38a,
+        type: 3}
+      propertyPath: targetValue
+      value: 13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5fc57fd1af5ff442b5482ea1b01f38a, type: 3}
@@ -1165,6 +1197,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2114804135}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2019710289 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7560862322458975373, guid: a2ab993305a104845b4cdec7e35d02b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 2186004094223437859}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2076534066 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6953445345792351966, guid: 1de0f4e3e8022574384c694319d63d21,
@@ -1257,6 +1301,11 @@ PrefabInstance:
         type: 3}
       propertyPath: state
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4820019092923370884, guid: 5377a2a71b07a2342aa5e62d04dbcc2d,
+        type: 3}
+      propertyPath: targetValue
+      value: 13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5377a2a71b07a2342aa5e62d04dbcc2d, type: 3}
@@ -1402,6 +1451,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8060257904226381107, guid: a2ab993305a104845b4cdec7e35d02b0,
+        type: 3}
+      propertyPath: OnSelected.OnTrigger.Event.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 583033733}
+    - target: {fileID: 8060257904226381107, guid: a2ab993305a104845b4cdec7e35d02b0,
+        type: 3}
+      propertyPath: OnSelected.OnTrigger.Event.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnSelect
+      objectReference: {fileID: 0}
+    - target: {fileID: 8060257904226381107, guid: a2ab993305a104845b4cdec7e35d02b0,
+        type: 3}
+      propertyPath: OnDeselected.OnTrigger.Event.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 583033733}
+    - target: {fileID: 8060257904226381107, guid: a2ab993305a104845b4cdec7e35d02b0,
+        type: 3}
+      propertyPath: OnDeselected.OnTrigger.Event.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnDeselect
+      objectReference: {fileID: 0}
     - target: {fileID: 636230158454214524, guid: a2ab993305a104845b4cdec7e35d02b0,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -1441,34 +1510,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2688970841723563868, guid: a2ab993305a104845b4cdec7e35d02b0,
-        type: 3}
-      propertyPath: m_Color.a
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3911382681438773854, guid: a2ab993305a104845b4cdec7e35d02b0,
         type: 3}
-      propertyPath: nemesisLight
+      propertyPath: nemesis
       value: 
       objectReference: {fileID: 952859304}
-    - target: {fileID: 3911382681438773854, guid: a2ab993305a104845b4cdec7e35d02b0,
+    - target: {fileID: 4564395069685705469, guid: a2ab993305a104845b4cdec7e35d02b0,
         type: 3}
-      propertyPath: musicStatePressAnyButton1.WwiseObjectReference
+      propertyPath: fadeImage
       value: 
-      objectReference: {fileID: 11400000, guid: 3488f7d0b3775b441b2a5ff6480e98f5,
-        type: 2}
-    - target: {fileID: 3911382681438773854, guid: a2ab993305a104845b4cdec7e35d02b0,
-        type: 3}
-      propertyPath: musicStatePressAnyButton2.WwiseObjectReference
-      value: 
-      objectReference: {fileID: 11400000, guid: c6ee65896912c7347bcd4b575ea4cc36,
-        type: 2}
-    - target: {fileID: 5045028909418707686, guid: a2ab993305a104845b4cdec7e35d02b0,
-        type: 3}
-      propertyPath: music.WwiseObjectReference
-      value: 
-      objectReference: {fileID: 11400000, guid: 66ebf2f82d1206740bfcc0a846f9a88c,
-        type: 2}
+      objectReference: {fileID: 2019710289}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2ab993305a104845b4cdec7e35d02b0, type: 3}

@@ -20,7 +20,9 @@ public class StartAnim : MonoBehaviour
     [TabGroup("Animation")] [SerializeField]
     float backgroundFadeDuration = 2f;
     [TabGroup("Animation")] [SerializeField]
-    float lightDuration = 2f;
+    float nemesisApparitionDuration = 2f;
+    [TabGroup("Animation")] [SerializeField]
+    float nemesisFadeDuration = 0.5f;
 
     [TabGroup("References")] [SerializeField]
     GameObject logo = null;
@@ -31,7 +33,10 @@ public class StartAnim : MonoBehaviour
     Image pressAnyButtonWithRhythm = null;
     Image background = null;
     [TabGroup("References")] [SerializeField]
-    GameObject nemesisLight = null;
+    GameObject nemesis = null;
+    SpriteRenderer nemesisSprite = null;
+    [TabGroup("References")] [Header("Audio")] [SerializeField]
+    AK.Wwise.Event logoMusic = null;
     [TabGroup("References")] [SerializeField]
     AK.Wwise.State musicStatePressAnyButton1 = null;
     [TabGroup("References")] [SerializeField]
@@ -40,7 +45,15 @@ public class StartAnim : MonoBehaviour
     bool waitingForFirstInput = false;
     bool waitingForSecondInput = false;
 
+    Light nemesisLight = null;
+    float nemesisLightIntensity = 0;
+    Color transparentWhite = new Color(1, 1, 1, 0);
     Rock[] rocks = null;
+
+    private void Awake()
+    {
+        Cursor.visible = false;
+    }
 
     private void Start()
     {
@@ -48,11 +61,15 @@ public class StartAnim : MonoBehaviour
         player = ReInput.players.GetPlayer(0);
         logoImages = logo.GetComponentsInChildren<Image>();
         rocks = GameObject.FindObjectsOfType<Rock>();
+        nemesisSprite = nemesis.GetComponentInChildren<SpriteRenderer>();
+        nemesisLight = nemesis.GetComponentInChildren<Light>();
+        nemesisLightIntensity = nemesisLight.intensity;
 
         DOTween.Sequence()
             .AppendInterval(waitBeforeShowLogo)
             .InsertCallback(waitBeforeShowLogo, () =>
             {
+                logoMusic.Post(gameObject);
                 foreach (Image image in logoImages)
                     image.DOFade(1, logoFadeDuration);
             })
@@ -65,12 +82,7 @@ public class StartAnim : MonoBehaviour
             .AppendInterval(waitBeforeFadeBackground)
             .Append(background.DOFade(0, backgroundFadeDuration))
             .AppendInterval(1)
-            .AppendCallback(() =>
-            {
-                waitingForFirstInput = true;
-                Debug.Log("music state 1");
-                musicStatePressAnyButton1.SetValue();
-            })
+            .AppendCallback(() => waitingForFirstInput = true)
             .Append(pressAnyButtonWithoutRhythm.DOFade(1, logoFadeDuration));
     }
 
@@ -88,29 +100,48 @@ public class StartAnim : MonoBehaviour
     private void FragileLight()
     {
         waitingForFirstInput = false;
-        musicStatePressAnyButton2.SetValue();
-        Debug.Log("music state 2");
+        musicStatePressAnyButton1.SetValue();
+
         DOTween.Sequence()
             .Append(pressAnyButtonWithoutRhythm.DOFade(0, logoFadeDuration))
-            .InsertCallback(0.5f, () => nemesisLight.SetActive(true))
-            .AppendInterval(lightDuration)
-            .AppendCallback(() => nemesisLight.SetActive(false))
-            .AppendCallback(() => waitingForSecondInput = true)
-            .Append(pressAnyButtonWithRhythm.DOFade(1, logoFadeDuration));
+            .InsertCallback(0.5f, () => ShowNemesis(false))
+            .AppendInterval(nemesisApparitionDuration + nemesisFadeDuration)
+            .AppendCallback(() => 
+            {
+                DOTween.ToAlpha(() => nemesisSprite.color, x => nemesisSprite.color = x, 0, nemesisFadeDuration);
+                DOTween.To(() => nemesisLight.intensity, x => nemesisLight.intensity = x, 0, nemesisFadeDuration);
+            })
+            .InsertCallback(logoFadeDuration + 0.5f + nemesisApparitionDuration + nemesisFadeDuration * 2, () =>
+            {
+                nemesis.SetActive(false);
+                waitingForSecondInput = true;
+                pressAnyButtonWithRhythm.DOFade(1, logoFadeDuration);
+            });
     }
 
     private void LaunchMenu()
     {
         waitingForSecondInput = false;
+        musicStatePressAnyButton2.SetValue();
+
         DOTween.Sequence()
             .Append(pressAnyButtonWithRhythm.DOFade(0, logoFadeDuration))
             .AppendCallback(() => 
             {
-                nemesisLight.SetActive(true);
+                ShowNemesis(true);
                 foreach (Rock rock in rocks)
                     rock.ChangeState(ERockState.PULSE_ON_BEAT);
             })
-            // Display nemesis
             .AppendCallback(() => GameEventMessage.SendEvent("LaunchMenu"));
+    }
+
+    void ShowNemesis(bool showParticles)
+    {
+        nemesisLight.intensity = 0;
+        nemesisSprite.color = transparentWhite;
+        nemesis.transform.GetChild(nemesis.transform.childCount - 1).gameObject.SetActive(showParticles);
+        nemesis.SetActive(true);
+        DOTween.ToAlpha(() => nemesisSprite.color, x => nemesisSprite.color = x, 1, nemesisFadeDuration);
+        DOTween.To(() => nemesisLight.intensity, x => nemesisLight.intensity = x, nemesisLightIntensity, nemesisFadeDuration);
     }
 }

@@ -294,7 +294,6 @@ MonoBehaviour:
   m_nodes:
   - {fileID: 8455458103716967817}
   - {fileID: 6010565955402074025}
-  - {fileID: 6246090667020284043}
   - {fileID: -2197180119507550948}
   - {fileID: 8479437472510235792}
   - {fileID: 6034394911909476209}
@@ -303,7 +302,7 @@ MonoBehaviour:
   m_version: 1
   m_description: 
   m_id: d3192bbb-e0db-424c-8f12-5846ec770160
-  m_lastModified: 132260706279970253
+  m_lastModified: 132260909300725739
 --- !u!114 &1854256188437406470
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -623,32 +622,6 @@ MonoBehaviour:
     m_connections:
     - m_inputConnectionPoint: {x: -2, y: 4}
       m_outputConnectionPoint: {x: 202, y: 4}
-      m_id: cccb7272-7d64-4668-80e6-b45a72c98015
-      m_inputNodeId: 983fd27d-227b-4e57-a48e-474e5d577f83
-      m_inputSocketId: d6159af6-6494-4903-8d64-1c39460dd44f
-      m_outputNodeId: 8c65c84d-9e0d-4418-99af-7975b3764964
-      m_outputSocketId: cf180943-e87e-49b4-938e-72990c672cd7
-    m_connectionPoints:
-    - {x: -2, y: 4}
-    - {x: 202, y: 4}
-    m_direction: 1
-    m_canBeDeleted: 1
-    m_canBeReordered: 1
-    m_curveModifier: 0
-    m_height: 24
-    m_width: 216
-    m_x: 0
-    m_y: 62
-    m_id: cf180943-e87e-49b4-938e-72990c672cd7
-    m_nodeId: 8c65c84d-9e0d-4418-99af-7975b3764964
-    m_socketName: OutputSocket_1
-    m_value: '{"ButtonCategory":"TheLastBeat","ButtonName":"Continue","GameEvent":"Continue","TimeDelay":3.0,"Trigger":3}'
-    m_valueTypeQualifiedName: Doozy.Engine.UI.Connections.UIConnection, Assembly-CSharp,
-      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  - m_connectionMode: 0
-    m_connections:
-    - m_inputConnectionPoint: {x: -2, y: 4}
-      m_outputConnectionPoint: {x: 202, y: 4}
       m_id: e4a4c41f-6512-425a-b142-e35e3e35441b
       m_inputNodeId: 1f9901d3-322c-4ab9-9dc2-b2aceb479605
       m_inputSocketId: 44d9b62a-446f-4325-9be6-23db77e06f1a
@@ -664,7 +637,7 @@ MonoBehaviour:
     m_height: 24
     m_width: 216
     m_x: 0
-    m_y: 86
+    m_y: 62
     m_id: afd37b56-8935-4a8f-87e6-18c47e188693
     m_nodeId: 8c65c84d-9e0d-4418-99af-7975b3764964
     m_socketName: OutputSocket_0
@@ -690,7 +663,7 @@ MonoBehaviour:
     m_height: 24
     m_width: 216
     m_x: 0
-    m_y: 110
+    m_y: 86
     m_id: b0b8274d-eb03-4f93-a9b1-e6e6955f0b1c
     m_nodeId: 8c65c84d-9e0d-4418-99af-7975b3764964
     m_socketName: OutputSocket_2
@@ -705,7 +678,7 @@ MonoBehaviour:
   m_useFixedUpdate: 0
   m_useLateUpdate: 0
   m_useUpdate: 0
-  m_height: 176
+  m_height: 152
   m_width: 216
   m_x: -228
   m_y: -84
