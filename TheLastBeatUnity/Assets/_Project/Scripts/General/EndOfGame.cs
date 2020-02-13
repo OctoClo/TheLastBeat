@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using Sirenix.OdinInspector;
+using UnityEngine.UI;
 
 public class EndOfGame : MonoBehaviour
 {
+    [TabGroup("Sequence")] [SerializeField]
+    float HUDFadeDuration = 3;
     [TabGroup("Sequence")] [SerializeField]
     float waitBeforeTpPlayer = 2;
     [TabGroup("Sequence")] [SerializeField]
@@ -28,6 +31,9 @@ public class EndOfGame : MonoBehaviour
     [TabGroup("Sequence")] [SerializeField]
     float fadeDuration = 2;
 
+    [TabGroup("References")] [SerializeField]
+    GameObject HUD = null;
+    Image[] HUDimages = null;
     [TabGroup("References")] [SerializeField]
     CameraManager camManager = null;
     [TabGroup("References")] [SerializeField]
@@ -62,6 +68,7 @@ public class EndOfGame : MonoBehaviour
     {
         pulses = specialMonolith.GetComponentsInChildren<SpecialMonolithPulse>();
         particles = specialMonolith.transform.GetChild(specialMonolith.transform.childCount - 1).gameObject;
+        HUDimages = HUD.GetComponentsInChildren<Image>();
     }
 
     private void OnTriggerExit(Collider other)
@@ -83,6 +90,8 @@ public class EndOfGame : MonoBehaviour
                 camManager.LaunchTrackCamera(1.0f / followTrackDuration);
                 oldListener.SetPositionAndRotation(newListener.position, newListener.rotation);
                 oldListener.SetParent(newListener);
+                foreach (Image image in HUDimages)
+                    image.DOFade(0, HUDFadeDuration);
             })
             .InsertCallback(waitBeforeTpPlayer, () =>
             {
