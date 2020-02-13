@@ -30,7 +30,7 @@ public class AudioCulling : MonoBehaviour
         {
             eventToCull = other.GetComponent<Enemy>().moveSound;
             eventToCull.Post(other.gameObject);
-            occludedObjects.Add(other.gameObject);
+            //occludedObjects.Add(other.gameObject);
         }
         else if (other.tag == "AmbSound")
         {
@@ -51,7 +51,7 @@ public class AudioCulling : MonoBehaviour
         {
             eventToCull = other.GetComponent<Enemy>().moveSound;
             eventToCull.Stop(other.gameObject,1);
-            occludedObjects.Remove(other.gameObject);
+            //occludedObjects.Remove(other.gameObject);
         }
         else if (other.tag == "AmbSound")
         {
