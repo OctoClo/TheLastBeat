@@ -100,7 +100,6 @@ public class StartAnim : MonoBehaviour
     private void FragileLight()
     {
         waitingForFirstInput = false;
-        Debug.Log("music state 1");
         musicStatePressAnyButton1.SetValue();
 
         DOTween.Sequence()
@@ -123,7 +122,6 @@ public class StartAnim : MonoBehaviour
     private void LaunchMenu()
     {
         waitingForSecondInput = false;
-        Debug.Log("music state 2");
         musicStatePressAnyButton2.SetValue();
 
         DOTween.Sequence()
