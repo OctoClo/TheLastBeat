@@ -26,20 +26,28 @@ public class StartAnim : MonoBehaviour
     GameObject logo = null;
     Image[] logoImages = null;
     [TabGroup("References")] [SerializeField]
-    Image pressAnyButton = null;
+    Image pressAnyButtonWithoutRhythm = null;
+    [TabGroup("References")] [SerializeField]
+    Image pressAnyButtonWithRhythm = null;
     Image background = null;
     [TabGroup("References")] [SerializeField]
     GameObject nemesisLight = null;
+    [TabGroup("References")] [SerializeField]
+    AK.Wwise.State musicStatePressAnyButton1 = null;
+    [TabGroup("References")] [SerializeField]
+    AK.Wwise.State musicStatePressAnyButton2 = null;
 
     bool waitingForFirstInput = false;
     bool waitingForSecondInput = false;
+
+    Rock[] rocks = null;
 
     private void Start()
     {
         background = GetComponent<Image>();
         player = ReInput.players.GetPlayer(0);
         logoImages = logo.GetComponentsInChildren<Image>();
-        // Monolith no pulse
+        rocks = GameObject.FindObjectsOfType<Rock>();
 
         DOTween.Sequence()
             .AppendInterval(waitBeforeShowLogo)
@@ -57,8 +65,13 @@ public class StartAnim : MonoBehaviour
             .AppendInterval(waitBeforeFadeBackground)
             .Append(background.DOFade(0, backgroundFadeDuration))
             .AppendInterval(1)
-            .AppendCallback(() => waitingForFirstInput = true)
-            .Append(pressAnyButton.DOFade(1, logoFadeDuration));
+            .AppendCallback(() =>
+            {
+                waitingForFirstInput = true;
+                Debug.Log("music state 1");
+                musicStatePressAnyButton1.SetValue();
+            })
+            .Append(pressAnyButtonWithoutRhythm.DOFade(1, logoFadeDuration));
     }
 
     private void Update()
@@ -67,7 +80,7 @@ public class StartAnim : MonoBehaviour
         {
             if (waitingForFirstInput)
                 FragileLight();
-            if (waitingForSecondInput)
+            if (waitingForSecondInput && SoundManagerMenu.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime()))
                 LaunchMenu();
         }
     }
@@ -75,22 +88,28 @@ public class StartAnim : MonoBehaviour
     private void FragileLight()
     {
         waitingForFirstInput = false;
+        musicStatePressAnyButton2.SetValue();
+        Debug.Log("music state 2");
         DOTween.Sequence()
-            .Append(pressAnyButton.DOFade(0, logoFadeDuration))
+            .Append(pressAnyButtonWithoutRhythm.DOFade(0, logoFadeDuration))
             .InsertCallback(0.5f, () => nemesisLight.SetActive(true))
             .AppendInterval(lightDuration)
             .AppendCallback(() => nemesisLight.SetActive(false))
             .AppendCallback(() => waitingForSecondInput = true)
-            .Append(pressAnyButton.DOFade(1, logoFadeDuration));
+            .Append(pressAnyButtonWithRhythm.DOFade(1, logoFadeDuration));
     }
 
     private void LaunchMenu()
     {
         waitingForSecondInput = false;
         DOTween.Sequence()
-            .Append(pressAnyButton.DOFade(0, logoFadeDuration))
-            .AppendCallback(() => nemesisLight.SetActive(true))
-            // Monolith pulse
+            .Append(pressAnyButtonWithRhythm.DOFade(0, logoFadeDuration))
+            .AppendCallback(() => 
+            {
+                nemesisLight.SetActive(true);
+                foreach (Rock rock in rocks)
+                    rock.ChangeState(ERockState.PULSE_ON_BEAT);
+            })
             // Display nemesis
             .AppendCallback(() => GameEventMessage.SendEvent("LaunchMenu"));
     }
