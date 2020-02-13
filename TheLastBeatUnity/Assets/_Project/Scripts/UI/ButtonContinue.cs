@@ -9,16 +9,13 @@ public class ButtonContinue : ButtonSelection
     AK.Wwise.State musicStateContinue = null;
 
     [SerializeField]
-    AK.Wwise.Event showSound = null;
-
-    [SerializeField]
     Image fadeImage = null;
     [SerializeField]
     float fadeDuration = 2;
 
     protected override void TriggerButton()
     {
-        showSound.Post(gameObject);
+        base.TriggerButton();
         musicStateContinue.SetValue();
         DOTween.Sequence().Append(fadeImage.DOFade(1, fadeDuration)).AppendCallback(() => SceneManager.LoadScene("LD_MVP", LoadSceneMode.Single));
     }

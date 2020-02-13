@@ -25,7 +25,7 @@ public class ViewQuit : MonoBehaviour
     {
         eventSystem.SetSelectedGameObject(defaultButton);
         defaultButtonUI.SelectButton();
-        showSound.Post(gameObject);
+        //showSound.Post(gameObject);
     }
 
     public void OnHide()

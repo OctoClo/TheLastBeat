@@ -29,7 +29,7 @@ public class CreditsBack : MonoBehaviour
 
     public void OnShow()
     {
-        showSound.Post(gameObject);
+        //showSound.Post(gameObject);
     }
 
     public void OnHide()
