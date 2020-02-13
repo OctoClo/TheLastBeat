@@ -50,9 +50,6 @@ public class SoundManager : MonoBehaviour
     public BeatDetection LastBar { get; private set; }
     public BeatDetection LastBeat { get; private set; }
 
-    public delegate void beatParams(TypeBeat tb);
-    public event beatParams OnBeatTriggered;
-
     //Used to identify
     int currentBeat = 0;
     int lastBeatValidated = 0;
@@ -227,8 +224,6 @@ public class SoundManager : MonoBehaviour
         {
             beat.Beat();
         }
-
-        OnBeatTriggered?.Invoke(tb);
     }
 
     private void OnEnable()
@@ -250,7 +245,6 @@ public class SoundManager : MonoBehaviour
     {
         destroyed = true;
         StopAllCoroutines();
-        OnBeatTriggered = null;
         SceneHelper.Instance.OnCombatStatusChange -= SwitchMusic;
     }
 }
