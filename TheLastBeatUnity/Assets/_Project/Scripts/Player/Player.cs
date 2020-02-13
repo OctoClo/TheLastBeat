@@ -75,6 +75,9 @@ public class Player : Inputable
     public GameObject ColliderObject = null;
     public Collider CurrentTarget => pyramid.NearestEnemy;
 
+    public delegate void noParams();
+    public event noParams OnOk;
+
     //Used for blink
     public bool InDanger {get; set;}
 
@@ -105,6 +108,11 @@ public class Player : Inputable
         (abilities[EInputAction.RUSH] as RushAbility).RewindRush = rewindRush;
     }
 
+    public override void OnInputExit()
+    {
+        CurrentDirection = Vector3.zero;
+    }
+
     public override void ProcessInput(Rewired.Player player)
     {
         // Direction Inputs
@@ -117,6 +125,9 @@ public class Player : Inputable
             if (player.GetButtonDown(action.ToString()) && abilities.TryGetValue(action, out ability))
                 ability.Launch();
         }
+
+        if (player.GetButtonDown("Ok") && OnOk != null)
+            OnOk();
 
         HandlePyramid(player);
     }

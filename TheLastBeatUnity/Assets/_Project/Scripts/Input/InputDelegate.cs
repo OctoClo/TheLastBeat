@@ -22,9 +22,9 @@ public class InputDelegate : MonoBehaviour
             if (inputable != null)
                 inputable.OnInputExit();
 
+            inputable = value;
             if (value != null)
             {
-                inputable = value;
                 inputable.OnInputEnter();
             }
         }
@@ -42,6 +42,11 @@ public class InputDelegate : MonoBehaviour
         Instance = this;
     }
 
+    public void ObtainAbility()
+    {
+        Inputable = obtainRewind;
+    }
+
     public void ResetInput()
     {
         Inputable = firstInput;
@@ -54,14 +59,9 @@ public class InputDelegate : MonoBehaviour
 
     private void Update()
     {
-        if (!inputable.BlockInput)
+        if (inputable && !inputable.BlockInput)
         {
             inputable.ProcessInput(player);
-        }
-
-        if(Input.GetKeyDown(KeyCode.E))
-        {
-            Inputable = obtainRewind;
         }
     }
 }

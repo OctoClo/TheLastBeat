@@ -89,7 +89,7 @@ public class Tuto : Inputable
 
             case 2:
                 ShowVideo();
-                TemporaryBlock(1.0f);
+                TemporaryBlock(2.0f);
                 break;
 
             case 3:
@@ -97,7 +97,7 @@ public class Tuto : Inputable
                 videoPlayer.Stop();
                 videoPlayer.clip = secondClip;
                 StartCoroutine(PlayVideo());
-                TemporaryBlock(1.0f);
+                TemporaryBlock(2.0f);
                 break;
 
             case 4:
@@ -121,9 +121,8 @@ public class Tuto : Inputable
 
             //Rewind obtained
             .Append(textImage.DOColor(new Color(1, 1, 1, 0), 1))
-            .Append(imageObtentionRewind.DOColor(Color.white, 1.0f))
-            .Insert(5, imageObtentionRewind.rectTransform.DOMove(Vector3.up * 10, 1).SetRelative(true).OnComplete(() => SceneHelper.Instance.MainPlayer.AddRewindRush()))
-            .Insert(5 , iconRewind.DOColor(Color.white , 1))
+            .Insert(4 , imageObtentionRewind.DOColor(Color.white, 1.0f))
+            .Insert(4 , iconRewind.DOColor(Color.white , 1).OnComplete(() => SceneHelper.Instance.MainPlayer.AddRewindRush()))
             .AppendCallback(() => SetBlockInput(false));
             
     }
@@ -136,12 +135,11 @@ public class Tuto : Inputable
     void ShowVideo()
     {
         IndependantSequence()
-            .Insert(0,iconRewind.DOColor(new Color(1,1,1,0), 1.0f))
+            .Insert(0, iconRewind.DOColor(new Color(1, 1, 1, 0), 1.0f))
             .AppendCallback(() => StartCoroutine(PlayVideo()))
             .Append(imageObtentionRewind.DOColor(new Color(1, 1, 1, 0), 1.0f))
             .Append(videoFrame.DOColor(Color.white, 1.0f))
-            .Insert(2.0f, rawImage.DOColor(Color.white , 1.0f))
-            .SetUpdate(true);
+            .Insert(2.0f, rawImage.DOColor(Color.white, 1.0f));
     }
 
     void End()
