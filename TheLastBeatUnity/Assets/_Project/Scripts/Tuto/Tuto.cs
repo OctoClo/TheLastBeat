@@ -33,6 +33,9 @@ public class Tuto : Inputable
     Image videoFrame = null;
 
     [SerializeField]
+    VideoClip secondClip = null;
+
+    [SerializeField]
     RawImage rawImage = null;
     VideoPlayer videoPlayer;
 
@@ -91,6 +94,9 @@ public class Tuto : Inputable
 
             case 3:
                 videoFrame.sprite = newSpriteVideo;
+                videoPlayer.Stop();
+                videoPlayer.clip = secondClip;
+                StartCoroutine(PlayVideo());
                 TemporaryBlock(1.0f);
                 break;
 

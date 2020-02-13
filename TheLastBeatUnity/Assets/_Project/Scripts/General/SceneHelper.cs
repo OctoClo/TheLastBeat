@@ -193,6 +193,9 @@ public class SceneHelper : MonoBehaviour
 
     public void FreezeFrameTween(float duration)
     {
+        if (Time.timeScale == 0)
+            return;
+
         Sequence seq = DOTween.Sequence();
         seq.AppendCallback(() => Time.timeScale = 0);
         seq.AppendInterval(duration);

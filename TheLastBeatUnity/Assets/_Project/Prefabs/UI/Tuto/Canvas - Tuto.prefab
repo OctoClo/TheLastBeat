@@ -33,8 +33,8 @@ RectTransform:
   m_Father: {fileID: 8058592940877587347}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.25, y: 0.1}
-  m_AnchorMax: {x: 0.75, y: 0.9}
+  m_AnchorMin: {x: 0.15, y: 0.1}
+  m_AnchorMax: {x: 0.85, y: 0.9}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -736,6 +736,7 @@ MonoBehaviour:
   iconRewind: {fileID: 3325748524854422886}
   imageObtentionRewind: {fileID: 6186256088232957746}
   videoFrame: {fileID: 7502234146059650698}
+  secondClip: {fileID: 32900000, guid: 0c4275de5010066469f6b847b4133cce, type: 3}
   rawImage: {fileID: 713694618435033825}
   newSpriteVideo: {fileID: 21300000, guid: 00c92b9a5f594a848977eebb53143988, type: 3}
 --- !u!1 &8126870752951677151
@@ -850,7 +851,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8713174229536392788}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 0c4275de5010066469f6b847b4133cce, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: ab6e2663a295bb54dac84935badc0d5e, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
