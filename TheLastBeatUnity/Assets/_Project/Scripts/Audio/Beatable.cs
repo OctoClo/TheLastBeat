@@ -17,7 +17,10 @@ public abstract class Beatable : MonoBehaviour
 
     protected virtual void Start()
     {
-        SoundManager.Instance.Add(this, recordAs);
+        if (SoundManager.Instance != null)
+            SoundManager.Instance.Add(this, recordAs);
+        else
+            SoundManagerMenu.Instance.Add(this);
     }
 
     private void OnEnable()

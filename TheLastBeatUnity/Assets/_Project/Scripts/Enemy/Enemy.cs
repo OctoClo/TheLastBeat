@@ -50,8 +50,8 @@ public class Enemy : Slowable
     [TabGroup("Behaviour")] [SerializeField] [Range(0.0f, 1.0f)]
     float[] chancesToGetStunned = new float[5];
     int stunCounter = 0;
-    [TabGroup("Behaviour")][Header("Audio")][SerializeField]
-    AK.Wwise.Event moveSound = null;
+    [TabGroup("Behaviour")][Header("Audio")]
+    public AK.Wwise.Event moveSound = null;
     [TabGroup("Behaviour")][SerializeField]
     AK.Wwise.Event dieSound = null;
 
@@ -140,7 +140,7 @@ public class Enemy : Slowable
         lives = maxLives;
         informations.Init(maxLives);
         baseAngularSpeed = Agent.angularSpeed;
-        moveSound.Post(gameObject);
+        //moveSound.Post(gameObject);
     }
 
     public void ZoneInitialize(EEnemyType newType, EnemyWanderZone newWanderZone, EnemyDetectionZone newDetectionZone, Player newPlayer)
