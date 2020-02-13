@@ -22,6 +22,9 @@ public class SoundManagerMenu : MonoBehaviour
     [SerializeField]
     AK.Wwise.Event music = null;
 
+    [SerializeField]
+    float tolerance = 0;
+
     private void Awake()
     {
         if (Instance == null)
@@ -35,6 +38,11 @@ public class SoundManagerMenu : MonoBehaviour
     public void Add(Beatable target)
     {
         Beats.Add(target);
+    }
+
+    public bool IsInRythm(float sampleTime)
+    {
+        return IsInTolerance(sampleTime, tolerance);
     }
 
     private void SyncReference(object in_cookie, AkCallbackType in_type, object in_info)
@@ -74,6 +82,21 @@ public class SoundManagerMenu : MonoBehaviour
 
         foreach (Beatable beat in Beats)
             beat.Beat();
+    }
+
+    bool IsInTolerance(float sampleTime, float tol)
+    {
+        // A bit late
+        if (sampleTime - LastBeat.lastTimeBeat > 0 && sampleTime - LastBeat.lastTimeBeat < tol)
+            return true;
+
+        float nextBeat = LastBeat.lastTimeBeat + LastBeat.beatInterval;
+
+        // A bit early
+        if (sampleTime - nextBeat < 0 && sampleTime - nextBeat > -tol)
+            return true;
+
+        return false;
     }
 
     private void OnDestroy()

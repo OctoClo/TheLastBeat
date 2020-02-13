@@ -17,6 +17,12 @@ public class ButtonSelection : MonoBehaviour
     [SerializeField] [Range(0, 1)]
     float deselectOpacity = 0.8f;
 
+    [SerializeField]
+    bool continueButton = false;
+
+    [SerializeField]
+    AK.Wwise.State musicStateContinue = null;
+
     Image image = null;
     Color transparentWhite = Color.white;
 
@@ -52,6 +58,8 @@ public class ButtonSelection : MonoBehaviour
             Debug.Log("Sending game event " + doozyEvent);
             GameEventMessage.SendEvent(doozyEvent);
             eventSent = true;
+            if (continueButton)
+                musicStateContinue.SetValue();
         }
     }
 }

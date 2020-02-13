@@ -24,6 +24,7 @@ public class Rock : Beatable
     Material mat;
     Color col;
 
+    [SerializeField]
     ERockState state = ERockState.PULSE_ON_BEAT;
     Sequence currentSeq = null;
     bool initialized = false;
