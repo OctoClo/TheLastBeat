@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9223342499195132606}
   - component: {fileID: 2389140309146355995}
   - component: {fileID: 2220470236775963395}
+  - component: {fileID: 1631513025221578228}
   - component: {fileID: 8182467675695910298}
   - component: {fileID: 7943980395213800570}
   m_Layer: 0
@@ -119,6 +120,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1631513025221578228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6054510930039113843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09ee89d5f64572a469306ce5d5565e49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doozyEvent: 
+  deselectOpacity: 0.8
 --- !u!114 &8182467675695910298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1826,7 +1841,18 @@ MonoBehaviour:
         CustomSortingLayer: Default
       Event:
         m_PersistentCalls:
-          m_Calls: []
+          m_Calls:
+          - m_Target: {fileID: 1631513025221578228}
+            m_MethodName: OnSelect
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
       GameEvents: []
       SoundData:
         SoundSource: 0
@@ -1992,13 +2018,13 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
         StartDelay: 0
-        Duration: 0.2
+        Duration: 0.1
       Fade:
         AnimationType: 5
         Enabled: 0
         From: 0
         To: 0
-        By: 0.5
+        By: 0
         UseCustomFromAndTo: 0
         NumberOfLoops: -1
         LoopType: 1
@@ -2011,7 +2037,7 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
         StartDelay: 0
-        Duration: 1
+        Duration: 0.1
     TriggerEventsAfterAnimation: 0
     m_behaviorType: 7
   OnDeselected:
@@ -2033,7 +2059,18 @@ MonoBehaviour:
         CustomSortingLayer: Default
       Event:
         m_PersistentCalls:
-          m_Calls: []
+          m_Calls:
+          - m_Target: {fileID: 1631513025221578228}
+            m_MethodName: OnDeselect
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
       GameEvents: []
       SoundData:
         SoundSource: 0
@@ -2199,13 +2236,13 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
         StartDelay: 0
-        Duration: 0.2
+        Duration: 0.1
       Fade:
         AnimationType: 5
         Enabled: 0
         From: 0
         To: 0
-        By: 0.5
+        By: 1
         UseCustomFromAndTo: 0
         NumberOfLoops: -1
         LoopType: 1
@@ -2218,7 +2255,7 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
         StartDelay: 0
-        Duration: 1
+        Duration: 0.1
     TriggerEventsAfterAnimation: 0
     m_behaviorType: 8
   NormalLoopAnimation:
