@@ -68,6 +68,8 @@ public class Player : Inputable
     public GameObject RushParticles = null;
     [TabGroup("References")] [SerializeField]
     GameObject hitVfxPrefab = null;
+    [TabGroup("References")] [SerializeField]
+    GameObject lastHitVfxPrefab = null;
 
     [HideInInspector]
     public bool LoseLifeOnAbilities = true;
@@ -304,11 +306,7 @@ public class Player : Inputable
         {
             if (!currentlyHit && Status.CurrentStatus != EPlayerStatus.RUSHING && Status.CurrentStatus != EPlayerStatus.BLINKING)
             {
-                if (DeathIncoming(value))
-                {
-                    Die();
-                    return;
-                }
+                bool deathIncoming = DeathIncoming(value);
 
                 // Game feel
                 /*DOTween.Sequence()
@@ -327,7 +325,10 @@ public class Player : Inputable
                     ((RewindRushAbility)rewindRush).ResetCooldown();
 
                 // Animation
-                StartCoroutine(SioHitAnim(value));
+                StartCoroutine(SioHitAnim(value, deathIncoming));
+
+                if (deathIncoming)
+                    Die();
             }
         }
         else
@@ -347,11 +348,13 @@ public class Player : Inputable
         return (healthSystem.InCriticMode && value > 0);
     }
 
-    IEnumerator SioHitAnim(float value)
+    IEnumerator SioHitAnim(float value, bool dying)
     {
         currentlyHit = true;
         healthSystem.ModifyPulseValue(value, true);
         Instantiate(hitVfxPrefab, transform.position, Quaternion.identity, transform);
+        if (dying)
+            Instantiate(lastHitVfxPrefab, transform.position, Quaternion.identity, transform);
         Status.GetHit();
         yield return StartCoroutine(SceneHelper.Instance.FreezeFrameCoroutine(hitFreezeFrameDuration));
         Status.StopHit();

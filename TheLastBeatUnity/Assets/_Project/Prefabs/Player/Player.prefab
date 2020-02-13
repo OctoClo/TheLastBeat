@@ -5405,6 +5405,8 @@ MonoBehaviour:
   RushParticles: {fileID: 5431658358474403458}
   hitVfxPrefab: {fileID: 4491237758569079145, guid: 02b1facbc6a9b1b45b06d5546dd0c09f,
     type: 3}
+  lastHitVfxPrefab: {fileID: 7302546621163554269, guid: 08364dea618c0a1489705ce1b44bd06d,
+    type: 3}
   LoseLifeOnAbilities: 1
   ColliderObject: {fileID: 3489716977114045591}
 --- !u!114 &75586183539498471
@@ -5435,6 +5437,8 @@ MonoBehaviour:
       type: 2}
   stunVfx: {fileID: 4189655028541650807, guid: badf64c2eb748bf46893fe49f672bfe4, type: 3}
   deathAnimDuration: 1
+  smokeDissolveVfx: {fileID: 8758177360287532359, guid: 126e860d93f154b4fb7083db61cc54f7,
+    type: 3}
   dissolveDuration: 2.5
   dissolveMats:
   - {fileID: 2100000, guid: 2f725456524bae64e8b370d0f8bdb519, type: 2}
@@ -15513,6 +15517,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2086426542783193144}
     m_Modifications:
+    - target: {fileID: -927199367670048503, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
+        type: 3}
+      propertyPath: m_Name
+      value: Sio
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -15567,11 +15576,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
-        type: 3}
-      propertyPath: m_Name
-      value: Sio
       objectReference: {fileID: 0}
     - target: {fileID: -6057140222963153312, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
         type: 3}

@@ -46,6 +46,8 @@ public class PlayerStatus : MonoBehaviour
 
     [TabGroup("Death")] [SerializeField]
     float deathAnimDuration = 1.5f;
+    [TabGroup("Death")] [SerializeField]
+    GameObject smokeDissolveVfx = null;
     [TabGroup("Death")] [SerializeField] [Range(0, 3)]
     float dissolveDuration = 1f;
     [TabGroup("Death")] [SerializeField]
@@ -194,6 +196,8 @@ public class PlayerStatus : MonoBehaviour
 
     public void DiePart2()
     {
+        GameObject.Instantiate(smokeDissolveVfx, transform.position, Quaternion.identity, transform);
+
         foreach (Material mat in dissolveMats)
         {
             mat.SetFloat("_BeginTime", Time.timeSinceLevelLoad);
