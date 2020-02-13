@@ -753,16 +753,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dust Particles
       objectReference: {fileID: 0}
-    - target: {fileID: 1299341941448943476, guid: 1de0f4e3e8022574384c694319d63d21,
-        type: 3}
-      propertyPath: ShapeModule.radius.value
-      value: 0.38
-      objectReference: {fileID: 0}
-    - target: {fileID: 1299341941448943476, guid: 1de0f4e3e8022574384c694319d63d21,
-        type: 3}
-      propertyPath: simulationSpeed
-      value: 0.1
-      objectReference: {fileID: 0}
     - target: {fileID: 6953445345792351966, guid: 1de0f4e3e8022574384c694319d63d21,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -817,6 +807,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1299341941448943476, guid: 1de0f4e3e8022574384c694319d63d21,
+        type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 0.38
+      objectReference: {fileID: 0}
+    - target: {fileID: 1299341941448943476, guid: 1de0f4e3e8022574384c694319d63d21,
+        type: 3}
+      propertyPath: simulationSpeed
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1de0f4e3e8022574384c694319d63d21, type: 3}
@@ -1321,6 +1321,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 4564395069685705469, guid: a2ab993305a104845b4cdec7e35d02b0,
+        type: 3}
+      propertyPath: fadeImage
+      value: 
+      objectReference: {fileID: 2019710289}
+    - target: {fileID: 4564395069685705469, guid: a2ab993305a104845b4cdec7e35d02b0,
+        type: 3}
+      propertyPath: playShowSound
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2186004093968022150, guid: a2ab993305a104845b4cdec7e35d02b0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1516,10 +1526,20 @@ PrefabInstance:
       propertyPath: nemesis
       value: 
       objectReference: {fileID: 952859304}
-    - target: {fileID: 4564395069685705469, guid: a2ab993305a104845b4cdec7e35d02b0,
+    - target: {fileID: 3911382681438773854, guid: a2ab993305a104845b4cdec7e35d02b0,
         type: 3}
-      propertyPath: fadeImage
-      value: 
-      objectReference: {fileID: 2019710289}
+      propertyPath: logoFadeDuration
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 644704516811720192, guid: a2ab993305a104845b4cdec7e35d02b0,
+        type: 3}
+      propertyPath: playShowSound
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 644704517220492910, guid: a2ab993305a104845b4cdec7e35d02b0,
+        type: 3}
+      propertyPath: playShowSound
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2ab993305a104845b4cdec7e35d02b0, type: 3}

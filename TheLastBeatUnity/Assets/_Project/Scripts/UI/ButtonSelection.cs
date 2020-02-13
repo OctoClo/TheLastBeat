@@ -18,6 +18,12 @@ public class ButtonSelection : MonoBehaviour
     [SerializeField]
     AK.Wwise.Event buttonSound = null;
 
+    [SerializeField]
+    bool playShowSound = false;
+
+    [SerializeField]
+    AK.Wwise.Event showSound = null;
+
     Image image = null;
     Color transparentWhite = Color.white;
 
@@ -57,5 +63,7 @@ public class ButtonSelection : MonoBehaviour
     {
         GameEventMessage.SendEvent(doozyEvent);
         eventSent = true;
+        if (playShowSound)
+            showSound.Post(gameObject);
     }
 }
