@@ -73,7 +73,7 @@ public class PlayerStatus : MonoBehaviour
             CurrentStatus = EPlayerStatus.BEGIN;
             foreach (Rock rock in checkpointRocks)
                 rock.ChangeState(ERockState.ILLUMINATE);
-            SceneHelper.Instance.StartFade(() => GetUp(), fadeDuration, new Color(0, 0, 0, 0), true, true);
+            DOTween.Sequence().InsertCallback(0.1f, () => SceneHelper.Instance.StartFade(() => GetUp(), fadeDuration, new Color(0, 0, 0, 0), true, true));
         }
         else
             CurrentStatus = EPlayerStatus.DEFAULT;
