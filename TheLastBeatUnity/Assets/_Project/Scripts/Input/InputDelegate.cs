@@ -7,6 +7,10 @@ public class InputDelegate : MonoBehaviour
 {
     [SerializeField]
     Inputable inputable = null;
+
+    [SerializeField]
+    Inputable obtainRewind = null;
+
     public Inputable Inputable
     {
         get
@@ -35,6 +39,7 @@ public class InputDelegate : MonoBehaviour
         firstInput = inputable;
         player = ReInput.players.GetPlayer(0);
         inputable.OnInputEnter();
+        Instance = this;
     }
 
     public void ResetInput()
@@ -42,11 +47,21 @@ public class InputDelegate : MonoBehaviour
         Inputable = firstInput;
     }
 
+    public void ObtainRewind()
+    {
+        Inputable = obtainRewind;
+    }
+
     private void Update()
     {
         if (!inputable.BlockInput)
         {
             inputable.ProcessInput(player);
+        }
+
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            Inputable = obtainRewind;
         }
     }
 }

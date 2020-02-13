@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class Tuto : Inputable
 {
@@ -20,6 +21,9 @@ public class Tuto : Inputable
     [SerializeField]
     Image textImage = null;
 
+    [SerializeField]
+    Image iconRewind = null;
+
     [Header("Second step")]
     [SerializeField]
     Image imageObtentionRewind = null;
@@ -27,6 +31,10 @@ public class Tuto : Inputable
     [Header("Third step")]
     [SerializeField]
     Image videoFrame = null;
+
+    [SerializeField]
+    RawImage rawImage = null;
+    VideoPlayer videoPlayer;
 
     [Header("Fourth step")]
     [SerializeField]
@@ -49,6 +57,7 @@ public class Tuto : Inputable
 
     private void Start()
     {
+        videoPlayer = GetComponentInChildren<VideoPlayer>();
         textImage.rectTransform.localScale = Vector3.zero;
     }
 
@@ -96,14 +105,19 @@ public class Tuto : Inputable
     {
         Time.timeScale = 0;
         IndependantSequence()
+
+            //Strange text
             .AppendCallback(() => SetBlockInput(true))
             .Append(backgroundImage.DOColor(backgroundColor, 1))
             .Append(textImage.rectTransform.DOScale(Vector3.one, 1))
             .Insert(1, textImage.DOColor(Color.white, 1))
             .AppendInterval(2.0f)
+
+            //Rewind obtained
             .Append(textImage.DOColor(new Color(1, 1, 1, 0), 1))
             .Append(imageObtentionRewind.DOColor(Color.white, 1.0f))
-            .Insert(5, imageObtentionRewind.rectTransform.DOMove(Vector3.up * 10, 1).SetRelative(true))
+            .Insert(5, imageObtentionRewind.rectTransform.DOMove(Vector3.up * 10, 1).SetRelative(true).OnComplete(() => SceneHelper.Instance.MainPlayer.AddRewindRush()))
+            .Insert(5 , iconRewind.DOColor(Color.white , 1))
             .AppendCallback(() => SetBlockInput(false));
             
     }
@@ -116,8 +130,11 @@ public class Tuto : Inputable
     void ShowVideo()
     {
         IndependantSequence()
+            .Insert(0,iconRewind.DOColor(new Color(1,1,1,0), 1.0f))
+            .AppendCallback(() => StartCoroutine(PlayVideo()))
             .Append(imageObtentionRewind.DOColor(new Color(1, 1, 1, 0), 1.0f))
             .Append(videoFrame.DOColor(Color.white, 1.0f))
+            .Insert(2.0f, rawImage.DOColor(Color.white , 1.0f))
             .SetUpdate(true);
     }
 
@@ -125,8 +142,11 @@ public class Tuto : Inputable
     {
         IndependantSequence()
             .Append(videoFrame.DOColor(new Color(1, 1, 1, 0), 1.0f))
-            .Insert(0 , backgroundImage.DOColor(Color.clear, 1.0f))
-            .AppendCallback(() => Time.timeScale = 1);
+            .Insert(0, rawImage.DOColor(new Color(1, 1, 1, 0), 1.0f))
+            .Insert(0, backgroundImage.DOColor(Color.clear, 1.0f))
+            .AppendCallback(() => Time.timeScale = 1)
+            .AppendCallback(() => videoPlayer.Stop())
+            .AppendCallback(() => InputDelegate.Instance.ResetInput());
     }
 
     void TemporaryBlock(float time)
@@ -135,9 +155,9 @@ public class Tuto : Inputable
             blockSeq.Kill();
 
         blockSeq = IndependantSequence()
-            .AppendCallback(() => blockInput = true)
+            .AppendCallback(() => SetBlockInput(true))
             .AppendInterval(time)
-            .AppendCallback(() => blockInput = false);
+            .AppendCallback(() => SetBlockInput(false));
     }
 
     public override void ProcessInput(Rewired.Player player)
@@ -146,5 +166,18 @@ public class Tuto : Inputable
         {
             Progression++;
         }
+    }
+
+    IEnumerator PlayVideo()
+    {
+        videoPlayer.Prepare();
+        WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
+        while (!videoPlayer.isPrepared)
+        {
+            yield return waitForSeconds;
+            break;
+        }
+        rawImage.texture = videoPlayer.texture;
+        videoPlayer.Play();
     }
 }

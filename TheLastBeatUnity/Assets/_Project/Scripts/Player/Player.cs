@@ -94,17 +94,15 @@ public class Player : Inputable
         RushAbility rush = new RushAbility(rushParameters, rushParameters.HealPerCorrectBeat);
         abilities.Add(EInputAction.RUSH, rush);
 
-        RewindRushAbility rewindRush = new RewindRushAbility(rushRewindParameters, rushRewindParameters.HealPerCorrectBeat);
-        abilities.Add(EInputAction.REWINDRUSH, rewindRush);
-        rush.RewindRush = rewindRush;
-
         if (SceneHelper.DeathCount > 0)
             SceneHelper.Instance.Respawn();
     }
 
     public void AddRewindRush()
     {
-
+        RewindRushAbility rewindRush = new RewindRushAbility(rushRewindParameters, rushRewindParameters.HealPerCorrectBeat);
+        abilities.Add(EInputAction.REWINDRUSH, rewindRush);
+        (abilities[EInputAction.RUSH] as RushAbility).RewindRush = rewindRush;
     }
 
     public override void ProcessInput(Rewired.Player player)
