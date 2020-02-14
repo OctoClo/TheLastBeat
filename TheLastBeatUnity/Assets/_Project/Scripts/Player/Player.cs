@@ -84,6 +84,7 @@ public class Player : Inputable
     public event noParams OnOk;
     //Used for blink
     public bool InDanger {get; set;}
+    Vector3 previousDirection = Vector3.zero;
 
     private void Awake()
     {
@@ -198,21 +199,25 @@ public class Player : Inputable
                 // Clamp velocity
                 Vector3 flatVelocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
                 if (flatVelocity.magnitude > maxSpeed && Status.CurrentStatus == EPlayerStatus.DEFAULT)
-                    rb.velocity = (flatVelocity.normalized * maxSpeed) + (Vector3.up * rb.velocity.y);
+                    rb.AddForce(flatVelocity.normalized * maxSpeed);
             }
             else
             {
                 SetMoving(false);
-                if (Status.CurrentStatus == EPlayerStatus.DEFAULT)
-                    rb.velocity = new Vector3(0, rb.velocity.y, 0);
             }
 
-            // Glue to floor
-            if (CurrentDeltaY <= 0)
-                rb.AddForce(Physics.gravity * 50);
+            if (Status.CurrentStatus == EPlayerStatus.DEFAULT && previousDirection != Vector3.zero && CurrentDirection == Vector3.zero)
+            {
+                rb.velocity = new Vector3(0, rb.velocity.y, 0);
+            }
         }
         else
             SetMoving(false);
+
+        rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
+        rb.AddForce(Physics.gravity * 3, ForceMode.Acceleration);
+
+        previousDirection = CurrentDirection;        
     }
 
     private void Update()
