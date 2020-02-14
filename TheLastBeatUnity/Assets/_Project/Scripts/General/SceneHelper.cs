@@ -41,6 +41,12 @@ public class SceneHelper : MonoBehaviour
     Sequence freezeSeq = null;
 
     public bool EndOfGame = false;
+    static bool haveRewind = false;
+
+    public void GetRewind()
+    {
+        haveRewind = true;
+    }
 
     private void Awake()
     {
@@ -48,6 +54,8 @@ public class SceneHelper : MonoBehaviour
         {
             Instance = this;
             MainPlayer = GameObject.FindObjectOfType<Player>();
+            if (haveRewind)
+                DOTween.Sequence().InsertCallback(0.1f,() => MainPlayer.AddRewindRush());
         }
 
         if (SceneHelper.DeathCount > 0)
