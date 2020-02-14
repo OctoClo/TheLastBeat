@@ -252,6 +252,7 @@ namespace AK
         static const AkUniqueID MFXREWINDVERB = 731829278U;
         static const AkUniqueID REVBRIDGE = 1729625191U;
         static const AkUniqueID REVCANYON = 109871156U;
+        static const AkUniqueID REVCLOSE = 3488654956U;
         static const AkUniqueID REVOPEN = 312281464U;
     } // namespace AUX_BUSSES
 
