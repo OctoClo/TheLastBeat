@@ -120,7 +120,6 @@ public class Player : Inputable
 
         if (SceneHelper.DeathCount > 0)
         {
-            hitPlayer.Post(gameObject);
             SceneHelper.Instance.Respawn();
         }
 
