@@ -16,6 +16,9 @@ public class SlopeAdaptation : MonoBehaviour
     [SerializeField]
     bool adaptOnUpdate = false;
 
+    [SerializeField]
+    float rayLength = 10;
+
     Mesh mesh;
 
     private void Start()
@@ -38,17 +41,16 @@ public class SlopeAdaptation : MonoBehaviour
             throw new System.Exception("Not a plane mesh");
         }
 
-        Vector3 rayPosition = Vector3.zero;
-
         Vector3[] verts = mesh.vertices;
         for (int j = 0; j < 11; j++)
         {
             for (int i = 0; i < 11; i++)
             {
-                Vector3 middlePoint = transform.TransformPoint(verts[(i * 11) + j]) + offsetRaycast;
+                Vector3 middlePoint = transform.TransformPoint(verts[(i * 11) + j]);
+                middlePoint = new Vector3(middlePoint.x, transform.position.y, middlePoint.z) + offsetRaycast;
                 Ray ray = new Ray(middlePoint, Vector3.down);
 
-                foreach (RaycastHit hit in Physics.RaycastAll(ray, 10))
+                foreach (RaycastHit hit in Physics.RaycastAll(ray, rayLength))
                 {
                     if (hit.collider.gameObject.CompareTag("Slope"))  
                     {
