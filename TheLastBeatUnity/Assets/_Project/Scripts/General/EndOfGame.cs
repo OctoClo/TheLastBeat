@@ -5,6 +5,7 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine.UI;
 using Rewired;
+using System.Linq;
 
 public class EndOfGame : MonoBehaviour
 {
@@ -76,7 +77,6 @@ public class EndOfGame : MonoBehaviour
     {
         pulses = specialMonolith.GetComponentsInChildren<SpecialMonolithPulse>();
         particles = specialMonolith.transform.GetChild(specialMonolith.transform.childCount - 1).gameObject;
-        HUDimages = HUD.GetComponentsInChildren<Image>();
     }
 
     private void OnTriggerExit(Collider other)
@@ -96,6 +96,8 @@ public class EndOfGame : MonoBehaviour
         DOTween.Sequence()
             .AppendCallback(() =>
             {
+                HUDimages = HUD.GetComponentsInChildren<Image>();
+                HUDimages = HUDimages.Where(x => !x.CompareTag("Ephemeral")).ToArray();
                 camManager.LaunchTrackCamera(1.0f / followTrackDuration);
                 oldListener.SetPositionAndRotation(newListener.position, newListener.rotation);
                 oldListener.SetParent(newListener);
