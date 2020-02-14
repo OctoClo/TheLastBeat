@@ -38,6 +38,7 @@ public class SceneHelper : MonoBehaviour
 
     [SerializeField]
     public float JitRatio = 0.2f;
+    Sequence freezeSeq = null;
 
     public bool EndOfGame = false;
 
@@ -206,12 +207,19 @@ public class SceneHelper : MonoBehaviour
         if (Time.timeScale == 0)
             return;
 
-        Sequence seq = DOTween.Sequence();
-        seq.AppendCallback(() => Time.timeScale = 0);
-        seq.AppendInterval(duration);
-        seq.AppendCallback(() => Time.timeScale = 1);
-        seq.SetUpdate(true);
-        seq.Play();
+        TryKillFreeze();
+
+        freezeSeq = DOTween.Sequence()
+            .AppendCallback(() => Time.timeScale = 0)
+            .AppendInterval(duration)
+            .AppendCallback(() => Time.timeScale = 1)
+            .SetUpdate(true);
+    }
+
+    public void TryKillFreeze()
+    {
+        if (freezeSeq != null)
+            freezeSeq.Kill();
     }
 
     public void Rumble(float intensity , float duration)

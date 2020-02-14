@@ -109,6 +109,7 @@ public class Tuto : Inputable
 
     void TextAppear()
     {
+        SceneHelper.Instance.TryKillFreeze();
         Time.timeScale = 0;
         IndependantSequence()
 
