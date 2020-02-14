@@ -9,12 +9,13 @@ public class Player : Inputable
 {
     [TabGroup("General")] [SerializeField]
     float hitFreezeFrameDuration = 0.2f;
+    [TabGroup("General")] [SerializeField]
+    bool startWithRewind = false;
 
     [TabGroup("Movement")] [SerializeField]
-    float maxSpeed = 5;
+    public float maxSpeed = 5;
     [TabGroup("Movement")] [SerializeField]
     float thrust = 10;
-    Vector3 movement = Vector3.zero;
     bool previouslyMoving = false;
     public Vector3 CurrentDirection { get; set; }
     public float CurrentDeltaY { get; private set; }
@@ -122,6 +123,9 @@ public class Player : Inputable
             hitPlayer.Post(gameObject);
             SceneHelper.Instance.Respawn();
         }
+
+        if (startWithRewind)
+            AddRewindRush();
     }
 
     public void AddRewindRush()
