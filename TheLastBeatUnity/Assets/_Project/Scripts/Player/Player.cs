@@ -218,7 +218,9 @@ public class Player : Inputable
         else
             SetMoving(false);
 
-        rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
+        if (Status.CurrentStatus != EPlayerStatus.RUSHING && Status.CurrentStatus !=  EPlayerStatus.BLINKING)
+            rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
+
         rb.AddForce(Physics.gravity * 3, ForceMode.Acceleration);
 
         previousDirection = CurrentDirection;        
