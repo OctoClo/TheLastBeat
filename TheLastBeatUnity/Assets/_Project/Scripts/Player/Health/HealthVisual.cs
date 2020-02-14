@@ -11,9 +11,9 @@ public class VisualParams
     public RectTransform flameTransform;
     public Color leftMostColor;
     public Color rightMostColor;
-    public float ratioRiftStep1 = 0.7f;
-    public float ratioRiftStep2 = 0.5f;
-    public float ratioRiftStep3 = 0.2f;
+    public float riftStep1 = 0.7f;
+    public float riftStep2 = 0.5f;
+    public float riftStep3 = 0.2f;
     public float pulseSize = 1.05f;
     public float sizeCritic = 1.15f;
     public Color hurtColor = Color.clear;
@@ -152,29 +152,26 @@ public class HealthVisual
     {
         if (index == 0)
         {
-            visualParams.riftAnimator.enabled = false;
-            visualParams.riftAnimator.GetComponent<UnityEngine.UI.Image>().sprite = visualParams.riftAnimator.GetComponent<UnityEngine.UI.Image>().sprite;
+            visualParams.riftAnimator.GetComponent<Image>().enabled = false;
             return;
         }
 
-        visualParams.riftAnimator.enabled = true;
+        visualParams.riftAnimator.GetComponent<Image>().enabled = true;
         visualParams.riftAnimator.SetInteger("indexState", index);
     }
 
-    public void UpdateColor(float ratio)
+    public void UpdateColor(int life)
     {
-        Color currentColor = Color.Lerp(visualParams.leftMostColor, visualParams.rightMostColor, ratio);
-
-        if (ratio > visualParams.ratioRiftStep1)
+        if (life >= visualParams.riftStep1)
             SetRiftAnimation(0);
 
-        if (ratio < visualParams.ratioRiftStep1 && ratio > visualParams.ratioRiftStep2)
+        if (life < visualParams.riftStep1 && life >= visualParams.riftStep2)
             SetRiftAnimation(1);
 
-        if (ratio < visualParams.ratioRiftStep2 && ratio > visualParams.ratioRiftStep3)
+        if (life < visualParams.riftStep2 && life >= visualParams.riftStep3)
             SetRiftAnimation(2);
 
-        if (ratio < visualParams.ratioRiftStep3)
+        if (life < visualParams.riftStep3)
             SetRiftAnimation(3);
     }
 

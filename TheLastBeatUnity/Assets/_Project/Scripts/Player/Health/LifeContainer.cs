@@ -22,10 +22,9 @@ public class LifeContainer : MonoBehaviour
     Color normalColor = Color.black;
 
     [SerializeField]
-    AnimationCurve curveHeal;
-
-    [SerializeField]
     RectTransform rootSlash;
+
+    Dictionary<RectTransform, Sequence> allSequences = new Dictionary<RectTransform, Sequence>();
 
     public enum StateHealthCell
     {
@@ -55,7 +54,10 @@ public class LifeContainer : MonoBehaviour
         currentPart.localPosition = Vector3.zero;
         currentPart.localScale = Vector3.zero;
 
-        DOTween.Sequence()
+        if (allSequences.ContainsKey(currentPart) && allSequences[currentPart] != null)
+            allSequences[currentPart].Kill();
+
+        allSequences[currentPart] = DOTween.Sequence()
             .Append(currentPart.DOScale(1.2f, 0.1f))
             .AppendInterval(0.7f)
             .Append(currentPart.DOScale(1, 0.3f))
@@ -64,6 +66,10 @@ public class LifeContainer : MonoBehaviour
 
     void HurtCell(int index, bool triggerSlash = false)
     {
+        allParts[index].GetComponent<Image>().color = Color.white;
+        allParts[index].localPosition = Vector3.zero;
+        allParts[index].localScale = Vector3.one;
+
         if (triggerSlash)
         {
             Destroy(Instantiate(slashAnimation, rootSlash), 1);
@@ -76,7 +82,11 @@ public class LifeContainer : MonoBehaviour
 
         Color targetColor = hurtColor;
         targetColor = new Color(targetColor.r, targetColor.g, targetColor.b, 0);
-        DOTween.Sequence()
+
+        if (allSequences.ContainsKey(allParts[index]) && allSequences[allParts[index]] != null)
+            allSequences[allParts[index]].Kill();
+
+        allSequences[allParts[index]] = DOTween.Sequence()
             .Append(allParts[index].DOMove(new Vector3(0,-100.0f, 0), 0.5f).SetRelative(true))
             .Insert(0, allParts[index].GetComponent<Image>().DOColor(targetColor, 0.5f));
     }

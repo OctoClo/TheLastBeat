@@ -36,6 +36,7 @@ public class Health : Beatable
     public bool Dying = false;
 
     public Player Player { get; set; }
+    public int HPLeft => (int)maximalPulse - (int)currentPulse;
 
     float ratioPulse => 1 - ((currentPulse - minimalPulse) / (maximalPulse - minimalPulse));
     HealthVisual visual;
@@ -44,8 +45,8 @@ public class Health : Beatable
     {
         base.Start();
         visual = new HealthVisual(visualParams);
-        visual.UpdateColor(ratioPulse);
-        visual.UpdateContainer((int)maximalPulse - (int)currentPulse);
+        visual.UpdateColor(HPLeft);
+        visual.UpdateContainer(HPLeft);
     }
 
     public bool InCriticMode => ratioPulse == 0;
@@ -53,6 +54,18 @@ public class Health : Beatable
     public override void Beat()
     {
         BeatSequence();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            ModifyPulseValue(-1, false);
+        }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            ModifyPulseValue(1, false);
+        }
     }
 
     public void BeatSequence()
@@ -108,8 +121,8 @@ public class Health : Beatable
             visual.LaunchScreeningHeal();
         }
 
-        visual.UpdateColor(ratioPulse);
-        visual.UpdateContainer((int)maximalPulse - (int)currentPulse);
+        visual.UpdateColor(HPLeft);
+        visual.UpdateContainer(HPLeft);
 
         //Enter critic mode
         if (InCriticMode)
