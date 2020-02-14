@@ -107,7 +107,7 @@ public class RewindRushAbility : Ability
                 {
                     AkSoundEngine.PostTrigger("OnBeatRush", SoundManager.Instance.gameObject);
                     SpawnGhost(enemy);
-                    GameObject.Instantiate(parameters.rewindVfx[currentVfxIndex], enemy.transform.position, Quaternion.identity, SceneHelper.Instance.VfxFolderFaceCam );
+                    GameObject.Instantiate(parameters.rewindVfx[currentVfxIndex], enemy ? enemy.transform.position : player.transform.position, Quaternion.identity, SceneHelper.Instance.VfxFolderFaceCam );
                     currentVfxIndex = Mathf.Min(currentVfxIndex + 1, parameters.rewindVfx.Count - 1);
                 });
             }

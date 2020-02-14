@@ -46,7 +46,7 @@ public class Pyramid : MonoBehaviour
             if (nearest != null)
             {
                 Enemy enn = nearest.GetComponent<Enemy>();
-                enn.EnemyKilled -= () => NearestEnemy = null;
+                enn.EnemyKilled -= Nullifie;
                 enn.StopFocus(instantiatedFocus);
             }
 
@@ -55,10 +55,15 @@ public class Pyramid : MonoBehaviour
             if (nearest != null)
             {
                 Enemy enn = nearest.GetComponent<Enemy>();
-                enn.EnemyKilled += () => NearestEnemy = null;
+                enn.EnemyKilled += Nullifie;
                 enn.StartFocus(instantiatedFocus);
             }
         }
+    }
+
+    void Nullifie()
+    {
+        NearestEnemy = null;
     }
 
     private void Start()
