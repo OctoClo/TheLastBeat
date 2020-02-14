@@ -113,7 +113,8 @@ public class EndOfGame : MonoBehaviour
             {
                 zoneName.SetActive(false);
                 camManager.LaunchZoomedCamera();
-                zoomCamEffect.StartZoom(zoomIntensity, waitBeforeChangeColor + waitBeforeFade, CameraEffect.ZoomType.Distance, CameraEffect.ValueType.Absolute);
+                Transform follow = zoomCamEffect.VirtualCam.GetCinemachineComponent<Cinemachine.CinemachineFramingTransposer>().FollowTarget;
+                follow.DOMove(Vector3.forward * zoomIntensity, waitBeforeChangeColor + waitBeforeFade).SetRelative(true);
                 startAmbRumble.Post(gameObject);
             })
             .InsertCallback(followTrackDuration + waitBeforeZoom + waitBeforeChangeColor, () =>
