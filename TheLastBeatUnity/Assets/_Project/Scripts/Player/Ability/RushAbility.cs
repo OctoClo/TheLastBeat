@@ -131,9 +131,6 @@ public class RushAbility : Ability
         EnemyHitVFX();
         bool died = target.GetComponent<Enemy>().GetAttacked(onRythm);
 
-        if (target && RewindRush != null)
-            RewindRush.AddChainEnemy(target.GetComponent<Enemy>());
-
         if (onRythm)
         {
             DOTween.Sequence().AppendCallback(() =>
@@ -153,7 +150,12 @@ public class RushAbility : Ability
             });
         }
 
-        if (died && indexTarget >= 0)
+        if (!died)
+        {
+            if (RewindRush != null)
+                RewindRush.AddChainEnemy(target.GetComponent<Enemy>());
+        }
+        else if (indexTarget >= 0)
         {
             allTargets.RemoveAt(indexTarget);
             player.TargetGroup.m_Targets = allTargets.ToArray();

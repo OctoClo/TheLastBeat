@@ -54,8 +54,6 @@ public class Enemy : Slowable
     public AK.Wwise.Event moveSound = null;
     [TabGroup("Behaviour")][SerializeField]
     AK.Wwise.Event dieSound = null;
-    bool isReadyToDie = false;
-    bool alreadyDying = false;
 
     [TabGroup("References")] [SerializeField]
     GameObject stunElements = null;
@@ -96,7 +94,7 @@ public class Enemy : Slowable
 
     // Misc
     EEnemyType type = EEnemyType.DEFAULT;
-    bool isDying = false;
+    public bool IsDying { get; private set; }
     bool isAttacking = false;
     [HideInInspector]
     public bool HasAttackedPlayer = false;
@@ -124,6 +122,7 @@ public class Enemy : Slowable
 
     protected virtual void Awake()
     {
+        IsDying = false;
         WeaponHitbox = GetComponentInChildren<EnemyWeaponHitbox>();
         AttackHitbox = GetComponentInChildren<EnemyAttackHitbox>();
         Agent = GetComponent<NavMeshAgent>();
@@ -176,7 +175,7 @@ public class Enemy : Slowable
 
     private void Update()
     {
-        if (type == EEnemyType.DEFAULT && !isDying)
+        if (type == EEnemyType.DEFAULT && !IsDying)
         {
             EEnemyState newStateEnum = currentState.UpdateState(Time.deltaTime);
             ChangeState(newStateEnum);
@@ -189,21 +188,17 @@ public class Enemy : Slowable
                 HasAttackedPlayer = true;
             }
         }
-        else if (isReadyToDie && !alreadyDying)
-        {
-            Die();
-        }
     }
 
     public void OnBeat()
     {
-        if (type == EEnemyType.DEFAULT && !isDying)
+        if (type == EEnemyType.DEFAULT && !IsDying)
             currentState.OnBeat();
     }
 
     public void OnBar()
     {
-        if (type == EEnemyType.DEFAULT && !isDying)
+        if (type == EEnemyType.DEFAULT && !IsDying)
             currentState.OnBar();
     }
 
@@ -222,7 +217,7 @@ public class Enemy : Slowable
 
     public bool GetAttacked(bool onRythm, float dmg = 1)
     {
-        if (CurrentStateEnum == EEnemyState.EXPLODE)
+        if (CurrentStateEnum == EEnemyState.EXPLODE || IsDying)
             return true;
 
         foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
@@ -230,10 +225,10 @@ public class Enemy : Slowable
         
         lives -= (int)dmg;
         informations.Life = lives;
-        bool dying = (lives <= minLives);
+        IsDying = (lives <= minLives);
         hitEnemy.Post(gameObject);
 
-        if (!dying)
+        if (!IsDying)
         {
             if (stunCounter < chancesToGetStunned.Length)
             {
@@ -248,12 +243,11 @@ public class Enemy : Slowable
         else
             StartDying();
 
-        return dying;
+        return IsDying;
     }
 
     public virtual void StartDying()
     {
-        isDying = true;
         EnemyKilled?.Invoke();
         informations.DisappearHud();
         Animator.SetTrigger("die");
@@ -263,7 +257,8 @@ public class Enemy : Slowable
             {
                 GameObject.Instantiate(dustVfx, transform.position, Quaternion.identity, SceneHelper.Instance.VfxFolderFaceCam);
                 Dissolve();
-            });
+            })
+            .InsertCallback(1 + dissolveDuration, () => Die());
     }
 
     private void Dissolve()
@@ -282,13 +277,10 @@ public class Enemy : Slowable
             renderers[i].materials = new Material[1];
             renderers[i].material = dissolveMats[i];
         }
-
-        DOTween.Sequence().InsertCallback(dissolveDuration, () => isReadyToDie = true);
     }
 
     public void Die()
     {
-        alreadyDying = true;
         EventManager.Instance.Raise(new EnemyDeadEvent { enemy = this });
         Destroy(gameObject);
     }
