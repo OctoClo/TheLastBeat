@@ -77,7 +77,8 @@ public class Pyramid : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Enemy>())
+        Enemy enemy = other.GetComponent<Enemy>();
+        if (enemy && !enemy.IsDying && !enemy.IsExploding)
         {
             potentialCollisions.Add(other);
         }
@@ -158,11 +159,15 @@ public class Pyramid : MonoBehaviour
 
         //TODO : Get the nearest
         List<Collider> allCandidates = new List<Collider>();
+        Enemy enemy = null;
         foreach (Collider coll in potentialCollisions)
         {
+            
             if (coll && IsInsideCone(coll.transform.position, direct, true))
             {
-                allCandidates.Add(coll);
+                enemy = coll.GetComponent<Enemy>();
+                if (!enemy.IsDying && !enemy.IsExploding)
+                    allCandidates.Add(coll);
             }
         }
         

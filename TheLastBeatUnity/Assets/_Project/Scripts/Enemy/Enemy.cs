@@ -60,7 +60,7 @@ public class Enemy : Slowable
     [TabGroup("References")] [SerializeField]
     AK.Wwise.Event hitEnemy = null;
     [TabGroup("References")] [SerializeField]
-    UIEnemy informations = null;
+    protected UIEnemy informations = null;
     public UIEnemy Informations => informations;
     [TabGroup("References")]
     public Animator Animator = null;
@@ -95,6 +95,7 @@ public class Enemy : Slowable
     // Misc
     EEnemyType type = EEnemyType.DEFAULT;
     public bool IsDying { get; private set; }
+    public bool IsExploding { get; protected set; }
     bool isAttacking = false;
     [HideInInspector]
     public bool HasAttackedPlayer = false;
@@ -123,6 +124,7 @@ public class Enemy : Slowable
     protected virtual void Awake()
     {
         IsDying = false;
+        IsExploding = false;
         WeaponHitbox = GetComponentInChildren<EnemyWeaponHitbox>();
         AttackHitbox = GetComponentInChildren<EnemyAttackHitbox>();
         Agent = GetComponent<NavMeshAgent>();
@@ -192,13 +194,13 @@ public class Enemy : Slowable
 
     public void OnBeat()
     {
-        if (type == EEnemyType.DEFAULT && !IsDying)
+        if (type == EEnemyType.DEFAULT)
             currentState.OnBeat();
     }
 
     public void OnBar()
     {
-        if (type == EEnemyType.DEFAULT && !IsDying)
+        if (type == EEnemyType.DEFAULT)
             currentState.OnBar();
     }
 
@@ -217,7 +219,7 @@ public class Enemy : Slowable
 
     public bool GetAttacked(bool onRythm, float dmg = 1)
     {
-        if (CurrentStateEnum == EEnemyState.EXPLODE || IsDying)
+        if (CurrentStateEnum == EEnemyState.EXPLODE || IsDying || IsExploding)
             return true;
 
         foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
@@ -225,10 +227,10 @@ public class Enemy : Slowable
         
         lives -= (int)dmg;
         informations.Life = lives;
-        IsDying = (lives <= minLives);
+        bool isDying = (lives <= minLives);
         hitEnemy.Post(gameObject);
 
-        if (!IsDying)
+        if (!isDying)
         {
             if (stunCounter < chancesToGetStunned.Length)
             {
@@ -243,11 +245,12 @@ public class Enemy : Slowable
         else
             StartDying();
 
-        return IsDying;
+        return isDying;
     }
 
     public virtual void StartDying()
     {
+        IsDying = true;
         EnemyKilled?.Invoke();
         informations.DisappearHud();
         Animator.SetTrigger("die");

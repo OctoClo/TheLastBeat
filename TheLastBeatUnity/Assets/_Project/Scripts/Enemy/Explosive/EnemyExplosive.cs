@@ -41,6 +41,8 @@ public class EnemyExplosive : Enemy
 
     public override void StartDying()
     {
+        IsExploding = true;
+        informations.DisappearHud();
         ChangeState(EEnemyState.EXPLODE);
     }
 }

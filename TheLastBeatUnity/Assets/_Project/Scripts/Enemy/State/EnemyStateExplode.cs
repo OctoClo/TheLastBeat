@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -82,6 +82,7 @@ public class EnemyStateExplode : EnemyState
                 animation.AppendCallback(() =>
                 {
                     enemy.Model.SetActive(false);
+                    explosionCircle.SetActive(false);
                     GameObject explosion = GameObject.Instantiate(explosionPrefab, enemy.transform.position, Quaternion.identity);
                     explosion.transform.SetParent(SceneHelper.Instance.VfxFolder);
                     explosionArea.Explode(blastForce, blastDamageToPlayer, blastDamageToEnemies, enemy.Player);
