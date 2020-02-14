@@ -132,6 +132,7 @@ public class Player : Inputable
         RewindRushAbility rewindRush = new RewindRushAbility(rushRewindParameters, rushRewindParameters.HealPerCorrectBeat);
         abilities.Add(EInputAction.REWINDRUSH, rewindRush);
         (abilities[EInputAction.RUSH] as RushAbility).RewindRush = rewindRush;
+        SceneHelper.Instance.GetRewind();
     }
 
     public override void OnInputExit()

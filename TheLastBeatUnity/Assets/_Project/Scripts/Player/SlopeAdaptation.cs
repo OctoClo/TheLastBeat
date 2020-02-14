@@ -49,6 +49,7 @@ public class SlopeAdaptation : MonoBehaviour
                 Vector3 middlePoint = transform.TransformPoint(verts[(i * 11) + j]);
                 middlePoint = new Vector3(middlePoint.x, transform.position.y, middlePoint.z) + offsetRaycast;
                 Ray ray = new Ray(middlePoint, Vector3.down);
+                Vector3 origin = verts[(i * 11) + j];
 
                 foreach (RaycastHit hit in Physics.RaycastAll(ray, rayLength))
                 {
@@ -56,6 +57,7 @@ public class SlopeAdaptation : MonoBehaviour
                     {
                         Vector3 worldPosition = hit.point + (Vector3.up * offsetY);
                         verts[(i * 11) + j] = transform.InverseTransformPoint(worldPosition);
+                        verts[(i * 11) + j] = new Vector3(origin.x, verts[(i * 11) + j].y, origin.z);
                         break;
                     }
                 }
