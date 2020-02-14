@@ -5239,6 +5239,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitFreezeFrameDuration: 0.4
+  startWithRewind: 0
   maxSpeed: 12
   thrust: 3000
   rotationSpeed: 8
@@ -5401,6 +5402,11 @@ MonoBehaviour:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 434b8e2fbb0f0e347a8b82bedc35565d,
+      type: 2}
+  respawnSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 8272eb981cd4a4d47936efaf662d6379,
       type: 2}
   RushParticles: {fileID: 5431658358474403458}
   hitVfxPrefab: {fileID: 4491237758569079145, guid: 02b1facbc6a9b1b45b06d5546dd0c09f,
@@ -15518,6 +15524,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2086426542783193144}
     m_Modifications:
+    - target: {fileID: -927199367670048503, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
+        type: 3}
+      propertyPath: m_Name
+      value: Sio
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -15572,11 +15583,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
-        type: 3}
-      propertyPath: m_Name
-      value: Sio
       objectReference: {fileID: 0}
     - target: {fileID: -6057140222963153312, guid: ee98ccb7f4cce3b4d809f04067c35aaf,
         type: 3}

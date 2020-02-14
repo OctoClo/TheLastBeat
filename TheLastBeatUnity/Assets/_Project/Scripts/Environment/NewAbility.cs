@@ -11,6 +11,9 @@ public class NewAbility : MonoBehaviour
     [SerializeField]
     GameObject prompt = null;
 
+    [SerializeField]
+    AK.Wwise.Event getRewind = null;
+
     bool done = false;
 
     private void OnTriggerEnter(Collider other)
@@ -41,6 +44,7 @@ public class NewAbility : MonoBehaviour
         InputDelegate.Instance.Inputable = null;
         prompt.SetActive(false);
         done = true;
+        getRewind.Post(gameObject);
         DOTween.Sequence()
             .AppendCallback(() => Instantiate(prefab, transform))
             .InsertCallback(3, () => InputDelegate.Instance.ObtainAbility());

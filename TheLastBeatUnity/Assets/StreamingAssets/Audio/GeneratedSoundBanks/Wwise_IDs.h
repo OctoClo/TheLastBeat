@@ -52,6 +52,7 @@ namespace AK
         static const AkUniqueID PLAY_OASIS_AMBIANCE = 3449458560U;
         static const AkUniqueID PLAY_OBTAINREWIND = 2044305208U;
         static const AkUniqueID PLAY_PRESENCE = 4155730121U;
+        static const AkUniqueID PLAY_RESPAWN = 365318234U;
         static const AkUniqueID PLAY_REWIND = 869704911U;
         static const AkUniqueID PLAY_RIGHTFOOT = 3723441664U;
         static const AkUniqueID PLAY_RUMBLE = 1002643937U;

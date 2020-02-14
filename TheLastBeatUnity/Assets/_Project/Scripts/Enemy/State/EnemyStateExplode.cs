@@ -72,7 +72,7 @@ public class EnemyStateExplode : EnemyState
         {
             beatCounter++;
             if (enemy)
-                AkSoundEngine.SetRTPCValue("ExplosionRise", beatCounter + 1, enemy.gameObject, (int)SoundManager.Instance.TimePerBeat);
+                AkSoundEngine.SetRTPCValue("ExplosionRise", beatCounter + 1, enemy.gameObject);
 
             if (beatCounter == waitBeats)
             {

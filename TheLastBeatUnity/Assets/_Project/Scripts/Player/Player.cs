@@ -65,6 +65,8 @@ public class Player : Inputable
     AK.Wwise.Event stopEvent = null;
     [TabGroup("References")] [SerializeField]
     AK.Wwise.Event hitPlayer = null;
+    [TabGroup("References")] [SerializeField]
+    AK.Wwise.Event respawnSound = null;   
     [TabGroup("References")]
     public GameObject RushParticles = null;
     [TabGroup("References")] [SerializeField]
@@ -120,6 +122,7 @@ public class Player : Inputable
 
         if (SceneHelper.DeathCount > 0)
         {
+            respawnSound.Post(gameObject);
             SceneHelper.Instance.Respawn();
         }
 

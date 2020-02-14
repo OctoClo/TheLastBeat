@@ -59,6 +59,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4359600713108194658, guid: e47d06c62ab2de64d9722e329e8409f5, type: 3}
   prompt: {fileID: 134414417051482949}
+  getRewind:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: b45aaf64ccb28744d8465119299f82ad,
+      type: 2}
 --- !u!1 &134414417051482949
 GameObject:
   m_ObjectHideFlags: 0
@@ -311,6 +316,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5423141381225354143, guid: 1063fa32f01157e439fbbccd5765ae49,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6016069025812219179, guid: 1063fa32f01157e439fbbccd5765ae49,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4191077921198027211, guid: 1063fa32f01157e439fbbccd5765ae49,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1063fa32f01157e439fbbccd5765ae49, type: 3}

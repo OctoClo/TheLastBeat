@@ -43,6 +43,15 @@ public class Tuto : Inputable
     [SerializeField]
     Sprite newSpriteVideo = null;
 
+    [Header("Sound")] [SerializeField]
+    AK.Wwise.State setPause = null;
+
+    [Header("Sound")] [SerializeField]
+    AK.Wwise.State unsetPause = null;
+
+    [Header("Sound")] [SerializeField]
+    AK.Wwise.Event enterUI = null;
+
     Sequence blockSeq;
     int progression = 0;
     public int Progression
@@ -66,6 +75,7 @@ public class Tuto : Inputable
 
     public override void OnInputEnter()
     {
+        setPause.SetValue();
         Progression++;
     }
 
@@ -145,6 +155,7 @@ public class Tuto : Inputable
 
     void End()
     {
+        unsetPause.SetValue();
         IndependantSequence()
             .Append(videoFrame.DOColor(new Color(1, 1, 1, 0), 1.0f))
             .Insert(0, rawImage.DOColor(new Color(1, 1, 1, 0), 1.0f))
@@ -169,6 +180,7 @@ public class Tuto : Inputable
     {
         if (player.GetButtonDown("Ok"))
         {
+            enterUI.Post(gameObject);
             Progression++;
         }
     }
