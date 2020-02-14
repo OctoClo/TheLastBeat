@@ -211,11 +211,8 @@ public class RewindRushAbility : Ability
         Sequence allVfxSeq = DOTween.Sequence().Pause();
         foreach(Enemy enn in allDamages.Keys)
         {
-            seq.InsertCallback(0, () =>
-            {
-                enn.GetAttacked(attackOnRythm, allDamages[enn]);
-                enn.EndRewind();
-            });
+            enn.GetAttacked(attackOnRythm, allDamages[enn]);
+            enn.EndRewind();
             SpawnAllVfx(enn, allVfxSeq);
         }
 
