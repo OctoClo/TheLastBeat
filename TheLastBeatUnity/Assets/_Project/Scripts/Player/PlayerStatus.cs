@@ -191,10 +191,14 @@ public class PlayerStatus : MonoBehaviour
         SetMoving(false);
         animator.SetTrigger("die");
         deathSound.Post(gameObject);
-        DOTween.Sequence().InsertCallback(deathAnimDuration, () => DiePart2());
+        float dissolveHalfDuration = dissolveDuration * 0.5f;
+        DOTween.Sequence()
+            .InsertCallback(deathAnimDuration, () => DissolveAndVfx())
+            .InsertCallback(dissolveHalfDuration,
+                () => SceneHelper.Instance.StartFade(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name), dissolveHalfDuration + 1, Color.black));
     }
 
-    public void DiePart2()
+    public void DissolveAndVfx()
     {
         GameObject.Instantiate(smokeDissolveVfx, transform.position, Quaternion.identity, transform);
 
@@ -211,9 +215,5 @@ public class PlayerStatus : MonoBehaviour
 
         foreach (CameraEffect ce in CameraManager.Instance.AllCameras)
             ce.StartScreenShake(dissolveDuration, screenshakeIntensity);
-
-        float dissolveHalfDuration = dissolveDuration * 0.5f;
-        DOTween.Sequence().InsertCallback(dissolveHalfDuration,
-            () => SceneHelper.Instance.StartFade(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name), dissolveHalfDuration + 1, Color.black));
     }
 }

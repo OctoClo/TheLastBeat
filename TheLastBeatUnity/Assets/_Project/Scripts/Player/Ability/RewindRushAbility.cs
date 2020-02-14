@@ -83,6 +83,7 @@ public class RewindRushAbility : Ability
         player.Status.StartRushing();
         player.ColliderObject.layer = LayerMask.NameToLayer("Player Dashing");
         CheckRhythm();
+
         // Game feel
         CameraManager.Instance.SetBlend("InCombat", "FOV Rewind", (0.1f + parameters.Duration) * chainedEnemies.Count);
         CameraManager.Instance.SetBoolCamera(true, "Rewinding");
@@ -95,14 +96,14 @@ public class RewindRushAbility : Ability
         duration = SoundManager.Instance.GetTimeLeftNextBeat(true, 0.25f);
         foreach (Enemy enemy in chainedEnemies.Reverse())
         {
-            if (enemy != null)
+            if (enemy != null && !enemy.IsDying)
             {
                 enemy.StartRewind();
                 direction = new Vector3(enemy.transform.position.x, goalPosition.y, enemy.transform.position.z) - goalPosition;
                 direction *= 1.3f;
 
                 goalPosition += direction;
-                seq.Append(player.transform.DOMove(goalPosition,duration).SetEase(Ease.Linear));
+                seq.Append(player.transform.DOMove(goalPosition, duration).SetEase(Ease.Linear));
                 seq.AppendCallback(() =>
                 {
                     AkSoundEngine.PostTrigger("OnBeatRush", SoundManager.Instance.gameObject);
@@ -210,8 +211,11 @@ public class RewindRushAbility : Ability
         Sequence allVfxSeq = DOTween.Sequence().Pause();
         foreach(Enemy enn in allDamages.Keys)
         {
-            enn.GetAttacked(attackOnRythm, allDamages[enn]);
-            enn.EndRewind();
+            seq.InsertCallback(0, () =>
+            {
+                enn.GetAttacked(attackOnRythm, allDamages[enn]);
+                enn.EndRewind();
+            });
             SpawnAllVfx(enn, allVfxSeq);
         }
 

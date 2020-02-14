@@ -49,7 +49,10 @@ public class EnemyExplosionArea : MonoBehaviour
     private void PushRigidbody(Collider collid)
     {
         rb = collid.GetComponentInChildren<Rigidbody>();
+        Vector3 toTarget = collid.transform.position - transform.position;
+        toTarget = new Vector3(toTarget.x, 0, toTarget.z);
+        float dist = toTarget.magnitude;
         if (rb)
-            rb.AddExplosionForce(blastForce, transform.position, 0, 0, ForceMode.VelocityChange);
+            rb.AddForce((1 / dist) * toTarget.normalized * blastForce, ForceMode.VelocityChange);
     }
 }

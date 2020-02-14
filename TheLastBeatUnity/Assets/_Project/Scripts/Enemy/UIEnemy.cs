@@ -43,7 +43,7 @@ public class UIEnemy : Slowable
         set
         {
             int prevValue = life;
-            life = Mathf.Max(0,value);
+            life = Mathf.Max(0, value);
             RecomputeSprite(prevValue);
         }
     }
