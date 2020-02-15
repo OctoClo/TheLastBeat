@@ -103,6 +103,12 @@ public class EndOfGame : MonoBehaviour
                 oldListener.SetParent(newListener);
                 foreach (Image image in HUDimages)
                     image.DOFade(0, HUDFadeDuration);
+
+                foreach(Enemy enn in GameObject.FindObjectsOfType<Enemy>())
+                {
+                    enn.Timescale = 0;
+                }
+                CameraManager.Instance.CameraStateChange("OutOfCombat");
             })
             .InsertCallback(waitBeforeTpPlayer, () =>
             {
