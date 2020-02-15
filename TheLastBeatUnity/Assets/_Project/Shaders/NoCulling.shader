@@ -8,10 +8,11 @@
         _Glossiness ("Smoothness", Range(0,1)) = 0.5
         _BumpScale("Scale", Float) = 1.0
         [NoScaleOffset] _BumpMap("Normal Map", 2D) = "bump" {}
+        [NoScaleOffset] _EmissionMap ("Emissive map", 2D) = "white" {}
         _EmissionColor ("Emission Color", Color) = (1,1,1,1)
     }
     SubShader {
-        Tags { "Queue"="AlphaTest" "IgnoreProjector"="True" "RenderType"="Fade" }
+        Tags { "Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Fade" }
         LOD 200
         ZWrite On
         Cull Off
@@ -25,12 +26,15 @@
         sampler2D _BumpMap;
         struct Input {
             float2 uv_MainTex;
+            float2 uv_EmissionMap;
             fixed facing : VFACE;
         };
         half _Glossiness;
         half _Metallic;
         fixed4 _Color;
+        fixed4 _EmissionColor;
         half _BumpScale;
+        sampler2D _EmissionMap;
         
         void surf (Input IN, inout SurfaceOutputStandard o) {
             // Albedo comes from a texture tinted by color
@@ -49,6 +53,8 @@
 
             o.Normal = UnpackScaleNormal(tex2D(_BumpMap, IN.uv_MainTex), _BumpScale);
             o.Normal.z *= IN.facing; // flip Z based on facing
+
+            o.Emission = tex2D(_EmissionMap, IN.uv_EmissionMap) * _EmissionColor;
         }
         ENDCG
     }

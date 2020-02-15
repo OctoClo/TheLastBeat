@@ -21,6 +21,9 @@ public class EnemyPulse : Beatable
 
     [SerializeField]
     Color color = Color.white;
+
+    [SerializeField]
+    List<SkinnedMeshRenderer> renderers = new List<SkinnedMeshRenderer>();
     List<Material> materials = new List<Material>();
     List<Sequence> sequences = new List<Sequence>();
 
@@ -30,7 +33,6 @@ public class EnemyPulse : Beatable
     {
         base.Start();
 
-        SkinnedMeshRenderer[] renderers = GetComponentsInChildren<SkinnedMeshRenderer>();
         foreach (SkinnedMeshRenderer renderer in renderers)
             materials.AddRange(renderer.materials);
     }
