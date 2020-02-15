@@ -32,7 +32,6 @@ public class InputVisualAnimation : Beatable
 
     [SerializeField]
     Color perfectColor = Color.white;
-    Color tempColor = Color.white;
 
     Queue<SequenceAndTarget> allInstances = new Queue<SequenceAndTarget>();
 
@@ -67,16 +66,15 @@ public class InputVisualAnimation : Beatable
 
         allInstances.Enqueue(seqTar);
     }
+
     public void CorrectBeat()
     {
         if (allInstances.Count == 0)
             return;
 
-        SequenceAndTarget seqTar = allInstances.Dequeue();
+        SequenceAndTarget seqTar = allInstances.Peek();
         GameObject gob = seqTar.target;
         Vector3 scale = gob.GetComponent<RectTransform>().localScale;
-        Destroy(gob);
-        seqTar.sequence.Kill();
 
         GameObject instanceAnim = Instantiate(prefabAnimationCorrect, rootPerfectGood);
         instanceAnim.GetComponent<Image>().color = goodColor;
@@ -97,11 +95,9 @@ public class InputVisualAnimation : Beatable
         if (allInstances.Count == 0)
             return;
 
-        SequenceAndTarget seqTar = allInstances.Dequeue();
+        SequenceAndTarget seqTar = allInstances.Peek();
         GameObject gob = seqTar.target;
         Vector3 scale = gob.GetComponent<RectTransform>().localScale;
-        Destroy(gob);
-        seqTar.sequence.Kill();
 
         GameObject instanceAnim = Instantiate(prefabAnimationPerfect, rootPerfectGood);
         instanceAnim.GetComponent<Image>().color = perfectColor;
