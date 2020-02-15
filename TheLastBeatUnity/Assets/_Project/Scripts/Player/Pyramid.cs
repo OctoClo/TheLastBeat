@@ -112,6 +112,13 @@ public class Pyramid : MonoBehaviour
             NearestEnemy = null;
         }
 
+        if (NearestEnemy)
+        {
+            Enemy enemy = NearestEnemy.GetComponent<Enemy>();
+            if (enemy.IsDying || enemy.IsExploding)
+                NearestEnemy = null;
+        }
+
         SetArrowScale(RightStickEnabled ? 1 : 0.5f);
         if (NearestEnemy)
         {
@@ -126,7 +133,6 @@ public class Pyramid : MonoBehaviour
             transform.forward = transform.parent.forward;
             transform.forward = new Vector3(transform.forward.x, 0, transform.forward.z);
         }
-
     }
 
     void CheckOverlap()
