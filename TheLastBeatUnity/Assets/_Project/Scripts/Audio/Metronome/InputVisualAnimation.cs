@@ -43,13 +43,11 @@ public class InputVisualAnimation : Beatable
 
         GameObject instantiatedPrefab = Instantiate(prefabAnimation,transform);
         RectTransform rect = instantiatedPrefab.GetComponent<RectTransform>();
-        tempColor = instantiatedPrefab.GetComponent<Image>().color;
-        tempColor = new Color(tempColor.r, tempColor.g, tempColor.b, 1);
         float timeLeft = SoundManager.Instance.LastBeat.beatInterval;
 
         Sequence seq = DOTween.Sequence();
         seq.Append(DOTween.To(() => 0, x => rect.localScale = new Vector3(x, x, 1), 1.0f, timeLeft).SetEase(Ease.Linear))
-            .Append(instantiatedPrefab.GetComponent<UnityEngine.UI.Image>().DOColor(Color.clear, SoundManager.Instance.Tolerance).SetEase(Ease.Linear))
+            .Append(instantiatedPrefab.GetComponent<Image>().DOColor(Color.clear, SoundManager.Instance.Tolerance).SetEase(Ease.Linear))
             .AppendCallback(() =>
             {
                 if (allInstances.Count > 0)
@@ -59,7 +57,7 @@ public class InputVisualAnimation : Beatable
                     Destroy(seqAndTar.target);
                 }
             })
-            .Insert(0, instantiatedPrefab.GetComponent<UnityEngine.UI.Image>().DOColor(tempColor, timeLeft).SetEase(Ease.Linear))
+            .Insert(0, instantiatedPrefab.GetComponent<Image>().DOFade(1, timeLeft).SetEase(Ease.Linear))
             .Insert(timeLeft, DOTween.To(() => 1, x => rect.localScale = new Vector3(x, x, 1), 1, SoundManager.Instance.Tolerance).SetEase(Ease.Linear))
             .SetUpdate(true);
 
@@ -90,13 +88,8 @@ public class InputVisualAnimation : Beatable
         if (allInstances.Count == 0)
             return;
 
-        SequenceAndTarget seqTar = allInstances.Dequeue();
-        GameObject gob = seqTar.target;
-        seqTar.sequence.Kill();
-
-        gob.GetComponent<UnityEngine.UI.Image>().color = wrong;
-        gob.GetComponent<UnityEngine.UI.Image>().DOColor(Color.clear, 0.3f);
-        Destroy(gob, 1);
+        SequenceAndTarget seqTar = allInstances.Peek();
+        seqTar.target.GetComponent<Image>().color = new Color(1, 0, 0, 0);
     }
 
     public void PerfectBeat()
