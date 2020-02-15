@@ -105,6 +105,9 @@ public class Health : Beatable
             outCritic.SetValue();
         }
 
+        if (deltaValue < 0 && currentPulse > minimalPulse)
+            visual.LaunchScreeningHeal();
+
         //Hurted
         currentPulse += deltaValue;
         currentPulse = Mathf.Clamp(currentPulse, minimalPulse, maximalPulse);
@@ -115,10 +118,6 @@ public class Health : Beatable
             Player.HurtAnimation(0.25f, 3);
             visual.HurtAnimationUI(fromEnemy);
             visual.UIScreenShake();
-        }
-        else
-        {
-            visual.LaunchScreeningHeal();
         }
 
         visual.UpdateColor(HPLeft);
