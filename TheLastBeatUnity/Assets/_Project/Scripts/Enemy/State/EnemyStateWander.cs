@@ -8,11 +8,14 @@ public class EnemyStateWander : EnemyState
     Vector3 nextPosition = Vector3.zero;
     Vector2 waitDurationMinMax = Vector2.zero;
     float waitTimer = 0;
+    bool instantMove = false;
 
     public EnemyStateWander(Enemy newEnemy, Vector2 waitMinMax) : base(newEnemy)
     {
         stateEnum = EEnemyState.WANDER;
         waitDurationMinMax = waitMinMax;
+        if (waitMinMax.x == 0 && waitMinMax.y == 0)
+            instantMove = true;
     }
 
     public override void Enter()
@@ -49,7 +52,10 @@ public class EnemyStateWander : EnemyState
         if (waitTimer <= 0 && Vector3.Distance(enemy.transform.position, nextPosition) < 2.5f)
         {
             enemy.Agent.ResetPath();
-            waitTimer = RandomHelper.GetRandom(waitDurationMinMax.x, waitDurationMinMax.y);
+            if (instantMove)
+                waitTimer = 0.1f;
+            else
+                waitTimer = RandomHelper.GetRandom(waitDurationMinMax.x, waitDurationMinMax.y);
         }
 
         if (enemy.DetectionZone.PlayerInZone)
