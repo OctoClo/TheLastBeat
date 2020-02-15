@@ -214,7 +214,8 @@ public class Enemy : Slowable
 
     public void GetPushedBack()
     {
-        ChangeState(EEnemyState.STUN);
+        if (!IsDying && !IsExploding)
+            ChangeState(EEnemyState.STUN);
     }
 
     public bool GetAttacked(bool onRythm, float dmg = 1)
@@ -302,12 +303,14 @@ public class Enemy : Slowable
 
     public void StartRewind()
     {
-        ChangeState(EEnemyState.REWIND);
+        if (!IsDying && !IsExploding)
+            ChangeState(EEnemyState.REWIND);
     }
 
     public void EndRewind()
     {
-        ChangeState(EEnemyState.CHASE);
+        if (!IsDying && !IsExploding)
+            ChangeState(EEnemyState.CHASE);
     }
 
     public void StartAttacking()
