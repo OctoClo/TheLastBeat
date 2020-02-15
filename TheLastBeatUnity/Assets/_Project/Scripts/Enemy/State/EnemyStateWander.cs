@@ -8,7 +8,9 @@ public class EnemyStateWander : EnemyState
     Vector3 nextPosition = Vector3.zero;
     Vector2 waitDurationMinMax = Vector2.zero;
     float waitTimer = 0;
+
     bool instantMove = false;
+    bool firstMove = true;
 
     public EnemyStateWander(Enemy newEnemy, Vector2 waitMinMax) : base(newEnemy)
     {
@@ -49,11 +51,12 @@ public class EnemyStateWander : EnemyState
                 StartNewMove();
         }
 
-        if (waitTimer <= 0 && Vector3.Distance(enemy.transform.position, nextPosition) < 2.5f)
+        if (waitTimer <= 0 && (firstMove || Vector3.Distance(enemy.transform.position, nextPosition) < 2.5f))
         {
+            firstMove = false;
             enemy.Agent.ResetPath();
             if (instantMove)
-                waitTimer = 0.1f;
+                StartNewMove();
             else
                 waitTimer = RandomHelper.GetRandom(waitDurationMinMax.x, waitDurationMinMax.y);
         }
