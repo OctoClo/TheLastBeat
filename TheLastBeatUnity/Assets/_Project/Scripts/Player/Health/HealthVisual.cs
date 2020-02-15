@@ -36,10 +36,11 @@ public class VisualParams
 public class HealthVisual
 {
     VisualParams visualParams;
-    Sequence seq;
     Sequence criticSequence;
+    Sequence sizeSequence;
     bool isChangingColor = false;
     Color originColor = Color.black;
+    Vector3 originSize = Vector3.one;
 
     Sequence criticScreeningSeq = null;
     Color transparentWhite = new Color(1, 1, 1, 0);
@@ -48,6 +49,7 @@ public class HealthVisual
     {
         visualParams = vp;
         originColor = visualParams.flameImage.color;
+        originSize = visualParams.flameTransform.localScale;
     }
 
     public void HurtAnimationUI(bool fromEnemy)
@@ -120,7 +122,14 @@ public class HealthVisual
 
     public void EnterCriticState()
     {
-        visualParams.flameTransform.DOScale(visualParams.flameTransform.localScale * visualParams.sizeCritic, 0.1f);
+        if (sizeSequence != null)
+        {
+            sizeSequence.Kill();
+        }
+
+        sizeSequence = DOTween.Sequence()
+            .Append(visualParams.flameTransform.DOScale(originSize * visualParams.sizeCritic, 0.1f));
+
         criticSequence = DOTween.Sequence();
         criticSequence.Append(DOTween.To(() => visualParams.flameImage.color, x => visualParams.flameImage.color = x, Color.white, 0.1f));
         criticSequence.Append(DOTween.To(() => visualParams.flameImage.color, x => visualParams.flameImage.color = x, Color.red, 0.1f));
@@ -137,7 +146,12 @@ public class HealthVisual
         {
             visualParams.flameImage.DOColor(originColor, 0.2f);
             criticSequence.Kill();
-            visualParams.flameTransform.DOScale(visualParams.flameTransform.localScale, 0.2f);
+
+            if (sizeSequence != null)
+                sizeSequence.Kill();
+
+            sizeSequence = DOTween.Sequence()
+                .Append(visualParams.flameTransform.DOScale(originSize, 0.2f));
         }
 
         if (criticScreeningSeq != null)
