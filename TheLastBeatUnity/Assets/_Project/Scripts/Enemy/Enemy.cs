@@ -253,7 +253,7 @@ public class Enemy : Slowable
         IsDying = true;
         EnemyKilled?.Invoke();
         informations.DisappearHud();
-        Animator.SetTrigger("die");
+        Animator.SetBool("die", true);
         dieSound.Post(gameObject);
         DOTween.Sequence()
             .InsertCallback(1, () => 
