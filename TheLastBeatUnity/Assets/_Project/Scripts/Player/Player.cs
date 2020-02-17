@@ -92,11 +92,9 @@ public class Player : Inputable
     private void Awake()
     {
         Cursor.visible = false;
+        skinnedRenderer = GetComponentInChildren<SkinnedMeshRenderer>().gameObject;
         if (SceneHelper.DeathCount > 0)
-        {
-            skinnedRenderer = GetComponentInChildren<SkinnedMeshRenderer>().gameObject;
             skinnedRenderer.SetActive(false);
-        }
     }
 
     public void Reappear()
