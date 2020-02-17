@@ -16,6 +16,8 @@ public class SceneHelper : MonoBehaviour
     MonolithCheckpoint checkpoint = null;
     [SerializeField]
     GameObject respawnVfx = null;
+    [SerializeField]
+    Transform endRespawn = null;
 
     public Transform VfxFolder = null;
     public Transform VfxFolderFaceCam = null;
@@ -92,13 +94,13 @@ public class SceneHelper : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
-            Respawn();
+            Respawn(true);
     }
 
-    public void Respawn()
+    public void Respawn(bool end = false)
     {
-        MainPlayer.transform.forward = checkpoint.transform.forward;
-        MainPlayer.transform.position = checkpoint.transform.position + Vector3.up;
+        MainPlayer.transform.forward = end ? endRespawn.forward : checkpoint.transform.forward;
+        MainPlayer.transform.position = end ? endRespawn.position : checkpoint.transform.position + Vector3.up;
         DOTween.Sequence()
             .InsertCallback(0.5f, () => GameObject.Instantiate(respawnVfx, checkpoint.transform.position + new Vector3(0, 0.1f, 0), Quaternion.identity, VfxFolderFaceCam))
             .InsertCallback(2.39f, () => MainPlayer.Reappear());

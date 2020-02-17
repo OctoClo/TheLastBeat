@@ -2299,6 +2299,36 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1447441629}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &124067324
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 124067325}
+  m_Layer: 0
+  m_Name: Respawn End
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &124067325
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 124067324}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 357.2, y: 18.836, z: -5.71}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &127476625
 GameObject:
   m_ObjectHideFlags: 0
@@ -34141,6 +34171,11 @@ PrefabInstance:
       propertyPath: checkpoint
       value: 
       objectReference: {fileID: 1807320649}
+    - target: {fileID: 1855074840119551749, guid: e0b5776d33d81194499f12bbaf555111,
+        type: 3}
+      propertyPath: endRespawn
+      value: 
+      objectReference: {fileID: 124067325}
     - target: {fileID: 1855074841851943534, guid: e0b5776d33d81194499f12bbaf555111,
         type: 3}
       propertyPath: flameTransform
