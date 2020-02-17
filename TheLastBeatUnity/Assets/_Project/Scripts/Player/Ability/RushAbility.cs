@@ -62,6 +62,8 @@ public class RushAbility : Ability
     float maxComboValue;
     List<float> musiclayer = new List<float>();
 
+    bool perfect = false;
+
     public RewindRushAbility RewindRush { get; set; }
 
     public RushAbility(RushParams rp, float healCorrect) : base(rp.AttachedPlayer, healCorrect)
@@ -133,6 +135,9 @@ public class RushAbility : Ability
 
         if (onRythm)
         {
+            if (perfect)
+                player.ModifyPulseValue(-parameters.HealPerCorrectBeat);
+
             DOTween.Sequence().AppendCallback(() =>
             {
                 foreach (Enemy enn in GameObject.FindObjectsOfType<Enemy>())
@@ -216,7 +221,7 @@ public class RushAbility : Ability
     void CheckRhythm()
     {
         onRythm = SoundManager.Instance.IsInRythm(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT);
-        bool perfect = SoundManager.Instance.IsPerfect(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT);
+        perfect = SoundManager.Instance.IsPerfect(TimeManager.Instance.SampleCurrentTime(), SoundManager.TypeBeat.BEAT);
         if (onRythm)
         {
             if (perfect)
@@ -229,7 +234,6 @@ public class RushAbility : Ability
 
             if (perfect)
             {
-                player.ModifyPulseValue(-parameters.HealPerCorrectBeat);
                 PerfectBeat();
             }
             else
