@@ -100,6 +100,8 @@ public class Player : Inputable
     public void Reappear()
     {
         skinnedRenderer.SetActive(true);
+        transform.localScale = Vector3.zero;
+        transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.Linear);
     }
 
     private void Start()

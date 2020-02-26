@@ -45,6 +45,14 @@ public class SceneHelper : MonoBehaviour
     public bool EndOfGame = false;
     static bool haveRewind = false;
 
+    Vector3 originSpawn = Vector3.zero;
+    Quaternion originRot = Quaternion.identity;
+
+    [SerializeField]
+    Transform checkpointTrsf;
+
+    public static bool ReacheadCheckpoint = false;
+
     public void GetRewind()
     {
         haveRewind = true;
@@ -57,7 +65,14 @@ public class SceneHelper : MonoBehaviour
             Instance = this;
             MainPlayer = GameObject.FindObjectOfType<Player>();
             if (haveRewind)
-                DOTween.Sequence().InsertCallback(0.1f,() => MainPlayer.AddRewindRush());
+            {
+                DOTween.Sequence().InsertCallback(0.1f,() =>
+                {
+                    MainPlayer.AddRewindRush();
+                });
+            }
+            originSpawn = MainPlayer.transform.position;
+            originRot = MainPlayer.transform.rotation;
         }
 
         if (SceneHelper.DeathCount > 0)
@@ -91,18 +106,12 @@ public class SceneHelper : MonoBehaviour
         DeathCount++;
     }
 
-    private void Update()
+    public void Respawn()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-            Respawn(true);
-    }
-
-    public void Respawn(bool end = false)
-    {
-        MainPlayer.transform.forward = end ? endRespawn.forward : checkpoint.transform.forward;
-        MainPlayer.transform.position = end ? endRespawn.position : checkpoint.transform.position + Vector3.up;
+        MainPlayer.transform.rotation = ReacheadCheckpoint ? checkpointTrsf.rotation : originRot;
+        MainPlayer.transform.position = ReacheadCheckpoint ? checkpointTrsf.position : originSpawn;
         DOTween.Sequence()
-            .InsertCallback(0.5f, () => GameObject.Instantiate(respawnVfx, checkpoint.transform.position + new Vector3(0, 0.1f, 0), Quaternion.identity, VfxFolderFaceCam))
+            .InsertCallback(0.5f, () => GameObject.Instantiate(respawnVfx, (ReacheadCheckpoint ? checkpoint.transform.position + new Vector3(0, 0.1f, 0) : originSpawn - Vector3.up), Quaternion.identity, VfxFolderFaceCam))
             .InsertCallback(2.39f, () => MainPlayer.Reappear());
     }
 

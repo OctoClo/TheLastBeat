@@ -43,10 +43,11 @@ public class MonolithCheckpoint : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (SceneHelper.DeathCount > 0)
+            if (SceneHelper.ReacheadCheckpoint)
                 Destroy(GetComponent<Collider>());
             else if (savingIcon != null)
             {
+                SceneHelper.ReacheadCheckpoint = true;
                 displaySavingIcon = true;
                 savingIcon.SetActive(true);
 
